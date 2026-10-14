@@ -1,0 +1,541 @@
+====================================================================================================
+VALIDACAO EXTERNA (Symmetry 2025, familias B/C/E/F, 1.500 instancias) -- ig_ql vs. SOTA/ablacoes/ILS
+Holm-Bonferroni aplicado SEPARADAMENTE por familia externa (B, C, E, F) e por tipo de comparacao
+====================================================================================================
+
+####################################################################################################
+# FAMILIA EXTERNA B  (8 subpastas/classes, 400 instancias, n=4-261)
+####################################################################################################
+
+--- B / SOTA: ig_ql vs. baselines SOTA publicados (MULTIFIT, SA Li&Perkins 2024, BCO Davidovic et al. 2012) ---
+    testes com p valido: 30 / 30
+subfolder reference         other   n  m  n_pairs  mean_ref  mean_other  mean_diff   ci_low  ci_high  rank_biserial     p_raw    p_holm  reject_holm  direction
+        1     ig_ql      multifit   4  2       44     4.881       4.881          0   -1.457    1.457              0         1         1        False        tie
+        1     ig_ql sa_li_perkins   4  2       44     4.881       4.881          0   -1.457    1.457              0         1         1        False        tie
+        1     ig_ql           bco   4  2       44     4.881       4.881          0   -1.457    1.457              0         1         1        False        tie
+       10     ig_ql      multifit  92  9       40    0.1677       0.143    0.02466 0.002998   0.0436         0.4122   0.02236   0.08945        False  ref_worse
+       10     ig_ql sa_li_perkins  92  9       40    0.1677      0.5248    -0.3571  -0.4415  -0.2808             -1  7.74e-08 8.514e-07         True ref_better
+       10     ig_ql           bco  92  9       40    0.1677       2.488      -2.32   -2.614   -2.046             -1 1.819e-12 5.457e-11         True ref_better
+       13     ig_ql      multifit 171 14       40    0.1717     0.06572      0.106  0.09404   0.1208              1 1.819e-12 5.457e-11         True  ref_worse
+       13     ig_ql sa_li_perkins 171 14       40    0.1717      0.3274    -0.1557  -0.2065  -0.1126             -1 3.653e-07 3.288e-06         True ref_better
+       13     ig_ql           bco 171 14       40    0.1717       5.261     -5.089   -5.535   -4.632             -1 1.819e-12 5.457e-11         True ref_better
+       14     ig_ql      multifit 137 10       40    0.1124     0.05641    0.05602  0.04558  0.06729          0.978 6.003e-11 8.404e-10         True  ref_worse
+       14     ig_ql sa_li_perkins 137 10       40    0.1124      0.2631    -0.1506  -0.1881  -0.1165             -1 3.653e-07 3.288e-06         True ref_better
+       14     ig_ql           bco 137 10       40    0.1124       2.862      -2.75    -3.21   -2.412             -1 1.819e-12 5.457e-11         True ref_better
+       18     ig_ql      multifit 261 16       40   0.09951     0.03563    0.06388  0.05672  0.07108              1 1.819e-12 5.457e-11         True  ref_worse
+       18     ig_ql sa_li_perkins 261 16       40   0.09951      0.1641   -0.06458 -0.09826 -0.04324             -1  3.79e-06 2.274e-05         True ref_better
+       18     ig_ql           bco 261 16       40   0.09951        3.72     -3.621   -3.918   -3.367             -1 1.819e-12 5.457e-11         True ref_better
+        3     ig_ql      multifit  75 14       40    0.6248       0.402     0.2228   0.1615   0.2781         0.8872 1.376e-06 9.633e-06         True  ref_worse
+        3     ig_ql sa_li_perkins  75 14       40    0.6248        1.68     -1.055   -1.299  -0.8552             -1 5.255e-08 6.306e-07         True ref_better
+        3     ig_ql           bco  75 14       40    0.6248       10.84     -10.21    -11.1   -9.346             -1 1.819e-12 5.457e-11         True ref_better
+        6     ig_ql      multifit  28  3       40   0.01113      0.2658    -0.2546  -0.3386   -0.198        -0.9976 3.638e-12 5.821e-11         True ref_better
+        6     ig_ql      multifit  59  9       40    0.2944      0.3489   -0.05456 -0.09701 -0.01146        -0.4537   0.01154   0.05768        False ref_better
+        6     ig_ql sa_li_perkins  28  3       40   0.01113      0.4852     -0.474  -0.5675  -0.3844             -1 1.819e-12 5.457e-11         True ref_better
+        6     ig_ql sa_li_perkins  59  9       40    0.2944       1.027    -0.7321  -0.8589  -0.6165             -1 1.819e-12 5.457e-11         True ref_better
+        6     ig_ql           bco  28  3       40   0.01113      0.1931    -0.1819  -0.2274   -0.144             -1 1.819e-12 5.457e-11         True ref_better
+        6     ig_ql           bco  59  9       40    0.2944       3.376     -3.082   -3.456   -2.782             -1 1.819e-12 5.457e-11         True ref_better
+        7     ig_ql      multifit  45  5       40   0.07922      0.2293    -0.1501  -0.2201  -0.1126        -0.9659 2.001e-10 2.601e-09         True ref_better
+        7     ig_ql      multifit 110 14       40    0.3568      0.1814     0.1754   0.1441   0.2059         0.9902 1.273e-11  1.91e-10         True  ref_worse
+        7     ig_ql sa_li_perkins  45  5       40   0.07922      0.4834    -0.4042  -0.4841  -0.3268             -1 1.819e-12 5.457e-11         True ref_better
+        7     ig_ql sa_li_perkins 110 14       40    0.3568      0.7695    -0.4127  -0.5414  -0.3173             -1  1.68e-07  1.68e-06         True ref_better
+        7     ig_ql           bco  45  5       40   0.07922         0.8    -0.7208  -0.8418  -0.6109             -1 1.819e-12 5.457e-11         True ref_better
+        7     ig_ql           bco 110 14       40    0.3568       9.427      -9.07   -10.04   -8.237             -1 1.819e-12 5.457e-11         True ref_better
+
+--- B / ABLATION: ig_ql vs. ablacoes IG (isola a contribuicao do Q-Learning dentro do mecanismo IG) ---
+    testes com p valido: 40 / 40
+subfolder reference      other   n  m  n_pairs  mean_ref  mean_other  mean_diff     ci_low   ci_high  rank_biserial     p_raw   p_holm  reject_holm  direction
+        1     ig_ql  ig_random   4  2       44     4.881       4.881          0     -1.457     1.457              0         1        1        False        tie
+        1     ig_ql     ig_ucb   4  2       44     4.881       4.881          0     -1.457     1.457              0         1        1        False        tie
+        1     ig_ql ig_ucb_ctx   4  2       44     4.881       4.881          0     -1.457     1.457              0         1        1        False        tie
+        1     ig_ql ig_ql_flat   4  2       44     4.881       4.881          0     -1.457     1.457              0         1        1        False        tie
+       10     ig_ql  ig_random  92  9       40    0.1677      0.1715  -0.003836    -0.0196    0.0123        -0.1174    0.5281        1        False ref_better
+       10     ig_ql     ig_ucb  92  9       40    0.1677      0.1599   0.007785  -0.007991   0.02382         0.1537    0.4049        1        False  ref_worse
+       10     ig_ql ig_ucb_ctx  92  9       40    0.1677      0.1758  -0.008067   -0.02225  0.004666        -0.1488    0.4202        1        False ref_better
+       10     ig_ql ig_ql_flat  92  9       40    0.1677      0.1687  -0.001047   -0.01488   0.01367        0.02703     0.886        1        False ref_better
+       13     ig_ql  ig_random 171 14       40    0.1717      0.1764  -0.004665   -0.01755  0.007958        -0.1328    0.4995        1        False ref_better
+       13     ig_ql     ig_ucb 171 14       40    0.1717       0.173  -0.001286   -0.01198   0.01077       -0.08571    0.6583        1        False ref_better
+       13     ig_ql ig_ucb_ctx 171 14       40    0.1717      0.1671   0.004634  -0.007736   0.01706         0.1175    0.5445        1        False  ref_worse
+       13     ig_ql ig_ql_flat 171 14       40    0.1717      0.1798  -0.008026     -0.019  0.002474        -0.3011    0.1567        1        False ref_better
+       14     ig_ql  ig_random 137 10       40    0.1124      0.1102   0.002264  -0.008751   0.01296         0.1021    0.5932        1        False  ref_worse
+       14     ig_ql     ig_ucb 137 10       40    0.1124       0.106   0.006471  -0.004482   0.01711         0.2222    0.2516        1        False  ref_worse
+       14     ig_ql ig_ucb_ctx 137 10       40    0.1124      0.1107   0.001693  -0.008548   0.01174        0.06349    0.7432        1        False  ref_worse
+       14     ig_ql ig_ql_flat 137 10       40    0.1124      0.1063   0.006179  -0.003164   0.01595         0.2386    0.2388        1        False  ref_worse
+       18     ig_ql  ig_random 261 16       40   0.09951      0.1004 -0.0008589  -0.008615  0.006542       -0.01515    0.9404        1        False ref_better
+       18     ig_ql     ig_ucb 261 16       40   0.09951     0.09875  0.0007611  -0.006536  0.007632        0.09091    0.6536        1        False  ref_worse
+       18     ig_ql ig_ucb_ctx 261 16       40   0.09951     0.09965 -0.0001398  -0.008838  0.007888        0.05376    0.7971        1        False ref_better
+       18     ig_ql ig_ql_flat 261 16       40   0.09951     0.09812   0.001395  -0.005817  0.008515           0.16    0.4929        1        False  ref_worse
+        3     ig_ql  ig_random  75 14       40    0.6248      0.5966    0.02824   -0.01636   0.06795         0.2733    0.1528        1        False  ref_worse
+        3     ig_ql     ig_ucb  75 14       40    0.6248      0.6381    -0.0133   -0.06071   0.03331       -0.05556    0.7744        1        False ref_better
+        3     ig_ql ig_ucb_ctx  75 14       40    0.6248      0.6132    0.01166   -0.03394   0.05323         0.1363    0.4639        1        False  ref_worse
+        3     ig_ql ig_ql_flat  75 14       40    0.6248      0.6381   -0.01329    -0.0587   0.03939        -0.1227    0.5326        1        False ref_better
+        6     ig_ql  ig_random  28  3       40   0.01113     0.02809   -0.01696   -0.02504     -0.01        -0.7667 3.012e-05 0.001205         True ref_better
+        6     ig_ql  ig_random  59  9       40    0.2944      0.3169   -0.02249   -0.05083   0.02133        -0.4256   0.02053   0.7185        False ref_better
+        6     ig_ql     ig_ucb  28  3       40   0.01113      0.0682   -0.05707    -0.1356  -0.01977        -0.3098   0.08921        1        False ref_better
+        6     ig_ql     ig_ucb  59  9       40    0.2944      0.5048    -0.2105    -0.3569   -0.1296        -0.6821 0.0002056 0.007813         True ref_better
+        6     ig_ql ig_ucb_ctx  28  3       40   0.01113     0.01962  -0.008491   -0.01367 -0.003739        -0.5923  0.001266  0.04684         True ref_better
+        6     ig_ql ig_ucb_ctx  59  9       40    0.2944      0.3017  -0.007321   -0.04278   0.03419        -0.1615    0.3793        1        False ref_better
+        6     ig_ql ig_ql_flat  28  3       40   0.01113     0.02282   -0.01169   -0.01772 -0.007102        -0.7155 0.0001481 0.005777         True ref_better
+        6     ig_ql ig_ql_flat  59  9       40    0.2944      0.3188   -0.02446   -0.06021   0.01127        -0.2518    0.1818        1        False ref_better
+        7     ig_ql  ig_random  45  5       40   0.07922     0.06805    0.01117 -0.0003436    0.0235         0.2538    0.1671        1        False  ref_worse
+        7     ig_ql  ig_random 110 14       40    0.3568      0.3783   -0.02154   -0.05075  0.005478        -0.2767    0.1372        1        False ref_better
+        7     ig_ql     ig_ucb  45  5       40   0.07922      0.1223   -0.04305    -0.1467  0.006801         0.2366    0.1969        1        False ref_better
+        7     ig_ql     ig_ucb 110 14       40    0.3568      0.3418    0.01502   -0.01358    0.0392         0.2575    0.1722        1        False  ref_worse
+        7     ig_ql ig_ucb_ctx  45  5       40   0.07922     0.06185    0.01737   0.005368   0.03042         0.4244   0.01853    0.667        False  ref_worse
+        7     ig_ql ig_ucb_ctx 110 14       40    0.3568      0.3503   0.006447   -0.02288   0.03023         0.1502    0.4321        1        False  ref_worse
+        7     ig_ql ig_ql_flat  45  5       40   0.07922     0.07297   0.006242  -0.008154   0.01929         0.2335    0.2097        1        False  ref_worse
+        7     ig_ql ig_ql_flat 110 14       40    0.3568      0.3443    0.01253  -0.008588   0.03125         0.2706    0.1687        1        False  ref_worse
+
+--- B / ILS: ig_ql (mecanismo IG) vs. familia ILS (isola mecanismo de busca: IG vs. ILS) ---
+    testes com p valido: 40 / 40
+subfolder reference      other   n  m  n_pairs  mean_ref  mean_other  mean_diff    ci_low  ci_high  rank_biserial     p_raw    p_holm  reject_holm  direction
+        1     ig_ql ils_random   4  2       44     4.881       4.881          0    -1.457    1.457              0         1         1        False        tie
+        1     ig_ql    ils_ucb   4  2       44     4.881       4.881          0    -1.457    1.457              0         1         1        False        tie
+        1     ig_ql     ils_ql   4  2       44     4.881       4.881          0    -1.457    1.457              0         1         1        False        tie
+        1     ig_ql     ils_rf   4  2       44     4.881       4.881          0    -1.457    1.457              0         1         1        False        tie
+       10     ig_ql ils_random  92  9       40    0.1677      0.0155     0.1522    0.1395   0.1657              1 1.819e-12 7.276e-11         True  ref_worse
+       10     ig_ql    ils_ucb  92  9       40    0.1677     0.01404     0.1536    0.1413   0.1675              1 1.819e-12 7.276e-11         True  ref_worse
+       10     ig_ql     ils_ql  92  9       40    0.1677     0.01343     0.1543    0.1415   0.1678              1 1.819e-12 7.276e-11         True  ref_worse
+       10     ig_ql     ils_rf  92  9       40    0.1677      0.0143     0.1534    0.1408   0.1669              1 1.819e-12 7.276e-11         True  ref_worse
+       13     ig_ql ils_random 171 14       40    0.1717     0.00842     0.1633    0.1522    0.176              1 1.819e-12 7.276e-11         True  ref_worse
+       13     ig_ql    ils_ucb 171 14       40    0.1717    0.008558     0.1632    0.1517   0.1764              1 1.819e-12 7.276e-11         True  ref_worse
+       13     ig_ql     ils_ql 171 14       40    0.1717    0.008304     0.1634    0.1523   0.1769              1 1.819e-12 7.276e-11         True  ref_worse
+       13     ig_ql     ils_rf 171 14       40    0.1717    0.008502     0.1632    0.1519   0.1758              1 1.819e-12 7.276e-11         True  ref_worse
+       14     ig_ql ils_random 137 10       40    0.1124    0.005663     0.1068   0.09861    0.116              1 1.819e-12 7.276e-11         True  ref_worse
+       14     ig_ql    ils_ucb 137 10       40    0.1124     0.00597     0.1065   0.09812   0.1158              1 1.819e-12 7.276e-11         True  ref_worse
+       14     ig_ql     ils_ql 137 10       40    0.1124    0.005878     0.1066   0.09821   0.1155              1 1.819e-12 7.276e-11         True  ref_worse
+       14     ig_ql     ils_rf 137 10       40    0.1124    0.006028     0.1064    0.0982   0.1156              1 1.819e-12 7.276e-11         True  ref_worse
+       18     ig_ql ils_random 261 16       40   0.09951    0.003571    0.09594   0.08889   0.1028              1 1.819e-12 7.276e-11         True  ref_worse
+       18     ig_ql    ils_ucb 261 16       40   0.09951    0.003511      0.096   0.08877   0.1027              1 1.819e-12 7.276e-11         True  ref_worse
+       18     ig_ql     ils_ql 261 16       40   0.09951    0.003469    0.09605   0.08921   0.1029              1 1.819e-12 7.276e-11         True  ref_worse
+       18     ig_ql     ils_rf 261 16       40   0.09951    0.003303    0.09621   0.08936   0.1033              1 1.819e-12 7.276e-11         True  ref_worse
+        3     ig_ql ils_random  75 14       40    0.6248      0.2755     0.3493     0.277   0.4009         0.9341 2.294e-09 2.752e-08         True  ref_worse
+        3     ig_ql    ils_ucb  75 14       40    0.6248      0.5582    0.06665  -0.08446    0.177         0.3727   0.04812    0.4331        False  ref_worse
+        3     ig_ql     ils_ql  75 14       40    0.6248      0.2727     0.3521    0.2792   0.4052         0.9415 1.386e-09 1.802e-08         True  ref_worse
+        3     ig_ql     ils_rf  75 14       40    0.6248       0.302     0.3228    0.2514   0.3776         0.9359 3.514e-07 3.865e-06         True  ref_worse
+        6     ig_ql ils_random  28  3       40   0.01113    0.009476    0.00165  -0.00173  0.00607         0.1049    0.5717         1        False  ref_worse
+        6     ig_ql ils_random  59  9       40    0.2944     0.05574     0.2386    0.2082   0.2809              1 1.819e-12 7.276e-11         True  ref_worse
+        6     ig_ql    ils_ucb  28  3       40   0.01113     0.01302  -0.001889 -0.005818 0.002012        -0.1561    0.3974         1        False ref_better
+        6     ig_ql    ils_ucb  59  9       40    0.2944     0.05758     0.2368     0.203   0.2778         0.9976 3.638e-12 7.276e-11         True  ref_worse
+        6     ig_ql     ils_ql  28  3       40   0.01113     0.01073  0.0003929  -0.00377  0.00454        0.03415    0.8576         1        False  ref_worse
+        6     ig_ql     ils_ql  59  9       40    0.2944     0.06177     0.2326    0.2024    0.273              1 1.819e-12 7.276e-11         True  ref_worse
+        6     ig_ql     ils_rf  28  3       40   0.01113    0.009249   0.001877 -0.001563  0.00612         0.1317    0.4762         1        False  ref_worse
+        6     ig_ql     ils_rf  59  9       40    0.2944     0.05682     0.2376    0.2078   0.2794              1 1.819e-12 7.276e-11         True  ref_worse
+        7     ig_ql ils_random  45  5       40   0.07922     0.01742     0.0618   0.05043  0.07394         0.9951 5.457e-12 8.185e-11         True  ref_worse
+        7     ig_ql ils_random 110 14       40    0.3568     0.03453     0.3223    0.2958   0.3474              1 1.819e-12 7.276e-11         True  ref_worse
+        7     ig_ql    ils_ucb  45  5       40   0.07922     0.02084    0.05838   0.04413  0.07209         0.9359 3.514e-07 3.865e-06         True  ref_worse
+        7     ig_ql    ils_ucb 110 14       40    0.3568     0.03256     0.3242    0.2985   0.3491              1 1.819e-12 7.276e-11         True  ref_worse
+        7     ig_ql     ils_ql  45  5       40   0.07922     0.01839    0.06082   0.04987  0.07342         0.9976 3.638e-12 7.276e-11         True  ref_worse
+        7     ig_ql     ils_ql 110 14       40    0.3568     0.03282      0.324    0.2977    0.348              1 1.819e-12 7.276e-11         True  ref_worse
+        7     ig_ql     ils_rf  45  5       40   0.07922     0.01779    0.06143   0.04963  0.07452         0.9951 5.457e-12 8.185e-11         True  ref_worse
+        7     ig_ql     ils_rf 110 14       40    0.3568     0.03109     0.3257     0.299   0.3516              1 1.819e-12 7.276e-11         True  ref_worse
+
+####################################################################################################
+# FAMILIA EXTERNA C  (8 subpastas/classes, 400 instancias, n=18-220)
+####################################################################################################
+
+--- C / SOTA: ig_ql vs. baselines SOTA publicados (MULTIFIT, SA Li&Perkins 2024, BCO Davidovic et al. 2012) ---
+    testes com p valido: 30 / 30
+subfolder reference         other   n  m  n_pairs  mean_ref  mean_other  mean_diff   ci_low  ci_high  rank_biserial     p_raw    p_holm  reject_holm  direction
+       C1     ig_ql      multifit  80 40       40     3.961       3.526     0.4352   0.2252   0.7721              1  0.003346   0.01673         True  ref_worse
+       C1     ig_ql sa_li_perkins  80 40       40     3.961       4.144    -0.1832  -0.5484 -0.04202             -1    0.1088    0.1533        False ref_better
+       C1     ig_ql           bco  80 40       40     3.961       53.01     -49.05   -52.27   -45.59             -1 1.819e-12 5.457e-11         True ref_better
+      C12     ig_ql      multifit  54  6       40    0.1032      0.8412     -0.738   -1.053  -0.5232        -0.9929 6.485e-07 9.727e-06         True ref_better
+      C12     ig_ql sa_li_perkins  54  6       40    0.1032      0.5084    -0.4053   -0.513  -0.3091             -1 5.389e-07 8.622e-06         True ref_better
+      C12     ig_ql           bco  54  6       40    0.1032       1.922     -1.819   -2.088   -1.555             -1 1.819e-12 5.457e-11         True ref_better
+      C13     ig_ql      multifit 120 12       40    0.2144      0.7584     -0.544  -0.7635  -0.3587        -0.8378 8.872e-06 0.0001079         True ref_better
+      C13     ig_ql      multifit 180 18       40    0.1869      0.7755    -0.5885  -0.8514  -0.3882        -0.7958 3.137e-05 0.0002823         True ref_better
+      C13     ig_ql sa_li_perkins 120 12       40    0.2144      0.5046    -0.2901   -0.385  -0.2093             -1 1.734e-06 2.428e-05         True ref_better
+      C13     ig_ql sa_li_perkins 180 18       40    0.1869      0.4621    -0.2752   -0.371  -0.1942             -1 8.298e-06 0.0001079         True ref_better
+      C13     ig_ql           bco 120 12       40    0.2144       6.957     -6.743   -7.404   -6.187             -1 1.819e-12 5.457e-11         True ref_better
+      C13     ig_ql           bco 180 18       40    0.1869       8.049     -7.862    -8.42   -7.349             -1 1.819e-12 5.457e-11         True ref_better
+      C14     ig_ql      multifit 220 20       40    0.2877      0.6483    -0.3606  -0.5524  -0.1964        -0.5841   0.00258   0.01548         True ref_better
+      C14     ig_ql sa_li_perkins 220 20       40    0.2877      0.4451    -0.1574  -0.2419 -0.09566             -1 0.0001318  0.001055         True ref_better
+      C14     ig_ql           bco 220 20       40    0.2877       7.791     -7.504   -8.043   -6.997             -1 1.819e-12 5.457e-11         True ref_better
+       C2     ig_ql      multifit  18  8       40     4.321       5.206    -0.8849   -1.519  -0.4308        -0.7905  0.001944   0.01361         True ref_better
+       C2     ig_ql sa_li_perkins  18  8       40     4.321       5.463     -1.142   -1.552  -0.7926             -1 1.822e-05 0.0001822         True ref_better
+       C2     ig_ql           bco  18  8       40     4.321       7.941      -3.62   -4.229   -2.976             -1  1.68e-07 3.025e-06         True ref_better
+       C5     ig_ql      multifit 144 48       40     1.839       2.805    -0.9664   -1.795  -0.2777        -0.3441   0.06444    0.1533        False ref_better
+       C5     ig_ql sa_li_perkins 144 48       40     1.839        4.37     -2.531   -3.281    -1.92             -1 5.253e-08 1.103e-06         True ref_better
+       C5     ig_ql           bco 144 48       40     1.839       49.73     -47.89   -50.29   -45.62             -1 1.819e-12 5.457e-11         True ref_better
+       C8     ig_ql      multifit 100 25       40     1.074       2.136     -1.062   -1.715  -0.5243        -0.4845  0.009237   0.03695         True ref_better
+       C8     ig_ql sa_li_perkins 100 25       40     1.074       2.017    -0.9431   -1.349  -0.6362             -1 1.229e-05 0.0001352         True ref_better
+       C8     ig_ql           bco 100 25       40     1.074       21.34     -20.26   -21.62   -19.03             -1 1.819e-12 5.457e-11         True ref_better
+       C9     ig_ql      multifit  36  8       40    0.2434       2.111     -1.868   -2.356   -1.423         -0.997 1.828e-07 3.108e-06         True ref_better
+       C9     ig_ql      multifit 162 36       40      1.94       1.726     0.2141 -0.02154   0.4155          0.363   0.05111    0.1533        False  ref_worse
+       C9     ig_ql sa_li_perkins  36  8       40    0.2434       1.545     -1.301   -1.509   -1.119             -1 5.255e-08 1.103e-06         True ref_better
+       C9     ig_ql sa_li_perkins 162 36       40      1.94       5.738     -3.798   -4.271   -3.296             -1 5.255e-08 1.103e-06         True ref_better
+       C9     ig_ql           bco  36  8       40    0.2434       4.308     -4.065   -4.553    -3.57             -1 1.819e-12 5.457e-11         True ref_better
+       C9     ig_ql           bco 162 36       40      1.94       28.09     -26.16   -28.36   -24.55             -1 1.819e-12 5.457e-11         True ref_better
+
+--- C / ABLATION: ig_ql vs. ablacoes IG (isola a contribuicao do Q-Learning dentro do mecanismo IG) ---
+    testes com p valido: 39 / 40
+subfolder reference      other   n  m  n_pairs  mean_ref  mean_other  mean_diff    ci_low   ci_high  rank_biserial   p_raw  p_holm  reject_holm  direction
+       C1     ig_ql  ig_random  80 40       40     3.961       3.935    0.02626         0    0.1036              1  0.1797       1        False  ref_worse
+       C1     ig_ql     ig_ucb  80 40       40     3.961        3.95    0.01106  -0.06637   0.07184              0       1       1        False  ref_worse
+       C1     ig_ql ig_ucb_ctx  80 40       40     3.961       3.893    0.06771   -0.0304    0.3869         0.3333   0.593       1        False  ref_worse
+       C1     ig_ql ig_ql_flat  80 40       40     3.961        3.99   -0.02928   -0.1272   0.01943        -0.6667   0.285       1        False ref_better
+      C12     ig_ql  ig_random  54  6       40    0.1032      0.1073  -0.004084  -0.02726   0.02172        -0.2157  0.4348       1        False ref_better
+      C12     ig_ql     ig_ucb  54  6       40    0.1032      0.1094  -0.006275  -0.03327   0.01613        -0.2047   0.446       1        False ref_better
+      C12     ig_ql ig_ucb_ctx  54  6       40    0.1032      0.1439   -0.04076   -0.0712  -0.01177        -0.6491 0.01565  0.6102        False ref_better
+      C12     ig_ql ig_ql_flat  54  6       40    0.1032      0.1205   -0.01738   -0.0385 0.0006532        -0.5429 0.07359       1        False ref_better
+      C13     ig_ql  ig_random 120 12       40    0.2144      0.2242  -0.009709  -0.04144   0.01342        -0.1795  0.5829       1        False ref_better
+      C13     ig_ql  ig_random 180 18       40    0.1869      0.1968  -0.009901  -0.02647  -0.00266             -1 0.06789       1        False ref_better
+      C13     ig_ql     ig_ucb 120 12       40    0.2144      0.2138  0.0006004  -0.02558   0.02562         0.0989  0.7532       1        False  ref_worse
+      C13     ig_ql     ig_ucb 180 18       40    0.1869      0.1956  -0.008658  -0.02857  0.001391        -0.7333   0.138       1        False ref_better
+      C13     ig_ql ig_ucb_ctx 120 12       40    0.2144      0.2245   -0.01003   -0.0389  0.009058        -0.2121  0.5337       1        False ref_better
+      C13     ig_ql ig_ucb_ctx 180 18       40    0.1869      0.1846   0.002342 -0.007979   0.01737            0.4  0.4652       1        False  ref_worse
+      C13     ig_ql ig_ql_flat 120 12       40    0.2144      0.2086   0.005792    -0.012   0.02451         0.2727  0.4236       1        False  ref_worse
+      C13     ig_ql ig_ql_flat 180 18       40    0.1869      0.1829   0.004016 -0.007443   0.02254         0.3333  0.5002       1        False  ref_worse
+      C14     ig_ql  ig_random 220 20       40    0.2877      0.2723    0.01532 -0.008949   0.04252         0.3333   0.256       1        False  ref_worse
+      C14     ig_ql     ig_ucb 220 20       40    0.2877      0.2867   0.001017  -0.02163   0.02515       -0.05495  0.8613       1        False  ref_worse
+      C14     ig_ql ig_ucb_ctx 220 20       40    0.2877      0.3106   -0.02295  -0.04777 -0.001903        -0.5048  0.0962       1        False ref_better
+      C14     ig_ql ig_ql_flat 220 20       40    0.2877      0.2906  -0.002929  -0.02182  0.009461        -0.1429  0.7532       1        False ref_better
+       C2     ig_ql  ig_random  18  8       40     4.321       4.224    0.09709         0    0.4854              1  0.3173       1        False  ref_worse
+       C2     ig_ql     ig_ucb  18  8       40     4.321        4.24    0.08106  -0.03205    0.4763         0.3333  0.6547       1        False  ref_worse
+       C2     ig_ql ig_ucb_ctx  18  8       40     4.321       4.321          0       NaN       NaN            NaN     NaN     NaN        False        tie
+       C2     ig_ql ig_ql_flat  18  8       40     4.321       4.224    0.09709         0    0.4961              1  0.3173       1        False  ref_worse
+       C5     ig_ql  ig_random 144 48       40     1.839       1.879   -0.04046   -0.2113     0.126        -0.1379  0.5237       1        False ref_better
+       C5     ig_ql     ig_ucb 144 48       40     1.839        1.83   0.008766   -0.1407    0.1429        0.08262  0.7127       1        False  ref_worse
+       C5     ig_ql ig_ucb_ctx 144 48       40     1.839       1.939   -0.09976   -0.2494    0.0166        -0.2923  0.2012       1        False ref_better
+       C5     ig_ql ig_ql_flat 144 48       40     1.839       1.874   -0.03573   -0.2123    0.1235       -0.05714  0.8228       1        False ref_better
+       C8     ig_ql  ig_random 100 25       40     1.074       1.072   0.002157  -0.09161   0.08706        0.07359  0.7677       1        False  ref_worse
+       C8     ig_ql     ig_ucb 100 25       40     1.074       1.111   -0.03758   -0.1281   0.05888        -0.2632  0.3271       1        False ref_better
+       C8     ig_ql ig_ucb_ctx 100 25       40     1.074       1.105   -0.03127   -0.1126   0.04808        -0.2053  0.4326       1        False ref_better
+       C8     ig_ql ig_ql_flat 100 25       40     1.074       1.102   -0.02854  -0.08433   0.02928        -0.3626  0.2489       1        False ref_better
+       C9     ig_ql  ig_random  36  8       40    0.2434      0.2968   -0.05342   -0.1014  0.001721        -0.4269  0.1119       1        False ref_better
+       C9     ig_ql  ig_random 162 36       40      1.94       2.057     -0.117     -0.27   0.02176        -0.2598  0.2218       1        False ref_better
+       C9     ig_ql     ig_ucb  36  8       40    0.2434      0.2735   -0.03008   -0.1013   0.05084          -0.14  0.5485       1        False ref_better
+       C9     ig_ql     ig_ucb 162 36       40      1.94        1.98   -0.04044   -0.2136    0.1501        -0.1301  0.5143       1        False ref_better
+       C9     ig_ql ig_ucb_ctx  36  8       40    0.2434      0.2811   -0.03778    -0.108   0.03833        -0.2029  0.3944       1        False ref_better
+       C9     ig_ql ig_ucb_ctx 162 36       40      1.94       1.884    0.05545  -0.08338    0.1984         0.2043  0.3286       1        False  ref_worse
+       C9     ig_ql ig_ql_flat  36  8       40    0.2434       0.294   -0.05058   -0.1087  0.005886        -0.3238  0.2043       1        False ref_better
+       C9     ig_ql ig_ql_flat 162 36       40      1.94       1.916    0.02326   -0.1194    0.1681        0.08387  0.6884       1        False  ref_worse
+
+--- C / ILS: ig_ql (mecanismo IG) vs. familia ILS (isola mecanismo de busca: IG vs. ILS) ---
+    testes com p valido: 40 / 40
+subfolder reference      other   n  m  n_pairs  mean_ref  mean_other  mean_diff    ci_low   ci_high  rank_biserial     p_raw    p_holm  reject_holm  direction
+       C1     ig_ql ils_random  80 40       40     3.961       4.085    -0.1234   -0.3536  -0.01439           -0.8    0.1441         1        False ref_better
+       C1     ig_ql    ils_ucb  80 40       40     3.961       4.116     -0.155    -0.529 -0.002483           -0.6    0.2249         1        False ref_better
+       C1     ig_ql     ils_ql  80 40       40     3.961       4.027   -0.06543   -0.2558   0.02817        -0.3333    0.4631         1        False ref_better
+       C1     ig_ql     ils_rf  80 40       40     3.961       4.071    -0.1095   -0.3007  -0.01016           -0.8    0.1441         1        False ref_better
+      C12     ig_ql ils_random  54  6       40    0.1032      0.0213    0.08187   0.05264    0.1123         0.9133 9.067e-05  0.002811         True  ref_worse
+      C12     ig_ql    ils_ucb  54  6       40    0.1032      0.1668   -0.06359   -0.1218  -0.02178        -0.6095   0.01688    0.3883        False ref_better
+      C12     ig_ql     ils_ql  54  6       40    0.1032     0.06277     0.0404   0.00881   0.06983         0.5524   0.03037    0.6377        False  ref_worse
+      C12     ig_ql     ils_rf  54  6       40    0.1032     0.04755    0.05562   0.02109   0.08909         0.6522  0.007397    0.1775        False  ref_worse
+      C13     ig_ql ils_random 120 12       40    0.2144       0.153    0.06145 0.0007935      0.11         0.5262   0.02142    0.4712        False  ref_worse
+      C13     ig_ql ils_random 180 18       40    0.1869      0.2324   -0.04546   -0.1126   0.01394        -0.2536    0.2584         1        False ref_better
+      C13     ig_ql    ils_ucb 120 12       40    0.2144      0.3089   -0.09448   -0.1847  -0.03063        -0.4233   0.05461         1        False ref_better
+      C13     ig_ql    ils_ucb 180 18       40    0.1869      0.3502    -0.1633   -0.2443  -0.09372        -0.7833 0.0002939  0.008228         True ref_better
+      C13     ig_ql     ils_ql 120 12       40    0.2144      0.1778    0.03661  -0.02359   0.08612         0.2707    0.2277         1        False  ref_worse
+      C13     ig_ql     ils_ql 180 18       40    0.1869      0.2411   -0.05421   -0.1163  0.003677        -0.4127   0.06094         1        False ref_better
+      C13     ig_ql     ils_rf 120 12       40    0.2144      0.1701    0.04433   -0.0163   0.09722         0.3561    0.1124         1        False  ref_worse
+      C13     ig_ql     ils_rf 180 18       40    0.1869      0.2136   -0.02672  -0.08244   0.03012        -0.2365    0.2744         1        False ref_better
+      C14     ig_ql ils_random 220 20       40    0.2877      0.2481    0.03952  -0.03985    0.1132         0.2215    0.2895         1        False  ref_worse
+      C14     ig_ql    ils_ucb 220 20       40    0.2877      0.3199   -0.03218  -0.09876   0.02251        -0.2029    0.3944         1        False ref_better
+      C14     ig_ql     ils_ql 220 20       40    0.2877      0.2654    0.02231  -0.05123   0.08606         0.1675    0.4388         1        False  ref_worse
+      C14     ig_ql     ils_rf 220 20       40    0.2877      0.2429    0.04481  -0.03343    0.1204          0.246    0.2473         1        False  ref_worse
+       C2     ig_ql ils_random  18  8       40     4.321       4.338   -0.01647   -0.2045    0.2982        -0.1429    0.7532         1        False ref_better
+       C2     ig_ql    ils_ucb  18  8       40     4.321       5.262    -0.9407    -1.579   -0.5625             -1 0.0001964  0.005697         True ref_better
+       C2     ig_ql     ils_ql  18  8       40     4.321       4.481    -0.1601   -0.4494   0.08417        -0.4909    0.1688         1        False ref_better
+       C2     ig_ql     ils_rf  18  8       40     4.321       4.429     -0.108   -0.3217    0.2343           -0.5    0.2367         1        False ref_better
+       C5     ig_ql ils_random 144 48       40     1.839       3.627     -1.788    -2.515    -1.206         -0.889 2.423e-06 7.753e-05         True ref_better
+       C5     ig_ql    ils_ucb 144 48       40     1.839       3.951     -2.112    -2.834    -1.531        -0.9811 1.352e-07 4.867e-06         True ref_better
+       C5     ig_ql     ils_ql 144 48       40     1.839       3.644     -1.805     -2.56    -1.234        -0.9061 1.547e-06 5.106e-05         True ref_better
+       C5     ig_ql     ils_rf 144 48       40     1.839       3.692     -1.853    -2.598    -1.289        -0.9175 1.142e-06 3.884e-05         True ref_better
+       C8     ig_ql ils_random 100 25       40     1.074       1.379    -0.3056   -0.6594  -0.03072        -0.3106    0.1252         1        False ref_better
+       C8     ig_ql    ils_ucb 100 25       40     1.074        1.63    -0.5566   -0.8781   -0.2971        -0.6731  0.001287   0.03345         True ref_better
+       C8     ig_ql     ils_ql 100 25       40     1.074       1.347    -0.2734   -0.6363  -0.01118         -0.205    0.3042         1        False ref_better
+       C8     ig_ql     ils_rf 100 25       40     1.074       1.425    -0.3512   -0.6905  -0.07729        -0.3468   0.09193         1        False ref_better
+       C9     ig_ql ils_random  36  8       40    0.2434      0.5923    -0.3489   -0.5879   -0.1936        -0.7005 0.0004464   0.01205         True ref_better
+       C9     ig_ql ils_random 162 36       40      1.94       4.596     -2.656    -3.157     -2.17        -0.9951 4.156e-08 1.579e-06         True ref_better
+       C9     ig_ql    ils_ucb  36  8       40    0.2434       1.965     -1.721    -2.241    -1.266        -0.9492 9.713e-07   3.4e-05         True ref_better
+       C9     ig_ql    ils_ucb 162 36       40      1.94       4.957     -3.017    -3.445    -2.544        -0.9951 5.457e-12 2.183e-10         True ref_better
+       C9     ig_ql     ils_ql  36  8       40    0.2434      0.7307    -0.4873   -0.8154    -0.291        -0.7984 0.0001044  0.003132         True ref_better
+       C9     ig_ql     ils_ql 162 36       40      1.94       4.742     -2.802    -3.277     -2.33        -0.9976 3.851e-08 1.502e-06         True ref_better
+       C9     ig_ql     ils_rf  36  8       40    0.2434      0.5819    -0.3386   -0.5649   -0.1627        -0.6349  0.003939   0.09848        False ref_better
+       C9     ig_ql     ils_rf 162 36       40      1.94       4.682     -2.742    -3.182    -2.273        -0.9951 4.156e-08 1.579e-06         True ref_better
+
+####################################################################################################
+# FAMILIA EXTERNA E  (3 subpastas/classes, 400 instancias, n=6-100)
+####################################################################################################
+
+--- E / SOTA: ig_ql vs. baselines SOTA publicados (MULTIFIT, SA Li&Perkins 2024, BCO Davidovic et al. 2012) ---
+    testes com p valido: 30 / 30
+subfolder reference         other   n  m  n_pairs  mean_ref  mean_other  mean_diff  ci_low  ci_high  rank_biserial     p_raw    p_holm  reject_holm  direction
+       E1     ig_ql      multifit   6  3       40     5.136       4.928     0.2083       0     0.75              1    0.1797    0.7188        False  ref_worse
+       E1     ig_ql sa_li_perkins   6  3       40     5.136       4.928     0.2083       0     0.75              1    0.1797    0.7188        False  ref_worse
+       E1     ig_ql           bco   6  3       40     5.136       4.928     0.2083       0   0.7083              1    0.1797    0.7188        False  ref_worse
+       E2     ig_ql      multifit  10  3       40     1.309       2.632     -1.322  -1.858   -0.885        -0.8669 2.517e-05 0.0001762         True ref_better
+       E2     ig_ql      multifit  30  6       40    0.1883       1.261     -1.072  -1.205   -0.947             -1 1.819e-12 5.457e-11         True ref_better
+       E2     ig_ql      multifit  50  3       40  0.007301      0.1784    -0.1711 -0.2367  -0.1311             -1 5.255e-08 1.104e-06         True ref_better
+       E2     ig_ql      multifit 100 10       40    0.2405       0.344    -0.1036 -0.1542 -0.06018        -0.6956 0.0002255  0.001353         True ref_better
+       E2     ig_ql sa_li_perkins  10  3       40     1.309        1.47    -0.1609 -0.3852  0.04096        -0.3895    0.1365    0.6825        False ref_better
+       E2     ig_ql sa_li_perkins  30  6       40    0.1883      0.9701    -0.7817 -0.8717  -0.7068             -1 1.819e-12 5.457e-11         True ref_better
+       E2     ig_ql sa_li_perkins  50  3       40  0.007301      0.5295    -0.5222 -0.5545  -0.4905             -1 1.819e-12 5.457e-11         True ref_better
+       E2     ig_ql sa_li_perkins 100 10       40    0.2405      0.3888    -0.1483 -0.2163  -0.1055             -1 8.298e-06 6.638e-05         True ref_better
+       E2     ig_ql           bco  10  3       40     1.309       1.216    0.09369 -0.1169   0.2863            0.2    0.3819    0.7188        False  ref_worse
+       E2     ig_ql           bco  30  6       40    0.1883       2.153     -1.965  -2.149   -1.775             -1 1.819e-12 5.457e-11         True ref_better
+       E2     ig_ql           bco  50  3       40  0.007301      0.2392    -0.2319 -0.2728  -0.1936             -1 5.255e-08 1.104e-06         True ref_better
+       E2     ig_ql           bco 100 10       40    0.2405       2.841     -2.601  -2.883   -2.352             -1 1.819e-12 5.457e-11         True ref_better
+       E3     ig_ql      multifit  14  3       40    0.1774       2.548     -2.371  -3.051   -1.834             -1 5.255e-08 1.104e-06         True ref_better
+       E3     ig_ql      multifit  17  5       40    0.4866       2.944     -2.457  -2.977   -1.971             -1  7.74e-08 1.238e-06         True ref_better
+       E3     ig_ql      multifit  26  5       40   0.07054       1.987     -1.916  -2.456   -1.466             -1 5.255e-08 1.104e-06         True ref_better
+       E3     ig_ql      multifit  34  8       40    0.2372       2.164     -1.927  -2.528   -1.448             -1  1.14e-07 1.482e-06         True ref_better
+       E3     ig_ql      multifit  52 10       40    0.3994       1.909     -1.509  -2.144   -1.021         -0.916 3.181e-06 3.181e-05         True ref_better
+       E3     ig_ql sa_li_perkins  14  3       40    0.1774      0.7194     -0.542 -0.6267  -0.4527             -1  7.74e-08 1.238e-06         True ref_better
+       E3     ig_ql sa_li_perkins  17  5       40    0.4866       1.116    -0.6291 -0.8373  -0.4613             -1 1.733e-06 1.907e-05         True ref_better
+       E3     ig_ql sa_li_perkins  26  5       40   0.07054      0.7783    -0.7077 -0.7987  -0.6172             -1 5.255e-08 1.104e-06         True ref_better
+       E3     ig_ql sa_li_perkins  34  8       40    0.2372       1.633     -1.396  -1.631   -1.187             -1 3.568e-08  7.85e-07         True ref_better
+       E3     ig_ql sa_li_perkins  52 10       40    0.3994       1.842     -1.442  -1.784   -1.189             -1  1.14e-07 1.482e-06         True ref_better
+       E3     ig_ql           bco  14  3       40    0.1774      0.7651    -0.5877 -0.8406  -0.4092        -0.9251  3.54e-06 3.186e-05         True ref_better
+       E3     ig_ql           bco  17  5       40    0.4866       2.943     -2.457  -2.817   -2.071        -0.9902 1.273e-11 2.929e-10         True ref_better
+       E3     ig_ql           bco  26  5       40   0.07054       1.655     -1.585   -1.87   -1.319             -1  7.74e-08 1.238e-06         True ref_better
+       E3     ig_ql           bco  34  8       40    0.2372       4.089     -3.852  -4.237   -3.481             -1 1.819e-12 5.457e-11         True ref_better
+       E3     ig_ql           bco  52 10       40    0.3994       5.458     -5.059  -5.431    -4.68             -1 1.819e-12 5.457e-11         True ref_better
+
+--- E / ABLATION: ig_ql vs. ablacoes IG (isola a contribuicao do Q-Learning dentro do mecanismo IG) ---
+    testes com p valido: 36 / 40
+subfolder reference      other   n  m  n_pairs  mean_ref  mean_other  mean_diff    ci_low   ci_high  rank_biserial     p_raw    p_holm  reject_holm  direction
+       E1     ig_ql  ig_random   6  3       40     5.136       5.136          0       NaN       NaN            NaN       NaN       NaN        False        tie
+       E1     ig_ql     ig_ucb   6  3       40     5.136       5.136          0       NaN       NaN            NaN       NaN       NaN        False        tie
+       E1     ig_ql ig_ucb_ctx   6  3       40     5.136       5.136          0       NaN       NaN            NaN       NaN       NaN        False        tie
+       E1     ig_ql ig_ql_flat   6  3       40     5.136       5.136          0       NaN       NaN            NaN       NaN       NaN        False        tie
+       E2     ig_ql  ig_random  10  3       40     1.309       1.477    -0.1679   -0.4647  -0.02194           -0.6    0.1097         1        False ref_better
+       E2     ig_ql  ig_random  30  6       40    0.1883      0.2105   -0.02218  -0.05829   0.01694        -0.2303    0.2416         1        False ref_better
+       E2     ig_ql  ig_random  50  3       40  0.007301     0.01798   -0.01068  -0.01559 -0.006199        -0.7057 0.0009029    0.0307         True ref_better
+       E2     ig_ql  ig_random 100 10       40    0.2405       0.238   0.002418  -0.01184   0.02103       -0.01471    0.9588         1        False  ref_worse
+       E2     ig_ql     ig_ucb  10  3       40     1.309       1.374    -0.0649   -0.2497   0.05368        -0.4182    0.2411         1        False ref_better
+       E2     ig_ql     ig_ucb  30  6       40    0.1883      0.2088   -0.02045  -0.05999   0.01821        -0.1828     0.382         1        False ref_better
+       E2     ig_ql     ig_ucb  50  3       40  0.007301     0.02091   -0.01361  -0.01888 -0.009107          -0.98 2.669e-05 0.0009609         True ref_better
+       E2     ig_ql     ig_ucb 100 10       40    0.2405      0.2376   0.002892  -0.01419    0.0175         0.1474    0.5732         1        False  ref_worse
+       E2     ig_ql ig_ucb_ctx  10  3       40     1.309       1.502    -0.1922    -0.528  -0.02111        -0.6061   0.07537         1        False ref_better
+       E2     ig_ql ig_ucb_ctx  30  6       40    0.1883      0.1878   0.000568  -0.02819    0.0315       -0.01604    0.9359         1        False  ref_worse
+       E2     ig_ql ig_ucb_ctx  50  3       40  0.007301     0.01811   -0.01081   -0.0167 -0.005714        -0.6598  0.001916   0.06323        False ref_better
+       E2     ig_ql ig_ucb_ctx 100 10       40    0.2405      0.2274    0.01305 -0.002165   0.03624         0.2749    0.3061         1        False  ref_worse
+       E2     ig_ql ig_ql_flat  10  3       40     1.309       1.444    -0.1349   -0.4068  -0.00576        -0.7143   0.09097         1        False ref_better
+       E2     ig_ql ig_ql_flat  30  6       40    0.1883       0.184   0.004375  -0.02614   0.03447        0.06048    0.7688         1        False  ref_worse
+       E2     ig_ql ig_ql_flat  50  3       40  0.007301     0.01534  -0.008037  -0.01246 -0.003876        -0.7607 0.0006973   0.02441         True ref_better
+       E2     ig_ql ig_ql_flat 100 10       40    0.2405      0.2365   0.003979  -0.01003   0.02094            0.1    0.7333         1        False  ref_worse
+       E3     ig_ql  ig_random  14  3       40    0.1774      0.1998   -0.02247  -0.08127   0.03785        -0.1377    0.5633         1        False ref_better
+       E3     ig_ql  ig_random  17  5       40    0.4866      0.5008   -0.01424   -0.1007   0.06995       -0.06316    0.8092         1        False ref_better
+       E3     ig_ql  ig_random  26  5       40   0.07054      0.1095     -0.039  -0.09004  0.002581        -0.3524    0.1672         1        False ref_better
+       E3     ig_ql  ig_random  34  8       40    0.2372      0.2875   -0.05032   -0.1146   0.00352          -0.42   0.07186         1        False ref_better
+       E3     ig_ql  ig_random  52 10       40    0.3994      0.4039  -0.004551   -0.0761   0.06399       -0.05682    0.7791         1        False ref_better
+       E3     ig_ql     ig_ucb  14  3       40    0.1774      0.1536     0.0238  -0.01854   0.07624         0.2647     0.352         1        False  ref_worse
+       E3     ig_ql     ig_ucb  17  5       40    0.4866      0.5495   -0.06294   -0.1752  0.006595        -0.3856    0.1626         1        False ref_better
+       E3     ig_ql     ig_ucb  26  5       40   0.07054     0.08619   -0.01566  -0.03513  0.003231        -0.3824    0.1788         1        False ref_better
+       E3     ig_ql     ig_ucb  34  8       40    0.2372      0.2916   -0.05438   -0.1214  0.007078        -0.3768    0.1137         1        False ref_better
+       E3     ig_ql     ig_ucb  52 10       40    0.3994      0.4565   -0.05708     -0.12 -0.001459        -0.4769   0.03704         1        False ref_better
+       E3     ig_ql ig_ucb_ctx  14  3       40    0.1774      0.2005   -0.02317  -0.09426   0.03367       -0.07353     0.796         1        False ref_better
+       E3     ig_ql ig_ucb_ctx  17  5       40    0.4866      0.5163    -0.0297   -0.1165   0.05214        -0.1345    0.6165         1        False ref_better
+       E3     ig_ql ig_ucb_ctx  26  5       40   0.07054     0.08516   -0.01463  -0.05684   0.02965        -0.2727    0.2736         1        False ref_better
+       E3     ig_ql ig_ucb_ctx  34  8       40    0.2372      0.3226   -0.08543   -0.1661  -0.02264        -0.5133    0.0278    0.8618        False ref_better
+       E3     ig_ql ig_ucb_ctx  52 10       40    0.3994      0.3927   0.006675  -0.05933    0.0723        0.07957    0.7036         1        False  ref_worse
+       E3     ig_ql ig_ql_flat  14  3       40    0.1774      0.2229   -0.04555  -0.09114 -0.008236        -0.6264   0.04633         1        False ref_better
+       E3     ig_ql ig_ql_flat  17  5       40    0.4866       0.473    0.01357  -0.04523   0.08722            0.1    0.7333         1        False  ref_worse
+       E3     ig_ql ig_ql_flat  26  5       40   0.07054     0.08826   -0.01772  -0.05244  0.003435         -0.359    0.2721         1        False ref_better
+       E3     ig_ql ig_ql_flat  34  8       40    0.2372       0.282   -0.04483   -0.1083    0.0116        -0.3067    0.1888         1        False ref_better
+       E3     ig_ql ig_ql_flat  52 10       40    0.3994      0.4627   -0.06333     -0.11  -0.02051        -0.5942   0.01263    0.4042        False ref_better
+
+--- E / ILS: ig_ql (mecanismo IG) vs. familia ILS (isola mecanismo de busca: IG vs. ILS) ---
+    testes com p valido: 40 / 40
+subfolder reference      other   n  m  n_pairs  mean_ref  mean_other  mean_diff    ci_low    ci_high  rank_biserial     p_raw    p_holm  reject_holm  direction
+       E1     ig_ql ils_random   6  3       40     5.136       4.928     0.2083         0       0.75              1    0.1797         1        False  ref_worse
+       E1     ig_ql    ils_ucb   6  3       40     5.136       4.928     0.2083         0       0.75              1    0.1797         1        False  ref_worse
+       E1     ig_ql     ils_ql   6  3       40     5.136       4.928     0.2083         0     0.7083              1    0.1797         1        False  ref_worse
+       E1     ig_ql     ils_rf   6  3       40     5.136       4.928     0.2083         0     0.7083              1    0.1797         1        False  ref_worse
+       E2     ig_ql ils_random  10  3       40     1.309       1.023     0.2867    0.1553     0.4748              1 0.0009815    0.0265         True  ref_worse
+       E2     ig_ql ils_random  30  6       40    0.1883       0.118    0.07033   0.03854     0.1016         0.7417 0.0001042  0.003753         True  ref_worse
+       E2     ig_ql ils_random  50  3       40  0.007301           0   0.007301  0.004948     0.0102              1 0.0001318  0.004482         True  ref_worse
+       E2     ig_ql ils_random 100 10       40    0.2405     0.05567     0.1848    0.1625     0.2095              1 1.819e-12 7.276e-11         True  ref_worse
+       E2     ig_ql    ils_ucb  10  3       40     1.309        1.12     0.1899   0.05346     0.3606         0.5895   0.02422     0.436        False  ref_worse
+       E2     ig_ql    ils_ucb  30  6       40    0.1883      0.2054   -0.01706  -0.08439    0.03885       -0.04444    0.8186         1        False ref_better
+       E2     ig_ql    ils_ucb  50  3       40  0.007301    0.006098   0.001204 -0.003095   0.004247         0.2421    0.3547         1        False  ref_worse
+       E2     ig_ql    ils_ucb 100 10       40    0.2405      0.1523    0.08816   0.03677      0.128         0.6671 0.0004036   0.01211         True  ref_worse
+       E2     ig_ql     ils_ql  10  3       40     1.309       1.029     0.2804    0.1298     0.4816         0.8382  0.003205   0.07691        False  ref_worse
+       E2     ig_ql     ils_ql  30  6       40    0.1883      0.1227    0.06567   0.03142    0.09971          0.684  0.000503   0.01459         True  ref_worse
+       E2     ig_ql     ils_ql  50  3       40  0.007301   0.0003187   0.006983  0.004369   0.009878         0.9238 0.0002932  0.009088         True  ref_worse
+       E2     ig_ql     ils_ql 100 10       40    0.2405     0.05049       0.19    0.1676     0.2126              1 1.819e-12 7.276e-11         True  ref_worse
+       E2     ig_ql     ils_rf  10  3       40     1.309        1.03      0.279    0.1325     0.4768         0.8382  0.003205   0.07691        False  ref_worse
+       E2     ig_ql     ils_rf  30  6       40    0.1883      0.1306    0.05772   0.03107    0.08695         0.6538 0.0008833   0.02473         True  ref_worse
+       E2     ig_ql     ils_rf  50  3       40  0.007301           0   0.007301  0.004925    0.01013              1 0.0001318  0.004482         True  ref_worse
+       E2     ig_ql     ils_rf 100 10       40    0.2405     0.06276     0.1777    0.1538     0.2033              1 5.255e-08 1.997e-06         True  ref_worse
+       E3     ig_ql ils_random  14  3       40    0.1774       0.112    0.06532   0.03461     0.1136         0.9333   0.00147   0.03821         True  ref_worse
+       E3     ig_ql ils_random  17  5       40    0.4866      0.5453   -0.05869   -0.1866    0.03684        -0.2164    0.4204         1        False ref_better
+       E3     ig_ql ils_random  26  5       40   0.07054      0.1062   -0.03564  -0.08989   0.002613        -0.3368    0.1978         1        False ref_better
+       E3     ig_ql ils_random  34  8       40    0.2372      0.4137    -0.1765   -0.3274   -0.07191        -0.5079   0.02109    0.4007        False ref_better
+       E3     ig_ql ils_random  52 10       40    0.3994      0.3598    0.03961  -0.07252     0.1425         0.1527    0.4653         1        False  ref_worse
+       E3     ig_ql    ils_ucb  14  3       40    0.1774      0.2525   -0.07514   -0.1695 -0.0008338        -0.3619     0.156         1        False ref_better
+       E3     ig_ql    ils_ucb  17  5       40    0.4866      0.9338    -0.4472   -0.7516    -0.2527        -0.8462 0.0002159  0.006907         True ref_better
+       E3     ig_ql    ils_ucb  26  5       40   0.07054      0.2674    -0.1969   -0.5045   -0.08799        -0.6533   0.00511    0.1124        False ref_better
+       E3     ig_ql    ils_ucb  34  8       40    0.2372       1.307      -1.07    -1.498    -0.7535        -0.9249 1.306e-06 4.832e-05         True ref_better
+       E3     ig_ql    ils_ucb  52 10       40    0.3994       1.128    -0.7286    -1.108     -0.434        -0.7492 0.0001109  0.003881         True ref_better
+       E3     ig_ql     ils_ql  14  3       40    0.1774      0.1296    0.04775  0.004723     0.1004         0.4412    0.1208         1        False  ref_worse
+       E3     ig_ql     ils_ql  17  5       40    0.4866      0.5728   -0.08621   -0.2224  0.0002004        -0.2947    0.2598         1        False ref_better
+       E3     ig_ql     ils_ql  26  5       40   0.07054     0.09377   -0.02323  -0.06938   0.008874        -0.2286    0.3703         1        False ref_better
+       E3     ig_ql     ils_ql  34  8       40    0.2372      0.5428    -0.3056   -0.5302    -0.1517        -0.5472  0.006093     0.128        False ref_better
+       E3     ig_ql     ils_ql  52 10       40    0.3994      0.4616   -0.06226    -0.215    0.07494        -0.1832    0.3515         1        False ref_better
+       E3     ig_ql     ils_rf  14  3       40    0.1774      0.1099    0.06752   0.03548      0.117         0.9619  0.001523   0.03821         True  ref_worse
+       E3     ig_ql     ils_rf  17  5       40    0.4866      0.5148   -0.02815   -0.1603    0.06398        0.01754    0.9479         1        False ref_better
+       E3     ig_ql     ils_rf  26  5       40   0.07054      0.0811   -0.01056  -0.05814    0.03007       -0.01754    0.9479         1        False ref_better
+       E3     ig_ql     ils_rf  34  8       40    0.2372      0.4742     -0.237   -0.4214    -0.1075        -0.5011   0.01657    0.3313        False ref_better
+       E3     ig_ql     ils_rf  52 10       40    0.3994      0.4348   -0.03539   -0.2149     0.0983        0.04167     0.837         1        False ref_better
+
+####################################################################################################
+# FAMILIA EXTERNA F  (2 subpastas/classes, 300 instancias, n=10-1000)
+####################################################################################################
+
+--- F / SOTA: ig_ql vs. baselines SOTA publicados (MULTIFIT, SA Li&Perkins 2024, BCO Davidovic et al. 2012) ---
+    testes com p valido: 28 / 30
+subfolder reference         other    n  m  n_pairs  mean_ref  mean_other  mean_diff     ci_low    ci_high  rank_biserial     p_raw    p_holm  reject_holm  direction
+     FFNU     ig_ql      multifit   50 25       30     2.301       2.301          0        NaN        NaN            NaN       NaN       NaN        False        tie
+     FFNU     ig_ql      multifit  100  5       30    0.0709       1.672     -1.601     -1.684     -1.504             -1 1.863e-09 5.215e-08         True ref_better
+     FFNU     ig_ql      multifit  500 10       30    0.2206      0.6363    -0.4157    -0.4567    -0.3741             -1 1.863e-09 5.215e-08         True ref_better
+     FFNU     ig_ql      multifit  500 25       30    0.9158       1.956     -1.041     -1.086    -0.9929             -1 1.863e-09 5.215e-08         True ref_better
+     FFNU     ig_ql      multifit 1000  5       30  0.004056     0.08448   -0.08042   -0.09559   -0.06391             -1 2.563e-06 4.354e-05         True ref_better
+     FFNU     ig_ql sa_li_perkins   50 25       30     2.301       2.301          0        NaN        NaN            NaN       NaN       NaN        False        tie
+     FFNU     ig_ql sa_li_perkins  100  5       30    0.0709      0.9526    -0.8817    -0.9026    -0.8556             -1 1.863e-09 5.215e-08         True ref_better
+     FFNU     ig_ql sa_li_perkins  500 10       30    0.2206      0.9711    -0.7505    -0.7746    -0.7245             -1 1.863e-09 5.215e-08         True ref_better
+     FFNU     ig_ql sa_li_perkins  500 25       30    0.9158      0.9957   -0.07991   -0.09892   -0.06123             -1 2.561e-06 4.354e-05         True ref_better
+     FFNU     ig_ql sa_li_perkins 1000  5       30  0.004056     0.01663   -0.01257   -0.01558   -0.01004             -1 1.863e-09 5.215e-08         True ref_better
+     FFNU     ig_ql           bco   50 25       30     2.301       4.206     -1.905     -2.131      -1.72             -1 1.733e-06  3.12e-05         True ref_better
+     FFNU     ig_ql           bco  100  5       30    0.0709       1.616     -1.545       -1.6     -1.482             -1 1.863e-09 5.215e-08         True ref_better
+     FFNU     ig_ql           bco  500 10       30    0.2206       1.215    -0.9948     -1.072    -0.9027             -1 1.863e-09 5.215e-08         True ref_better
+     FFNU     ig_ql           bco  500 25       30    0.9158       5.302     -4.386     -4.784     -3.797             -1 1.863e-09 5.215e-08         True ref_better
+     FFNU     ig_ql           bco 1000  5       30  0.004056      0.1157    -0.1117    -0.1323   -0.09503             -1 1.863e-09 5.215e-08         True ref_better
+      FFU     ig_ql      multifit   10  5       30     7.445       7.314     0.1307          0     0.6536              1    0.3173    0.9519        False  ref_worse
+      FFU     ig_ql      multifit   50 25       30     4.348       4.221     0.1276     0.0426     0.2814              1   0.04311    0.1725        False  ref_worse
+      FFU     ig_ql      multifit  100  5       30   0.01324      0.0314   -0.01816   -0.02925    -0.0108        -0.9524  0.000189  0.001701         True ref_better
+      FFU     ig_ql      multifit  500  5       30 0.0005335    0.001018 -0.0004842 -0.0009409 -0.0001655        -0.6833   0.01988   0.09939        False ref_better
+      FFU     ig_ql      multifit 1000  5       30 4.996e-05   0.0002206 -0.0001706 -0.0003253 -8.401e-05             -1  0.003346   0.02007         True ref_better
+      FFU     ig_ql sa_li_perkins   10  5       30     7.445        7.44   0.004321    -0.2528     0.3922         0.3333    0.6547    0.9519        False  ref_worse
+      FFU     ig_ql sa_li_perkins   50 25       30     4.348       5.098    -0.7492     -1.209      -0.41             -1  0.002218   0.01552         True ref_better
+      FFU     ig_ql sa_li_perkins  100  5       30   0.01324      0.1104   -0.09719    -0.1259   -0.07246             -1 8.298e-06 9.958e-05         True ref_better
+      FFU     ig_ql sa_li_perkins  500  5       30 0.0005335    0.003164   -0.00263  -0.004042  -0.001715             -1 0.0001318  0.001318         True ref_better
+      FFU     ig_ql sa_li_perkins 1000  5       30 4.996e-05   0.0006047 -0.0005547 -0.0009924 -0.0003252             -1 0.0009815  0.007852         True ref_better
+      FFU     ig_ql           bco   10  5       30     7.445       7.314     0.1307          0     0.6536              1    0.3173    0.9519        False  ref_worse
+      FFU     ig_ql           bco   50 25       30     4.348       28.32     -23.97     -26.26     -20.97             -1 2.563e-06 4.354e-05         True ref_better
+      FFU     ig_ql           bco  100  5       30   0.01324      0.2739    -0.2607    -0.3472    -0.2021             -1  3.79e-06 5.305e-05         True ref_better
+      FFU     ig_ql           bco  500  5       30 0.0005335     0.03255   -0.03202   -0.03939    -0.0256             -1  3.79e-06 5.305e-05         True ref_better
+      FFU     ig_ql           bco 1000  5       30 4.996e-05    0.005796  -0.005746  -0.007672  -0.004119             -1 5.957e-05 0.0006553         True ref_better
+
+--- F / ABLATION: ig_ql vs. ablacoes IG (isola a contribuicao do Q-Learning dentro do mecanismo IG) ---
+    testes com p valido: 32 / 40
+subfolder reference      other    n  m  n_pairs  mean_ref  mean_other  mean_diff     ci_low    ci_high  rank_biserial     p_raw   p_holm  reject_holm  direction
+     FFNU     ig_ql  ig_random   50 25       30     2.301       2.301          0        NaN        NaN            NaN       NaN      NaN        False        tie
+     FFNU     ig_ql  ig_random  100  5       30    0.0709     0.05048    0.02042   0.003524    0.03839         0.4533   0.05203        1        False  ref_worse
+     FFNU     ig_ql  ig_random  500 10       30    0.2206      0.2304  -0.009827   -0.03779    0.01747        -0.1264    0.5521        1        False ref_better
+     FFNU     ig_ql  ig_random  500 25       30    0.9158       0.845    0.07075    0.04552    0.09597         0.8783 6.659e-05 0.002064         True  ref_worse
+     FFNU     ig_ql  ig_random 1000  5       30  0.004056    0.005148  -0.001092  -0.002716  0.0001436        -0.2947    0.2598        1        False ref_better
+     FFNU     ig_ql     ig_ucb   50 25       30     2.301       2.301          0        NaN        NaN            NaN       NaN      NaN        False        tie
+     FFNU     ig_ql     ig_ucb  100  5       30    0.0709     0.06302   0.007876   -0.06414    0.04108           0.64  0.006091   0.1584        False  ref_worse
+     FFNU     ig_ql     ig_ucb  500 10       30    0.2206      0.2063    0.01431   -0.02271    0.05005         0.1586    0.4557        1        False  ref_worse
+     FFNU     ig_ql     ig_ucb  500 25       30    0.9158      0.8253    0.09053    0.06211     0.1219         0.8867 4.152e-05 0.001329         True  ref_worse
+     FFNU     ig_ql     ig_ucb 1000  5       30  0.004056    0.006094  -0.002038  -0.003581 -0.0007731        -0.6476   0.01113   0.2671        False ref_better
+     FFNU     ig_ql ig_ucb_ctx   50 25       30     2.301       2.301          0        NaN        NaN            NaN       NaN      NaN        False        tie
+     FFNU     ig_ql ig_ucb_ctx  100  5       30    0.0709       0.039     0.0319     0.0128    0.05358         0.5926  0.008254   0.2064        False  ref_worse
+     FFNU     ig_ql ig_ucb_ctx  500 10       30    0.2206      0.2218  -0.001207   -0.02756    0.02859       -0.05287    0.8036        1        False ref_better
+     FFNU     ig_ql ig_ucb_ctx  500 25       30    0.9158      0.8535     0.0623    0.02896    0.09476         0.6667  0.001716  0.04976         True  ref_worse
+     FFNU     ig_ql ig_ucb_ctx 1000  5       30  0.004056    0.004821 -0.0007651  -0.001934  0.0002361        -0.3895    0.1365        1        False ref_better
+     FFNU     ig_ql ig_ql_flat   50 25       30     2.301       2.301          0        NaN        NaN            NaN       NaN      NaN        False        tie
+     FFNU     ig_ql ig_ql_flat  100  5       30    0.0709     0.03887    0.03203    0.01329    0.05389         0.6759  0.005506   0.1487        False  ref_worse
+     FFNU     ig_ql ig_ql_flat  500 10       30    0.2206      0.2164   0.004203   -0.01825    0.02591        0.08867    0.6819        1        False  ref_worse
+     FFNU     ig_ql ig_ql_flat  500 25       30    0.9158      0.8284    0.08735    0.05775     0.1179         0.9077 7.219e-05 0.002166         True  ref_worse
+     FFNU     ig_ql ig_ql_flat 1000  5       30  0.004056    0.004258 -0.0002019  -0.001493  0.0009052       -0.05714    0.8228        1        False ref_better
+      FFU     ig_ql  ig_random   10  5       30     7.445       7.445          0        NaN        NaN            NaN       NaN      NaN        False        tie
+      FFU     ig_ql  ig_random   50 25       30     4.348       4.296    0.05242   0.005831     0.1664            0.8    0.1441        1        False  ref_worse
+      FFU     ig_ql  ig_random  100  5       30   0.01324     0.02136  -0.008126   -0.02065  -0.003554        -0.7544   0.00497   0.1391        False ref_better
+      FFU     ig_ql  ig_random  500  5       30 0.0005335   0.0005152  1.824e-05 -0.0002528  0.0002415         0.1868    0.5525        1        False  ref_worse
+      FFU     ig_ql  ig_random 1000  5       30 4.996e-05   8.988e-05 -3.992e-05 -0.0001703  8.697e-08        -0.3333    0.4631        1        False ref_better
+      FFU     ig_ql     ig_ucb   10  5       30     7.445       7.445          0        NaN        NaN            NaN       NaN      NaN        False        tie
+      FFU     ig_ql     ig_ucb   50 25       30     4.348       4.335     0.0134          0      0.067              1    0.3173        1        False  ref_worse
+      FFU     ig_ql     ig_ucb  100  5       30   0.01324     0.01994  -0.006703   -0.01886  -0.001682        -0.5143    0.0438   0.9637        False ref_better
+      FFU     ig_ql     ig_ucb  500  5       30 0.0005335   0.0005925 -5.899e-05 -0.0002971  4.615e-05       -0.09091    0.7989        1        False ref_better
+      FFU     ig_ql     ig_ucb 1000  5       30 4.996e-05    6.67e-05 -1.674e-05 -4.014e-05  2.753e-08        -0.7222    0.0687        1        False ref_better
+      FFU     ig_ql ig_ucb_ctx   10  5       30     7.445       7.445          0        NaN        NaN            NaN       NaN      NaN        False        tie
+      FFU     ig_ql ig_ucb_ctx   50 25       30     4.348       4.355  -0.007034   -0.03517          0             -1    0.3173        1        False ref_better
+      FFU     ig_ql ig_ucb_ctx  100  5       30   0.01324      0.0181  -0.004867   -0.01884 -0.0004785        -0.3833    0.1914        1        False ref_better
+      FFU     ig_ql ig_ucb_ctx  500  5       30 0.0005335   0.0005472 -1.378e-05 -0.0002238  0.0001834       -0.09091    0.7989        1        False ref_better
+      FFU     ig_ql ig_ucb_ctx 1000  5       30 4.996e-05   0.0001067 -5.672e-05 -0.0001894 -1.674e-05             -1   0.01796   0.4131        False ref_better
+      FFU     ig_ql ig_ql_flat   10  5       30     7.445       7.445          0        NaN        NaN            NaN       NaN      NaN        False        tie
+      FFU     ig_ql ig_ql_flat   50 25       30     4.348       4.383   -0.03436    -0.1718          0             -1    0.3173        1        False ref_better
+      FFU     ig_ql ig_ql_flat  100  5       30   0.01324     0.01763  -0.004399  -0.009363 -0.0007251        -0.4854   0.07071        1        False ref_better
+      FFU     ig_ql ig_ql_flat  500  5       30 0.0005335   0.0004402  9.328e-05  6.772e-06  0.0002893         0.5111    0.1731        1        False  ref_worse
+      FFU     ig_ql ig_ql_flat 1000  5       30 4.996e-05   7.305e-05 -2.309e-05 -5.605e-05 -6.591e-06             -1   0.06789        1        False ref_better
+
+--- F / ILS: ig_ql (mecanismo IG) vs. familia ILS (isola mecanismo de busca: IG vs. ILS) ---
+    testes com p valido: 36 / 40
+subfolder reference      other    n  m  n_pairs  mean_ref  mean_other  mean_diff     ci_low   ci_high  rank_biserial     p_raw    p_holm  reject_holm  direction
+     FFNU     ig_ql ils_random   50 25       30     2.301       2.301          0        NaN       NaN            NaN       NaN       NaN        False        tie
+     FFNU     ig_ql ils_random  100  5       30    0.0709         0.4    -0.3291    -0.4913   -0.2033        -0.7548 0.0001233  0.003207         True ref_better
+     FFNU     ig_ql ils_random  500 10       30    0.2206      0.6098    -0.3892    -0.4973   -0.2938        -0.9785 2.877e-06 9.781e-05         True ref_better
+     FFNU     ig_ql ils_random  500 25       30    0.9158      0.9704   -0.05458   -0.07799  -0.01161        -0.7517 0.0004072  0.008551         True ref_better
+     FFNU     ig_ql ils_random 1000  5       30  0.004056    0.000452   0.003604   0.002657  0.004739              1 1.229e-05 0.0003933         True  ref_worse
+     FFNU     ig_ql    ils_ucb   50 25       30     2.301       2.301          0        NaN       NaN            NaN       NaN       NaN        False        tie
+     FFNU     ig_ql    ils_ucb  100  5       30    0.0709      0.9022    -0.8313     -1.057   -0.5882        -0.8581 5.974e-06 0.0001971         True ref_better
+     FFNU     ig_ql    ils_ucb  500 10       30    0.2206      0.8654    -0.6448    -0.7063   -0.5384        -0.9914 2.125e-06 7.439e-05         True ref_better
+     FFNU     ig_ql    ils_ucb  500 25       30    0.9158      0.9896   -0.07385   -0.09327  -0.05107        -0.9172 1.605e-05 0.0004974         True ref_better
+     FFNU     ig_ql    ils_ucb 1000  5       30  0.004056     0.00396   9.67e-05  -0.002109  0.001871            0.1    0.6682         1        False  ref_worse
+     FFNU     ig_ql     ils_ql   50 25       30     2.301       2.301          0        NaN       NaN            NaN       NaN       NaN        False        tie
+     FFNU     ig_ql     ils_ql  100  5       30    0.0709      0.4516    -0.3807    -0.5367    -0.243        -0.7763 7.057e-05  0.001905         True ref_better
+     FFNU     ig_ql     ils_ql  500 10       30    0.2206      0.6217    -0.4011       -0.5   -0.3012        -0.9699 3.539e-08 1.274e-06         True ref_better
+     FFNU     ig_ql     ils_ql  500 25       30    0.9158      0.9752   -0.05937   -0.08449  -0.02117        -0.7103 0.0008354   0.01671         True ref_better
+     FFNU     ig_ql     ils_ql 1000  5       30  0.004056    0.001161   0.002896  0.0009661  0.004297         0.7609  0.001405    0.0267         True  ref_worse
+     FFNU     ig_ql     ils_rf   50 25       30     2.301       2.301          0        NaN       NaN            NaN       NaN       NaN        False        tie
+     FFNU     ig_ql     ils_rf  100  5       30    0.0709      0.4123    -0.3414    -0.4897   -0.2126        -0.7419  0.000388  0.008535         True ref_better
+     FFNU     ig_ql     ils_rf  500 10       30    0.2206      0.5743    -0.3537    -0.4694    -0.233        -0.8237 1.824e-05 0.0005473         True ref_better
+     FFNU     ig_ql     ils_rf  500 25       30    0.9158      0.9767   -0.06091   -0.08217  -0.02478        -0.8529 6.044e-05  0.001692         True ref_better
+     FFNU     ig_ql     ils_rf 1000  5       30  0.004056   0.0005051   0.003551   0.002411  0.004897           0.92 5.756e-05  0.001669         True  ref_worse
+      FFU     ig_ql ils_random   10  5       30     7.445       7.314     0.1307          0    0.6536              1    0.3173         1        False  ref_worse
+      FFU     ig_ql ils_random   50 25       30     4.348       4.623    -0.2747    -0.6508   -0.1003             -1   0.02771    0.3325        False ref_better
+      FFU     ig_ql ils_random  100  5       30   0.01324    0.001223    0.01201   0.008091   0.01673              1 0.0001964  0.004714         True  ref_worse
+      FFU     ig_ql ils_random  500  5       30 0.0005335   0.0001585  0.0003749 -0.0001183 0.0006789         0.7143   0.02313    0.3007        False  ref_worse
+      FFU     ig_ql ils_random 1000  5       30 4.996e-05   3.334e-06  4.662e-05  2.643e-05 7.655e-05              1  0.005062   0.08099        False  ref_worse
+      FFU     ig_ql    ils_ucb   10  5       30     7.445       7.419    0.02604    -0.2094    0.4182         0.3333    0.6547         1        False  ref_worse
+      FFU     ig_ql    ils_ucb   50 25       30     4.348       4.829     -0.481    -0.9203   -0.2054             -1  0.007686    0.1153        False ref_better
+      FFU     ig_ql    ils_ucb  100  5       30   0.01324     0.01333 -9.768e-05   -0.01499  0.009022         0.2727    0.2736         1        False ref_better
+      FFU     ig_ql    ils_ucb  500  5       30 0.0005335   0.0006023 -6.888e-05  -0.000621  0.000382           -0.1    0.7333         1        False ref_better
+      FFU     ig_ql    ils_ucb 1000  5       30 4.996e-05    0.000103 -5.302e-05 -0.0002051 1.624e-05        -0.1556    0.6784         1        False ref_better
+      FFU     ig_ql     ils_ql   10  5       30     7.445       7.314     0.1307          0    0.6536              1    0.3173         1        False  ref_worse
+      FFU     ig_ql     ils_ql   50 25       30     4.348       4.581    -0.2322     -0.605  -0.07549             -1   0.04311    0.4743        False ref_better
+      FFU     ig_ql     ils_ql  100  5       30   0.01324    0.001379    0.01186    0.00796   0.01654              1 0.0001964  0.004714         True  ref_worse
+      FFU     ig_ql     ils_ql  500  5       30 0.0005335   3.342e-05     0.0005  0.0002821 0.0007856              1  0.002218   0.03992         True  ref_worse
+      FFU     ig_ql     ils_ql 1000  5       30 4.996e-05   3.342e-05  1.654e-05 -0.0001137 6.034e-05         0.6667   0.05046    0.5046        False  ref_worse
+      FFU     ig_ql     ils_rf   10  5       30     7.445       7.314     0.1307          0    0.6536              1    0.3173         1        False  ref_worse
+      FFU     ig_ql     ils_rf   50 25       30     4.348       4.667    -0.3188    -0.6945   -0.1322             -1   0.01796    0.2514        False ref_better
+      FFU     ig_ql     ils_rf  100  5       30   0.01324   0.0005092    0.01273   0.008625   0.01733              1 0.0001318  0.003296         True  ref_worse
+      FFU     ig_ql     ils_rf  500  5       30 0.0005335   2.007e-05  0.0005134  0.0002901 0.0007965              1  0.002218   0.03992         True  ref_worse
+      FFU     ig_ql     ils_rf 1000  5       30 4.996e-05       4e-05  9.958e-06 -0.0001303 5.648e-05         0.6364   0.06188     0.557        False  ref_worse
+
+====================================================================================================
+RESUMO GERAL: significancia bruta vs. pos-Holm, por familia externa x tipo de comparacao
+====================================================================================================
+familia comparacao  n_testes  sig_bruto  sig_holm
+      B       SOTA        30         27        25
+      B   ABLATION        40          6         4
+      B        ILS        40         32        31
+      C       SOTA        30         27        27
+      C   ABLATION        40          1         0
+      C        ILS        40         20        15
+      E       SOTA        30         25        25
+      E   ABLATION        40          8         3
+      E        ILS        40         23        16
+      F       SOTA        30         25        23
+      F   ABLATION        40         11         4
+      F        ILS        40         26        20
+
+====================================================================================================
+DIRECAO das comparacoes Holm-significativas (ig_ql melhor = mean_ref < mean_other, i.e. 'ref_better'):
+====================================================================================================
+  B_SOTA      : 25 sig. Holm -- ig_ql favoravel: 20 | ig_ql desfavoravel:  5
+  B_ABLATION  :  4 sig. Holm -- ig_ql favoravel:  4 | ig_ql desfavoravel:  0
+  B_ILS       : 31 sig. Holm -- ig_ql favoravel:  0 | ig_ql desfavoravel: 31
+  C_SOTA      : 27 sig. Holm -- ig_ql favoravel: 26 | ig_ql desfavoravel:  1
+  C_ABLATION  : 0 sig. Holm
+  C_ILS       : 15 sig. Holm -- ig_ql favoravel: 14 | ig_ql desfavoravel:  1
+  E_SOTA      : 25 sig. Holm -- ig_ql favoravel: 25 | ig_ql desfavoravel:  0
+  E_ABLATION  :  3 sig. Holm -- ig_ql favoravel:  3 | ig_ql desfavoravel:  0
+  E_ILS       : 16 sig. Holm -- ig_ql favoravel:  3 | ig_ql desfavoravel: 13
+  F_SOTA      : 23 sig. Holm -- ig_ql favoravel: 23 | ig_ql desfavoravel:  0
+  F_ABLATION  :  4 sig. Holm -- ig_ql favoravel:  0 | ig_ql desfavoravel:  4
+  F_ILS       : 20 sig. Holm -- ig_ql favoravel: 12 | ig_ql desfavoravel:  8

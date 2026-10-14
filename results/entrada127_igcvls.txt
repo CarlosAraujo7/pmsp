@@ -1,0 +1,37 @@
+==============================================================================================================
+A BUSCA LOCAL MELHORA A RECEITA? -- teste pre-registrado, Entrada 127
+==============================================================================================================
+S: 1200 (com melhor construtiva: 1130) | X': 1500
+
+--- PRIMARIA (Holm sobre 5) ---
+id                                 comparison    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial      p_raw     p_holm  confirmada
+F1               igcvls_seed vs igcv_seed (S) 1200     103     21 1076    -0.03611 -0.04458 -0.02835        -0.6667  2.568e-10  5.136e-10        True
+F2 igcvls_seed vs igcv_seed_eq (S, CPU igual) 1200      24    115 1061     0.03385  0.02606  0.04179         0.6547  2.949e-08  2.949e-08       False
+F3              igcvls_seed vs igcv_seed (X') 1500     576     36  888    -0.07207 -0.08057 -0.06347        -0.9571  3.104e-77  1.242e-76        True
+F4      igcvls_seed vs melhor construtiva (S) 1130     340      0  790     -0.2446  -0.2685  -0.2201             -1  1.747e-57   5.24e-57        True
+F5     igcvls_seed vs melhor construtiva (X') 1500     818      0  682     -0.4918  -0.5337  -0.4524             -1 1.607e-135 8.034e-135        True
+
+'a busca local melhora a receita' (F1 e F3): SIM | 'a vantagem sobrevive a CPU igual' (F2): NAO
+S: otimo provado: igcvls_seed 81.2% | igcv_seed 74.7% | igcv_seed_eq 89.0% | melhor construtiva 55.3%
+S: GAP medio vs LB certificado: igcvls_seed 0.0942%, igcv_seed 0.1326%, igcv_seed_eq 0.0584%, bc 0.3421%
+S: busca melhora a melhor construtiva: igcvls_seed 30.1% | igcv_seed 25.8% ; X': 54.5% | 43.0%
+razao de CPU realizada igcvls_seed/igcv_seed (execucao paralela): mediana 6.68; igcv_seed_eq/igcvls_seed: 1.04
+
+--- por classe / familia (d %) ---
+     instance  d_vs_igcv  d_vs_eq
+rand_100j_20m -0.0005058  0.08339
+rand_150j_15m          0  0.01377
+rand_150j_30m          0  0.04574
+  rand_20j_4m  -0.003484        0
+  rand_20j_6m    -0.1479 -0.06457
+rand_250j_25m          0        0
+rand_300j_20m          0        0
+  rand_30j_8m    -0.1045 -0.02215
+  rand_40j_5m   -0.00716        0
+ rand_50j_10m   -0.05536   0.0557
+ rand_60j_20m   -0.09479   0.2241
+ rand_75j_15m   -0.01968  0.07024
+            B   -0.04274      NaN
+            C   -0.09758      NaN
+            E    -0.1029      NaN
+            F     -0.036      NaN

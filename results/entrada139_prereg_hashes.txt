@@ -1,0 +1,12 @@
+e535f06f32e0f75e6fbc36b8ebe3a1bf *experiment/run_recipe_budget_entrada139.py
+6f2b12438e0f14deb9368f5d138ab58c *analysis/report_entrada139_recipe_budget.py
+15d1b7cfae8a3db5da38cea1b6e3b07b *experiment/run_igcvls_entrada127.py
+363eb2f1be7d55d4ffdc855a7c570b47 *pmsp/ig.py
+d00efa72451ee765b98a28fecf3e4b3a *pmsp/operators.py
+881ae7159d3f3d55bbce0dfbd01e8331 *pmsp/seeding.py
+6e08c0cea6b269959faa28b73d225939 *pmsp/fixed_selector.py
+ca3a4a576736c5ece0844e48a35d597b *results/dsel_tuning_entrada114.csv
+8e072bacbdd01ef961709e96b2547fc1 *results/igcv_seed_entrada121.csv
+83fa0c4fb4876e6af08567d1d8d56518 *results/exact_reference_synthetic_entrada101.csv
+# (saida da curva, antes do relatorio)
+b62984ed0d42f76296db7521c4df5a47 *results/recipe_budget_entrada139.csv

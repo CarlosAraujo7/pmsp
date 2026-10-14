@@ -1,0 +1,46 @@
+{
+  "generated_at_utc": "2026-09-05T06:43:25.288725Z",
+  "methods": [
+    "ils_ql_hi",
+    "ils_rand_hi"
+  ],
+  "instance_configs": [
+    [
+      40,
+      5
+    ],
+    [
+      60,
+      20
+    ]
+  ],
+  "n_instances": 100,
+  "max_iter": 1000,
+  "max_iter_by_size": {
+    "20x4": 1500,
+    "20x6": 1500,
+    "30x8": 2000,
+    "50x10": 2500,
+    "75x15": 3000,
+    "100x20": 4000,
+    "40x5": 8000,
+    "60x20": 8000,
+    "150x15": 8000,
+    "150x30": 8000,
+    "250x25": 4000,
+    "300x20": 2000
+  },
+  "perturbation_threshold": 50,
+  "n_perturb": 3,
+  "stagnation_window": 50,
+  "ql_alpha": 0.1,
+  "ql_gamma": 0.9,
+  "ql_epsilon_start": 1.0,
+  "ql_epsilon_min": 0.05,
+  "ql_epsilon_decay": 0.995,
+  "ucb_c": 1.4142,
+  "rf_n_estimators": 20,
+  "rf_refit_interval": 15,
+  "rf_window_size": 300,
+  "rf_epsilon": 0.2
+}

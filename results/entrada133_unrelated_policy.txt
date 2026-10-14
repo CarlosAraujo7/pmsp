@@ -1,0 +1,22 @@
+==============================================================================================================
+A POLITICA VALE EM REGIME NAO SATURADO, A CPU IGUAL? (R||Cmax 1000 x 50) -- Entrada 133
+==============================================================================================================
+instancias: 96
+
+--- PRIMARIA (Holm sobre 2) ---
+id                                  comparison  n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial   p_raw  p_holm  confirmada
+Q1     ur_igls_ql vs ur_igls_random (T = 1000) 96      34     43   19     -0.3526  -0.5563  -0.1512         0.2125 0.09627  0.1925       False
+Q2 ur_igls_ql vs ur_igls_random_eq (CPU igual) 96      23     51   22     -0.1898  -0.4018  0.01837          0.644  0.6664  0.6664       False
+
+Leitura pre-fixada: nao | delimita a tese (Q2 d <= -0,10%): NAO
+
+Folga (oraculo dos 4 bracos fixos vs random): d = +0.135% | politica -0.353% | razao politica/folga = -2.62 (IC90 -15.24; 13.09)
+CPU medio por metodo (s): ur_igls_random 3.2, ur_igls_ql 4.5, ur_igls_random_eq 4.7 | razao ql/random 1.39; random_eq/ql 1.06
+GAP medio ao LB classico: ur_igls_random 4.940%, ur_igls_ql 4.528%, ur_igls_random_eq 4.773%
+
+--- por distribuicao (d %) ---
+      dist    folga  ql_vs_random  ql_vs_eq  ql_wins_eq  eq_wins
+  U[1,100]   -1.657        -1.729    -1.729          17        0
+ U[10,100] -0.03422       -0.1556  -0.03422           6        4
+U[100,120]    1.307       0.09765    0.1101           0       24
+U[100,200]   0.9226        0.3763    0.8935           0       23

@@ -1,0 +1,13 @@
+7932aee70b5ee9ed3c15b1d2341c7e50 *experiment/run_seed_variance_all_entrada117.py
+99aa4943719ea0b1eb10e5b684485ed6 *experiment/run_seed_variance_entrada109.py
+85ed83153010f27ee8795fd50fc9dcd3 *experiment/run_ils_seeded_entrada117.py
+03384b80e87c32de7ff5566efe6850d7 *analysis/report_entrada117_seed_variance_all.py
+9af3620f66eb037d5f744a95e17e5abf *analysis/report_entrada117_ils_seeded.py
+758d0f0112f97a2a395d24cfcb8423f9 *pmsp/ils.py
+881ae7159d3f3d55bbce0dfbd01e8331 *pmsp/seeding.py
+9a7cbc9b5c5a781489d69200289e0bd1 *pmsp/ldm.py
+8510c9a43c28ee2c15fd5ef4036ef962 *results/results.csv
+4da6117054666ecdb444904a1e8b8502 *results/seeded_baselines_entrada102.csv
+ef8159da3eeea7fe58810cb90bb0fd5b *external_benchmarks/pcmax_symmetry2025/results_external_seeded_entrada102.csv
+73918225cfff47ab61b133531259d415 *analysis/report_entrada117_seed_variance_all.py
+# EMENDA 1 (relatorio de seeds): correcao de bug de tipo (ndarray.to_numpy) que abortava a execucao antes de qualquer saida; nenhuma hipotese/regra alterada

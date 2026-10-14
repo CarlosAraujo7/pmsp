@@ -1,0 +1,11 @@
+89468e6d01e0bad17713cb51500e40db *experiment/run_lpig_large_entrada143.py
+b431eeb6c1ed15ae36cdbf87522a0d6a *analysis/report_entrada143_lpig_large.py
+3bb2d4477bbc7fffb4ea27df5f50333a *experiment/run_lpig_benchmark_entrada141.py
+f733a2095d21eb87775694128407a312 *pmsp/unrelated_lp.py
+668a2d7e089c32f42f14489a44935dc7 *pmsp/unrelated.py
+6f1a1c2ba98831f6c74bf82fd1dcc0db *experiment/run_unrelated_large_entrada127.py
+2bd533deec660b773af55b121e876aaf *results/lpig_choice_d_entrada141.json
+a5304e916989c536ee3a40ad075c89a6 *results/unrelated_large_entrada127.csv
+1c52b656aeb543891f348a6bc1cda054 *results/unrelated_large_exact_entrada127.csv
+# (saida, antes do relatorio)
+b772a23ef36087d6766d2c4004d05b93 *results/lpig_large_entrada143.csv

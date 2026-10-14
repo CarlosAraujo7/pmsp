@@ -1,0 +1,40 @@
+\section{Introduction}
+\label{sec:intro}
+
+Metaheuristics that learn while they search are a prominent line of work in operations research \citep{CalvetEtal2017,KarimiMamaghanEtal2022}. A typical \emph{learnheuristic} embeds a
+reinforcement-learning agent, most often tabular Q-Learning \citep{WatkinsDayan1992,SuttonBarto2018}, as an adaptive operator or strategy selector inside a search framework such as
+Iterated Local Search (ILS) \citep{LourencaoEtal2019} or Iterated Greedy (IG) \citep{RuizStutzle2007}, and reports that it beats the search without the agent or published baselines
+\citep{KarimiMamaghanEtal2023,MissaouiOSullivan2026}. Such results are usually read as evidence that the \emph{learned policy} is what helps.
+
+Three confounds make that reading fragile. First, the \emph{search structure} that hosts the agent (which operators, which acceptance rule, whether there is a local search) may produce
+most of the gain with any selection rule. Second, the \emph{budget}: an agent changes the CPU time per iteration, a local search multiplies it, and comparing methods at an equal number of
+iterations can reverse conclusions drawn at equal CPU time. Third, the \emph{tuning}: a parameter validated offline on separate instances is a competitor that most studies omit. Adaptive operator
+selection itself is a well-studied topic \citep{FialhoEtal2010,PisingerRopke2007}, but the question ``what does the learned policy add, over what, at what cost?'' is seldom answered with controls
+at a matched CPU budget, offline-tuned baselines, certified bounds and hypotheses fixed before the data.
+
+This article answers it with a \emph{budget-fair attribution protocol} (Section~\ref{sec:protocol}) and applies it to three scheduling problems: identical parallel machines
+(P$||C_{\max}$), unrelated parallel machines (R$||C_{\max}$) and the permutation flowshop, in which the agent selects the destruction strategy or the destruction size of an IG, or the
+operator of an ILS. The evidence is large (twelve synthetic classes, more than $13{,}000$ published identical-machine instances, the standard unrelated-machine benchmark of
+\citealt{FanjulPeyroRuiz2010} with third-party reference solutions) and every analysis was specified, with hashes of the code, before the data it uses.
+
+The main findings are the following. (a) The gain of the Q-Learning-guided IG over the ILS comes from the search structure; the learned policy adds $0.01$--$0.05$ percentage points for
+identical machines and about $0.1\%$ for unrelated machines, and nothing for the flowshop. (b) The \emph{active ingredient} differs by problem and is revealed only by ablations at equal CPU
+time: destruction--reconstruction for identical machines, its combination with a descent for unrelated machines, the local search for the flowshop; a local search that looked $0.15\%$ better
+at an equal number of iterations is $0.01\%$ better at equal CPU time. (c) A configuration chosen \emph{offline} on separate instances beats the online agent in all seven environments studied,
+against five learners; the headroom of the actions predicts where a policy could help for destruction \emph{strategies} but failed prospectively for the destruction \emph{size}, so headroom is
+necessary but not sufficient. (d) Learning-free solvers follow from these findings and are competitive: an IG with a validated destruction size and a start from the best constructive solution
+reaches $97.5\%$ of provably optimal solutions on synthetic identical-machine instances, and an IG started from the linear relaxation and polished by a restricted MILP is within $0.25$--$0.30\%$ of the
+best known solutions of the standard unrelated-machine benchmark.
+
+The contributions are, in order of strength:
+(i) the protocol, with evidence that it changes conclusions (Sections~\ref{sec:protocol} and~\ref{sec:f3f4-ablation}, Table~\ref{tab:fair_vs_naive});
+(ii) a controlled decomposition for three problems and two mechanisms, with the active ingredient and the offline-versus-online comparison for each (Sections~\ref{sec:f3f4-ablation},
+\ref{sec:unrelated} and~\ref{sec:pfsp}), and a synthesis across seven environments;
+(iii) learning-free solvers whose quality is measured against certified bounds and third-party references (Sections~\ref{sec:recipe} and~\ref{sec:unrelated});
+(iv) a reproducibility package: code, frozen hashes, a dated research diary with every non-confirmation, and automatic audits that recompute the numbers of the text from the result files.
+The article does \emph{not} claim state-of-the-art solvers (exact methods are stronger in both parallel-machine problems), nor that learning cannot help: the agent is tabular, the budgets are those of
+the original studies, and richer learners or action spaces are outside the evidence.
+
+Section~\ref{sec:related} reviews related work, Section~\ref{sec:problem} defines the problems, mechanisms and the protocol, Section~\ref{sec:experiments} reports the experiments,
+Section~\ref{sec:discussion} discusses their implications and limits and Section~\ref{sec:conclusions} concludes. Further results (comparison with published baselines, robustness checks, granularity and
+dispatch, a companion study of ILS) are in the supplementary material.

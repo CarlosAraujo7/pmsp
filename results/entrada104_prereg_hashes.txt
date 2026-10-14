@@ -1,0 +1,11 @@
+2205dacbaa515e531b02a37a94782c67 *pmsp/ig.py
+6e08c0cea6b269959faa28b73d225939 *pmsp/fixed_selector.py
+0c483697756b1bcad9ddb7554ed25bb5 *pmsp/rewards.py
+e697f2115eb69f7b5f956f9c8f888b23 *experiment/run_signal_headroom_entrada104.py
+f14a2c8492d677ee5310093566177821 *analysis/report_entrada104_signal_headroom.py
+1c08b8918046477ec43557bd22d720f2 *experiment/run_state_recalibration_entrada98.py
+a0a3b3d0f257825ca78b81d15f46dc48 *results/state_calibration_entrada98.json
+5d70e5a4f71f2dd883ff318ee6e7b3da *results/state_recalibration_entrada98.csv
+8510c9a43c28ee2c15fd5ef4036ef962 *results/results.csv
+abbc9f02194a14e6fbfa9c1364de2322 *analysis/report_entrada104_signal_headroom.py
+# EMENDA 1 (relatorio, antes de interpretar): referencia ig_ql usa pares disponiveis (20x4 tem 30 reps); resultados primarios inalterados

@@ -1,0 +1,33 @@
+==============================================================================================================
+P||Cmax: IG HIBRIDO (destruir/reconstruir + busca local) -- teste pre-registrado, Entrada 124
+==============================================================================================================
+
+--- PRIMARIA (Holm sobre 3) ---
+id                comparison    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada
+P1  igls_random vs ig_random 1200     436     16  748     -0.1502  -0.1615  -0.1387        -0.9358 3.624e-65 7.249e-65        True
+P2 igls_random vs ils_random  780     459     16  305     -0.7224   -0.796    -0.65        -0.9707 5.291e-76 1.587e-75        True
+P3    igls_ql vs igls_random 1200      98     77 1025   -0.003651 -0.01121 0.003752          -0.12    0.6463    0.6463       False
+
+'no P||Cmax o ingrediente ativo e' destruir-reconstruir' (P1 sem efeito relevante E P2 confirmada): NAO
+'a busca local acrescenta ao IG' (P1 confirmada com d <= -0,05%): SIM
+
+--- secundarias ---
+             comparison    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw
+      igls_ql vs ils_ql  780     462     15  303     -0.7634   -0.842  -0.6864 2.503e-76
+ig_random vs ils_random  780     381     61  338     -0.5871  -0.6578  -0.5203 5.632e-56
+       igls_ql vs ig_ql 1130     420      7  703      -0.146  -0.1572  -0.1344 3.229e-67
+
+--- por classe (d %): efeito da busca local sobre o IG, hibrido vs ILS, politica no hibrido ---
+     instance  d_ls_effect  d_vs_ils  d_policy
+rand_100j_20m      -0.3145   -0.8108  -0.01058
+rand_150j_15m     -0.06799   -0.1241  0.005809
+rand_150j_30m      -0.2811     -1.06   0.01847
+  rand_20j_4m     -0.01496  -0.03087         0
+  rand_20j_6m     -0.08722   -0.5336   -0.0036
+rand_250j_25m     -0.04967   -0.1335  -0.02567
+rand_300j_20m     -0.02475  -0.05089 -0.008043
+  rand_30j_8m      -0.1869   -0.4956  -0.01669
+  rand_40j_5m     -0.01605  -0.01985         0
+ rand_50j_10m      -0.2006   -0.5899  -0.01939
+ rand_60j_20m      -0.2794    -3.252   0.02385
+ rand_75j_15m      -0.2787   -0.8531 -0.007961

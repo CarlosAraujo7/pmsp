@@ -1,0 +1,14 @@
+# Dependencias do projeto PMSP Learnheuristic
+# Versoes fixadas = ambiente em que TODOS os resultados do artigo foram gerados e testados (Python 3.12.10, Windows 11).
+# Instale com: pip install -r requirements.txt
+# Os resultados sao deterministicos dado o seed (numpy.random.default_rng); versoes mais novas devem funcionar, mas
+# `python -m pytest tests` deve passar integralmente antes de qualquer reproducao.
+
+numpy==2.5.2
+scipy==1.18.0          # inclui o HiGHS usado por pmsp/exact.py (linprog, method="highs-ipm")
+pandas==3.0.5
+scikit-learn==1.9.0    # Random Forest selector (ils_rf)
+matplotlib==3.11.1
+seaborn==0.13.2
+openpyxl==3.1.5        # leitura de Results_iAF.xlsx (referencia exata do benchmark externo)
+pytest==9.1.1

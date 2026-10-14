@@ -1,0 +1,36 @@
+==============================================================================================================
+VARIANCIA ENTRE SEEDS -- teste pre-registrado, Entrada 109
+==============================================================================================================
+
+--- decomposicao de variancia do GAP (ICC) e CV intra-instancia ---
+     instance     method  icc_gap  within_cv_pct  mean_gap  within_sd_gap_pp
+rand_150j_30m      ig_ql   0.3343         0.1644    0.8499            0.1658
+rand_150j_30m  ig_random   0.3841         0.1685    0.8728              0.17
+rand_150j_30m     ils_ql    0.844         0.1351      1.53            0.1378
+rand_150j_30m ils_random   0.8364          0.152     1.498            0.1549
+  rand_30j_8m      ig_ql    0.427         0.1519    0.1879            0.1523
+  rand_30j_8m  ig_random   0.4278         0.1645    0.2646             0.165
+  rand_30j_8m     ils_ql   0.2871         0.3693    0.7421            0.3723
+  rand_30j_8m ils_random   0.2864          0.298    0.6594               0.3
+ rand_75j_15m      ig_ql    0.459         0.1699    0.5547            0.1709
+ rand_75j_15m  ig_random   0.4661         0.1592    0.5903            0.1602
+ rand_75j_15m     ils_ql   0.6316         0.2724    0.9696            0.2754
+ rand_75j_15m ils_random   0.6263         0.2747    0.9337            0.2778
+
+--- S1: ig_ql vs ig_random, medias por seed, 60 instancias: d = -0.0448% IC90 [-0.0634, -0.0268] p=0.000229 => NAO equivalente (S1 NAO confirmada)
+
+--- S2: sinal do contraste IG vs ILS: medias por seed (10 seeds) vs execucao unica (results.csv) ---
+  rand_150j_30m  ig_random vs ils_random: seeds-medias d=-0.614% (p=5.34e-05) | execucao unica d=-0.546% | sinal igual
+  rand_150j_30m  ig_ql vs ils_ql: seeds-medias d=-0.667% (p=3.62e-05) | execucao unica d=-0.655% | sinal igual
+  rand_30j_8m    ig_random vs ils_random: seeds-medias d=-0.392% (p=3.81e-06) | execucao unica d=-0.291% | sinal igual
+  rand_30j_8m    ig_ql vs ils_ql: seeds-medias d=-0.550% (p=1.91e-06) | execucao unica d=-0.445% | sinal igual
+  rand_75j_15m   ig_random vs ils_random: seeds-medias d=-0.338% (p=0.00458) | execucao unica d=-0.336% | sinal igual
+  rand_75j_15m   ig_ql vs ils_ql: seeds-medias d=-0.409% (p=0.000126) | execucao unica d=-0.330% | sinal igual
+concordancia de sinal: 6/6 -> S2 CONFIRMADA
+
+--- fracao de seeds em que ig_random bate ils_random (por classe; media sobre instancias) ---
+method         ig_wins  ils_wins
+instance                        
+rand_150j_30m     0.75     0.065
+rand_30j_8m      0.635     0.035
+rand_75j_15m     0.545      0.15

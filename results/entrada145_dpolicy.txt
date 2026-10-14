@@ -1,0 +1,30 @@
+==============================================================================================================
+TESTE PROSPECTIVO DA LEI DA FOLGA: POLITICA SOBRE O TAMANHO DE DESTRUICAO EM R||Cmax -- Entrada 145
+==============================================================================================================
+instancias de teste: 700
+
+--- PRIMARIA (Holm sobre 5; D5: mean_d_pct = rho de Spearman, p unilateral) ---
+id                                                 comparison   n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada
+D1                                    val_n vs rand_d (folga) 700     189    181  330    -0.06509  -0.1262 0.004416        0.04745   0.00279  0.005579        True
+D2                            ql_d vs rand_d (captura online) 700     144    221  335      0.1521   0.0802   0.2231         0.2683 4.728e-06 1.419e-05       False
+D3                       ql_d vs val_tn (online vs validacao) 700      85    298  317      0.3602    0.285   0.4435         0.5619 4.668e-31 2.334e-30       False
+D4               ql_d_pre vs val_tn (pre-treino vs validacao) 700      96    234  370      0.2487   0.1838   0.3172         0.4186 4.806e-17 1.922e-16       False
+D5 Spearman(folga, ganho do ql_d) entre 28 celulas (tipo x n)  28     NaN    NaN  NaN     -0.3727      NaN      NaN            NaN    0.9746    0.9746       False
+
+Leituras pre-fixadas: 'o aprendizado online captura a folga' (D2): NAO (razao de captura -2.34; minoritaria) | 'o aprendizado vence a validacao' (D3 ou D4): NAO | 'a lei da folga se confirma prospectivamente' (D5): NAO (rho = -0.373)
+
+Ganho sobre rand_d (d %): val_n -0.065, val_tn -0.201, ql_d +0.152, ucb_d -0.018, ql_d_pre +0.040, oracle -0.325
+Razao de captura (ganho / ganho de val_n): val_tn 3.09, ql_d -2.34, ucb_d 0.28, ql_d_pre -0.61, oracle 4.99
+Folga restante do oraculo por instancia sobre val_tn: d = -0.124%
+GAP medio ao melhor conhecido (%): rand_d 1.176, val_n 1.106, val_tn 0.961, ql_d 1.330, ucb_d 1.152, ql_d_pre 1.216, oracle 0.830
+CPU medio por execucao (s): rand_d 5.11, fix_0 2.68, ql_d 3.31, ucb_d 5.09, ql_d_pre 4.08
+
+--- por tipo (d % sobre rand_d, exceto as duas ultimas colunas: sobre val_tn) ---
+      type     folga     val_tn      ql_d    ql_pre  ql_vs_val  pre_vs_val
+ JobsCorre   -0.1841    -0.0831    0.1246   0.01814     0.2085      0.1018
+  MaqCorre   -0.3097    -0.1408    0.1733   0.06931     0.3219      0.2172
+U1000a1100 -0.006452 -0.0006859   0.01394  0.002518    0.01463    0.003205
+  U100a120  -0.05162   -0.03834 -0.004671  -0.01106    0.03373     0.02732
+  U100a200   -0.0828   -0.06013   0.06934 -0.005235     0.1297     0.05504
+   U10a100   -0.5873    -0.3312    0.2442    0.1062     0.5843      0.4449
+    U1a100    -1.051    -0.7545     0.444   0.09743      1.229      0.8917

@@ -1,0 +1,113 @@
+==============================================================================================================
+BASELINES MAIS FORTES (LDM; IG com partida forte) -- teste pre-registrado, Entrada 102
+==============================================================================================================
+
+--- PRIMARIA (Holm sobre 8; d_medio<0 => primeiro metodo melhor; rank_biserial>0 => primeiro PIOR) ---
+set id                      comparison    n  better  worse  tie  mean_d_pct  rank_biserial      p_raw     p_holm  confirmada  equivalent
+  S P1    ig_ql_seed vs ig_random_seed 1130      46     22 1062    -0.01038        -0.3529    0.03636    0.03636        True        True
+  S P2             ig_ql_seed vs ig_ql 1130     548     48  534     -0.1826        -0.8762  8.177e-63  3.271e-62        True       False
+  S P3 ig_ql_seed vs best constructive 1130     218      0  912     -0.1724             -1   1.61e-37   4.83e-37        True       False
+  S P4                    ig_ql vs ldm 1130     580    238  312     -0.8452        -0.6858  1.625e-88  8.127e-88        True       False
+  X P1    ig_ql_seed vs ig_random_seed 6780     959    754 5067    -0.01287       -0.08258  7.581e-10  1.516e-09        True        True
+  X P2             ig_ql_seed vs ig_ql 6780    3717    825 2238     -0.1805        -0.7377          0          0        True       False
+  X P3 ig_ql_seed vs best constructive 6780    2275      0 4505     -0.3395             -1          0          0        True       False
+  X P4                    ig_ql vs ldm 6780    3045   2420 1315     -0.9754         0.0148 4.006e-190 2.403e-189        True       False
+
+CONFIRMADAS: 8/8 -> S-P1, S-P2, S-P3, S-P4, X-P1, X-P2, X-P3, X-P4
+NAO confirmadas: nenhuma
+
+--- SECUNDARIA por classe (S) / familia (X); Holm dentro de cada conjunto ---
+set         group id    n  better  worse  tie  mean_d_pct      p_raw     p_holm
+  S rand_100j_20m P1  100       0      0  100           0        NaN          1
+  S rand_100j_20m P2  100      91      0    9     -0.4881  1.189e-16  5.231e-15
+  S rand_100j_20m P3  100       0      0  100           0        NaN          1
+  S rand_100j_20m P4  100      62     14   24     -0.3749  8.935e-09  2.859e-07
+  S rand_150j_15m P1  100       0      0  100           0        NaN          1
+  S rand_150j_15m P2  100      72      0   28     -0.1504   1.65e-13  6.436e-12
+  S rand_150j_15m P3  100       0      0  100           0        NaN          1
+  S rand_150j_15m P4  100       0     67   33      0.1407  1.115e-12  4.016e-11
+  S rand_150j_30m P1  100       0      0  100           0        NaN          1
+  S rand_150j_30m P2  100     100      0    0     -0.7086  3.866e-18  1.856e-16
+  S rand_150j_30m P3  100       0      0  100           0        NaN          1
+  S rand_150j_30m P4  100      75      3   22     -0.6516  2.672e-14  1.069e-12
+  S   rand_20j_4m P1   30       0      1   29     0.01199        NaN          1
+  S   rand_20j_4m P2   30       0      2   28     0.02582        NaN          1
+  S   rand_20j_4m P3   30      18      0   12     -0.2943  0.0001961   0.005687
+  S   rand_20j_4m P4   30      22      0    8     -0.4876  4.005e-05   0.001202
+  S   rand_20j_6m P1  100      11      7   82    -0.02028     0.5563          1
+  S   rand_20j_6m P2  100       9     10   81    0.003849     0.9839          1
+  S   rand_20j_6m P3  100      79      0   21     -0.8944  1.147e-14  4.797e-13
+  S   rand_20j_6m P4  100      96      0    4      -1.999   1.78e-17  8.187e-16
+  S rand_250j_25m P1  100       0      0  100           0        NaN          1
+  S rand_250j_25m P2  100      79      0   21     -0.1724  1.142e-14  4.797e-13
+  S rand_250j_25m P3  100       0      0  100           0        NaN          1
+  S rand_250j_25m P4  100       0     70   30      0.1488  3.534e-13  1.343e-11
+  S rand_300j_20m P1  100       0      0  100           0        NaN          1
+  S rand_300j_20m P2  100      56      0   44    -0.07345  7.524e-11  2.634e-09
+  S rand_300j_20m P3  100       0      0  100           0        NaN          1
+  S rand_300j_20m P4  100       0     53   47     0.06965  2.378e-10  7.849e-09
+  S   rand_30j_8m P1  100      17      6   77    -0.06031    0.02161     0.5403
+  S   rand_30j_8m P2  100      15      6   79    -0.04566    0.09864          1
+  S   rand_30j_8m P3  100      84      0   16     -0.7937  1.709e-15  7.348e-14
+  S   rand_30j_8m P4  100      93      1    6      -1.539  4.193e-17  1.887e-15
+  S   rand_40j_5m P1  100       3      0   97   -0.007289        NaN          1
+  S   rand_40j_5m P2  100       7      2   91    -0.01159        NaN          1
+  S   rand_40j_5m P3  100       8      0   92    -0.02004        NaN          1
+  S   rand_40j_5m P4  100      13      4   83    -0.02338   0.009338     0.2428
+  S  rand_50j_10m P1  100       8      3   89    -0.02163    0.02637     0.6328
+  S  rand_50j_10m P2  100      24     11   65    -0.04793     0.1031          1
+  S  rand_50j_10m P3  100      17      0   83    -0.07236  0.0002925   0.008189
+  S  rand_50j_10m P4  100      63     10   27     -0.3965   8.74e-11  2.971e-09
+  S  rand_60j_20m P1  100       7      5   88    -0.01143     0.9854          1
+  S  rand_60j_20m P2  100      21     16   63    -0.04355     0.3897          1
+  S  rand_60j_20m P3  100      11      0   89    -0.07526  0.0009766    0.02637
+  S  rand_60j_20m P4  100      98      0    2      -4.445  8.328e-18  3.914e-16
+  S  rand_75j_15m P1  100       0      0  100           0        NaN          1
+  S  rand_75j_15m P2  100      74      1   25     -0.3339  4.474e-13  1.655e-11
+  S  rand_75j_15m P3  100       1      0   99   -0.004032        NaN          1
+  S  rand_75j_15m P4  100      58     16   26     -0.3336  5.532e-08  1.715e-06
+  X             B P1 2000     306    268 1426   -0.001391     0.1375     0.1375
+  X             B P2 2000    1560    232  208    -0.07632 5.527e-202 8.843e-201
+  X             B P3 2000     516      0 1484    -0.05741  3.086e-86  3.395e-85
+  X             B P4 2000     606   1249  145    -0.07791  3.002e-13  1.801e-12
+  X             C P1 2000     180     93 1727    -0.02472  5.869e-08  2.347e-07
+  X             C P2 2000    1206    154  640     -0.4919 5.538e-147   7.2e-146
+  X             C P3 2000     476      0 1524     -0.2882   1.05e-79   1.05e-78
+  X             C P4 2000     995    624  381      -1.688 3.234e-104 3.881e-103
+  X             E P1 2000     363    257 1380    -0.01881   2.98e-05   8.94e-05
+  X             E P2 2000     599    307 1094    -0.02534  1.342e-08  6.708e-08
+  X             E P3 2000    1020      0  980     -0.7514 1.821e-168  2.55e-167
+  X             E P4 2000    1132    324  544      -1.455 1.666e-174 2.499e-173
+  X             F P1  780     110    136  534    0.003292    0.04244    0.08488
+  X             F P2  780     352    132  296    -0.04666  6.499e-14  4.549e-13
+  X             F P3  780     263      0  517     -0.1381  6.891e-45  6.202e-44
+  X             F P4  780     312    223  245     -0.2178  7.986e-29  6.389e-28
+
+--- gap medio (%) em relacao ao LB classico e CPU (s) ---
+  S lpt             gap=2.2104  cpu medio=0.0002
+  S multifit        gap=0.4511  cpu medio=0.0018
+  S ldm             gap=1.2596  cpu medio=0.0045
+  S ig_ql           gap=0.3768  cpu medio=0.2084
+  S ig_random_seed  gap=0.2033  cpu medio=0.5906
+  S ig_ql_seed      gap=0.1928  cpu medio=0.5727
+  X lpt             gap=3.1943  cpu medio=0.0003
+  X multifit        gap=1.6152  cpu medio=0.0066
+  X ldm             gap=2.0542  cpu medio=0.0038
+  X ig_ql           gap=0.9979  cpu medio=0.3940
+  X ig_random_seed  gap=0.8239  cpu medio=0.4544
+  X ig_ql_seed      gap=0.8106  cpu medio=0.4488
+
+--- provadamente otimo (makespan == LB arc-flow certificado), conjunto S ---
+  lpt             3.9%   GAP vs LB certificado = 2.1835
+  multifit        48.5%   GAP vs LB certificado = 0.4251
+  ldm             34.0%   GAP vs LB certificado = 1.2333
+  ig_ql           34.3%   GAP vs LB certificado = 0.3511
+  ig_random_seed  67.4%   GAP vs LB certificado = 0.1776
+  ig_ql_seed      69.3%   GAP vs LB certificado = 0.1671
+  melhor entre {lpt,multifit,ldm}: 55.3%
+
+--- ldm vs multifit, vs lpt (d relativo medio %, melhor/pior/empate; conjuntos S e X) ---
+  S ldm vs lpt     : d=-0.9104% melhor=861 pior=101 empate=168 p=7.36e-102
+  S ldm vs multifit: d=0.8042% melhor=140 pior=585 empate=405 p=7.21e-75
+  X ldm vs lpt     : d=-1.0530% melhor=5265 pior=296 empate=1219 p=0
+  X ldm vs multifit: d=0.4341% melhor=3662 pior=2197 empate=921 p=8.34e-06

@@ -1,0 +1,12 @@
+\section{Conclusions}
+\label{sec:conclusions}
+
+This article asked what a learned policy adds to the metaheuristic that hosts it, and answered with a budget-fair attribution protocol applied to three scheduling problems and seven environments. The gain of Q-Learning-guided Iterated Greedy
+comes from the search structure and the budget: the policy adds $0.01$--$0.05$ points for identical machines, about $0.1\%$ for unrelated machines and nothing for the flowshop; the active ingredient is
+destruction--reconstruction, its combination with a descent, or the local search, depending on the problem, and $93\%$ of the apparent advantage of a local search vanishes at equal CPU time. A configuration chosen offline beats
+the online agent in every environment, against five learners, and the headroom of the actions is necessary but not sufficient for a policy gain: the law that held for destruction strategies failed prospectively for the destruction size.
+The learning-free solvers that follow are provably optimal on $97.5\%$ of the synthetic identical-machine instances and within $0.25$--$0.30\%$ of the best known solutions of the standard unrelated-machine benchmark.
+
+Future work should (i) test richer action spaces, learners and rewards that arrive early enough in the run, and tighter budgets, where a policy might have room, with pre-specified action spaces of controlled headroom; (ii) apply the
+protocol to other search frameworks and to problems where exact methods do not reach, such as heterogeneous machines with setup times; and (iii) pair the LP start and the restricted MILP with the stronger exact components of the literature.
+The code, the frozen hashes, the dated record of every hypothesis (including the non-confirmed) and the audits that recompute the numbers of the text from the result files make the study auditable end to end.

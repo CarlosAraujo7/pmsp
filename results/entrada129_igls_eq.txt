@@ -1,0 +1,31 @@
+==============================================================================================================
+A BUSCA LOCAL DO IG HIBRIDO SOBREVIVE A CPU IGUAL? -- teste pre-registrado, Entrada 129
+==============================================================================================================
+instancias pareadas: 1200
+
+Q1 igls_random vs ig_random_eq (CPU igual): d = -0.0102% IC90 [-0.0185, -0.0019] | melhor/pior/empate 112/104/984 | rank-biserial -0.037 | p = 0.0145 -> SIGNIFICATIVA
+   equivalencia (IC90 dentro de +-0.05%): SIM
+   equivalencia (IC90 dentro de +-0.10%): SIM
+'a busca local acrescenta ao IG a CPU igual': SIM (d < 0); 'o ganho da Entrada 124 e' efeito de orcamento': NAO
+
+Q2 (descritiva) ig_random_eq vs ig_random (T = 1000): d = -0.1399% IC90 [-0.1503, -0.1292] | 421/0/779 | p = 1.01e-70
+Q0 (reproducao da Entrada 124, P1) igls_random vs ig_random (T = 1000): d = -0.1502% | 436/16/748
+
+otimo provado (n = 1200): ig_random 36.9% | igls_random 55.2% | ig_random_eq 54.5%
+GAP medio vs LB certificado: ig_random 0.3472%, igls_random 0.1959%, ig_random_eq 0.2063%
+CPU medio por execucao (s, execucao paralela): igls_random 9.81 | ig_random_eq 6.71 | razao mediana eq/igls 0.89
+
+--- por classe (d %; eq_better = vezes em que ig_random_eq e' melhor) ---
+     instance  d_igls_vs_eq  d_igls_vs_ig1000  eq_better  igls_better
+rand_100j_20m       0.02154           -0.3145         18           13
+rand_150j_15m      0.003989          -0.06799          7            5
+rand_150j_30m      0.002384           -0.2811         16           16
+  rand_20j_4m     -0.007307          -0.01496          0            2
+  rand_20j_6m      -0.03726          -0.08722          2            8
+rand_250j_25m       0.04306          -0.04967         22            0
+rand_300j_20m       0.01594          -0.02475         13            1
+  rand_30j_8m      -0.07482           -0.1869          1           16
+  rand_40j_5m     -0.002217          -0.01605          0            1
+ rand_50j_10m      -0.06256           -0.2006          4           20
+ rand_60j_20m       0.01679           -0.2794         12           10
+ rand_75j_15m      -0.04167           -0.2787          9           20

@@ -1,0 +1,2159 @@
+%% learnheuristic_pmsp.tex
+%% Compilar: xelatex -> bibtex learnheuristic_pmsp -> xelatex -> xelatex
+%% Migrado para a classe elsarticle (Elsevier) na Entrada 76 (08/09/2026)
+%% -- exigencia do EJOR (ver ANALISE_E_PLANO_EJOR.md, Secao 4). elsarticle.cls
+%% e elsarticle-harv.bst (citacao estilo Harvard/autor-ano, pedido do EJOR)
+%% vem junto deste arquivo, na mesma pasta -- nao fazem parte de nenhuma
+%% instalacao TeX Live padrao (pacote texlive-publishers, confirmado ausente
+%% tanto no ambiente de Carlos quanto no de verificacao).
+%% Opcoes da classe atualizadas na Entrada 85 (09/09/2026, Task #45) para
+%% bater exatamente com o artigo irmao do LCPP (Amaro Junior et al., em
+%% preparacao para o EJOR, mesmo grupo/coautoria de Carlos): [final,3p]
+%% no lugar de [preprint,review] -- decisao explicita de Carlos, coluna
+%% unica em largura "de producao" (mais estreita que o preprint largo),
+%% sem numeracao de linha de revisor. [times] ativa txfonts (Type 1,
+%% compativel com xelatex sem fontspec) em vez da Computer Modern padrao,
+%% [11pt] no lugar de [12pt] -- ambos tambem para bater com o LCPP.
+%% \onehalfspacing (pacote setspace) e' carregado explicitamente depois
+%% da classe pra manter 1.5 espaco mesmo com [final] (que por si so'
+%% forcaria espaco simples) -- mesmo padrao usado no LCPP, apropriado
+%% enquanto o artigo ainda esta' em fase de rascunho/revisao interna.
+%% [authoryear] ativa a citacao estilo Harvard via natbib (\citep/\citet),
+%% carregado automaticamente pela propria classe -- nao precisa de
+%% \usepackage{natbib} manual.
+\documentclass[final,3p,times,11pt,authoryear]{elsarticle}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\floatstyle{ruled}
+\restylefloat{algorithm}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{enumitem}
+\setlist{nosep,topsep=2pt,itemsep=1pt,parsep=0pt,leftmargin=*}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{2pt}
+\usepackage{xcolor}
+\usepackage{bm}
+\usepackage{xr}
+\externaldocument[S-]{supplementary_material}
+
+\sloppy
+
+\journal{European Journal of Operational Research}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Mechanism or policy? Attributing the gains of Q-Learning-guided
+       Iterated Greedy for parallel machine scheduling}
+%% Titulo trocado na Entrada 95 (04/10/2026), decisao de Carlos (Entrada
+%% 94) -- RASCUNHO, texto final a revisar por Carlos. O titulo anterior
+%% ("Learnheuristics with Adaptive Operator and Strategy Selection for the
+%% Parallel Machine Scheduling Problem: Hybridizing Iterated Local Search
+%% and Iterated Greedy with Online Q-Learning") superalegava o hibrido
+%% (preliminar) e a enfase em aprendizado.
+%% TODO(Task #44, Fase A -- rascunho para revisao de Carlos): titulo
+%% ampliado em relacao ao original ("A Learnheuristic ... Hybridizing
+%% Iterated Local Search with Online Q-Learning") para refletir que
+%% ig_ql (Iterated Greedy + Q-Learning) e' agora contribuicao central,
+%% nao so' uma variante secundaria -- decisao de Carlos, ver
+%% diario_pesquisa.md, Entrada 79.
+
+\author{Carlos Vinicio Dantas Araújo\corref{cor1}}
+\ead{carlos.vinicio@aluno.uece.br}
+\address{Graduate Program in Computer Science, State University of Ceará
+         (UECE), Fortaleza, CE, Brazil}
+\cortext[cor1]{Corresponding author.}
+%% TODO(Carlos): coautoria (ex.: orientador) e' decisao sua, conforme
+%% combinado -- adicione aqui com \author{}/\address{} extra se aplicavel,
+%% antes da submissao.
+
+%% Highlights adicionadas na Entrada 85 (09/09/2026, Task #45), seguindo
+%% o padrao do artigo irmao do LCPP (formato de bullets curtos, sem
+%% citacoes/formulas, <=85 caracteres cada, exigencia do EJOR) -- baseadas
+%% nos numeros ja verificados da Secao 5/7, nao copiadas do LCPP.
+\begin{highlights}
+\item Search structure, not Q-Learning, drives the gain; the policy adds 0.01-0.05 pp.
+\item Headroom is necessary, not sufficient for learning; offline tuning beats online learning.
+\item Learning-free recipe: 75\% provably optimal; a local search is worth only its CPU.
+\item Same decomposition on unrelated machines; the ILS policy is harmful in both problems.
+\item Granularity decides IG vs ILS: six distributions, equal CPU, strong starts.
+\end{highlights}
+
+\begin{abstract}
+Where do the gains of Q-Learning-guided metaheuristics for parallel machine
+scheduling come from: the search structure or the learned policy? Two
+learnheuristics embed tabular Q-Learning as adaptive operator selection for the
+identical-machine problem (P$||$C$_{\max}$): \texttt{ig\_ql} chooses among
+destruction strategies of an Iterated Greedy (IG), \texttt{ils\_ql} among
+neighbourhood operators of an Iterated Local Search (ILS). On twelve synthetic
+classes and 6\,780 published instances, \texttt{ig\_ql} is never significantly
+beaten by LPT or seven ILS variants and beats simulated-annealing and Bee Colony
+baselines, but MULTIFIT and the differencing method (LDM) beat it for large $n$.
+Random-selection controls attribute most of the gain to the search structure.
+The learned policy adds 0.01--0.05 percentage points of GAP; this replicates on
+2\,690 new instances, does not depend on the state, and is limited by the
+headroom of the actions: for the destruction size, where there is headroom,
+neither more budget nor pre-training lets Q-Learning match choosing the
+parameter offline by validation. That learning-free recipe, started from the best
+of three constructive heuristics, is provably optimal on $75\%$ of the synthetic
+instances (MULTIFIT: $49\%$) according to a certified arc-flow bound; a local
+search added to it, or to the plain IG, helps at an equal number of iterations
+but not at equal CPU time. On
+unrelated machines the decomposition recurs (search structure $4.2\%$, policy
+about $0.1\%$, ILS policy harmful) and the policy gain follows the headroom of the destruction strategies
+across cells, also on the standard benchmark of 700 test instances (decomposition replicated: search structure $2.1\%$, policy $0.03$--$0.06\%$,
+not confirmed), but the law fails prospectively for the destruction size, where an agent trained online or offline is worse than choosing the size by validation: headroom is necessary, not sufficient; on a third problem, the permutation flowshop, the active ingredient is the local search (the IG equals the ILS at equal CPU time) and the agent over the destruction size is again worse than random; exact methods remain ahead, but an Iterated Greedy started from the linear relaxation cuts the
+GAP to the best known solutions from $2.2\%$ to $1.0\%$ ($0.3\%$ for $1000$ jobs), and $0.25\%$ when followed by a restricted MILP (CPLEX in two hours: $0.20\%$), and a general-purpose MILP with a 60-second limit beats the earlier heuristics up to $1000\times50$ and is matched by this one
+(equal or better in $62\%$ of the instances; not significant overall). ILS is stronger where processing times are nearly all distinct, on
+six distributions, at equal CPU time and with strong starts. Hypotheses were
+specified before the tests, several on held-out data.
+\end{abstract}
+
+\begin{keyword}
+Parallel machine scheduling \sep Iterated Greedy \sep Reinforcement
+learning \sep Adaptive operator selection \sep Metaheuristics
+%% TODO(Carlos): o EJOR exige 1 palavra-chave obrigatoria vinda da lista
+%% oficial do sistema de submissao (ANALISE_E_PLANO_EJOR.md, Secao 4) --
+%% as 5 acima sao um rascunho de trabalho; confirme/ajuste no portal
+%% antes de submeter.
+\end{keyword}
+
+\end{frontmatter}
+
+%% TODO(Task #44 / pre-submissao): secoes obrigatorias do EJOR ainda
+%% faltando neste arquivo -- Highlights, CRediT authorship statement,
+%% Declaration of Interest, Funding statement, Data Availability
+%% Statement, Acknowledgments (ver ANALISE_E_PLANO_EJOR.md, Secoes 4-5).
+%% Carlos optou por nao priorizar esta rodada (nao selecionou "Adiantar
+%% textos administrativos curtos" na Entrada 74).
+
+% =====================================================================
+\section{Introduction}
+\label{sec:intro}
+%% TODO(Task #44, Fase A -- rascunho para revisao de Carlos): secao
+%% inteira traduzida para ingles e reescrita nesta fase (Entrada 79).
+%% Paragrafos de motivacao geral (PMSP/ILS/AOS/RL) sao traducao fiel do
+%% original com uma introducao do framework IG logo no 2o paragrafo
+%% (antes, IG so aparecia como afterthought bem mais adiante) e
+%% citep{RuizStutzle2007} adicionada (referencia fundacional do IG,
+%% existia no refs.bib desde a Entrada 46 mas nunca era citada). O
+%% paragrafo de diferenciacao ig_ql-vs-QIG e' so' traducao do texto
+%% corrigido na Entrada 78 (mesmo conteudo, sem novas alegacoes). A
+%% lista de contribuicoes foi expandida de 4 para 5 itens cobrindo
+%% AMBAS as learnheuristicas -- decisao de Carlos (Entrada 79) de
+%% incluir tudo no corpo principal, mesmo que isso estique a paginacao
+%% alem do teto do EJOR (ele ajusta manualmente depois).
+
+Scheduling problems are among the most studied in combinatorial
+optimisation, with applications in manufacturing, cloud computing,
+task allocation in distributed systems, and logistics
+\citep{Pinedo2016}.
+The Parallel Machine Scheduling Problem (PMSP) consists of assigning
+$n$ jobs to $m$ identical parallel machines so as to minimise the
+makespan $C_{\max}$, defined as the completion time of the last job.
+Even for $m=2$ the problem is NP-hard \citep{GareyJohnson1979}.
+Exact methods nevertheless solve a large share of published benchmark
+instances in well under a second \citep{OstojicEtAl2025}; they remain
+expensive on the hardest instances, which is where heuristics are
+used.
+
+Metaheuristics are widely adopted for the PMSP.
+Iterated Local Search (ILS) \citep{LourencaoEtal2019} is one of the
+most popular approaches, alternating between a local-improvement phase
+and a perturbation step to escape local optima.
+Iterated Greedy (IG) \citep{RuizStutzle2007} is a closely related
+framework that instead alternates cycles of destruction (removing a
+subset of jobs from the current sequence) and reconstruction (greedily
+reinserting them); the destruction-reconstruction cycle itself provides
+both search and diversification, with no separate perturbation phase.
+In both frameworks, when multiple neighbourhood operators or
+destruction strategies are available, the question of which one to
+apply at each iteration arises: Adaptive Operator Selection (AOS)
+addresses this demand through mechanisms that estimate or learn the
+relative effectiveness of each choice during the search
+\citep{FialhoEtal2010,KarimiMamaghanEtal2022}.
+
+Classical AOS strategies include uniform random selection
+\citep{PisingerRopke2007}, bandit algorithms such as UCB (\textit{Upper
+Confidence Bound}) \citep{AuerEtal2002}, and data-driven predictors
+such as Random Forests (RF) \citep{MaturanaSaubion2008}.
+A limitation of these approaches is that they generally do not exploit
+the \emph{context} of the current search: solution quality, degree of
+load imbalance, budget progress, and stagnation level.
+
+Reinforcement Learning (RL), and Q-Learning in particular
+\citep{WatkinsDayan1992,SuttonBarto2018}, offers in principle a
+context-sensitive AOS mechanism: the agent maintains action-state value estimates and
+updates its selection policy based on the return obtained at each
+iteration.
+Hybrid RL-metaheuristic approaches have shown promise in job-shop
+scheduling \citep{ParkEtal2021}. In the scheduling literature, Q-Learning as an
+AOS mechanism has been explored mainly for permutation flowshop,
+integrated with iterated greedy \citep{KarimiMamaghanEtal2023} and with
+dynamic operator-portfolio management schemes
+\citep{KarimiMamaghanEtal2024}; for the PMSP specifically, RL has
+already been combined with swarm-intelligence metaheuristics in
+variants with setup and release times, but for dynamic parameter
+tuning rather than operator selection \citep{Ozsoydan2025}. More
+recently, Q-Learning has been integrated with
+Iterated Greedy for the PMSP with sequence-dependent setup times,
+targeting weighted earliness/tardiness -- not makespan -- via greedy
+destruction-reconstruction rather than neighbourhood operators
+\citep{MissaouiOSullivan2026}. The use of tabular Q-Learning as AOS
+over neighbourhood operators within an ILS, specifically for the pure
+PMSP (P||Cmax, identical machines, makespan minimisation), remains, to
+date, unexplored.
+The second \emph{learnheuristic} considered here, \texttt{ig\_ql}, employs
+tabular Q-Learning analogously within an \emph{Iterated Greedy} scheme,
+in the same general spirit as \citet{MissaouiOSullivan2026}, but it
+differs in the problem variant and in every component of the learning
+mechanism. They address sequence-dependent setup times, due-date windows
+and weighted earliness/tardiness; \texttt{ig\_ql} addresses the pure
+PMSP (P||Cmax, identical machines, no setups). There, Q-Learning selects
+the destruction \emph{size} $d \in \{1,\ldots,5\}$ for a single fixed
+destruction-reconstruction procedure, over a state space of the
+solutions themselves, with a reward of
+$(f_{\mathrm{before}} - f_{\mathrm{after}})/10$ on improvement and
+simulated-annealing-style acceptance. Here, Q-Learning selects
+\emph{among three qualitatively distinct destruction strategies}
+(random removal, removal of the longest jobs, machine-concentrated
+removal), with a fixed destruction size, over the same compact 81-state
+representation as \texttt{ils\_ql} (Section~\ref{sec:state}), with a
+raw-improvement reward truncated at zero and purely greedy acceptance.
+This combination remains, to date, unexplored in both problem variant
+and adaptation mechanism.
+% RESOLVIDO (08/09/2026, Entrada 78): o TODO anterior (Entrada 72)
+% ficava em aberto por falta de acesso ao texto completo do QIG.
+% Carlos obteve o artigo diretamente com o Dr. Missaoui (email) e a
+% comparacao acima ja incorpora o nivel de mecanismo, nao so
+% objetivo/variante -- ver diario_pesquisa.md, Entrada 78. Traduzido
+% para ingles na Fase A da Task #44 (Entrada 79) -- mesmo conteudo, so
+% traducao; reposicionamento para a nova subsecao de Trabalhos
+% Relacionados sobre IG/adaptacao de parametros fica pra Fase B.
+
+This article makes five contributions.
+(i) A controlled decomposition of the gains of a learnheuristic into search
+structure and learned policy: a random-selection control at matched budget,
+applied to two unrelated search mechanisms (ILS and IG) that share the state
+representation and the learning agent, and repeated on a second problem
+(unrelated machines, including the standard benchmark) and a third (permutation flowshop), where the active ingredient turns out to be a different one. The search structure accounts for most of the advantage;
+the learned selection accounts for a small remainder (about $0.01$--$0.05$
+percentage points for identical machines, about $0.1\%$ for unrelated ones)
+(Sections~\ref{sec:f3f4-ablation} and~\ref{sec:unrelated}).
+(ii) An explanation of why the remainder is so small, tested rather than
+asserted: the destruction strategies leave almost no headroom; where the action
+space has headroom (the destruction size), neither a larger budget, a dense
+reward, a more informative state nor cross-instance pre-training lets
+Q-Learning match choosing the parameter offline by validation; and across the
+cells of the second problem the policy gain follows the headroom of the destruction strategies, although a prospective test with the
+destruction size as the action, which has headroom, failed: the headroom is necessary, not sufficient
+(Sections~\ref{sec:f3f4-ablation} and~\ref{sec:unrelated}).
+(iii) The IG-based learnheuristic \texttt{ig\_ql} against stronger baselines
+than usual (LPT, seven ILS variants, a simulated-annealing method following
+\citet{LiPerkins2024}, a Bee Colony Optimisation algorithm
+\citep{DavidovicEtal2012}, MULTIFIT and the differencing method LDM) on twelve
+synthetic classes and 6\,780 published instances, with a certified lower bound
+from an arc-flow relaxation. It is never significantly beaten by LPT or ILS, but
+MULTIFIT and LDM beat it for large $n$ (Sections~\ref{sec:f2-sota} and~\ref{sec:exact-ref}); a learning-free
+recipe, a destruction size chosen on separate instances and a start from the best
+constructive solution, is the strongest method of the study ($75\%$ provably
+optimal instances against $49\%$ for MULTIFIT; Section~\ref{sec:recipe}); a local
+search added to it pays at an equal number of iterations but not at equal CPU
+time, when the recipe with a larger iteration budget reaches $89\%$ ($97.5\%$ at $64{,}000$ iterations); for unrelated machines, an Iterated Greedy started from the
+linear relaxation halves the GAP to the best known solutions of the standard benchmark and, followed by a restricted MILP, reaches $0.25\%$ (Section~\ref{sec:unrelated}).
+(iv) An instance-level finding that the granularity of the processing times (how
+many distinct values they take) decides in which direction IG or ILS is stronger,
+while $n/m$ shifts the crossover (Section~\ref{sec:nm-structural}); a one-feature
+rule that chooses between them was tested out of sample (Section~\ref{sec:dispatch}),
+and both the finding and the rule hold across six processing-time distributions,
+at equal CPU time and with strong starts in both mechanisms (Supplementary
+Section~\ref{S-sec:robust}).
+(v) Standards of evidence for studies of adaptive selection: hypotheses and
+decision rules written down before every run (with hashes of the code), tests
+specified on held-out and on fresh instances, equivalence margins, seed
+averaging, exact references, and the reporting of every non-confirmation
+(Supplementary Section~\ref{S-sec:prereg-record}). A companion study of the same
+agent inside ILS (\texttt{ils\_ql}), whose null result and state-coverage artefact
+motivated the decomposition, is summarised in Section~\ref{sec:ils-summary} and
+reported in full in the supplement.
+%% TODO(Task #44, Fase A): lista expandida de 4 para 5 contribuicoes
+%% para cobrir ig_ql (novo item (i), headline) sem descartar os
+%% achados do ils_ql (agora (iii)-(v)) -- decisao de Carlos (Entrada
+%% 79) de incluir tudo no corpo principal. Nomes exatos dos 3
+%% baselines SOTA em (i) a conferir contra a Secao~\ref{sec:experiments}
+%% quando essa secao for reescrita (Fase D).
+
+The remainder of this article is organised as follows:
+Section~\ref{sec:related} reviews related work; Section~\ref{sec:problem}
+defines the PMSP; Section~\ref{sec:method} describes the proposed
+learnheuristics; Section~\ref{sec:experiments} presents the
+computational study; Section~\ref{sec:discussion} discusses broader
+implications; and Section~\ref{sec:conclusions} concludes the paper.
+%% TODO(Task #44, Fase A): a versao original em portugues (linhas
+%% 221-225 do .tex pre-Fase-A) tambem omitia a Secao de Discussao do
+%% roteiro -- lacuna preexistente, nao introduzida por esta traducao.
+%% Corrigida aqui (dentro do escopo da Introducao) ao inves de repetir
+%% a omissao; ver Entrada 79 do diario.
+
+
+% =====================================================================
+\section{Related Work}
+\label{sec:related}
+%% TODO(Task #44, Fase B -- rascunho para revisao de Carlos, Entrada 80):
+%% secao inteira traduzida para ingles nesta fase. As 3 subsecoes 2.1-2.3
+%% sao traducao fiel do original (com correcao de um bug de citacao
+%% descrito abaixo). A subsecao 2.4 e' NOVA, incorporando 4 referencias
+%% que ja existiam em refs.bib desde a Entrada 74/78 mas nunca tinham
+%% sido citadas no corpo do texto (RuizStutzle2007, MissaouiRuiz2022,
+%% MissaouiOSullivanStrategicRecon2026, MissaouiOSullivan2026).
+%% Bug corrigido nesta fase (achado ao traduzir, nao introduzido agora):
+%% a migracao global \cite->\citep da Entrada 76 converteu tambem casos
+%% em que o nome do autor ja estava escrito por extenso na prosa (ex.:
+%% "Fialho et al. \citep{FialhoEtal2010}"), o que sob estilo Harvard
+%% duplica o nome ("Fialho et al. (Fialho et al., 2010)"). Corrigido
+%% para \citet{} nesses 8 casos (renderiza "Fialho et al. (2010)"), a
+%% forma padrao quando o nome do autor e' o sujeito gramatical da frase.
+
+This section reviews the literature underlying the two proposed
+learnheuristics. It first covers adaptive operator and strategy
+selection (AOS) mechanisms, reinforcement learning applied to
+combinatorial optimisation more broadly, and the parallel machine
+scheduling literature relevant to the problem studied here, before
+turning to iterated greedy and parameter/strategy adaptation
+(Section~\ref{sec:ig-relwork}), the framework underlying
+\texttt{ig\_ql}.
+
+\subsection{Adaptive Operator Selection}
+
+AOS has emerged as a well-established research area within
+evolutionary algorithms and hyper-heuristics \citep{BurkeEtal2013}.
+\citet{FialhoEtal2010} conducted a comprehensive survey of bandit-based
+AOS mechanisms applied to genetic algorithms, finding that simple
+exploration-exploitation strategies frequently outperform more complex
+methods in small operator spaces.
+\citet{MaturanaSaubion2008} proposed a Random-Forest-based selector
+that learns to map search states to operators via supervised
+regression, obtaining gains on constraint satisfaction problems.
+\citet{PisingerRopke2007} introduced ALNS (\textit{Adaptive Large
+Neighbourhood Search}), in which operator weights are updated based on
+recent performance, obtaining benchmark results on routing problems.
+
+Despite these advances, most AOS methods do not explicitly model the
+state of the search: the selected operator does not depend on features
+such as proximity to a local optimum, stagnation, or budget progress.
+This limitation motivated the investigation of RL-based mechanisms, in
+which the agent observes a state and learns a state-dependent policy.
+
+\subsection{Reinforcement Learning in Combinatorial Optimisation}
+
+The integration of RL with metaheuristics has grown significantly over
+the last decade \citep{BengioBengio2021}.
+\citet{CalvetEtal2017} coined the term \emph{learnheuristic} for
+metaheuristics coupled to a learning component, originally to handle
+inputs that change as a solution is built; the term is used here in
+the broader sense of a search whose decisions are guided by an online
+learner.
+\citet{ParkEtal2021} applied graph neural networks with RL to job-shop
+scheduling, obtaining policies that generalise to unseen instances.
+\citet{CappartEtal2021} reviewed the intersection between constraint
+programming and machine learning, pointing to RL as one of the most
+promising approaches for guiding search.
+
+In the specific context of AOS, the use of tabular Q-Learning as an
+operator selector within ILS remains little explored for classical,
+discrete production scheduling: \citet{JuanEtal2014}
+applied ILS to the flow shop scheduling problem with a deliberately
+fixed, non-adaptive parametrisation, and Q-Learning-based operator
+selection for scheduling has instead been explored within the closely
+related Iterated Greedy framework \citep{KarimiMamaghanEtal2023}, not
+ILS. \citet{VazquezRodriguezEtal2011} pursued a related but distinct
+direction, using genetic programming to automatically discover novel
+constructive-heuristic variants of the NEH procedure for flow shop
+scheduling -- an automated-design approach rather than an adaptive
+operator-selection mechanism within an iterative search. Outside this
+setting, \citet{AlicastroEtal2021} embedded a Q-Learning-based Variable
+Neighbourhood Search within ILS for makespan minimisation in
+additive-manufacturing machine scheduling, a domain with different
+constraints and decision variables from the discrete-parts PMSP
+considered here.
+This gap is addressed here by proposing and empirically evaluating a
+tabular Q-Learning agent as an AOS mechanism within ILS for the PMSP.
+
+\subsection{Parallel Machine Scheduling}
+
+The PMSP is among the most extensively studied scheduling problems
+\citep{Pinedo2016}.
+The LPT (\textit{Longest Processing Time}) rule of \citet{Graham1969}
+is the best-known constructive heuristic, with an approximation
+guarantee of $(4/3 - 1/(3m))$.
+\textsc{MultiFit} \citep{CoffmanGareyJohnson1978} binary-searches the
+capacity and packs with First-Fit Decreasing, and the Largest
+Differencing Method (LDM), the multiway form of the Karmarkar--Karp
+differencing heuristic \citep{KarmarkarKarp1983,MichielsEtal2007},
+repeatedly merges partial solutions so as to cancel the largest
+differences; both are fast and deterministic. Local search with
+multi-exchange neighbourhoods is a further classical route
+\citep{FrangioniEtal2004}.
+For unrelated machines, Iterated Greedy with local search is the established
+heuristic \citep{FanjulPeyroRuiz2010}.
+The problem is NP-hard \citep{GareyJohnson1979}, yet exact methods
+have become strong: bin-packing-based and arc-flow formulations
+\citep{DellAmicoEtal2008,MradSouayah2018,GharbiBamatraf2022}, engineered
+branch-and-bound \citep{AkramEtal2024} and an iterative arc-flow method
+solve most published benchmark instances in well under a second,
+although the hardest instances remain costly \citep{OstojicEtAl2025}.
+The linear relaxation of the arc-flow model is also a cheap, certified
+lower bound, which this article uses (Section~\ref{sec:exact-ref}) to
+tell near-optimal solutions apart from provably optimal ones.
+Metaheuristics remain
+relevant for those hard instances and for variants where exact methods
+do not reach; the specific combination of AOS
+mechanisms -- whether classical or RL-based -- with the two search
+frameworks used in this article (ILS and IG) is examined next.
+
+\subsection{Iterated Greedy and Parameter/Strategy Adaptation}
+\label{sec:ig-relwork}
+
+\citet{RuizStutzle2007} introduced Iterated Greedy for the permutation flowshop, showing that a simple
+destruction--reconstruction cycle is competitive with far more complex metaheuristics; this motivates IG as the second
+search framework here (Section~\ref{sec:method}). Its destruction size is, however, a sensitive parameter that usually
+needs instance-specific tuning. \citet{MissaouiRuiz2022} adapted it automatically for a hybrid flowshop with setup times and
+due-date windows, and introduced a ``strategic'' reconstruction (each removed job goes to its first feasible position) later
+reused, with Q-Learning, by \citet{MissaouiOSullivan2026}. For identical parallel machines,
+\citet{MissaouiOSullivanStrategicRecon2026} paired that reconstruction with a non-learning adaptive ``leap size'' for
+weighted tardiness with setup times, and \citet{MissaouiOSullivan2026} replaced the deterministic rule by tabular
+Q-Learning that selects the destruction size, for setups and weighted earliness/tardiness; this is the closest work to
+\texttt{ig\_ql}, and Section~\ref{sec:intro} details the differences at the level of the learning mechanism, not
+only of the problem variant. None of this line addresses the pure PMSP studied here (no setups, no due dates, makespan
+objective): each adds at least one further feature or, for \citet{RuizStutzle2007}, is a different problem class.
+
+
+% =====================================================================
+\section{Problem Definition}
+\label{sec:problem}
+
+Let $\mathcal{J}=\{1,\ldots,n\}$ be the set of jobs and
+$\mathcal{M}=\{1,\ldots,m\}$ the set of identical parallel machines.
+Each job $j \in \mathcal{J}$ has a processing time $p_j > 0$.
+A feasible solution assigns each job to exactly one machine; the
+completion time of machine $i$ is $C_i = \sum_{j \in S_i} p_j$, where
+$S_i \subseteq \mathcal{J}$ is the set of jobs assigned to machine $i$.
+The objective is to minimise $C_{\max} = \max_{i \in \mathcal{M}} C_i$.
+
+A classical lower bound \citep{Graham1969} is given by:
+\begin{equation}
+  \mathrm{LB} = \max\!\left(\max_{j \in \mathcal{J}} p_j,\;
+  \left\lceil \frac{\sum_{j} p_j}{m} \right\rceil\right).
+  \label{eq:lb}
+\end{equation}
+
+The optimality \emph{gap} is defined as
+$\mathrm{GAP}(\%) = 100 \cdot (C_{\max} - \mathrm{LB})/\mathrm{LB}$;
+$\mathrm{GAP} = 0$ indicates that the lower bound was attained.
+
+\paragraph{Instance difficulty}
+The LPT rule, which assigns jobs in non-increasing order of $p_j$,
+tends to leave a significant GAP when the jobs-per-machine ratio $n/m$
+is low, since there are few opportunities for load balancing.
+The six original classes of this work span $n/m \in [3.3, 5.0]$, a
+regime in which LPT produces mean gaps of 1.9--4.3\%, ensuring
+meaningful differentiation between methods without trivial instances;
+six further classes extend the range to $n/m \in [3.0, 15.0]$, where
+the mean LPT gap falls as low as $0.16\%$ (Section~\ref{sec:setup}).
+
+\paragraph{Relationship to PMSP structure}
+The makespan is determined directly by machine loads.
+Operators that transfer jobs between distinct machines reduce
+$C_{\max}$ by redistributing load; operators that only reorder jobs
+within the same machine leave $C_i$ unchanged and, therefore, cannot
+improve the makespan.
+This structural property is confirmed empirically by the analysis of
+the learned policy in Section~\ref{S-sec:policy}.
+
+\paragraph{The unrelated-machine variant}
+Section~\ref{sec:unrelated} repeats the study for $\mathrm{R}||C_{\max}$, in which
+the processing time of job $j$ on machine $i$ is $p_{ij}$ and the load of machine $i$
+is $C_i=\sum_{j\in S_i}p_{ij}$. The classical lower bound becomes
+$\max\{\max_j\min_i p_{ij},\lceil\sum_j\min_i p_{ij}/m\rceil\}$, and the linear
+relaxation of the assignment model gives a stronger certified bound
+\citep{LenstraEtal1990}.
+
+
+% =====================================================================
+\section{Proposed Learnheuristics}
+\label{sec:method}
+%% TODO(Task #44, Fase C -- rascunho para revisao de Carlos, Entrada 81):
+%% Secao 3 e as subsecoes 4.1-4.4 traduzidas fielmente (com 1 correcao de
+%% bug, ver abaixo). Subsecoes 4.5-4.6 sao NOVAS, descrevendo o mecanismo
+%% do ig_ql (nunca antes descrito no corpo do artigo -- confirmado por
+%% leitura completa da Secao 4 anterior a esta fase) com base em leitura
+%% direta de pmsp/ig.py, pmsp/qlearning.py, pmsp/multifit.py, pmsp/sa.py,
+%% pmsp/bco.py e experiment/runner.py/config.py (nao de memoria).
+%% BUG DE CONTEUDO encontrado e corrigido nesta fase (nao introduzido
+%% agora -- ja estava assim no .tex em portugues, antes desta traducao):
+%% a Secao 4.3 (Agente Q-Learning) descrevia o cronograma de epsilon
+%% como "epsilon=0,2, reduzido em 10% a cada 100 iteracoes", mas o
+%% codigo real (pmsp/qlearning.py, QLearningAgent, confirmado via
+%% experiment/config.py: QL_EPSILON_START=1.0, QL_EPSILON_MIN=0.05,
+%% QL_EPSILON_DECAY=0.995) usa decaimento multiplicativo POR PASSO
+%% (nao por bloco de 100), partindo de 1.0 (exploracao pura), piso 0.05,
+%% atingido em ~591 passos -- o proprio docstring da classe confirma
+%% esse calculo. Descricao factual do metodo estava desatualizada em
+%% relacao ao codigo; corrigida para refletir o codigo real, verificado
+%% nesta fase (nao assumido).
+
+This section describes the ILS framework and its Q-Learning-based AOS
+mechanism (Section~\ref{sec:ils}), then the
+Iterated Greedy framework and its own Q-Learning-based
+strategy-selection mechanism (Sections~\ref{sec:ig}--\ref{sec:igvariants}),
+which reuses the same state representation and Q-Learning update rule.
+
+\subsection{ILS Framework}
+\label{sec:ils}
+
+ILS starts from an LPT solution and iterates for $T$ steps. At each step the AOS module selects one of four neighbourhood
+operators (inter-swap, reinsert, intra-swap, block-move), applied under best-improvement local search; after 50 consecutive
+iterations without improvement a random perturbation (3 random moves) restarts the search from the best incumbent. The
+intra-swap operator can never improve the makespan and serves as a structural control. The algorithm, the operator table
+and the ILS variants used in the experiments (a pre-trained table, extended-budget variants with a random-selection
+isolation control, UCB1 and online Random Forest selectors) are described in Supplementary Section~\ref{S-sec:ils-framework}.
+
+\subsection{State Representation}
+\label{sec:state}
+
+The search context is encoded into four scalar features, each mapped
+to three ordered bins ($b \in \{0,1,2\}$), producing $3^4 = 81$
+discrete states:
+
+\begin{itemize}
+  \item $f_1$ (gap): current GAP relative to the LB; thresholds
+        $\{0.10, 0.35\}$.
+  \item $f_2$ (load CV): coefficient of variation of machine loads;
+        thresholds $\{0.15, 0.40\}$.
+  \item $f_3$ (progress): fraction of budget consumed; thresholds
+        $\{0.33, 0.67\}$.
+  \item $f_4$ (stagnation): fraction of recent iterations without
+        improvement; thresholds $\{0.25, 0.60\}$.
+\end{itemize}
+
+The state index is $s = 27b_1 + 9b_2 + 3b_3 + b_4 \in \{0,\ldots,80\}$.
+With these thresholds, however, the two features that describe the
+incumbent carry almost no information: in the IG runs examined (four
+classes, eight instances each) $f_1$ and $f_2$ stay in bin 0 at
+\emph{every} step, because the gap of a near-optimal schedule is far
+below $0.10$ and the load CV far below $0.15$. The agent then
+distinguishes only $5$--$9$ states, which encode the progress and the
+stagnation of the run rather than the quality or balance of the
+incumbent. Section~\ref{sec:f3f4-ablation} tests whether recalibrating
+the state changes any conclusion.
+
+The choice of these four features is motivated by evidence from the
+AOS literature \citep{FialhoEtal2010}: features related to solution
+quality ($f_1$), structural diversity ($f_2$), search phase ($f_3$),
+and stagnation ($f_4$) are meant to capture the aspects of the search
+state most relevant to operator selection (Section~\ref{sec:f3f4-ablation}
+shows that $f_1$ and $f_2$ are uninformative with these thresholds).
+This representation is reused unchanged by the \texttt{ig\_ql} agent
+introduced in Section~\ref{sec:ig}.
+
+\subsection{Q-Learning Agent}
+\label{sec:qlm}
+
+The agent maintains a table $Q \in \mathbb{R}^{81 \times 4}$,
+initialised to zero, updated at each step via off-policy Q-Learning
+\citep{WatkinsDayan1992}:
+\begin{equation}
+  Q(s,a) \leftarrow Q(s,a) + \alpha \bigl[
+    r + \gamma \max_{a'} Q(s', a') - Q(s,a)
+  \bigr],
+  \label{eq:ql}
+\end{equation}
+where $\alpha = 0.1$ is the learning rate, $\gamma = 0.9$ is the
+discount factor, and $r = C_{\max}^{\mathrm{before}} -
+C_{\max}^{\mathrm{after}} \geq 0$ is the reward (absolute makespan
+reduction).
+Operator selection follows an $\varepsilon$-greedy policy, with
+$\varepsilon$ initialised at $1.0$ (pure exploration) and decayed
+multiplicatively by a factor of $0.995$ after every step, down to a
+floor of $0.05$ (reached after approximately 591 steps), so that
+exploration dominates early in the run and exploitation dominates
+later.
+
+The Q-table is shared throughout a single instance's run, so the agent
+simultaneously learns to explore different regions of the search space
+over the $T$ iterations.
+At the end of the run, the greedy policy $\pi(s) = \arg\max_a Q(s,a)$
+can be inspected for interpretability.
+The same update rule (Equation~\ref{eq:ql}), with the same $\alpha$,
+$\gamma$, and $\varepsilon$-greedy schedule, is reused unchanged by
+\texttt{ig\_ql} (Section~\ref{sec:ig}); the two methods differ only in
+what the action $a$ selects, in the reward truncation, and in the
+acceptance criterion applied to the resulting move.
+
+\subsection{Iterated Greedy Framework}
+\label{sec:ig}
+
+The second learnheuristic, \texttt{ig\_ql}, embeds the same tabular
+Q-Learning mechanism within an Iterated Greedy (IG) scheme instead of
+ILS. IG (Algorithm~\ref{alg:ig}) alternates cycles of destruction --
+removing a subset of jobs from the current solution -- and
+reconstruction -- greedily reinserting them -- with no separate
+perturbation phase: the destruction-reconstruction cycle itself
+provides both search and diversification.
+
+\begin{table}[ht]
+\centering
+\caption{The three destruction strategies used in IG.}
+\label{tab:destroy}
+\begin{tabular}{@{}clp{7.5cm}@{}}
+\toprule
+\textbf{Strategy} & \textbf{Name} & \textbf{Description} \\
+\midrule
+1 & random               & Removes $d$ uniformly random jobs. \\
+2 & most-expensive       & Removes the $d$ jobs with the largest processing times. \\
+3 & machine-concentrated & Removes $d$ jobs, all from a single, randomly chosen machine. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{algorithm}[tb]
+\caption{IG with AOS for PMSP}
+\label{alg:ig}
+\begin{algorithmic}[1]
+\REQUIRE Jobs $\mathcal{J}$, machines $\mathcal{M}$, iteration budget $T$, AOS module, destruction size $d$
+\STATE $x \leftarrow \mathrm{LPT}(\mathcal{J},\mathcal{M})$; $x^{*} \leftarrow x$
+\FOR{$t = 1, \ldots, T$}
+\STATE $s \leftarrow \mathrm{encode}(x, t, T)$
+\STATE $a \leftarrow \mathrm{AOS}(s)$
+\STATE $x' \leftarrow \mathrm{Reconstruct}(\mathrm{Destroy}(x,\, \mathrm{Strategy}_a,\, d))$
+\STATE $r \leftarrow \max\bigl(C_{\max}(x) - C_{\max}(x'),\, 0\bigr)$
+\STATE Update AOS with $(s, a, r)$
+\IF{$C_{\max}(x') \leq C_{\max}(x)$}
+\STATE $x \leftarrow x'$
+\ENDIF
+\IF{$C_{\max}(x) < C_{\max}(x^{*})$}
+\STATE $x^{*} \leftarrow x$
+\ENDIF
+\ENDFOR
+\RETURN~$x^{*}$
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Destruction}
+At each iteration, the AOS module selects one of the three destruction
+strategies in Table~\ref{tab:destroy}.
+The number of removed jobs, $d$, is fixed and proportional to instance
+size, $d = \max(2, \mathrm{round}(0.3n))$, rather than learned. The
+$30\%$ default was fixed in advance and never tuned on the evaluation
+instances; the sensitivity of the results to $d$, to the learning rate,
+the discount factor and the exploration schedule is reported in
+Section~\ref{sec:f3f4-ablation} and Supplementary
+Section~\ref{S-sec:hyper}.
+%% TODO(Task #44, Fase D): a analise de sensibilidade de tamanho de
+%% destruicao (Entradas 20-22) pode ser adicionada a Secao 5
+%% (Experimentos) com mais detalhe, se Carlos quiser -- por ora,
+%% mencionada aqui so' como justificativa da escolha de design.
+
+\paragraph{Reconstruction}
+Removed jobs are reinserted deterministically in non-increasing order
+of processing time, each onto the currently least-loaded machine (an
+NEH/LPT-style greedy rule), using a running per-machine load tracker so
+that a removed job's original load contribution does not bias the
+choice of destination machine for jobs reinserted after it.
+
+\paragraph{Acceptance}
+The reconstructed solution is accepted only if it does not worsen the
+incumbent's makespan ($C_{\max}(x') \leq C_{\max}(x)$) -- the same
+purely greedy acceptance rule used by ILS, chosen deliberately so that
+any difference between the two frameworks reflects the search
+mechanism itself (destruction-reconstruction vs.\ neighbourhood-operator
+local search), not a difference in acceptance criteria.
+
+\paragraph{Shared components and reward}
+\texttt{ig\_ql} reuses, unchanged, the same 81-state representation
+(Section~\ref{sec:state}) and the same Q-Learning update rule, learning
+rate, discount factor, and $\varepsilon$-greedy schedule
+(Section~\ref{sec:qlm}) as \texttt{ils\_ql}.
+The reward is $r = \max\bigl(C_{\max}(x) - C_{\max}(x'),\, 0\bigr)$:
+unlike best-improvement local search, which by construction never
+worsens the current solution, the destruction-reconstruction step can
+produce a worse candidate $x'$ that is then rejected by the acceptance
+rule; truncating the reward at zero avoids assigning a negative
+learning signal for a candidate that acceptance already discards.
+The only structural differences from \texttt{ils\_ql} are therefore the
+action space (three destruction strategies rather than four
+neighbourhood operators), this reward truncation, and the
+destruction-reconstruction search step itself.
+Section~\ref{sec:ig-relwork} and Section~\ref{sec:intro} discuss how
+this specific combination differs from the closest related use of
+Q-Learning within Iterated Greedy for parallel-machine
+scheduling.
+
+\subsection{IG Method Variants and Baselines}
+\label{sec:igvariants}
+
+\paragraph{Ablation ladder}
+To isolate which components of \texttt{ig\_ql} drive its performance,
+four reduced variants are evaluated alongside the full method.
+\texttt{ig\_random} replaces the Q-Learning agent with uniform random
+selection among the three destruction strategies, isolating the
+contribution of the IG search mechanism itself from any adaptive
+selection policy.
+The remaining three variants form a $2{\times}2$ factorial design that
+crosses state-conditioning with temporal-difference (TD) learning --
+the two components combined by Q-Learning: \texttt{ig\_ucb} uses a
+global UCB1 bandit \citep{AuerEtal2002} over the three strategies (no
+state, no TD); \texttt{ig\_ucb\_ctx} uses the same UCB1 formula
+computed separately within each of the 81 states, updated by a simple
+running average with no discounting or value propagation between
+states (state, no TD); \texttt{ig\_ql\_flat} reuses the same tabular
+Q-Learning update as \texttt{ig\_ql} -- bootstrapping via
+$\gamma\max_{a'}Q(a')$, $\varepsilon$-greedy exploration -- but with a
+single aggregated state (TD, no state); and \texttt{ig\_ql} itself
+combines both (state and TD).
+Because \texttt{ig\_ql\_flat} reuses the same underlying Q-Learning
+implementation internally, with the state space collapsed to one state
+rather than reimplemented, the only difference between
+\texttt{ig\_ql\_flat} and \texttt{ig\_ql} is the size of the state
+space.
+
+\paragraph{Published baselines}
+Three additional methods from the literature are compared against,
+reimplemented from their original publications, with any necessary
+deliberate deviation documented in the corresponding source-code
+module.
+MULTIFIT \citep{CoffmanGareyJohnson1978} is a deterministic constructive
+heuristic with no local search: it binary-searches over a candidate
+machine-capacity bound and repeatedly applies First-Fit-Decreasing
+bin-packing until the tightest feasible capacity is found.
+\texttt{sa\_li\_perkins} reimplements the simulated annealing method of
+\citet{LiPerkins2024}: a neighbourhood of random inter-machine swaps and
+moves, with worsening moves accepted with probability $\exp(-a/T)$ (a
+fixed-parameter form that, as in the original article, does not scale
+with the magnitude of the worsening) and $T$ decayed geometrically;
+under the original parameterisation ($T_0=10$, decay $0.9$, $a=1$), the
+temperature saturates within roughly the first 100 iterations
+regardless of the total budget, so the method spends most of a longer
+run in an essentially greedy regime -- a property of the published
+design, not of the reimplementation used here.
+BCO \citep{DavidovicEtal2012} is a population-based constructive
+metaheuristic in which a colony of bees builds solutions job by job via
+weighted-random task and machine selection, then recruits within the
+colony via a roulette-wheel loyalty mechanism across iterations; the
+``Modified BCO'' variant (their Section~5.3) is implemented, reported in
+the original article as its best-performing configuration.
+The baselines differ in how they are budgeted.
+\texttt{sa\_li\_perkins} starts from the same LPT solution as
+\texttt{ig\_ql} and runs under the same iteration budget (up to its own
+early-stopping rule). \texttt{bco} is a constructive method: it starts
+from an empty solution and, instead of the iteration budget, receives
+the same total number of constructive moves, i.e.\
+$I = \max(1,\lfloor T/(5n)\rfloor)$ outer iterations against $I=100$ in
+the original publication (Section~\ref{sec:f2-sota} relaxes this rule).
+MULTIFIT is a one-shot constructive method with no budget.
+
+
+% =====================================================================
+\section{Computational Experiments}
+\label{sec:experiments}
+
+This section reports the computational study; Table~\ref{tab:evidence} maps the
+claims of the paper to the evidence. After the setup (Section~\ref{sec:setup}), it
+presents the performance of \texttt{ig\_ql} against the ILS family and LPT
+(Section~\ref{sec:f1-headline}), against three published baselines, with a
+sensitivity analysis of their budget rules (Section~\ref{sec:f2-sota}), and against
+stronger baselines (the differencing method, a start from the best constructive
+solution) with a certified lower bound and a quality--time comparison
+(Section~\ref{sec:exact-ref}); a decomposition of its advantage into a search
+component and a learning component, and tests of why the latter is small, including a
+comparison of a local-search hybrid at equal iterations and at equal CPU time
+(Section~\ref{sec:f3f4-ablation}); a learning-free recipe that follows from them, and a test of
+whether a local search added to it pays at equal CPU time (Section~\ref{sec:recipe}); an external validation on published benchmark instances,
+with two pre-specified confirmatory tests and exact reference solutions
+(Section~\ref{sec:external}); the structural limits of the ILS mechanism and the role
+of the granularity of the processing times (Section~\ref{sec:nm-structural}); an
+out-of-sample test of a one-feature rule that chooses between IG and ILS per instance
+(Section~\ref{sec:dispatch}); the same protocol on unrelated machines, at sizes up to
+$1000\times50$ against a MILP and on the standard benchmark (Section~\ref{sec:unrelated}); and a summary of the companion \texttt{ils\_ql} study
+(Section~\ref{sec:ils-summary}). Convergence, further robustness checks (seeds, other
+distributions, equal CPU time, hyperparameters), the certified bound and the record of
+every pre-specified analysis are in the supplement.
+
+\begin{table}[t]
+\centering
+\caption{Map of the claims of the study, the evidence for each and where it is reported. All hypotheses
+were specified before the runs; non-confirmations (such as the budget law) are reported in the sections indicated.}
+\label{tab:evidence}
+{\scriptsize\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{0.27\textwidth}p{0.45\textwidth}p{0.18\textwidth}@{}}
+\toprule
+Claim & Evidence (size of the effect) & Sections \\
+\midrule
+1. The search structure, not the learned policy, drives the gain &
+$\mathrm{P}||C_{\max}$: IG beats ILS by $0.3$--$0.7\%$ against a policy effect of $0.01$--$0.05\%$; $\mathrm{R}||C_{\max}$: IG with local search beats ILS by $4.2\%$ (also at equal CPU) against $0.15\%$ &
+\ref{sec:f3f4-ablation}, \ref{sec:unrelated} \\[2pt]
+2. The policy gain is small, real and replicates &
+$0.01$--$0.05$ pp on $4{,}160$ held-out and $2{,}690$ new published instances, independent of the state; $-0.011\%$ on seed averages of 12 classes &
+\ref{sec:external}, \ref{sec:f3f4-ablation} \\[2pt]
+3. It is limited by headroom and by what an online learner can capture &
+Strategy headroom $0.04\%$ ($\mathrm{P}||C_{\max}$) vs.\ $0.38\%$ ($\mathrm{R}||C_{\max}$); with real headroom (destruction size) neither more budget nor pre-training makes Q-Learning beat offline validation; at $1000\times50$ it captures a $1.7\%$ headroom in one distribution and is worse than random selection in two; for the destruction size at $700$ benchmark instances an online or pre-trained agent is worse than random choice ($+0.15\%$) and than validation ($+0.25$ to $+0.36\%$) &
+\ref{sec:f3f4-ablation}, \ref{sec:unrelated} \\[2pt]
+4. A learning-free recipe is the best method &
+Tuned $d$ plus a start from the best constructive heuristic: $74.7\%$ provably optimal ($48.5\%$ for MULTIFIT), improves $26$--$43\%$ of the instances; $89.0\%$ with the CPU time of its local-search hybrid, which is then worse by $0.034\%$ &
+\ref{sec:exact-ref}, \ref{sec:recipe} \\[2pt]
+5. Granularity of the times decides IG vs.\ ILS &
+Holds on six distributions, at equal CPU and with a strong start in both mechanisms; a one-feature rule exploits it &
+\ref{sec:nm-structural}, \ref{sec:dispatch} \\[2pt]
+6. The attribution is problem-dependent in magnitude &
+Policy effect $13\times$ larger for unrelated machines; ILS policy harmful in both; MILP better than the IG there, up to $1000\times50$, but on par with the LP-started IG; replicated on the standard benchmark (700 instances): mechanism $2.1\%$ at equal CPU, policy $0.03$--$0.06\%$ not confirmed, validation beats the policy by $0.07\%$; an LP-started IG is $1.18\%$ better at equal CPU and $0.97\%$ above the best known (baseline $2.23\%$), $0.25\%$ with a restricted MILP &
+\ref{sec:unrelated} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\subsection{Experimental Setup}
+\label{sec:setup}
+
+All experiments use the synthetic instance generator of
+Section~\ref{sec:problem} ($p_j \sim \mathrm{Uniform}[1,100]$ unless
+noted otherwise) across twelve instance classes, identified by
+$(n,m)$: six were used throughout the project --
+$(20,4)$, $(20,6)$, $(30,8)$, $(50,10)$, $(75,15)$ and $(100,20)$, with
+$n/m$ ratios between $3.3$ and $5.0$ -- and six were added later to
+probe larger scales and a wider range of $n/m$: $(40,5)$, $(60,20)$,
+$(150,15)$, $(150,30)$, $(250,25)$ and $(300,20)$, with $n/m$ ratios
+between $3.0$ and $15.0$. Each replication uses an independently
+sampled random instance (distinct seed), not a repeated run on a
+fixed instance, so that reported statistics reflect generalisation
+across instances of a class, not just variance of the search
+procedure.
+
+The method roster grew from 8 to 23 named methods over the course of
+the project. In its final form it comprises: LPT (constructive
+baseline, Section~\ref{sec:problem}); three published
+baselines reimplemented for this study, MULTIFIT
+\citep{CoffmanGareyJohnson1978}, a simulated-annealing method after
+\citet{LiPerkins2024} (\texttt{sa\_li\_perkins}), and a Bee Colony
+Optimisation method after \citet{DavidovicEtal2012} (\texttt{bco});
+eight ILS variants at the standard budget (\texttt{ils\_random},
+\texttt{ils\_ucb}, \texttt{ils\_rf}, \texttt{ils\_ql},
+\texttt{ils\_ql\_ws}, plus three mechanism-ablation controls,
+\texttt{ils\_pm}, \texttt{ils\_ap} and \texttt{ils\_sarsa}, that
+replace the Q-Learning agent with, respectively, Probability Matching,
+Adaptive Pursuit and SARSA); four single-operator ILS controls
+(\texttt{ils\_op1\_only} through \texttt{ils\_op4\_only}) that restrict
+the local search to one operator; two extended-budget ILS variants
+(\texttt{ils\_rand\_hi}, \texttt{ils\_ql\_hi}, Supplementary Section~\ref{S-sec:ils-framework});
+and the five-method \texttt{ig\_*} family (Section~\ref{sec:igvariants}):
+\texttt{ig\_random}, \texttt{ig\_ucb}, \texttt{ig\_ucb\_ctx},
+\texttt{ig\_ql\_flat} and \texttt{ig\_ql}. All 23 methods were run on
+all 12 classes, single-threaded, one CPU core per run, giving
+$22{,}070$ individual runs in total (\texttt{results.csv}). All
+methods, instance generation and results aggregation are implemented
+in Python, using NumPy \citep{HarrisEtal2020} and pandas
+\citep{McKinney2010} for numerical and tabular data handling. Later
+batteries (LDM and seeded variants, state, reward and hyperparameter
+variants, other distributions, seeds, equal CPU time) reuse the same
+instances or generators and are described where they are used; each was
+specified in the research diary, with hashes of the code, before it was
+run (Supplementary Section~\ref{S-sec:prereg-record}).
+
+Two replication regimes coexist, reflecting this chronological growth
+rather than a deliberate factorial design. Table~\ref{tab:replication}
+summarises them: the twelve original-ILS-family methods (the eight
+standard-budget ILS variants plus the four single-operator controls)
+were evaluated with $N=30$ independent instances on the six original
+classes, matching the project's earliest phase
+(Supplementary Section~\ref{S-sec:ils-chapter}); every other method-class combination
+-- LPT, the three published baselines, the two extended-budget ILS-HI
+variants, the entire \texttt{ig\_*} family, and \emph{all} methods on
+the six later classes -- used $N=100$. The smallest class, $(20,4)$,
+is the single exception that was never revisited: the original-ILS
+methods there remain at $N=30$, and even \texttt{ig\_ql} itself was
+only ever run there at $N=30$ (its four ablation siblings, introduced
+later, were run there directly at $N=100$). This is not an oversight:
+in this class essentially every method already reaches the lower bound
+(the mean GAP of \texttt{ig\_ql} is $0.00\%$), leaving negligible room
+for any method to differentiate itself, so re-running it at higher $N$
+was not prioritised.
+
+\begin{table}[ht]
+\centering
+\caption{Replications ($N$) by method group and instance-class group.
+         $^\dagger$\texttt{ig\_ql} itself follows the top row at
+         $(20,4)$; its four ablation siblings (introduced later)
+         follow the bottom row throughout.}
+\label{tab:replication}
+{\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Method group & $(20,4)$ & 5 other original classes & 6 later classes \\
+\midrule
+Original ILS family (12 methods)$^\dagger$ & 30 & 30 & 100 \\
+LPT, 3 published, 2 ILS-HI variants & 30 & 100 & 100 \\
+\texttt{ig\_*} family (5 methods) & 100 & 100 & 100 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+The standard iteration budget is $T=1{,}000$ for all methods except
+MULTIFIT, which is a one-shot constructive procedure with no iteration
+budget (Section~\ref{sec:igvariants}); the extended-budget \texttt{-HI}
+variants use between $T=1{,}500$ and $T=8{,}000$ depending on the class,
+re-derived from the fraction of the 81-state space visited at least
+three times (Section~\ref{sec:qlm}) rather than a single fixed
+multiplier. Unless stated otherwise, percentage gaps are
+relative to the classical lower bound
+$\mathrm{LB} = \max(\max_j p_j, \lceil \sum_j p_j / m \rceil)$
+(Section~\ref{sec:problem}); Sections~\ref{sec:exact-ref} and
+\ref{sec:external} also use a certified bound and exact optima.
+
+\subsection{Headline Result: \texttt{ig\_ql} versus ILS and LPT}
+\label{sec:f1-headline}
+
+Table~\ref{tab:f1_headline} reports paired, two-sided Wilcoxon
+signed-rank tests \citep{Wilcoxon1945}, computed with SciPy
+\citep{VirtanenEtal2020} and Holm-Bonferroni corrected
+\citep{Holm1979} within this family of $8 \times 12 = 96$ comparisons,
+following standard practice for comparing metaheuristics
+\citep{DerracEtal2011}, for \texttt{ig\_ql} against LPT and
+the seven strongest ILS variants (\texttt{ils\_random},
+\texttt{ils\_ucb}, \texttt{ils\_rf}, \texttt{ils\_ql},
+\texttt{ils\_rand\_hi}, \texttt{ils\_ql\_ws}, \texttt{ils\_ql\_hi}),
+across all 12 classes, together with the paired rank-biserial effect
+size \citep{Kerby2014}. Of the 96 comparisons, 72 remain significant
+after the Holm correction (79 before correction; 7 lose significance under the more
+conservative family-wise procedure), and every one of the 72
+significant comparisons favours \texttt{ig\_ql}: it is never
+significantly beaten by any ILS variant or by LPT, in any class.
+
+\input{f1_headline_ig_ql_vs_ils.tex}
+
+Against LPT specifically, the advantage is significant and large in
+all 12 classes (effect sizes close to $-1$, meaning \texttt{ig\_ql}
+wins essentially every paired instance). Restricting attention to the
+six strongest ILS competitors -- \texttt{ils\_ql}, \texttt{ils\_ql\_hi},
+\texttt{ils\_ql\_ws}, \texttt{ils\_rand\_hi}, \texttt{ils\_rf} and
+\texttt{ils\_ucb}, the methods a reviewer is most likely to ask about
+-- $52$ of the $72$ comparisons ($6$ competitors $\times$ $12$
+classes) are Holm-significant within the family of $96$, and
+\emph{all 52} favour \texttt{ig\_ql}: not one of these stronger
+comparisons ever reverses. The $24$ non-significant cells of the
+family of $96$ fall in four classes, six cells each -- $(20,4)$,
+$(40,5)$, $(150,15)$ and $(300,20)$ -- where the gap available to any
+method is already tiny (mean GAP below $0.3\%$ for both sides) and the
+paired differences, while occasionally nominally in favour of an ILS
+variant, are too small relative to their variance to survive
+correction. This is the most robust and least qualified result of the
+present study.
+
+\subsection{\texttt{ig\_ql} versus Published Baselines}
+\label{sec:f2-sota}
+
+Table~\ref{tab:f2_sota} repeats the same protocol for \texttt{ig\_ql}
+against the three reimplemented published baselines
+(Section~\ref{sec:igvariants}): MULTIFIT \citep{CoffmanGareyJohnson1978},
+\texttt{sa\_li\_perkins} \citep{LiPerkins2024} and \texttt{bco}
+\citep{DavidovicEtal2012}. Of the $3 \times 12 = 36$ comparisons, 35
+are Holm-significant -- the sole exception, discussed below, is a
+genuine statistical tie -- but, unlike Section~\ref{sec:f1-headline},
+the direction is not uniform even among the significant cases.
+
+\input{f2_sota_ig_ql_vs_published.tex}
+
+\texttt{ig\_ql} beats \texttt{sa\_li\_perkins} and \texttt{bco} in all
+12 classes each, with effect sizes at or near $-1$ throughout and mean
+gap differences that widen, not narrow, with instance size (e.g.\ mean
+GAP against \texttt{bco} grows from $0.72\%$ at $(20,4)$ to $19.8\%$ at
+$(60,20)$ and $25.4\%$ at $(150,30)$). Against MULTIFIT the picture
+reverses at scale: \texttt{ig\_ql} wins five of the six classes with
+$n \le 60$ -- the exception, $(60,20)$, is a genuine statistical tie
+($p_{\mathrm{holm}}=0.612$, effect size $-0.09$), not a loss -- but
+loses all six classes with $n \ge 75$, all six losses Holm-significant
+with effect size $+1$. This crossover is structurally explained, not
+anomalous. MULTIFIT is a one-shot bin-packing-style
+construction with no iteration budget at all -- it runs once to
+completion regardless of $n$ -- and its absolute GAP improves with
+scale under classical bin-packing approximation theory (from
+$0.76\%$ at the smallest classes to $0.17\%$ at the largest); it is
+also, on the evidence surveyed independently in a 2025 systematic
+review of P$\|$C$_{\max}$ heuristics that itself co-authors the BCO
+baseline used here \citep[Section~5]{OstojicEtAl2025}, one of the
+best-regarded classical constructive heuristics for this problem, not
+a deliberately weak comparator. \texttt{ig\_ql}, by contrast, uses a
+\emph{fixed} iteration budget ($T=1{,}000$) independent of $n$, so its
+absolute GAP grows slowly but steadily with scale (from near $0\%$ to
+$0.67\%$ across the same range) -- enough, at the two-to-four largest
+classes, to fall behind MULTIFIT's scale-improving curve. \texttt{bco}
+degrades with scale for the opposite structural reason: its per-outer-%
+iteration cost is $B \times n$ constructive moves for a fixed
+population parameter $B=5$ \citep{DavidovicEtal2012}, so under the
+same total-moves budget used to equalise it with the other methods
+(Section~\ref{sec:igvariants}) its number of outer iterations collapses
+to $I = \max(1, T/(Bn))$, i.e.\ one or two outer iterations once
+$n \gtrsim 80$ -- a consequence of the equal-total-moves budget rule
+adopted in this study, not of the published algorithm, which uses
+$I=100$ outer iterations (the sensitivity analysis below relaxes this
+rule). The crossover with MULTIFIT, by contrast, was tested directly:
+running \texttt{ig\_ql} at up to $10\times$ its standard budget
+($T=10{,}000$) on the most extreme class, $(300,20)$, shows that the
+crossover is not an artefact of an unfairly small budget for
+\texttt{ig\_ql}: mean GAP improves only
+from $0.094\%$ ($T=1{,}000$) to $0.077\%$ ($T=5{,}000$), then plateaus
+exactly at $0.077\%$ at $T=10{,}000$ -- an order of magnitude more
+search than the standard protocol still leaves \texttt{ig\_ql} roughly
+$30\times$ worse than MULTIFIT's $0.003\%$ on this class. The net
+result -- \texttt{ig\_ql} wins 16 of 18 comparisons with published baselines at the
+original six classes and loses specifically to a 1978 heuristic with
+no search budget at all, only at large $n$ -- is reported without
+euphemism: where MULTIFIT wins it does so at roughly one-fiftieth of the
+CPU time of \texttt{ig\_ql} (at $(300,20)$), so for $n \ge 75$ on this
+instance family MULTIFIT dominates \texttt{ig\_ql} in both quality and
+time. Section~\ref{sec:exact-ref} adds LDM and an IG that starts from the
+best constructive solution.
+
+\paragraph{Sensitivity of the SA and BCO comparisons to budget rules}
+Two design features of these baselines could flatter \texttt{ig\_ql}
+and are therefore examined directly. First, \texttt{sa\_li\_perkins}
+halts once its best solution is within $1\%$ of the lower bound; in
+the classes $(150,15)$, $(250,25)$ and $(300,20)$ the initial LPT
+solution already satisfies this, so no search takes place, and in
+every class with $n \ge 60$ its mean GAP equals that of LPT to three
+decimals. Second, \texttt{bco} receives only
+$I = \max(1,\lfloor T/(5n)\rfloor)$ outer iterations, against $I=100$
+in the original publication. Table~\ref{tab:f7_sota_sensitivity}
+reruns both under relaxed rules on the same instances: SA without its
+stopping rule (all $T=1{,}000$ iterations); BCO with $I$ calibrated so
+that its CPU time equals that of \texttt{ig\_ql} ($I$ from $31$ at
+$n=20$ to $6$ at $n=300$); and BCO with the published $I=100$, which
+costs $3.3$--$14.8\times$ the CPU time of \texttt{ig\_ql} (measured in
+the same session). \texttt{ig\_ql} remains Holm-significantly better
+than all three variants in all 12 classes (36 of 36 tests), so the
+\emph{direction} of the comparison does not depend on the budget rule.
+The \emph{magnitudes} do: BCO's mean GAP at $(100,20)$ falls from
+$14.9\%$ to $1.7\%$ at $I=100$, so the large gaps reported for BCO
+above (up to $25\%$) largely reflect the equal-total-moves rule rather
+than the capability of the algorithm; and SA without its stopping rule
+still leaves the LPT solution unchanged in $(60,20)$, $(75,15)$ and
+$(100,20)$, where a single random move or swap almost never improves a
+balanced LPT schedule. MULTIFIT has no budget and is unaffected.
+Finally, the comparison does not depend on the learning component:
+\texttt{ig\_random}, tested against the original SA, BCO and MULTIFIT,
+beats SA and BCO in all 12 classes and, against MULTIFIT, wins five
+classes, ties one and loses six -- the same pattern as \texttt{ig\_ql}.
+Re-executing \texttt{ig\_ql} on all 850 instance replications of this
+analysis reproduced every stored makespan exactly, confirming that the
+iteration-budget protocol is deterministic.
+
+\input{f7_sota_sensitivity.tex}
+
+\subsection{Stronger Baselines and an Exact Reference}
+\label{sec:exact-ref}
+
+Two objections to Section~\ref{sec:f2-sota} call for a direct answer: the
+baseline set omits the Largest Differencing Method (LDM), and
+\texttt{ig\_ql} starts from LPT rather than from the best constructive
+solution at hand. Moreover, a GAP to the classical bound mixes
+algorithmic error with bound slack. Both points were examined with
+analyses specified before the runs (hypotheses, decision rules and
+hashes of the frozen code are in the research diary).
+
+\paragraph{A certified bound}
+The linear relaxation of the arc-flow model
+\citep{MradSouayah2018,GharbiBamatraf2022} yields a valid lower bound,
+LB$^{\mathrm{AF}}$: the smallest capacity whose relaxation needs at most
+$m$ bins. It was solved with the interior-point method of HiGHS (median
+$0.2$\,s). Against the proven optima of the iAF method
+\citep{OstojicEtAl2025} on 150 published instances it never exceeded the
+optimum and equalled it in 148 ($98.7\%$); brute-force checks confirm
+its validity on small instances. On the $1{,}200$ synthetic instances it
+equals the best makespan found by the 23 original methods in $903$ cases
+($75.3\%$), so for those the optimum is \emph{proven}.
+
+\paragraph{Stronger baselines}
+LDM is the multiway Karmarkar--Karp differencing heuristic
+\citep{KarmarkarKarp1983,MichielsEtal2007}. \textsc{IG-QL}$^{+}$ is
+\texttt{ig\_ql} started from the best of LPT, MULTIFIT and LDM (never
+worse than its seed by construction; same budget and parameters).
+Table~\ref{tab:f12_stronger} gives the mean GAP against
+LB$^{\mathrm{AF}}$ and the share of provably optimal solutions on the
+$1{,}130$ synthetic instances for which all methods were run, and
+Table~\ref{tab:f13_tests} the eight pre-specified tests, on the
+synthetic instances and on the 6\,780 published ones. All eight
+hypotheses are confirmed after Holm correction, but their magnitudes
+qualify the picture of Section~\ref{sec:f2-sota}.
+
+\input{f12_stronger_baselines.tex}
+\input{f13_stronger_baselines_tests.tex}
+
+\emph{(a)} LDM improves on LPT (GAP$^{\mathrm{AF}}$ $1.23\%$ against
+$2.18\%$) but is worse than MULTIFIT ($0.43\%$; MULTIFIT wins $585$ of
+the $725$ decisive synthetic instances), so it does not alter the ranking
+of the constructive heuristics. Plain \texttt{ig\_ql} is better than LDM
+on average (P4) but loses to it in $21\%$ of the synthetic and $36\%$ of
+the published instances, and in $67$, $70$ and $53$ of the $100$ instances
+of $(150,15)$, $(250,25)$ and $(300,20)$.
+\emph{(b)} Starting IG from the best constructive solution recovers the
+large-$n$ classes: \textsc{IG-QL}$^{+}$ ties with the best constructive
+heuristic in every instance with $n \geq 100$ (hence matches MULTIFIT
+there) and improves on it in $19\%$ (synthetic) and $34\%$ (published)
+of the instances, never worsening it (P3). Its mean GAP$^{\mathrm{AF}}$
+is $0.17\%$, against $0.35\%$ for \texttt{ig\_ql} and $0.43\%$ for
+MULTIFIT, and $69.3\%$ of its solutions are provably optimal, against
+$34.3\%$ and $48.5\%$ (P2). Seeding is not uniformly beneficial: at
+$(20,4)$ the LPT start is marginally better ($0.000\%$ against
+$0.026\%$).
+\emph{(c)} The Q-Learning policy adds almost nothing to the strong
+start: $\bar d = -0.010\%$ (synthetic) and $-0.013\%$ (published) against
+random destruction from the same seed (P1), inside the $\pm0.05\%$
+practical-equivalence margin although statistically detectable with
+$6{,}780$ instances.
+
+\paragraph{A symmetric strong start}
+Starting only the IG from the best constructive solution could favour it, so ILS
+was started the same way (\textsc{ILS-QL}$^{+}$ and \textsc{ILS-Random}$^{+}$;
+Table~\ref{tab:f17_ils_seeded}). The Q-Learning policy does not help the seeded ILS
+either ($+0.015\%$ synthetic, $+0.024\%$ published: slightly worse than random
+selection). With the same strong start the mechanism contrast keeps its dependence
+on granularity: \textsc{IG-QL}$^{+}$ is better on the synthetic instances
+($-0.093\%$; $164$ wins against $10$) and on average on the published ones
+($-0.065\%$), but \textsc{ILS-QL}$^{+}$ wins more published instances ($554$ against
+$232$), in particular in family B (322 of 400) while the IG wins by magnitude in C
+and E. The ILS improves on the best constructive heuristic in $10.1\%$ of the
+synthetic and $52.5\%$ of the published instances, against $19.3\%$ and $32.9\%$
+for the IG. For $n \geq 150$ the two seeded methods are identical in every synthetic
+instance: nothing is left to improve on the constructive solution there.
+
+\input{f17_ils_seeded.tex}
+
+\paragraph{Quality versus time}
+Figure~\ref{fig:pareto} places the methods on the quality--time plane;
+CPU times come from one sequential session on an otherwise idle machine
+(those stored with the earlier batteries were measured on different
+machines and are not used for ratios). \textsc{IG-QL}$^{+}$ lies on the
+Pareto frontier in all three size ranges, at $0.2$--$0.7$\,s per run.
+For the same $T$, \texttt{ils\_ql} costs between $1.3\times$ ($n=20$) and
+$24.8\times$ ($n=300$) the CPU time of \texttt{ig\_ql}, and BCO with its
+published $I=100$ costs $3.2$--$16\times$; both are dominated in the
+panel means. MULTIFIT costs $50$--$500$ times less than \texttt{ig\_ql}.
+Because an ILS iteration is costlier, comparing ILS and IG at equal $T$
+favours ILS in CPU terms; Supplementary Section~\ref{S-sec:eqcpu} checks that this
+does not drive the conclusions.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_pareto.pdf}
+\caption{Quality--time trade-off on the synthetic classes, in three size
+ranges (each marker is the mean over the four classes of the panel; GAP
+against the certified bound; CPU time is the geometric mean of the
+class medians, log scale). The dashed line is the Pareto frontier.
+\textsc{IG-QL}$^{+}$: \texttt{ig\_ql} started from the best of LPT,
+MULTIFIT and LDM.}
+\label{fig:pareto}
+\end{figure}
+
+\subsection{Mechanism versus Policy: Ablation and Isolation}
+\label{sec:f3f4-ablation}
+
+Sections~\ref{sec:f1-headline}--\ref{sec:f2-sota} establish that
+\texttt{ig\_ql} wins; this section asks \emph{why}, using the ablation
+ladder and isolation control introduced in Section~\ref{sec:igvariants}.
+
+\paragraph{The Q-Learning-specific contribution is small, and invisible
+to per-class tests} Table~\ref{tab:f3_ablation} repeats the Wilcoxon/Holm
+protocol for \texttt{ig\_ql} against its four ablation siblings --
+\texttt{ig\_random}, \texttt{ig\_ucb}, \texttt{ig\_ucb\_ctx} and
+\texttt{ig\_ql\_flat} -- across all 12 classes ($4 \times 12 = 48$
+comparisons).
+
+\input{f3_ablation_ig_ql_vs_controls.tex}
+
+Only 7 of the 48 raw $p$-values fall below $0.05$, and \emph{none}
+survive the Holm correction. The closest case, \texttt{ig\_ql} versus
+\texttt{ig\_ql\_flat} at $(100,20)$, has $p_{\mathrm{holm}} = 0.224$.
+Class by class, then, no cell of the $2\times2$ design that crosses
+state-conditioning with TD-learning (Section~\ref{sec:igvariants})
+shows a detectable advantage: neither UCB1 with state-conditioning
+alone (\texttt{ig\_ucb\_ctx}) nor tabular Q-Learning collapsed to a
+single aggregated state (\texttt{ig\_ql\_flat}) is separable from
+uniform random selection (\texttt{ig\_random}), and the full
+\texttt{ig\_ql} agent is not separable from any of them. This is a
+statement about \emph{detectability}, not about exact equality. With
+$N \le 100$ instances per class and a Holm correction over 48 tests,
+this design can only expose effects far larger than the ones that
+separate \texttt{ig\_ql} from the ILS family
+(Sections~\ref{sec:f1-headline}--\ref{sec:f2-sota}); an effect of a few
+percent of the (already small) GAP is below its resolution. Section~\ref{sec:external}
+shows that such an effect does exist: pooled within each published
+benchmark family, \texttt{ig\_ql} is slightly but significantly better
+than \texttt{ig\_random}, and a test pre-specified before running
+4\,160 held-out instances confirms it in the three families that
+admit a confirmatory test. The accurate summary of the ablation is
+therefore that the learning-specific contribution is \emph{small} -- a
+few hundredths of a percentage point of GAP -- while the search
+mechanism accounts for the overwhelming majority of the advantage over
+the ILS family, as the paragraph on the search mechanism below shows.
+
+\paragraph{The original state was nearly degenerate; a more informative one
+does not change the conclusion}
+In the original runs the load features are constant: in the IG runs
+examined, $f_1$ and $f_2$ fall in bin 0 at every step and the agent
+visits only $5$--$7$ distinct states on average, which encode progress
+and stagnation (Section~\ref{sec:state}). The ablation above therefore
+tests state-conditioning on that reduced information. To check whether
+this drives the null, two recalibrated states were tested with the same
+agent and hyperparameters (Table~\ref{tab:f10_state}): thresholds at the
+terciles of each feature in calibration runs on separate instances
+(``cal''), and features expressed relative to their value at the start
+of the run (``rel''), which removes the instance-specific component that
+cannot help an agent that learns from scratch in each run. Both arms
+make the features vary (about $18$ distinct states per IG run and $27$
+per ILS run; the most occupied bin of $f_1$ or $f_2$ holds $54$--$72\%$
+of the steps, against $100\%$). With $N=100$ instances in each of the 12
+classes (hypotheses, decision rules and calibration thresholds were
+written down in the research diary before the runs),
+\texttt{ig\_ql} with either state is statistically indistinguishable
+from random destruction ($-3.1\%$ and $-3.6\%$ pooled GAP,
+$p_{\mathrm{holm}}=0.28$), and \texttt{ils\_ql} with either state is
+significantly \emph{worse} than random operator selection ($+4.8\%$ and
+$+4.7\%$, $p_{\mathrm{holm}}=0.009$). Neither differs from the original
+state (IG: $p \geq 0.79$; ILS, six original classes:
+$p_{\mathrm{holm}} \geq 0.56$). The only gain is against the stateless
+TD learner (\texttt{ig\_ql\_flat}), which is itself nominally worse than
+random (exploratory: $+1.9\%$, $p=0.07$): conditioning on an informative
+state removes that penalty ($-4.9\%$ and $-5.4\%$,
+$p_{\mathrm{holm}}=0.012$ and $0.004$) but does not add to random
+selection. A more informative state therefore does not rescue the
+learned policy and, in ILS, hurts it; the paragraphs below test other
+explanations (headroom, reward signal, hyperparameters).
+
+\input{f10_state_recalibration.tex}
+
+\paragraph{The search mechanism itself is what wins}
+Table~\ref{tab:f4_isolation} isolates the contribution of the destroy-%
+and-reconstruct search mechanism from any adaptive selection at all,
+by comparing \texttt{ig\_random} (uniform random destruction strategy,
+zero learning) against \texttt{ils\_random} (uniform random operator
+selection, zero learning) -- the same comparison, at the same fixed
+budget, with learning removed from both sides.
+
+\input{f4_mechanism_isolation.tex}
+
+Ten of the 12 comparisons are Holm-significant, and all ten favour
+\texttt{ig\_random}; the two exceptions are again the near-ceiling
+classes $(20,4)$ and $(40,5)$. Combined with the ablation of
+Table~\ref{tab:f3_ablation}, this is the central mechanistic finding
+of the study: \texttt{ig\_ql}'s advantage over the ILS family comes
+overwhelmingly from the destroy-and-reconstruct search mechanism
+itself, not from the Q-Learning policy layered on top of it. This
+decomposition mirrors, for \texttt{ig\_ql}, exactly the question that
+Supplementary Section~\ref{S-sec:ils-chapter} asks of \texttt{ils\_ql} -- there, the
+same style of analysis found that Q-Learning does not beat random
+operator selection at all; here, it finds that Q-Learning adds only a
+small improvement to a search mechanism that is already winning on its
+own.
+
+\paragraph{Which part of the search structure?}
+The advantage of the IG over the ILS mixes two things: the destruction--reconstruction
+cycle and the absence of an exhaustive local search. To separate them, a hybrid
+(IG with a short best-improvement descent after each reconstruction, \texttt{igls})
+was run on the same instances (Table~\ref{tab:f25_igls_p}). The pure IG already beats
+the ILS ($-0.59\%$, $381$ wins against $61$ on the $780$ paired instances); the local
+search adds a further $0.15\%$ to the IG ($436$ against $16$ wins; the descent is not
+a hindrance), and the hybrid beats the ILS by $0.72\%$; Q-Learning adds nothing to the
+hybrid ($-0.004\%$). The destruction--reconstruction cycle thus supplies most of the
+advantage ($0.59$ of $0.72$ points), the local search a smaller complement, and the
+policy none; for unrelated machines the pure IG does not beat the ILS and the combination
+is what wins (Section~\ref{sec:unrelated}).
+
+\input{f25_igls_p.tex}
+
+That $0.15\%$ is, however, a comparison at an equal number of iterations, and the
+descent multiplies the CPU time per iteration by a factor between $2.1$ and $52.4$
+depending on the class. Giving the IG without local search the same CPU time as the hybrid
+($T_{\mathrm{eq}}$ between $2{,}064$ and $52{,}425$ iterations, calibrated sequentially;
+Table~\ref{tab:f28_igls_eq}) reduces the advantage of the local search to $0.010\%$
+(90\% interval $0.002$--$0.018$; the pre-specified test is formally significant,
+$p=0.015$, but the interval lies inside $\pm0.05\%$): $93\%$ of the gain is an effect of
+budget. In four classes ($20\times6$, $30\times8$, $50\times10$, $75\times15$) the hybrid
+is still ahead by $0.04$--$0.07\%$, whereas in the other eight the plain IG is level or ahead
+(by up to $0.04\%$, in $250\times25$). Both reach about $55\%$ of
+provably optimal solutions, against $37\%$ for the IG at $T=1{,}000$. On
+identical machines, then, the active ingredient is destruction--reconstruction and
+the number of iterations it is given; the descent mostly substitutes for iterations.
+
+\input{f28_igls_eq.tex}
+
+\paragraph{Why the policy adds so little: headroom}
+Rival explanations for the small policy effect were tested with analyses
+specified beforehand (Table~\ref{tab:f14_policy}). If the three destruction
+strategies were interchangeable, no selector would have anything to learn.
+Running IG with each strategy fixed shows that the best fixed strategy per
+class (chosen on the same instances, hence optimistic) is no better than
+random selection ($\bar d = 0.000\%$), and that even a selector that knew the
+best strategy of every instance would gain only $0.037\%$. One strategy
+(removing the longest jobs) is by itself $0.06$--$3.7\%$ worse than random,
+since it is deterministic and stalls, yet avoiding it is worth less than
+$0.04\%$: the search saturates within $T=1{,}000$ even when a third of the
+iterations are spent on it.
+
+\paragraph{Signal and pre-training}
+The sparse reward (about three non-zero values per run) could hide a real
+effect. A dense reward, the relative reduction of the sum of squared machine
+loads, makes Q-Learning significantly \emph{worse} than random ($+0.084\%$,
+$p_{\mathrm{Holm}}<10^{-20}$), because improving the balance is not improving
+the makespan; pre-training the table of each class on 50 independent
+instances leaves it equivalent to random ($+0.002\%$). The null is thus not
+an artefact of reward sparsity or of learning from scratch, at least for these
+designs; other dense rewards were not tried.
+
+\paragraph{Hyperparameters}
+Changing $\alpha$, $\gamma$ or the $\varepsilon$ decay changes nothing
+($|\bar d| \leq 0.023\%$). The destruction size matters more, and the policy
+matters more when it is small: with $d=0.1n$, $0.2n$ and $0.4n$ the advantage
+over the random control with the same $d$ is $0.11\%$, $0.06\%$ and $0.04\%$.
+The default $d=0.3n$ was never tuned on the evaluation instances: at $d=0.1n$
+the mean GAP of \texttt{ig\_ql} falls from $0.62\%$ to $0.19\%$ at $(100,20)$
+and from $0.84\%$ to $0.34\%$ at $(150,30)$, so the crossover with MULTIFIT of
+Section~\ref{sec:f2-sota} moves to larger $n$ rather than disappearing.
+
+\paragraph{Seeds}
+The main batteries run each method once per instance. Ten algorithm seeds on
+20 instances in each of the twelve classes (240 instances; Supplementary
+Section~\ref{S-sec:seedvar}) show that the instance explains a median of
+$44$--$45\%$ (IG) and $72$--$74\%$ (ILS) of the variance of the GAP, and that averaging over
+seeds sharpens the resolution: the policy effect is $\bar d=-0.011\%$ (90\%
+interval $-0.019$ to $-0.003$, $p=0.009$), real but strictly negligible
+(the interval lies inside $\pm0.05\%$), and only one class, $(30,8)$, detects it
+individually after correction ($-0.076\%$). The IG-versus-ILS contrast, by
+contrast, is $-0.49\%$ (random) and $-0.53\%$ (Q-Learning) on seed averages,
+with the same sign as the single-run contrast in $23$ of $24$ class--variant
+pairs. The policy effect is thus real but of the order of $0.01$--$0.05\%$ at
+default settings (up to $0.11\%$ with small destruction sizes), against
+$0.3$--$0.7\%$ for the mechanism.
+
+\input{f14_policy_robustness.tex}
+
+\paragraph{An action space with real headroom}
+The headroom argument can be turned around: if the action is the destruction
+\emph{size}, where Section~\ref{sec:f3f4-ablation} found up to $0.45\%$ at stake,
+a learner should gain. Table~\ref{tab:f15_dsel} reports the pre-specified test
+with five fractions $d/n \in \{0.05,\ldots,0.40\}$ and random destruction
+($1{,}200$ instances, $T=1{,}000$). The best fraction chosen \emph{by validation}
+on 30 separate instances per class beats random choice of $d$ out of sample
+($\bar d=-0.089\%$): the headroom is real. Q-Learning over the same five
+actions does not capture it ($+0.015\%$; $2\%$ of the headroom), neither does
+UCB1 ($+0.007\%$), and Q-Learning is worse than the validated fraction by
+$0.103\%$ in $318$ of the $375$ decisive instances. The hypothesis that the
+policy matters once there is headroom is therefore refuted for this agent.
+
+\input{f15_dsel.tex}
+
+\paragraph{Less budget, more budget, pre-training}
+Two further explanations were tested (Tables~\ref{tab:f20_budget}
+and~\ref{tab:f21_dsel_budget}). \emph{Budget.} If the policy only matters
+where the budget binds, tightening $T$ should reveal it. The headroom does
+grow ($-0.103\%$ at $T=100$, $-0.067\%$ at $250$, $-0.037\%$ at $1000$; test
+B4 confirmed), but the policy effect does not ($-0.011\%$, $-0.015\%$,
+$-0.011\%$; B1--B3 not confirmed): the fraction of the headroom that Q-Learning
+captures rises with the horizon ($0.11$, $0.22$, $0.30$), i.e.\ the agent needs
+time to learn. \emph{Horizon and cross-instance learning.} With five times the
+budget ($T=5000$) Q-Learning over destruction sizes still does not capture it
+significantly ($-0.010\%$, interval $-0.028$ to $+0.008$) although headroom remains
+($-0.049\%$); and a table pre-trained per
+class on 50 independent instances gains $0.032\%$ against random choice
+(not confirmed; $0.10$--$0.15\%$ in the two largest classes) and loses $0.063\%$
+against the fraction chosen by validation. In this problem the gain available
+from the action space is realised by choosing the parameter \emph{offline},
+on separate instances, not by the online or the cross-instance tabular
+learning tested here (Section~\ref{sec:recipe}).
+
+\input{f20_budget_law.tex}
+\input{f21_dsel_budget.tex}
+
+\paragraph{No variance reduction}
+Median-centred Levene \citep{BrownForsythe1974} and
+Fligner--Killeen \citep{FlignerKilleen1976} tests, Holm-corrected over the
+ten classes then available, reject equality of variance in none of them
+(the single nominal case, $(300,20)$, has a variance ratio of $0.996$),
+so Q-Learning does not detectably reduce the variance of the GAP either.
+
+\subsection{A Practical Recipe: Tuned Destruction Size and a Strong Start}
+\label{sec:recipe}
+
+The previous sections leave a constructive question: if learning does not pay,
+what does? The evidence points to two cheap, learning-free ingredients: a
+strong start (Section~\ref{sec:exact-ref}) and a destruction size chosen
+\emph{offline}, by validation on separate instances. \textsc{IG-Tuned}$^{+}$
+combines them: Iterated Greedy with random destruction, $d/n$ chosen per
+class on 30 separate instances (per family on 553 published instances that
+were never run, for the external data), started from the best of LPT,
+MULTIFIT and LDM, with the same budget $T=1{,}000$. Table~\ref{tab:f22_igcv}
+reports the pre-specified comparison, with all eight tests confirmed.
+
+\input{f22_igcv_seed.tex}
+
+Tuning $d$ improves on the default-$d$ IG-QL$^{+}$ ($-0.034\%$ synthetic,
+$-0.100\%$ published; the gain is concentrated in $50 \leq n \leq 75$ and in
+family C, and nil for $n \geq 150$, where the constructive heuristics are
+already hard to improve). \textsc{IG-Tuned}$^{+}$ beats MULTIFIT by $0.29\%$
+(synthetic) and $0.85\%$ (published) and LDM by $1.06\%$ and $1.15\%$, never
+returns a worse solution than the best constructive heuristic, and improves on
+it in $25.8\%$ of the synthetic and $43.0\%$ of the published instances. Against
+the certified bound, $74.7\%$ of its solutions are provably optimal (IG-QL$^{+}$:
+$69.3\%$; MULTIFIT: $48.5\%$; LDM: $34.0\%$; best constructive: $55.3\%$) and its mean GAP is
+$0.133\%$, against $0.167\%$, $0.425\%$ and $1.233\%$. The recipe is a
+statement about this problem and these budgets, not about what a better
+learner could do; but at this budget it is the strongest method of the study and
+contains no learned component.
+
+\paragraph{Does a local search help the recipe? Only at an equal number of iterations}
+The hybrid analysis of Section~\ref{sec:f3f4-ablation} suggests adding the descent of
+the hybrid to the recipe. Table~\ref{tab:f26_igcvls} tests it with a pre-specified
+design, on the same synthetic and published instances. At an equal number of
+iterations the local search helps: $-0.036\%$ on the synthetic and $-0.072\%$ on
+the published instances (F1, F3), and the recipe with local search reaches $81.2\%$
+of provably optimal solutions against $74.7\%$. But the descent is expensive. One
+iteration costs between $2.3$ and $82.9$ times more CPU time, depending on the
+class (on average $0.35$ against $6.7$ seconds per synthetic instance, and $0.37$
+against $37.5$ seconds per published instance). When the recipe \emph{without}
+local search is given the same CPU time ($T_{\mathrm{eq}}$ between $2{,}298$ and
+$82{,}855$ iterations, calibrated sequentially per class on an idle machine; the timings
+of the parallel run, which depend on the load, gave ratios between $0.74$ and $1.17$),
+it is better, not worse: the local search loses by $0.034\%$ (F2, $24$ wins against
+$115$ losses, $p_{\mathrm{Holm}}=3\times10^{-8}$), and the equal-CPU recipe reaches
+$89.0\%$ of provably optimal solutions and a mean GAP of $0.058\%$, against $0.094\%$.
+The advantage of the local search is therefore an effect of budget, not of search
+structure: the same CPU time spent on more destruction--reconstruction iterations is
+better spent. Two consequences follow: the strongest variant of the study is the
+learning-free recipe \emph{with a larger iteration budget} (on six classes it reaches $86.8\%$, $92.7\%$ and $97.5\%$ of provably optimal solutions at $T=4{,}000$, $16{,}000$ and $64{,}000$, against $75.5\%$ at $T=1{,}000$; Supplementary Table~\ref{S-tab:s_recipe_budget}); and the results at
+$T=1{,}000$ throughout the paper are comparisons at a fixed, small budget, not claims
+about what each method can reach.
+
+\input{f26_igcvls.tex}
+
+\subsection{External Validation on Published Benchmark Instances}
+\label{sec:external}
+
+To test whether the \texttt{ig\_ql} advantage generalises to instances
+this project did not design, the 13-method core roster (LPT, the three
+published baselines, \texttt{ils\_random}, \texttt{ils\_ucb},
+\texttt{ils\_ql}, \texttt{ils\_rf} and the five \texttt{ig\_*} variants)
+was run once on each of $6{,}780$ instances from the benchmark released
+with the review of \citet{OstojicEtAl2025}: a stratified sample of
+$2{,}000$ instances from each of families B, C and E (50 generator
+classes per family) and all $780$ of F (26 classes), with the same
+protocol as Section~\ref{sec:setup}, analysed per generator class with the
+Wilcoxon/Holm procedure used throughout (Holm over all classes and
+baselines of a family).\footnote{Wide-range instances of family B
+($U[1,10^{18}]$ at the extreme) overflow 64-bit load accumulators; the
+code switches to arbitrary-precision integers above a safe threshold, with
+no change of behaviour on any other instance (verified by an independent
+recomputation and regression tests).}
+
+\paragraph{The claim against the published baselines replicates}
+\texttt{ig\_ql} against SA, BCO and MULTIFIT is Holm-significant and
+favourable in a large majority of tests in all four families: B ($133$ of
+$150$ tests significant, $110$ favourable), C ($121/150$, $116$), E
+($128/150$, all $128$) and F ($67/78$, $61$). Two caveats of
+Section~\ref{sec:f2-sota} carry over: most comparisons are against SA and
+BCO, and the informative one is MULTIFIT, which \texttt{ig\_ql} beats on
+$1{,}388$ of the $2{,}703$ instances with an exact reference (below) and
+loses to on $759$.
+
+\paragraph{The mechanism-specific claims do not replicate uniformly}
+Within IG, \texttt{ig\_ql} against its four ablation siblings gives only
+$10$ of $704$ Holm-significant comparisons, inconsistent in direction:
+favourable in B ($4$ of $5$) and E ($2$ of $2$), none in C, and
+unfavourable in all three significant cases in F. These per-subfolder
+tests are low-powered; the family-level test below refines the picture.
+IG against ILS is strongly family-dependent: ILS wins essentially all
+significant comparisons in family B ($157$ of $163$ unfavourable to IG;
+its processing times are wide-range and almost duplicate-free, and
+Supplementary Section~\ref{S-sec:hybrid} traces the loss to a concrete
+cause), IG wins nearly all of family C ($100$ of $102$), and E and F are
+mixed ($33$ of $56$ and $13$ of $31$ unfavourable to IG). Neither
+mechanism dominates universally: the processing-time profile of an
+instance matters more than either fixed choice.
+
+\paragraph{A small Q-Learning effect, detected at family level and
+confirmed on held-out instances}
+Per-class and per-subfolder tests split the data into many small cells and
+correct for all of them, which leaves little power against an effect of a
+few percent of the GAP. A family-level analysis of the $6{,}780$ instances,
+one paired Wilcoxon test per family, suggested that \texttt{ig\_ql} has a
+lower GAP than \texttt{ig\_random} in B, C and E and a marginally higher
+one in F. Since the hypothesis arose after looking at the data, it was
+tested on $4{,}160$ instances never run before (disjoint from all earlier
+ones: $1{,}500$ each from B and C, $1{,}160$ from E; F had none left), with
+the hypothesis, the test (paired two-sided Wilcoxon, Holm over three
+families) and the decision rule fixed in writing, with hashes of the
+analysis files, before any of them was run (a dated diary record, not a
+public registry). Table~\ref{tab:f6_holdout_ql} shows that the rule was
+met in all three families. The effect is small: $-3.0\%$ and $-3.5\%$ of
+the GAP in B and E, matching the exploratory magnitude, but only
+$-0.85\%$ in C, where the interval of the mean difference includes zero;
+in absolute terms $0.01$--$0.03$ percentage points of GAP. Family F, where
+Q-Learning looked slightly \emph{worse} ($+0.5\%$, $p_{\mathrm{holm}}=0.078$),
+cannot be tested confirmatorily. Against the other three ablation siblings
+the evidence is partial (\texttt{ig\_ql\_flat}: B and E; \texttt{ig\_ucb}
+and \texttt{ig\_ucb\_ctx}: E only), so the gain cannot be attributed to
+state-conditioning or to temporal-difference learning alone.
+
+\input{f6_holdout_ql_effect.tex}
+\paragraph{A second confirmatory test, with an informative state}
+The held-out test above used the original state. A second test, specified
+before it was run, used $2{,}690$ published instances never run before (B 980;
+C 1{,}050, from 75 classes of C that had not been sampled, since the earlier
+classes were exhausted; E 660), with the original state (\texttt{ig\_ql}) and
+with an informative one (\texttt{ig\_ql\_rel}, features relative to their value
+at the start of the run, thresholds calibrated on 553 disjoint instances).
+Table~\ref{tab:f16_confirm2} shows that the small effect replicates in all three
+families ($-5.4\%$, $-1.8\%$, $-3.2\%$ of the GAP, i.e.\ $0.015$, $0.029$ and
+$0.027$ percentage points; $p_{\mathrm{Holm}} \leq 0.003$) and that the
+informative state reproduces it ($-2.9\%$, $-3.1\%$, $-3.3\%$) without adding to
+the original one (pooled $-0.6\%$ of the GAP, $p=0.77$). The effect therefore does
+not depend on the information in the state.
+
+\input{f16_confirm2.tex}
+
+
+
+\paragraph{Gap to exact reference solutions}
+The GAP elsewhere is measured against the classical bound, which can be
+loose. For families C and F the benchmark provides the solutions of an exact
+method (iAF; \citealp{OstojicEtAl2025}). The match of each instance file to
+its reference row was verified rather than assumed: sizes agree, the
+reference bound is never below ours, and no method of this study ever
+obtains a makespan below the reference value (a deliberately mismatched
+join fails the last check for $30$--$45\%$ of the instances).
+Table~\ref{tab:f5_gap_iaf} reports the mean gap to the reference on the
+$1{,}983$ C and $720$ F instances whose optimality the reference proves.
+\texttt{ig\_ql} is $1.13\%$ above the optimum in C, solving $21.3\%$ to
+optimality, against $1.68\%$ and $18.3\%$ for MULTIFIT; in F it is $0.17\%$
+above ($33.6\%$ solved). The classical bound is loose by $0.72\%$ (C) and
+$1.01\%$ (F) on average, so a sizeable part of the GAP reported elsewhere is
+bound slack rather than sub-optimality (in C, about $38\%$ of the $1.90\%$
+GAP of \texttt{ig\_ql}); conversely \texttt{ig\_ql}, the best method of the
+study in C, is not near-optimal there: $79\%$ of its solutions exceed the
+optimum. In F, \texttt{ils\_ql} reaches the optimum more often ($38.2\%$)
+but errs more when it misses ($0.25\%$ against $0.17\%$).
+
+\input{f5_gap_to_iaf_reference.tex}
+
+\subsection{Structural Limits at High $n/m$ Ratios}
+\label{sec:nm-structural}
+
+The six classes added later reach higher $n/m$ ratios (up to $15.0$,
+against $3.3$--$5.0$ for the original six), which exposed a limitation of
+the ILS mechanism itself, independent of the operator-selection policy.
+
+\paragraph{At high $n/m$, LPT alone can already be near-optimal}
+At $(150,15)$ ($n/m=10$) every ILS variant converged to essentially the
+same solution, with zero or one accepted improving moves in $1{,}000$
+iterations for most seeds, and not even $8\times$ the standard budget
+changed this. With ten jobs per machine on average, LPT's guarantee is
+tight and, for uniform times, the makespan concentrates near the mean
+load: there is little room for any local search. Three of the six large
+classes have $n/m \geq 10$ and share this property to varying degrees;
+only $(150,30)$ ($n/m=5$) keeps a difficulty profile comparable to the
+original six.
+
+\paragraph{The ILS perturbation does not scale with instance size}
+At $(150,30)$ the same stall recurred (three improvements of the best
+makespan in $5{,}000$ iterations). The fixed perturbation of
+$n\_perturb=3$ random moves is a vanishing fraction of a $150$-job
+schedule, but scaling it with $n$ did not help (results were slightly
+worse). A joint grid over $n\_perturb \times$ perturbation threshold, with
+\texttt{ils\_random} to isolate the mechanism, showed that the threshold
+was the culprit: the mean GAP improves as the threshold drops from $400$ to
+about $15$ and worsens below about $10$, whereas $n\_perturb$ matters little
+near that optimum. At $N=100$ on $(150,30)$ a threshold of $15$ gives a mean
+GAP of $1.56\%$ against $1.69\%$ at the default $50$ (better in $23$ of
+$100$ pairs, worse in $5$; $p=0.0003$), and under it \texttt{ils\_ql}
+remains indistinguishable from \texttt{ils\_random} ($p=0.87$). The
+threshold of $15$ is used for the ILS family on the four large classes
+(Section~\ref{sec:setup}); it was not adopted as a global default, since it
+was validated only at this scale.
+
+\paragraph{Iterated Greedy does not share this ceiling}
+With the corrected ILS, the four large classes were run with the full
+\texttt{ig\_*} family: all five variants beat LPT in all four classes ($20$
+tests, Holm-significant, $p_{\mathrm{holm}}$ from $4.9\times10^{-9}$ to
+$1.2\times10^{-16}$), including \texttt{ig\_random}, which has no learning.
+The ceiling is therefore a limitation of the ILS mechanism (a single
+fixed-size perturbation followed by exhaustive reoptimisation around one
+bottleneck machine) rather than of the instances: IG reconstructs up to
+$30\%$ of the schedule at each iteration and does not stall in the same way.
+
+\paragraph{What decides IG versus ILS: the granularity of the processing
+times, with $n/m$ shifting the crossover}
+An earlier version of this experiment contrasted $U[1,100]$ with
+$U[1,10^8]$ and called the difference ``variance''. That label is
+wrong. The coefficient of variation of a uniform distribution does not
+depend on its range ($0.576$ to $0.583$ across the five ranges tested
+below; Kruskal--Wallis $p=0.30$), and the main methods of this study are
+exactly scale invariant (multiplying every $p_j$ by $1{,}000$
+multiplies the makespan by $1{,}000$ in all six test instances, for
+\texttt{ig\_ql}, \texttt{ils\_ql} and their random variants; the
+raw-reward UCB baseline is the exception). What the range changes is the
+number of distinct processing times, that is, the share of jobs whose
+time duplicates another's: with $n=150$ it falls from $0.48$ at
+$U[1,10^2]$ to $0.07$, $0.009$ and $0$ at $U[1,10^3]$, $U[1,10^4]$ and
+wider ranges. Table~\ref{tab:f9_granularity} varies this range and $n/m$
+orthogonally ($n=150$, $m \in \{50,15,5\}$, five ranges, $30$ instances
+per cell, the same instance indices in every cell) -- something the
+external families of Section~\ref{sec:external} cannot do, since range
+and $n/m$ vary together there.
+
+\input{f9_granularity.tex}
+
+\emph{Granularity decides the direction.} At $n/m=3$, \texttt{ig\_ql}
+wins at the two coarsest ranges ($1.25\%$ against $6.68\%$, and $1.75\%$
+against $4.41\%$), the two methods tie at $U[1,10^4]$, and
+\texttt{ils\_ql} wins at the two finest ranges ($0.57\%$ against
+$1.72\%$, and $0.54\%$ against $1.86\%$). The pre-specified test
+(Spearman correlation between $\log_{10} H$ and the GAP difference,
+Holm over the three $n/m$ levels) is confirmed at every level
+($\rho = 0.88$, $0.67$, $0.57$; $p_{\mathrm{holm}} < 10^{-13}$). The
+same pattern appears with learning removed (\texttt{ig\_random} against
+\texttt{ils\_random}), so it is a property of the two mechanisms.
+\emph{The ratio $n/m$ shifts the crossover and scales the gaps.} At
+$n/m=10$ and $n/m=30$ IG wins nowhere -- a tie at $U[1,10^2]$ and ILS
+from $U[1,10^3]$ on -- and the absolute differences shrink by two orders
+of magnitude because both methods approach the lower bound. Section
+\ref{S-sec:hybrid} traces the ILS advantage on fine-grained instances
+to a mechanistic cause.
+
+\subsection{Choosing the Mechanism per Instance}
+\label{sec:dispatch}
+
+Section~\ref{sec:nm-structural} identifies the granularity of the
+processing times as the instance property that decides the direction
+between IG and ILS. A cheap statistic that measures it is the share of jobs whose
+processing time duplicates that of another job,
+$\mathrm{dup\_ratio} = 1 - |\{p_j\}|/n$: instances with many repeated
+values are the coarse-grained regime in which the stochastic
+reconstruction of IG suffices. The ratio alone cannot be exact, however:
+at a duplication ratio of $0.07$, below the rule's threshold, IG is still
+better at $n/m=3$ but ILS is better at $n/m \geq 10$
+(Table~\ref{tab:f9_granularity}). The dispatch rule runs IG when
+$\mathrm{dup\_ratio} > 0.1$ and ILS otherwise, with no search and no
+learning in the decision. Its threshold was fixed before the
+experiments reported here (a preliminary evaluation on $95$ instances
+is in Supplementary Section~\ref{S-sec:hybrid}) and never retuned. The
+rule was tested on the $4{,}160$ held-out instances of
+Section~\ref{sec:external}, which played no part in choosing it, with
+the hypotheses and decision rule written down before \texttt{ils\_ql}
+was run on them: the rule must beat both fixed policies, always IG and
+always ILS, in a pooled paired Wilcoxon test, Holm-corrected.
+
+Both hypotheses are confirmed (both $p_{\mathrm{holm}} < 10^{-100}$),
+but the practical picture is more modest than the $p$-values suggest
+(Table~\ref{tab:f8_dispatch}). Against always using ILS the rule lowers
+the mean GAP by $0.74$ percentage points; against always using IG, the
+better fixed policy, by only $0.013$ points ($1.020\% \to 1.007\%$),
+which closes $16\%$ of the distance to the per-instance oracle. The
+gain is concentrated in family B, where ILS is the stronger mechanism
+and the rule sends $92\%$ of the instances to it (accuracy $93\%$; mean
+GAP $0.180\%$ against $0.299\%$ for IG); it is neutral in E and
+\emph{negative} in C, where the rule sends $9\%$ of the instances to ILS
+and loses $0.083$ points relative to always using IG
+($p_{\mathrm{holm}} = 2.5 \times 10^{-7}$). IG is therefore a robust
+default on these families, and a one-feature rule recovers the ILS
+advantage where it exists at a small pooled gain and a family-specific
+cost. The rule, with the same threshold, again beat both fixed policies
+on $900$ new instances of six processing-time distributions (by $0.022\%$
+against always-IG and $0.263\%$ against always-ILS; Supplementary
+Section~\ref{S-sec:newdist}).
+
+\input{f8_dispatch.tex}
+
+\subsection{Another Problem: Unrelated Machines}
+\label{sec:unrelated}
+
+Everything above concerns identical machines, where exact methods are strong
+and the decisions of the search saturate quickly. To see whether the
+decomposition is a property of the problem or of the method, the protocol was
+repeated on the unrelated-machine problem $\mathrm{R}||C_{\max}$, in which the
+processing time $p_{ij}$ depends on the machine, a classical hard variant for
+which Iterated Greedy methods with local search are well established
+\citep{FanjulPeyroRuiz2010} and whose assignment MILP does not scale gracefully
+\citep[LP rounding gives a $2$-approximation;][]{LenstraEtal1990}.
+
+\paragraph{Methods and design}
+The same agent, state design and decision rules were reused. The constructive
+heuristic assigns jobs, in decreasing order of $\min_i p_{ij}$, to the machine
+with the earliest completion. The IG removes $d$ jobs with one of four
+strategies (random; largest processing time on the current machine; random
+machine; critical machine) and reinserts them greedily, with or without a
+local search (a descent that moves or swaps jobs from the critical machine,
+at most 20 improvements per iteration); the ILS applies a best-improvement move,
+swap or double move from the critical machine and perturbs three random jobs
+after 50 stagnant iterations. Instances were generated with four distributions
+($U[1,100]$, $U[10,100]$, $U[100,200]$, $U[100,120]$) and five sizes
+($50\times10$, $100\times10$, $100\times20$, $200\times20$, $500\times30$), 20
+instances per cell ($400$ in all), $T=1{,}000$. Following the lesson of
+Section~\ref{sec:f3f4-ablation}, the fraction $d/n$ was not fixed: it was
+chosen per size on separate instances (0.30, 0.20, 0.10, 0.10, 0.05), and the
+thresholds of the informative state were calibrated on further separate
+instances. References: the LP relaxation of the assignment model and a MILP
+(HiGHS) with 5 and 60 seconds, on 160 of the instances. All hypotheses were
+specified beforehand (Supplementary Section~\ref{S-sec:prereg-record}).
+
+\paragraph{The mechanism matters, as before}
+Table~\ref{tab:f18_unrelated} shows the same ordering as in
+Section~\ref{sec:f3f4-ablation}, with a different cause. The IG with local search
+beats the ILS by $4.16\%$ (384 of 400 instances), also at equal CPU time ($2.16\%$,
+the ILS receiving 8{,}000 iterations, $1.25\times$ the CPU; Table~\ref{tab:f23_unrelated_budget}).
+But the \emph{pure} IG, without local search, does not beat the ILS ($+1.39\%$;
+it is better only in $U[1,100]$), and local search improves it by $5.40\%$: for
+unrelated machines the active ingredient is the combination of destruction--reconstruction
+with a descent, whereas for identical machines destruction--reconstruction
+alone was enough. Both heuristics improve greatly on the constructive start
+($-13.1\%$ and $-9.3\%$).
+
+\paragraph{The policy matters more, but still little, and the ILS policy hurts}
+Q-Learning over the destruction strategies of the IG with local search gains
+$0.145\%$ over random selection (90\% interval $0.054$--$0.234$; $p_{\mathrm{Holm}}=0.011$), about thirteen times the
+identical-machine value, yet about thirty times smaller than the mechanism
+effect; its interval does not lie inside the $\pm0.10\%$ margin used for
+identical machines.
+In the ILS, Q-Learning is \emph{worse} than random operator selection ($+0.96\%$, $p_{\mathrm{Holm}}<10^{-14}$),
+as for identical machines with an informative state, and remains worse with
+eight times the budget ($+0.92\%$). The headroom explains the difference in the IG: the
+omniscient per-instance choice among the four strategies gains $0.38\%$ (up
+to $1.12\%$ in the largest $U[1,100]$ cell) against $0.04\%$ for identical machines, and
+Table~\ref{tab:f19_unrelated_cells} shows that the policy gain is large where
+the headroom is large and null in $U[100,120]$, where the machines are almost
+identical and the headroom vanishes. Pooled over cells, Q-Learning captures
+$38\%$ of the headroom.
+
+\paragraph{Exact references: the metaheuristic does not win here}
+The MILP proves optimality in $66.9\%$ of the 160 instances within 60 seconds
+($31.9\%$ within five). The IG with local search and Q-Learning, which takes a few
+seconds, ends $2.04\%$ above the best lower bound (MILP: $0.43\%$) and is no
+worse than the MILP incumbent in $28.1\%$ of the instances; test M4 is not
+confirmed in its favour ($+1.59\%$). Five times the budget reduces the
+difference to $+0.95\%$ and raises the share to $42.5\%$. The IG is
+competitive only in the largest and narrowest cells ($U[100,120]$, $500\times30$:
+$100\%$ of the instances). Unlike for identical machines, then, the heuristics
+studied here are not a practical alternative to the exact method at these sizes;
+the purpose of this section is the attribution, not the solver.
+
+\paragraph{Larger instances do not reverse it}
+A pilot on a single $1000\times50$ instance suggested that the MILP might fail at
+that size, so the question was tested with a pre-specified design on $32$ new
+instances ($n=1000$, $m=50$, the four distributions, eight instances each; $d/n$
+chosen on $24$ separate instances; Table~\ref{tab:f27_unrelated_large}). It does
+not fail: within 60 seconds the MILP returned an incumbent in all $32$ instances
+and ended $2.04\%$ above the best lower bound, against $4.15\%$ for the IG with
+local search and Q-Learning at $T=1{,}000$ (makespan $2.24\%$ higher, MILP better in
+$28$ of $32$ instances, $p_{\mathrm{Holm}}=10^{-4}$) and $2.78\%$ at $T=5{,}000$
+($+0.89\%$, interval $-0.46$ to $+1.95$, with $37$ seconds of CPU time against $51$).
+The only distribution in which the heuristic is better on average is $U[10,100]$,
+where the MILP is erratic (gaps from $1.3\%$ to $28.1\%$ among the eight instances)
+and yet better than the $T=1{,}000$ heuristic in seven of the eight pairs. The
+conclusion stands for these heuristics. Started from the linear relaxation (the LP-IG described below), the IG is no longer dominated: its mean GAP to the best lower bound is $1.09\%$ against $2.04\%$ for the MILP, in $6.5$ seconds against $51$, and it equals or beats the MILP in $62.5\%$ of the instances (against $28\%$ without the LP start). A second pre-specified test does not confirm the superiority, however ($-0.76\%$, interval $-2.10$ to $+0.13$, $p_{\mathrm{Holm}}=0.72$): the MILP is better in $U[1,100]$ ($1.23\%$ against $2.46\%$) and the LP-IG in the other three distributions, most of all in $U[10,100]$, where the MILP is erratic ($6.25\%$ against $1.59\%$); the search does not improve beyond $T=1000$ at this size.
+
+\input{f27_unrelated_large.tex}
+
+\paragraph{The policy at this size: large where one strategy dominates, harmful elsewhere}
+The iteration budget is far from saturating the search at $1000\times50$ (the GAP falls
+from $4.15\%$ to $2.78\%$ with five times the budget), and on the $32$ instances above the
+policy gain over random selection was $0.52\%$, five times that at $n\leq500$. Whether it
+survives, and at equal CPU time (the policy costs $1.39$ times the CPU time of random
+selection here), was tested on $96$ further instances with a pre-specified design
+(Table~\ref{tab:f29_policy_large}). Pooled over the four distributions the gain is
+$0.35\%$ at an equal $T$ ($p_{\mathrm{Holm}}=0.19$) and $0.19\%$ at equal CPU time
+($p_{\mathrm{Holm}}=0.67$): neither is confirmed, and the prediction recorded before the
+run (that the first would be) was wrong. The reason is that the effect is not uniform. In a
+post hoc breakdown (Holm over the four distributions), in $U[1,100]$ one strategy,
+random destruction, is by itself $1.66\%$ better than the uniform mixture of the four, and
+Q-Learning finds it and gains $1.73\%$ ($17$ wins, no losses; $p_{\mathrm{Holm}}=8\times10^{-4}$),
+capturing all of the headroom of the fixed strategies. In $U[100,120]$ and $U[100,200]$,
+by contrast, every fixed strategy is worse than the mixture ($0.9$--$4.5\%$), the policy
+is worse than random selection ($+0.10\%$ and $+0.38\%$) and, since it costs up to $1.63$
+times the CPU time (the state), at equal CPU time random selection wins in $23$ of $24$
+instances in both ($+0.11\%$ and $+0.89\%$); $U[10,100]$ is in between. The policy gain thus
+follows the headroom of the fixed strategies once more, with a case in which it is
+captured completely, but ``the policy pays where the search is not saturated'' is not a
+general rule.
+
+\input{f29_policy_large.tex}
+
+Whether offline validation does the same as the policy for this choice, as it does for the
+destruction size on identical machines, was tested on $96$ further instances
+(Table~\ref{tab:f30_unrelated_valid}). One of five candidates (each strategy fixed, or the
+uniform mixture) was chosen per distribution on $24$ separate instances (random
+destruction in $U[1,100]$, the mixture in the other three), and compared with Q-Learning
+on new instances. The validated choice captures the headroom ($-0.46\%$ against random
+selection, $17$ wins and no losses, $p_{\mathrm{Holm}}=8\times10^{-4}$) at a lower CPU
+time ($3.3$ against $4.7$ seconds), and the comparison with Q-Learning is inconclusive
+($-0.14\%$, interval $-0.34$ to $+0.07$, $p_{\mathrm{Holm}}=0.30$): Q-Learning beats the
+best fixed strategy by $0.45\%$ in $U[1,100]$ and loses by $1.1\%$ to the mixture in
+$U[100,200]$. The pooled gain of Q-Learning over random selection is again not
+confirmed ($0.31\%$, $p_{\mathrm{Holm}}=0.30$), with the same sign pattern by distribution
+as in the first sample. At this size, as at the others, the pooled data show no advantage
+of learning online over choosing offline, although in one distribution the agent does
+better than the best fixed strategy.
+
+\input{f30_unrelated_valid.tex}
+
+\paragraph{External validation on the standard benchmark}
+All the instances above are synthetic, so the section was repeated on the standard
+$\mathrm{R}||C_{\max}$ benchmark of \citet{FanjulPeyroRuiz2010}, in the copy distributed with
+\citet{AbladEtAl2021}: $1{,}400$ instances (seven types, $m\in\{10,\ldots,50\}$,
+$n\in\{100,\ldots,1000\}$, ten instances per cell) with, for each, the best solution known
+from CPLEX (two hours), Gurobi and an exact method (300 seconds each), proved optimal in
+$73\%$ of the test instances. Two instances per cell ($280$) were used for tuning ($d/n$ per $n$;
+the strategy per type among the four fixed ones and the mixture; the CPU ratios) and five
+($700$) for a pre-specified test (Table~\ref{tab:f31_rcmax_benchmark}); the rest were not used.
+The decomposition replicates. The IG with local search beats the ILS at equal CPU time by
+$2.14\%$ ($529$ wins against $99$; $3.23\%$ at equal $T$), the policy gain over random
+selection is $0.055\%$ at equal $T$ and $0.033\%$ at equal CPU time (neither confirmed,
+$p_{\mathrm{Holm}}=0.15$ and $0.48$), the validated strategy beats Q-Learning by $0.066\%$
+($p_{\mathrm{Holm}}=0.007$), and the headroom law is confirmed on third-party data: the
+Spearman correlation between the headroom of a cell and the policy gain over the $28$ cells
+is $0.74$ ($p_{\mathrm{Holm}}=10^{-5}$). The gain is concentrated where a fixed strategy
+dominates: $0.61\%$ in $U[1,100]$ ($46$ wins, $9$ losses) and $0.15\%$ in $U[10,100]$, against
+$+0.20\%$ (worse) in machine-correlated instances. The heuristics are not competitive with the exact references: the IG with
+local search and Q-Learning ends $2.08\%$ above the best known solution on average ($0.13\%$ in $U[1000,1100]$
+to $5.64\%$ in $U[1,100]$), against $0.07\%$ for Gurobi and $0.09\%$ for the exact method
+at 300 seconds, and equals or beats it in $10.9\%$ of the instances ($0.1\%$ strictly better).
+
+\input{f31_rcmax_benchmark.tex}
+
+\paragraph{A stronger heuristic: starting from the linear relaxation}
+The distance to the exact references suggested improving the heuristic rather than the policy. The IG with local search above starts from a constructive solution. The linear relaxation of the assignment model (solved with HiGHS in $0.4$ seconds on average, descent included) has a vertex solution with fewer fractional jobs than machines (at most $49$ of $100$ jobs in the smallest cells, $29$ of $1{,}000$ in the largest); rounding it (the integral jobs stay, the fractional ones go to the machine of earliest completion within their support) and descending gives a start that is poor by itself ($5.2\%$ above the best known solution on the tuning instances) but from which the same IG is far better (LP-IG; Table~\ref{tab:f32_lpig}). On the $420$ instances of the benchmark that had never been used, with $d/n$ tuned on $280$ others and a pre-specified design, LP-IG beats the IG started from the constructive solution by $1.18\%$ at equal CPU time ($308$ wins against $21$), and the mean GAP to the best known solutions falls from $2.23\%$ to $0.97\%$ ($0.31\%$ for $n=1000$; $T=1000$, $3.3$ seconds per instance). With $T=5000$ it is $0.85\%$ ($15.7$ seconds), equals or beats the best known solution of CPLEX, Gurobi and the exact method in $27\%$ of the instances and improves on it in $3.8\%$. It meets the competitiveness criterion fixed beforehand ($\leq1.0\%$ overall and $\leq0.5\%$ for $n=1000$), but the exact references remain ahead ($0.09$--$0.10\%$ on average, with 300 seconds), and the heuristic is weak where the relaxation is loose or the instances are small: $1.2$--$1.7\%$ for $n\leq200$ and $2$--$3\%$ in $U[1,100]$ and $U[10,100]$. Q-Learning does not help it ($+0.055\%$, not confirmed).
+
+\input{f32_lpig.tex}
+
+\paragraph{A prospective test of the headroom law: the destruction size}
+The headroom law was derived from, and tested on, destruction strategies. To test it prospectively in an action space with headroom, the LP-IG was run with the destruction size $d/n\in\{0.01,0.02,0.05,0.10,0.20\}$ as the action (the $700$ benchmark instances of the test above; design fixed beforehand; Table~\ref{tab:f33_dpolicy}), against random choice of $d$ at each iteration, the choice of $d$ validated on $10$ separate instances per type and job count, an online Q-Learning agent, a UCB1 bandit and a Q-Learning table pre-trained offline on those same $10$ instances. The headroom is real but modest: validation improves on random choice by $0.065\%$ per $n$ and $0.201\%$ per type and $n$ (a per-instance oracle: $0.325\%$). The policy does not capture it. Online Q-Learning is \emph{worse} than random choice ($+0.152\%$, $p_{\mathrm{Holm}}=10^{-5}$) and than the validated choice ($+0.360\%$), the pre-trained table also loses to validation ($+0.249\%$), and over the $28$ cells of type and $n$ the policy gain is unrelated to the headroom (Spearman $-0.37$; the criterion fixed beforehand was $\geq0.5$): the largest loss ($+0.44\%$) is in $U[1,100]$, where the headroom is largest ($1.05\%$). Most of the predictions recorded before the run were wrong. The law is therefore refuted as a general statement: headroom is necessary but not sufficient. In an exploratory diagnostic on $21$ instances, the immediate reward ranks the fixed sizes consistently with their final quality (rank correlation $0.6$--$0.7$ early in the run), but more than $90\%$ of it arrives in the first $100$ of the $1{,}000$ iterations (mean reward of the best size: $0.21$, then $0.011$ and $0.002$ in the next windows), leaving the agent a very short window, with high exploration, in which to learn. In a pilot on $126$ tuning instances, bandits designed for such a short window (Thompson sampling, with and without discounting, and a successive-elimination race) did not beat random choice of $d$ either ($+0.14\%$, $+0.07\%$ and $+0.06\%$; Q-Learning $+0.05\%$; the validated size $-0.18\%$, optimistic), so none of five learners captures the headroom. Choosing $d$ is, in these data, a configuration problem solved offline, not a control problem solved online.
+
+\input{f33_dpolicy.tex}
+
+\paragraph{Closing the distance to the exact references: a restricted MILP}
+The LP-IG still ends $0.97\%$ above the best known solutions, against $0.1\%$ for Gurobi and the exact method, and its worst cells are the small instances and the wide-range processing times ($1.2$--$1.7\%$ for $n\leq200$; $2$--$3\%$ in $U[1,100]$ and $U[10,100]$). Following the size-reduction idea of the literature on unrelated machines, a MILP in which each job may only go to its six cheapest machines (and to the machine it occupies in the incumbent, so that the restricted problem is feasible and contains the LP-IG solution) was solved with HiGHS for at most $30$ seconds after the LP-IG. The design (tuning instances only: $k=3$ against $k=6$) is described in the diary; the test was run on the $420$ instances of the benchmark that had never been used (Table~\ref{tab:f34_lpigsr}). It never worsens the solution and improves $54.8\%$ of the LP-IG solutions; against more iterations of the LP-IG at a similar CPU time ($T=8000$, $27.3$ against $23.3$ seconds) it is better by $0.49\%$ ($196$ wins against $33$, $p_{\mathrm{Holm}}=10^{-24}$), and the mean GAP to the best known solutions falls from $0.97\%$ (LP-IG) and $0.78\%$ ($T=8000$) to $0.25\%$ ($0.11\%$ for $n=1000$; baseline IG: $2.23\%$). That is within the range of CPLEX with two hours ($0.20\%$) and $0.15$ points from Gurobi and the exact method with $300$ seconds ($0.10$ and $0.09\%$); it equals or beats the best known solution in $50\%$ of the instances and improves on it in $4.8\%$. The competitiveness criterion fixed beforehand (GAP $\leq0.3\%$ overall and $\leq0.5\%$ in every job count and every type) is met overall and for every $n$ (at most $0.36\%$) but not for the job-correlated instances ($0.67\%$). No learned component takes part in any of the three steps: the gains come from the linear relaxation ($-1.18\%$ at equal CPU) and the restricted MILP ($-0.49\%$ at equal CPU). A variant designed on the tuning instances, which chooses the six candidate machines of each job by the reduced cost of the LP instead of by the processing time, was tested on the $700$ remaining instances: its advantage over the cheapest-machine version is significant in sign but negligible ($-0.03\%$, $p_{\mathrm{Holm}}=7\times10^{-6}$; mean GAP $0.30\%$ to $0.27\%$), large only for machine-correlated instances ($0.31\%$ to $0.08\%$) and worse for $U[1,100]$ ($0.40\%$ to $0.50\%$); the criterion of a GAP of at most $0.25\%$ overall was not met ($0.27\%$), and neither was $0.5\%$ in every type.
+
+\input{f34_lpigsr.tex}
+
+\input{f18_unrelated.tex}
+\input{f19_unrelated_cells.tex}
+\input{f23_unrelated_budget.tex}
+
+\paragraph{The policy gain follows the headroom of the strategies, and needs state and learning together}
+The observation that the policy gains where the headroom is large was made on the
+first sample and therefore tested on 400 \emph{new} instances (same cells and
+parameters, nothing re-tuned; Table~\ref{tab:f24_unrelated_law}). It is
+confirmed: the Spearman correlation between the headroom of a cell and the
+policy gain in it is $0.59$ over the 20 cells ($p_{\mathrm{Holm}}=0.015$; $0.68$ in
+the first sample), and Q-Learning captures $30\%$ of the headroom overall
+(90\% interval $0$--$54\%$). The magnitude, however, is unstable: on the
+new sample the pooled gain is $0.073\%$ (not significant on its own,
+$p_{\mathrm{Holm}}=0.21$), half the first one, because $U[1,100]$, where the first
+sample captured a large part of a $0.5$--$1.1\%$ headroom, shows none now; the two
+independent samples together give $0.109\%$ (90\% interval $0.052$--$0.165$,
+$n=800$; computed after seeing both). Decomposing the agent as in
+Section~\ref{sec:igvariants}, neither ingredient is enough alone: Q-Learning without
+state is no better than random selection ($+0.008\%$), a state-conditioned bandit is
+not either, and the full agent beats the latter by $0.136\%$
+($p_{\mathrm{Holm}}=0.009$); UCB1 without state is slightly worse than random
+($+0.098\%$). The gain thus requires both the state and temporal-difference
+learning, is proportional to the headroom of the action space, and, in these
+experiments, is at most about a tenth of a percent.
+
+\input{f24_unrelated_law.tex}
+
+
+\subsection{A Third Problem and a Synthesis across Environments}
+\label{sec:pfsp}
+
+To test whether the attribution is a property of parallel machine scheduling, the same protocol was applied to the permutation flowshop (makespan), the problem in which Iterated Greedy originated \citep{RuizStutzle2007}. The IG starts from NEH, removes $d$ random jobs, reinserts them in the best position (Taillard's acceleration), applies an insertion local search and accepts with a constant temperature; the action is the destruction size $d\in\{2,3,4,6,8\}$. The ILS has the same local search and perturbs by two random insertions. The instances are Taillard-style, generated here ($n\in\{50,100\}$, $m\in\{10,20\}$, $30$ test and $10$ tuning instances per size; $T=300$); the comparisons are paired, the CPU times are equalised by sequential calibration, and the design, the Holm family of five tests and the predictions were recorded before the test (Table~\ref{tab:f36_pfsp}).
+
+\paragraph{The active ingredient depends on the problem}
+In the flowshop the destruction--reconstruction cycle is not what separates the methods: the IG and the ILS, with the same local search, are equivalent at equal CPU time ($-0.03\%$, $p_{\mathrm{Holm}}=0.18$; the prediction that the IG would win was wrong). The local search, however, pays its cost: the IG without it, with $17$ to $57$ times more iterations for the same CPU time, is worse by $0.21\%$ ($65$ wins against $17$, $p_{\mathrm{Holm}}=10^{-6}$), the opposite of what was found for identical machines (Section~\ref{sec:f3f4-ablation}). With the results for unrelated machines, the active ingredient is thus the destruction--reconstruction cycle for identical machines, its combination with a descent for unrelated machines and the local search for the flowshop, and only an ablation at equal CPU time reveals which.
+
+\paragraph{The policy over the destruction size is harmful again}
+Q-Learning over $d$ is worse than random choice of $d$ ($+0.14\%$, $p_{\mathrm{Holm}}=5\times10^{-4}$), the validated size beats it by $0.16\%$ ($p_{\mathrm{Holm}}=8\times10^{-5}$), and the headroom of the size over random choice is null ($-0.02\%$): the signs of the predictions recorded beforehand were right, except that the validated size was expected only to match the agent, not to beat it.
+
+\paragraph{Synthesis}
+Table~\ref{tab:f35_synthesis} puts the seven environments side by side. The oracle headroom is negative (some fixed action beats random selection per instance) in six of the seven, and the validated choice captures a part of it wherever it is real. The Q-Learning agent behaves differently by the type of action. Over qualitatively different destruction strategies its gain is small but never positive, and it recovers $0.44$ to $0.68$ of the validated gain at $1000\times50$ and on the standard benchmark; over the destruction size, an ordered parameter, it is worse than random choice in all three problems ($+0.015\%$, $+0.152\%$, $+0.142\%$), although the size has headroom that validation captures in two of them. This regularity was noticed after the results and is a hypothesis, not a finding: headroom is necessary for a policy gain, and whether an online agent can use it seems to depend on the action type (and, in the diagnostic above, on how early the reward arrives).
+
+\input{f36_pfsp.tex}
+
+\input{f35_synthesis.tex}
+
+\subsection{The Companion \texttt{ils\_ql} Study}
+\label{sec:ils-summary}
+
+The \texttt{ig\_ql} design grew out of an earlier study of the same agent
+selecting among four neighbourhood operators inside ILS, reported in full
+in Supplementary Section~\ref{S-sec:ils-chapter}; its findings motivate the
+decomposition of Section~\ref{sec:f3f4-ablation}. Every ILS variant reduces
+GAP by $55$--$99\%$ relative to LPT, yet \texttt{ils\_ql} is statistically
+indistinguishable from uniform random operator selection in all six
+original classes ($p > 0.07$, $N=30$) and from a random-forest selector in
+five of six. UCB1's apparent loss to both ($p \leq 0.008$) was an artefact
+of raw rewards: normalised to $[0,1]$ it is indistinguishable from
+\texttt{ils\_ql} ($p=0.78$, $N=100$) and from random selection; Probability
+Matching, Adaptive Pursuit and SARSA show the same equivalence. The
+apparent operator preference of the learned policy is largely an artefact
+of coverage: only $26.5\%$ of the 81 nominal states are visited in a typical
+run, and zero-initialised tables break ties toward the first operator.
+Extended-budget random selection beats extended-budget Q-Learning for
+$n \geq 30$ ($p \leq 0.028$): at this scale additional iterations
+contribute more than adaptive sophistication. A preliminary exploration of
+hybrid IG/ILS mechanisms is in Supplementary Section~\ref{S-sec:hybrid}.
+
+
+% =====================================================================
+%% Secoes Sintese + Discussao + Conclusoes fundidas na Entrada 95
+%% (04/10/2026): as tres repetiam as mesmas alegacoes; versao anterior em
+%% learnheuristic_pmsp_pre_entrada95_cut_backup_20261004.tex.
+\section{Discussion}
+\label{sec:discussion}
+
+The title poses a question: when a learnheuristic wins, is it the search
+mechanism or the learned policy? Table~\ref{tab:evidence} maps the claims to their
+evidence; the experiments answer in layers and also mark the limits of what can be
+claimed.
+
+\paragraph{Where the gain comes from}
+The search structure accounts for most of the advantage of \texttt{ig\_ql}. With
+learning removed from both sides, \texttt{ig\_random} already beats
+\texttt{ils\_random} in ten of twelve classes (Section~\ref{sec:f3f4-ablation}),
+by $0.5\%$ on average in the seed-averaged data, also with a strong start in both
+mechanisms and at equal CPU time; for unrelated machines the IG with local search
+beats the ILS by $4.2\%$. The Q-Learning policy layered on top adds about
+$0.01$--$0.05$ percentage points of GAP for identical machines, a difference that no
+single class resolves but that a pooled, pre-specified test confirms in three of four
+published families, that replicates on $2{,}690$ instances never run before, and that
+is the same with an informative state; on seed averages of the twelve classes it is
+real but strictly negligible ($-0.011\%$). The companion \texttt{ils\_ql} study
+reached the same direction in a stronger form: learned operator selection is
+indistinguishable from random selection, and for unrelated machines it is worse
+($+0.96\%$), as it is for identical machines with an informative state. That
+unrelated mechanisms, sharing the state and agent but not the action set, show
+learning contributing little or nothing is stronger evidence about this agent at
+this scale than any single result.
+
+\paragraph{Why the learned policy adds so little}
+Five candidate explanations were tested. (i) \emph{Nothing to learn.} The three
+destruction strategies are nearly interchangeable: an oracle choosing the best of
+the three for every instance would gain only $0.04\%$. (ii) \emph{State.} The
+original state was nearly degenerate; an informative one did not help in IG, hurt
+in ILS, and added nothing in a second confirmatory test. (iii) \emph{Signal.} The
+reward registers on average between $0.7$ and $4.6$ improving steps per run, yet
+a dense reward made the agent worse and pre-training left it at the level of random
+choice. (iv) \emph{Budget.} Tightening the budget creates headroom ($0.10\%$ at
+$T=100$) but not a policy gain; enlarging it five-fold does not help either.
+(v) \emph{Learnability.} Even when the action space has real headroom (the
+destruction size), Q-Learning captures $2\%$ of it at $T=1000$ and not significantly
+more with $T=5000$ or a pre-trained table, while choosing the parameter by
+validation on separate instances captures it. The common thread is that what a tabular agent can learn
+online in a thousand iterations is small relative to what is available; the gain
+lies in offline tuning across instances. For unrelated machines, where the
+headroom is larger ($0.24$--$0.38\%$), the agent captures about $30\%$ of it and the
+gain follows the headroom across cells (Spearman $0.59$ on new instances), but only the
+combination of state and temporal-difference learning captures it and the size is
+unstable across samples ($0.07$--$0.15\%$). At $1000\times50$ it captures all of a $1.7\%$
+headroom in $U[1,100]$, where one strategy dominates, and is worse than random selection
+in two of four distributions, at equal CPU time too, so a general gain is not
+confirmed there (pooled $0.35\%$, $p_{\mathrm{Holm}}=0.19$). On the standard benchmark of 700 instances the headroom law holds for the destruction strategies (Spearman $0.74$ over 28 cells), the policy gain is $0.03$--$0.06\%$ (not confirmed) and validation beats the agent by $0.066\%$. It does not hold, however, when the destruction size is the action: with a headroom that validation captures ($0.20\%$ over random choice of $d$; $0.33\%$ for a per-instance oracle), Q-Learning is worse than random choice ($+0.15\%$), also when pre-trained offline, and the correlation between headroom and policy gain over cells is negative ($-0.37$). The headroom of the actions is therefore a necessary condition for a policy gain, not a sufficient one; an exploratory diagnostic suggests why: the immediate reward ranks the actions consistently with their final quality, but more than $90\%$ of it arrives in the first tenth of the run. This is a statement about this agent and
+these action sets, not evidence that learning cannot help with richer action spaces,
+other learners or tighter budgets.
+
+\paragraph{What works in practice}
+The strongest method of the study contains no learned component: Iterated Greedy
+with the destruction size chosen on separate instances, started from the best of
+LPT, MULTIFIT and LDM. It is never worse than any of them, improves the best
+constructive solution in one instance in four (synthetic) to two in five
+(published), and is provably optimal on $74.7\%$ of the synthetic instances
+against $48.5\%$ for MULTIFIT. Its budget matters more than any added component: a
+local search, which makes an iteration $2$--$80$ times more expensive, improves the recipe by
+$0.036\%$ at an equal number of iterations, but at equal CPU time it is worse by
+$0.034\%$ than the recipe without it, which then reaches $89.0\%$ of provably
+optimal solutions; in the plain IG the same descent is worth $0.150\%$ at an equal
+number of iterations and $0.010\%$ at equal CPU time. MULTIFIT's own strength is distribution-dependent:
+it is worse than LPT on narrow-range times. The exact method remains the right tool
+for the instances it solves in a second ($85\%$ of families C and F;
+\citealp{OstojicEtAl2025}), and for unrelated machines at the sizes studied, up to
+$1000\times50$, the MILP beats the IG with local search and is matched only by the IG started from the linear relaxation.
+
+\paragraph{A portable design for studies of adaptive selection}
+Six elements of the protocol are inexpensive to add to other studies and changed
+the conclusions here. A random-selection control at matched budget separates the
+mechanism from the policy; a family-level pooled test, and averaging over seeds,
+detect small effects that per-class single-run tests cannot; hypotheses and
+decision rules frozen before the runs separate a confirmed effect from one
+generated after looking at the data (one effect that looked large in the
+exploration shrank by more than half on held-out instances, and a headroom law
+suggested by one sample was tested on a fresh one); equivalence margins state
+when an effect is negligible rather than merely significant; a headroom measure
+(best fixed action, omniscient choice) tells what any selector could gain; and a
+certified lower bound shows that a sizeable part of the conventional gap to a
+classical bound is bound slack.
+
+\paragraph{Problem structure decides the mechanism}
+Which mechanism is stronger depends on the instance, not on a single size ratio:
+the granularity of the processing times decides the direction between IG and ILS
+while $n/m$ shifts the crossover. The finding does not depend on the budget
+convention (an ILS iteration is costlier, but the ILS advantage on fine-grained
+times persists at equal CPU time), nor on the distribution (it holds on six of
+them), nor on the start (it holds with the best constructive solution in both). A
+one-feature rule, tested on held-out instances and again on new distributions,
+beats both fixed policies, but its pooled gain over always using IG is only $0.013$
+percentage points on the published families, with a cost of $0.083$ points in
+family C.
+
+\paragraph{Limits}
+These results do not make \texttt{ig\_ql} a competitive solver for the pure PMSP, and
+the paper does not claim it. (i) Exact methods are strong on the published
+benchmark; where the iterative arc-flow method needs more than a second,
+\texttt{ig\_ql} is $1.6$--$2.1\%$ above the optimum. (ii) The default destruction size
+was not tuned for the main comparisons, to avoid tuning on the evaluation
+instances; the tuned recipe of Section~\ref{sec:recipe} is reported separately,
+with validation on separate instances. (iii) The agent is tabular, one dense reward and
+one pre-training scheme were tried, and the action spaces are small; function
+approximation and richer action spaces are outside the evidence. (iv) The unrelated-machine
+heuristics are not state of the art (with the linear-relaxation start and a restricted MILP, $0.25\%$ above the best known solutions of the standard benchmark, against $0.1\%$ for the exact references; $0.67\%$ for the job-correlated instances; without the MILP, $0.97\%$),
+most of the instances of that section are synthetic (the standard benchmark was used for one validation), and the policy gain there is unstable across samples. (v) The confirmed
+learning effect on published instances was measured with the original state
+(the second test added the informative one); family F had no unseen instances.
+(vi) Each instance is run once in the main batteries, with seed averaging on twelve
+classes. (vi\,b) The main comparisons use $T=1{,}000$ iterations; the equal-CPU analyses
+of the recipe and of the hybrid show that conclusions about added components depend
+on the budget convention, and the policy was not studied at budgets much beyond
+$T=5{,}000$ or, for identical machines, at sizes where the search is far from saturated
+(for unrelated machines at $1000\times50$ it was, with a mixed result). (vii) The pre-specification is a dated, hash-stamped diary, not a public
+registry, and the number of analyses is large: all families and verdicts, including
+every non-confirmation, are in Supplementary Table~\ref{S-tab:s_prereg_all}.
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+This paper asked where the gain of Q-Learning-guided metaheuristics for parallel
+machine scheduling comes from, and the answer is the search structure, not the
+learned policy. \texttt{ig\_ql} is never significantly beaten by LPT or by seven
+ILS variants across twelve synthetic classes, beats a simulated-annealing method
+and a Bee Colony Optimisation algorithm, also when their budget rules are relaxed,
+but loses to MULTIFIT and to LDM at large $n$. Random-selection controls attribute
+most of the gain to the search structure in both problems studied (identical and
+unrelated machines); the learned selection adds about $0.01$--$0.05$ percentage
+points for identical machines, a small effect that replicates on held-out and fresh
+published instances and does not depend on the state, and about $0.1\%$ for
+unrelated machines, where it follows the headroom of the destruction strategies but not that of the destruction size. It is limited by
+that headroom and by what a tabular agent can learn online: for the destruction
+size, which has headroom, validation on separate instances beats the agent even with
+five times the budget or a pre-trained table. The resulting learning-free recipe,
+a validated destruction size and a start from the best of three constructive
+heuristics, is the strongest method of the study, provably optimal on $75\%$ of the
+synthetic instances against $49\%$ for MULTIFIT, and on $89\%$ with the CPU time of a
+local-search hybrid, which gains over it only at an equal number of iterations. Which of IG and ILS is stronger
+depends on the granularity of the processing times, at equal CPU time, on six
+distributions and with strong starts, and a one-feature dispatch rule exploits it
+for a small pooled gain. A companion study shows that Q-Learning-based operator
+selection inside ILS is indistinguishable from random selection, with an apparently
+interpretable policy that is largely an artefact of sparse state coverage.
+
+The limits are as informative as the gains: \texttt{ig\_ql} is not competitive with
+exact methods on the instances they solve quickly, and for unrelated machines the
+MILP beats the IG with local search up to $1000\times50$ and is matched only by the IG started from the linear relaxation. Future work should
+(i) test richer action spaces, other learners, rewards that arrive early enough and tighter budgets, where a policy
+might have room, and refine the headroom law, which proved necessary but not sufficient, with pre-specified action spaces of
+controlled quality; (ii) pair the decomposition with the stronger unrelated-machine heuristic of this study (LP start and restricted MILP, $0.25\%$ above the best known solutions of the standard benchmark) or with one of the literature; (iii) combine the validated destruction size with learned
+selection of other decisions; and (iv) apply the decomposition protocol to problem
+variants where exact methods do not reach, such as heterogeneous machines with
+setup times.
+
+
+
+%% =====================================================================
+%% Secoes administrativas obrigatorias do EJOR, adicionadas na Entrada 85
+%% (09/09/2026, Task #45) -- pendencia sinalizada desde a Fase A (Entrada
+%% 74) e deixada propositalmente em aberto ate' agora, por decisao de
+%% Carlos. Modelo de estrutura seguindo o artigo irmao do LCPP (mesmo
+%% grupo/coautoria); texto de cada secao especifico deste artigo, nao
+%% copiado do LCPP, exceto o boilerplate legal generico (Declaration of
+%% Competing Interest), que e' texto padrao da Elsevier.
+%% TODO(Carlos): todo campo entre colchetes [Inserir ...] abaixo e' um
+%% placeholder que so' voce pode preencher (repositorio de dados/codigo,
+%% agencia/numero de bolsa). A "Declaration of Generative AI" precisa da
+%% sua leitura e ajuste antes da submissao -- e' uma declaracao factual
+%% sobre o seu proprio processo de pesquisa, nao uma formalidade que eu
+%% deva decidir sozinho por voce. O CRediT abaixo lista so' os papeis de
+%% autor unico (sem Supervision/Funding acquisition/Project
+%% administration); ajuste ou adicione linhas se/quando entrar coautoria.
+%% =====================================================================
+\begingroup
+\small
+\begin{spacing}{1.0}
+
+\section*{CRediT authorship contribution statement}
+\textbf{Carlos Vinicio Dantas Ara\'{u}jo} (Conceptualization, Methodology,
+Software, Validation, Formal analysis, Investigation, Data curation,
+Writing original draft, Writing review and editing, Visualization).
+
+\section*{Declaration of Competing Interest}
+The author declares no known competing financial interests or personal
+relationships that could have appeared to influence the work reported
+in this paper.
+
+\section*{Declaration of Generative AI and AI-Assisted Technologies in the Writing Process}
+During the preparation of this work, the author used a generative
+AI-based assistant (Claude, Anthropic) to support software implementation
+and testing, the writing of data-analysis scripts, and the drafting,
+translation and editing of the manuscript text, based on the author's own
+research design, data, and analysis. After using this tool, the author reviewed
+and edited the content as needed and takes full responsibility for the
+content of the published article.
+
+\section*{Data and Code Availability}
+The source code, the script of every experiment (with the md5 hashes of the
+versions frozen before each pre-specified analysis), all result files, the
+LaTeX sources and the research diary are available at [Insert Repository
+Link/DOI, e.g., GitHub, Zenodo], under the MIT licence (code) and CC BY 4.0
+(results). The external benchmark instances are publicly available from the
+sources cited in Section~\ref{sec:external} and, for unrelated machines, in Section~\ref{sec:unrelated} (the copy distributed with \citealp{AbladEtAl2021}), and are not redistributed; the
+synthetic instances are regenerated from their seeds.
+
+\section*{Funding}
+This research received no specific grant from any funding agency in the
+public, commercial, or not-for-profit sectors.
+
+\section*{Acknowledgements}
+The author thanks the Universidade Estadual do Cear\'{a} (UECE) for
+institutional support during the development of this work.
+
+\end{spacing}
+\endgroup
+
+\begingroup
+\scriptsize
+\setlength{\bibsep}{0pt}
+\begin{spacing}{0.87}
+\bibliographystyle{elsarticle-harv}
+\bibliography{refs}
+\end{spacing}
+\endgroup
+
+\end{document}

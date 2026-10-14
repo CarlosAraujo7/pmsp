@@ -1,0 +1,73 @@
+\subsection{A learning-free recipe and what its budget buys}
+\label{sec:recipe}
+
+If learning does not pay, what does? The evidence points to two cheap ingredients: a strong start and a destruction size chosen \emph{offline}.
+
+\paragraph{A strong start}
+LDM, the multiway differencing heuristic \citep{KarmarkarKarp1983,MichielsEtal2007}, improves on LPT (mean GAP against the certified bound $1.23\%$ against $2.18\%$) but is worse than MULTIFIT ($0.43\%$; MULTIFIT wins $585$ of the
+$725$ decisive synthetic instances). Plain \texttt{ig\_ql}, which starts from LPT, loses to LDM in $21\%$ of the synthetic and $36\%$ of the published instances. Starting the IG from the best of LPT, MULTIFIT and LDM
+(\textsc{IG-QL}$^{+}$) recovers the large-$n$ classes: it ties the best constructive heuristic in every instance with $n\geq100$, improves on it in $19\%$ (synthetic) and $34\%$ (published) of the instances and is never worse
+(Table~\ref{tab:f12_stronger}; mean GAP $0.17\%$ against $0.35\%$ for \texttt{ig\_ql} and $0.43\%$ for MULTIFIT; $69.3\%$ provably optimal against $34.3\%$ and $48.5\%$). Even with the strong start the policy adds
+almost nothing: $-0.010\%$ (synthetic) and $-0.013\%$ (published) against random destruction from the same seed, inside the $\pm0.05\%$ margin. \textsc{IG-QL}$^{+}$ lies on the quality--time Pareto frontier in all three size ranges
+(Figure~\ref{fig:pareto}), at $0.2$--$0.7$ seconds per run; MULTIFIT costs $50$--$500$ times less than \texttt{ig\_ql}.
+
+\input{f12_stronger_baselines.tex}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{fig_pareto.pdf}
+\caption{Quality--time trade-off on the synthetic classes, in three size ranges (each marker is the mean over the four classes of the panel; GAP against the certified bound; CPU time is the geometric mean of the
+class medians, log scale, from one sequential session on an idle machine). The dashed line is the Pareto frontier. \textsc{IG-QL}$^{+}$: \texttt{ig\_ql} started from the best of LPT, MULTIFIT and LDM.}
+\label{fig:pareto}
+\end{figure}
+
+\paragraph{A destruction size chosen offline}
+\textsc{IG-Tuned}$^{+}$ combines both ingredients: Iterated Greedy with
+random destruction, $d/n$ chosen per class on $30$ separate instances (per family on $553$ published instances never run, for the external data), started from the best of LPT, MULTIFIT and LDM,
+with the budget $T=1{,}000$ and no learned component. Table~\ref{tab:f22_igcv} gives the pre-specified comparison (all eight tests confirmed). The recipe beats MULTIFIT by
+$0.29\%$ (synthetic) and $0.85\%$ (published) and LDM by about $1.1\%$, never returns a solution worse than the best constructive heuristic and improves on it in $25.8\%$ and $43.0\%$ of the
+instances. Against the certified bound, $74.7\%$ of its solutions are provably optimal (MULTIFIT: $48.5\%$; LDM: $34.0\%$; \texttt{ig\_ql} started from the same solution: $69.3\%$), and the mean GAP is $0.133\%$ against $0.425\%$ for MULTIFIT.
+Tuning $d$ is worth $0.034\%$ (synthetic) and $0.100\%$ (published) over the default $d$, concentrated in $50\leq n\leq75$; for $n\geq150$ the constructive heuristics are already hard to improve.
+
+\input{f22_igcv_seed.tex}
+
+\paragraph{A local search helps only at an equal number of iterations}
+Adding the descent of the hybrid to the recipe gives the same lesson as in Section~\ref{sec:f3f4-ablation}. At an equal number of iterations it helps ($-0.036\%$ synthetic, $-0.072\%$ published; $81.2\%$ of
+provably optimal solutions against $74.7\%$), but an iteration costs $2.3$ to $82.9$ times more. When the recipe \emph{without} local search receives the same CPU time ($T_{\mathrm{eq}}$ between
+$2{,}298$ and $82{,}855$), it is better: the local search loses by $0.034\%$ ($24$ wins against $115$ losses, $p_{\mathrm{Holm}}=3\times10^{-8}$) and the equal-CPU recipe reaches $89.0\%$ of provably
+optimal solutions against $81.2\%$ (mean GAP $0.058\%$ against $0.094\%$; Table~\ref{tab:f26_igcvls}, and Supplementary Section~\ref{S-sec:m-recipe}).
+
+\input{f26_igcvls.tex}
+
+\paragraph{The budget does the rest}
+The strongest variant is the recipe with a larger iteration budget. On six classes of the synthetic benchmark it reaches $86.8\%$, $92.7\%$ and $\mathbf{97.5\%}$ of provably optimal solutions at $T=4{,}000$,
+$16{,}000$ and $64{,}000$, against $75.5\%$ at $T=1{,}000$ (mean GAP $0.099\%\to0.009\%$; Table~\ref{tab:s_recipe_budget}); the results at $T=1{,}000$ throughout the paper are comparisons at a fixed, small
+budget, not claims about what each method can reach. Exact methods remain the right tool for the instances they solve in about a second (about $85\%$ of families C and F; \citealp{OstojicEtAl2025}); the point
+of the recipe is that a learning-free method already sits near the optimum.
+
+\input{s_recipe_budget.tex}
+
+\subsection{External validation on published identical-machine instances}
+\label{sec:external}
+
+To test whether the findings hold on instances this project did not design, a 13-method roster was run on $6{,}780$ instances of the benchmark released with \citet{OstojicEtAl2025} (a stratified sample of $2{,}000$ from
+each of families B, C and E, and all $780$ of F), analysed with the same Wilcoxon/Holm procedure.\footnote{Wide-range instances of family B ($U[1,10^{18}]$ at the extreme) overflow 64-bit load accumulators; the code
+switches to arbitrary-precision integers above a safe threshold, with no change on any other instance (verified by independent recomputation and regression tests).}
+
+\paragraph{What replicates, and what does not}
+The comparison with the published baselines replicates: \texttt{ig\_ql} against SA, BCO and MULTIFIT is Holm-significant and favourable in a large majority of tests in all four families. The contrast between
+mechanisms does not replicate uniformly: the ILS wins nearly all significant comparisons in family B ($157$ of $163$ favour the ILS; wide-range, almost duplicate-free times), the IG nearly all of C ($100$ of $102$), and
+E and F are mixed. Neither mechanism dominates; the granularity of the processing times matters more than either fixed choice (Supplementary Section~\ref{S-sec:m-granularity}).
+
+\paragraph{The small policy effect is real and replicates}
+A family-level pooled test suggested that \texttt{ig\_ql} has a slightly lower GAP than \texttt{ig\_random} in B, C and E. Because the hypothesis arose after looking at the data, it was tested on $4{,}160$ instances never
+run before, with the hypothesis, the test and the decision rule fixed in writing, with hashes, before any of them was run: the rule was met in all three families ($-3.0\%$ and $-3.5\%$ of the GAP in B and E; $-0.85\%$
+in C, with an interval that includes zero). A second test on $2{,}690$ further instances (Table~\ref{tab:f16_confirm2}) replicates it in all three families ($0.015$, $0.029$ and $0.027$ percentage points of GAP;
+$p_{\mathrm{Holm}}\leq0.003$), and an informative state reproduces it without adding to it. The effect is therefore real, independent of the state and negligible in size: hundredths of a point.
+
+\input{f16_confirm2.tex}
+
+\paragraph{Gap to exact solutions}
+The GAP against the classical bound mixes algorithmic error with bound slack. For families C and F the benchmark provides the solutions of an exact method; \texttt{ig\_ql} is $1.13\%$ above the optimum in C
+(optimal in $21.3\%$ of the instances, against $1.68\%$ and $18.3\%$ for MULTIFIT) and $0.17\%$ above in F. The classical bound is loose by $0.72\%$ (C) and $1.01\%$ (F), so a sizeable part of the GAP reported
+elsewhere is bound slack, and, conversely, the best heuristic of the study in C is not near-optimal there ($79\%$ of its solutions exceed the optimum).

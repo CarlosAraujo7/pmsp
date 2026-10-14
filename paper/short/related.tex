@@ -1,0 +1,32 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Adaptive operator selection and reinforcement learning}
+Adaptive operator selection (AOS) estimates, during the search, which operator or strategy is worth applying \citep{FialhoEtal2010,BurkeEtal2013}. Classical mechanisms include uniform
+random selection, the adaptive weights of ALNS \citep{PisingerRopke2007}, bandits such as UCB \citep{AuerEtal2002} and supervised predictors \citep{MaturanaSaubion2008}; a survey
+of bandit-based AOS found that simple exploration--exploitation rules often beat more complex methods in small operator spaces \citep{FialhoEtal2010}. Reinforcement learning adds a state
+that conditions the choice \citep{BengioBengio2021}; \citet{CalvetEtal2017} coined \emph{learnheuristic} for metaheuristics coupled to a learning component. Tabular Q-Learning as an operator
+selector has been explored for permutation flowshop inside Iterated Greedy \citep{KarimiMamaghanEtal2023,KarimiMamaghanEtal2024}, for makespan in additive manufacturing
+\citep{AlicastroEtal2021} and, closest to this work, for the destruction size of an Iterated Greedy for identical parallel machines with setups and weighted earliness/tardiness
+\citep{MissaouiOSullivan2026}, building on the adaptive destruction of \citet{MissaouiRuiz2022}. Those studies report that the learning-guided method beats baselines; the question of how much
+of the gain belongs to the policy, as opposed to the search structure, the budget and the tuning, is the object of the present article.
+
+\paragraph{Parallel machine scheduling}
+P$||C_{\max}$ is NP-hard \citep{GareyJohnson1979}. The classical constructive heuristics are LPT \citep{Graham1969}, MULTIFIT \citep{CoffmanGareyJohnson1978} and the
+differencing method LDM \citep{KarmarkarKarp1983,MichielsEtal2007}; local search with multi-exchange neighbourhoods \citep{FrangioniEtal2004} and simulated annealing \citep{LiPerkins2024}
+and bee-colony \citep{DavidovicEtal2012} metaheuristics have been proposed, but exact bin-packing-based and arc-flow formulations
+\citep{DellAmicoEtal2008,MradSouayah2018,GharbiBamatraf2022,AkramEtal2024} solve most published benchmark instances in well under a second, the hard ones remaining costly
+\citep{OstojicEtAl2025}. The linear relaxation of the arc-flow model is a cheap, certified lower bound, which this article uses to tell near-optimal from provably optimal solutions. For
+unrelated machines (R$||C_{\max}$), Iterated Greedy with local search is the established heuristic \citep{FanjulPeyroRuiz2010}, linear programming gives a 2-approximation by rounding \citep{LenstraEtal1990}, and a recent exact algorithm proves optimality for about two thirds of the instances of the standard benchmark within 300 seconds \citep{AbladEtAl2021}.
+
+\paragraph{Evaluation methodology and offline configuration}
+That the component responsible for a gain must be isolated by controlled experiments, and not by a competitive comparison of whole algorithms, is a long-standing position in the heuristics literature
+\citep{Hooker1995,BarrEtal1995}; a similar concern with confounded comparisons, whose results depend on implementation details, hyperparameters
+and budgets, arose in deep reinforcement learning \citep{Henderson2018}. For parameters, automatic offline configuration on training instances (ParamILS, iterated racing;
+\citealp{HutterEtal2009,LopezIbanezEtal2016}) is the standard alternative to adapting them during the run, which has its own taxonomy and surveys \citep{EibenEtal1999,KarafotiasEtal2015,AletiMoser2016}. The protocol of this article
+brings these principles to learnheuristics: a random control, an offline-validated competitor, an equal-CPU budget and analyses specified before the data.
+
+\paragraph{Iterated Greedy}
+\citet{RuizStutzle2007} introduced Iterated Greedy for the permutation flowshop, showing that a destruction--reconstruction cycle is competitive with far more complex metaheuristics; its
+destruction size is a sensitive parameter that usually requires instance-specific tuning. None of the studies above isolates, with controls at equal CPU time and offline-tuned baselines, what an
+online learner adds to the search it controls.

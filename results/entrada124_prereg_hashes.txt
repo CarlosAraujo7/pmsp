@@ -1,0 +1,12 @@
+d4facee3626390307c818e449708cbb3 *experiment/run_unrelated_law_entrada124.py
+ae66f6419f416c9883cc9716df6a0b06 *analysis/report_entrada124_unrelated_law.py
+9e5bbc309225179e84b3eafe0f5b4860 *experiment/run_igls_p_entrada124.py
+5bf3c8e4429b01e8121cc1148d429cec *analysis/report_entrada124_igls_p.py
+363eb2f1be7d55d4ffdc855a7c570b47 *pmsp/ig.py
+668a2d7e089c32f42f14489a44935dc7 *pmsp/unrelated.py
+d00efa72451ee765b98a28fecf3e4b3a *pmsp/operators.py
+8510c9a43c28ee2c15fd5ef4036ef962 *results/results.csv
+c9d0a5f88ba660e9886c947acc60a887 *results/dsel_unrelated_entrada118.json
+65c73cfe05633df6e6ecda88536ab27c *results/state_calibration_unrelated_entrada118.json
+29208e2166376b041e371427ba0657b2 *analysis/report_entrada124_unrelated_law.py
+# EMENDA 1 (relatorio de lei/ablacao): correcao de bug de tipo (ndarray.to_numpy) que abortou antes de qualquer saida; nenhuma hipotese/regra alterada

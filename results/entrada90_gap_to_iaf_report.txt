@@ -1,0 +1,80 @@
+instancias com referencia iAF na amostra: 2780 ({'C': 2000, 'F': 780}); com otimalidade NAO provada (Gap>0): 77
+folga media do LB classico = (Z-LB)/Z: {'C': np.float64(0.724), 'F': np.float64(1.01)} %
+
+====================================================================================================
+TODAS as linhas com referencia
+====================================================================================================
+family        method    n  gap_opt  gap_LB  pct_opt       cpu
+     C           lpt 2000    4.562   5.374     8.25 0.0003491
+     C      multifit 2000     1.68   2.446    18.15  0.006125
+     C sa_li_perkins 2000     4.18   4.985     8.85   0.03299
+     C           bco 2000    27.98   29.03     1.65   0.06278
+     C    ils_random 2000    3.152   3.947     19.5     1.597
+     C        ils_ql 2000      3.2   3.995    17.75     2.999
+     C     ig_random 2000    1.181   1.947    21.25    0.3844
+     C        ig_ucb 2000    1.197   1.962    20.15    0.3948
+     C    ig_ucb_ctx 2000    1.182   1.948     19.9    0.3998
+     C    ig_ql_flat 2000    1.186   1.951     20.7    0.3863
+     C         ig_ql 2000    1.138   1.903     21.1    0.3696
+     C        ils_rf 2000    3.179   3.974    19.15     6.618
+     C       ils_ucb 2000    3.597   4.396     13.8     1.893
+     F           lpt  780   0.5454   1.635    21.92 0.0009904
+     F      multifit  780   0.6885   1.781    30.64   0.01575
+     F sa_li_perkins  780   0.4633   1.552    22.05   0.01752
+     F           bco  780    3.352   4.487    9.231    0.1896
+     F    ils_random  780    0.229   1.317    36.54     15.66
+     F        ils_ql  780    0.235   1.323    35.64     46.47
+     F     ig_random  780   0.1737   1.262    30.51    0.8849
+     F        ig_ucb  780   0.1703   1.259    31.92    0.8845
+     F    ig_ucb_ctx  780   0.1781   1.266    31.03    0.9008
+     F    ig_ql_flat  780   0.1766   1.265    31.67    0.8882
+     F         ig_ql  780   0.1803   1.269    31.03    0.8937
+     F        ils_rf  780   0.2295   1.318    37.18     40.89
+     F       ils_ucb  780   0.3173   1.406    29.62     17.89
+
+====================================================================================================
+SO' otimalidade provada (Gap=0)
+====================================================================================================
+family        method    n  gap_opt  gap_LB  pct_opt       cpu
+     C           lpt 1983    4.569   5.387    8.321 0.0003479
+     C      multifit 1983    1.679   2.451    18.31  0.006063
+     C sa_li_perkins 1983    4.184   4.995    8.926   0.03289
+     C           bco 1983    27.97   29.03    1.664   0.06273
+     C    ils_random 1983    3.159    3.96    19.67     1.585
+     C        ils_ql 1983    3.205   4.006     17.9     2.974
+     C     ig_random 1983    1.176   1.947    21.43    0.3834
+     C        ig_ucb 1983    1.193   1.964    20.32    0.3938
+     C    ig_ucb_ctx 1983    1.179    1.95    20.07    0.3987
+     C    ig_ql_flat 1983    1.183   1.954    20.88    0.3851
+     C         ig_ql 1983    1.135   1.905    21.28    0.3687
+     C        ils_rf 1983    3.186   3.987    19.31     6.593
+     C       ils_ucb 1983    3.601   4.407    13.92     1.869
+     F           lpt  720   0.4787   1.631    23.75  0.001051
+     F      multifit  720   0.6494   1.804    33.19   0.01675
+     F sa_li_perkins  720   0.4114   1.563    23.89   0.01653
+     F           bco  720    3.177   4.377       10    0.1993
+     F    ils_random  720   0.2391    1.39    39.31      16.9
+     F        ils_ql  720   0.2453   1.396    38.19     50.22
+     F     ig_random  720   0.1601   1.311    33.06    0.9298
+     F        ig_ucb  720   0.1555   1.306    34.58    0.9281
+     F    ig_ucb_ctx  720   0.1617   1.313    33.61    0.9465
+     F    ig_ql_flat  720   0.1616   1.312    34.31    0.9335
+     F         ig_ql  720   0.1665   1.317    33.61    0.9412
+     F        ils_rf  720    0.241   1.392    39.72     43.85
+     F       ils_ucb  720   0.3267   1.478    31.81     19.25
+
+====================================================================================================
+ig_ql vs outro, em makespan, por familia (so' otimalidade provada): melhor / pior / empate
+====================================================================================================
+  C ig_ql vs multifit      : melhor  1017  pior   634  empate   332
+  F ig_ql vs multifit      : melhor   371  pior   125  empate   224
+  C ig_ql vs sa_li_perkins : melhor  1523  pior     1  empate   459
+  F ig_ql vs sa_li_perkins : melhor   514  pior     2  empate   204
+  C ig_ql vs bco           : melhor  1948  pior     0  empate    35
+  F ig_ql vs bco           : melhor   648  pior     1  empate    71
+  C ig_ql vs ig_random     : melhor   532  pior   376  empate  1075
+  F ig_ql vs ig_random     : melhor   177  pior   176  empate   367
+  C ig_ql vs ig_ucb        : melhor   545  pior   353  empate  1085
+  F ig_ql vs ig_ucb        : melhor   163  pior   190  empate   367
+  C ig_ql vs ils_ql        : melhor  1094  pior   353  empate   536
+  F ig_ql vs ils_ql        : melhor   217  pior   232  empate   271

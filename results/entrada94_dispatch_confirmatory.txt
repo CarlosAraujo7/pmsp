@@ -1,0 +1,29 @@
+====================================================================================================
+TESTE CONFIRMATORIO DO DESPACHO a priori (limiar 0,1 fixo) -- holdout
+====================================================================================================
+instancias: 4160 {'B': 1500, 'C': 1500, 'E': 1160} | escolheu IG em 47.1%
+
+--- PRIMARIA (pooled; Holm sobre 2; mean_diff<0 => despacho melhor; rank_biserial>0 => despacho PIOR) ---
+ group            vs    n  better  worse  tie  mean_diff_pp  rank_biserial      p_raw     p_holm  reject  confirmada
+POOLED  ig_ql sempre 4160    1541    288 2331      -0.01335        -0.6062 1.107e-111 1.107e-111    True        True
+POOLED ils_ql sempre 4160     906    260 2994       -0.7413        -0.8379 1.302e-135 2.604e-135    True        True
+
+--- SECUNDARIA por familia (Holm sobre 6; descritiva) ---
+group            vs    n  better  worse  tie  mean_diff_pp  rank_biserial      p_raw     p_holm  reject
+    B  ig_ql sempre 1500    1252     91  157       -0.1185        -0.8954 1.052e-177 6.315e-177    True
+    B ils_ql sempre 1500      20      4 1476     -0.006427          -0.74   0.001515    0.00303    True
+    C  ig_ql sempre 1500      27     59 1414        0.0827         0.6659  8.179e-08  2.454e-07    True
+    C ils_ql sempre 1500     752    232  516        -1.995        -0.8431 3.796e-116 1.898e-115    True
+    E  ig_ql sempre 1160     262    138  760       -0.0016        -0.1648   0.004293   0.004293    True
+    E ils_ql sempre 1160     134     24 1002      -0.07038        -0.8055    1.6e-18    6.4e-18    True
+
+medias de gap (pp): gap_ig=1.0203, gap_ils=1.7482, gap_dispatch=1.0069, gap_oracle=0.9369
+fracao do gap (melhor fixa -> oraculo) fechada pelo despacho: 0.160
+acuracia da escolha (so' instancias com gap_ig != gap_ils, n=2995): 81.7%
+  B: acuracia 93.1% (n=1367), gap ig=0.2986 ils=0.1865 dispatch=0.1801
+  C: acuracia 72.8% (n=1070), gap ig=1.9713 ils=4.0489 dispatch=2.0540
+  E: acuracia 71.0% (n=558), gap ig=0.7238 ils=0.7926 dispatch=0.7222
+
+====================================================================================================
+VEREDITO pre-registrado: 2/2 confirmadas -> DESPACHO CONFIRMADO
+====================================================================================================

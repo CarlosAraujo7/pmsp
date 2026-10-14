@@ -1,0 +1,8 @@
+setting,n,actions,oracle,validated,ql,ql_over_validated,cpu_ratio,note
+"$\mathrm{P}||C_{\max}$, destruction strategy",1130,3,-0.03869327805738449,0.001323704631967388,-0.016349512079565358,,,"validated: best per class, chosen on the test set (optimistic)"
+"$\mathrm{P}||C_{\max}$, destruction size",1200,5,-0.1267678209842434,-0.08851544243611077,0.014655589469729247,-0.1655709903987369,,validated on 30 separate instances per class
+"$\mathrm{R}||C_{\max}$ synthetic, destruction strategy",400,4,-0.24035202832452732,,-0.07268831605467568,,0.9717737741540957,
+"$\mathrm{R}||C_{\max}$ $1000{\times}50$, destruction strategy",96,4,0.09188105625909278,-0.4608022488615811,-0.3117741045429457,0.6765898068275238,1.4173017627096913,validated among the four strategies and the mixture
+"$\mathrm{R}||C_{\max}$ standard benchmark, destruction strategy",700,4,-0.14897100105292768,-0.12418103419821327,-0.05460830439470769,0.43974754073592176,1.1196154756900278,
+"$\mathrm{R}||C_{\max}$ standard benchmark, destruction size",700,5,-0.3246753240131701,-0.20124304189479703,0.15210649238822826,-0.7558347903911348,0.6481929157181531,validated per type and job count
+"Permutation flowshop, destruction size",120,5,-0.1930886308177044,-0.020497051522975807,0.14183303418704143,-6.919679839222544,0.8866814261269949,validated per size

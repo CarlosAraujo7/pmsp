@@ -1,0 +1,36 @@
+=== Policy Report: n=50, m=10 ===
+
+Operator usage (fraction of states where it is greedy-optimal):
+  Op1 (inter-swap)                 96.3%
+  Op2 (reinsert)                    2.5%
+  Op3 (intra-swap)                  0.0%
+  Op4 (block-move)                  1.2%
+
+Search-phase analysis (f3 = progress):
+  Early iterations (f3 in [0,40%]): dominant operator = inter-machine job swap (Op1) (96% of states in this phase)
+  Late  iterations (f3 in [60,100%]): dominant operator = inter-machine job swap (Op1) (96% of states in this phase)
+  --> The agent consistently prefers the same operator regardless of progress,
+      indicating that this operator dominates across all search phases.
+
+Stagnation analysis (f4 = fraction of iterations without improvement):
+  Low  stagnation (f4 in [0,30%]): dominant operator = inter-machine job swap (Op1) (96%)
+  High stagnation (f4 > 60%):        dominant operator = inter-machine job swap (Op1) (96%)
+  --> Stagnation level does not change the preferred operator,
+      suggesting the agent relies on perturbation (ILS kick) for escape.
+
+Solution quality analysis (f1 = relative gap to lower bound):
+  High gap (f1 > 60%): dominant operator = inter-machine job swap (Op1) (100%)
+  Low  gap (f1 < 20%): dominant operator = inter-machine job swap (Op1) (96%)
+  --> The preferred operator is invariant to solution quality.
+
+Canonical scenario summary:
+  High gap, unbalanced     (f1=2,f2=2): inter-machine job swap (Op1) (100% of slice states)
+  High gap, balanced       (f1=2,f2=0): inter-machine job swap (Op1) (100%)
+  Mid search               (f1=1,f2=1): inter-machine job swap (Op1) (89%)
+  Near-optimal, unbalanced (f1=0,f2=2): inter-machine job swap (Op1) (100%)
+  Near-optimal, balanced   (f1=0,f2=0): inter-machine job swap (Op1) (100%)
+
+Summary paragraph (for paper):
+------------------------------------------------------------
+For n=50, m=10, the Q-Learning agent converged to a policy in which \textsc{Op1} dominates in the early search phase (96\% of early states), while \textsc{Op1} becomes preferred in the final iterations (96\% of late states). Stagnation level does not trigger an operator switch; the ILS perturbation alone provides escape from local optima.
+------------------------------------------------------------

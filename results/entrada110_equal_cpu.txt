@@ -1,0 +1,22 @@
+==============================================================================================================
+IG vs ILS EM CPU IGUAL -- teste pre-registrado, Entrada 110
+==============================================================================================================
+id     dist                  comparison   n  better  worse  tie  mean_d_pct  rank_biserial     p_raw    p_holm  reject
+E1 u1_10000         ig_ql_eqt vs ils_ql 150      21    103   26      0.0863         0.7941 8.847e-08 8.847e-08    True
+E2 u1_10000 ig_random_eqt vs ils_random 150      15    113   22      0.1377         0.8159 8.631e-12 1.726e-11    True
+E3   u1_100         ig_ql_eqt vs ils_ql 150      82      6   62     -0.7028        -0.9326 1.068e-14  4.27e-14    True
+E4   u1_100 ig_random_eqt vs ils_random 150      73      8   69     -0.6762        -0.9085 9.161e-13 2.748e-12    True
+
+VEREDITO pre-registrado (E1, E2): a vantagem do ILS PERSISTE (ILS melhor em CPU igual em granularidade fina)
+
+--- por distribuicao e tamanho: d medio (IG_eqt vs ILS), razao CPU realizada IG/ILS ---
+  u1_100    n= 25: ql d=-0.645% (cpu IG/ILS=0.99) | random d=-0.591% (cpu=1.02)
+  u1_100    n= 50: ql d=-0.428% (cpu IG/ILS=0.82) | random d=-0.470% (cpu=0.94)
+  u1_100    n= 60: ql d=-2.272% (cpu IG/ILS=0.95) | random d=-2.207% (cpu=0.85)
+  u1_100    n=100: ql d=-0.078% (cpu IG/ILS=0.77) | random d=-0.064% (cpu=0.71)
+  u1_100    n=200: ql d=-0.091% (cpu IG/ILS=0.92) | random d=-0.050% (cpu=0.84)
+  u1_10000  n= 25: ql d=-0.039% (cpu IG/ILS=1.67) | random d=-0.029% (cpu=1.64)
+  u1_10000  n= 50: ql d=+0.181% (cpu IG/ILS=1.32) | random d=+0.264% (cpu=1.34)
+  u1_10000  n= 60: ql d=+0.008% (cpu IG/ILS=1.32) | random d=+0.134% (cpu=1.16)
+  u1_10000  n=100: ql d=+0.118% (cpu IG/ILS=0.95) | random d=+0.139% (cpu=0.80)
+  u1_10000  n=200: ql d=+0.164% (cpu IG/ILS=0.98) | random d=+0.180% (cpu=0.90)

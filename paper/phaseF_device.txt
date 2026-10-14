@@ -1,0 +1,2322 @@
+Learnheuristics with Adaptive Operator and Strategy Selection for
+the Parallel Machine Scheduling Problem: Hybridizing Iterated
+Local Search and Iterated Greedy with Online Q-Learning
+Carlos Vinicio Dantas Araújo∗
+Graduate Program in Computer Science, State University of Ceará (UECE), Fortaleza, CE, Brazil
+
+Abstract
+We propose two learnheuristics that embed online tabular Q-Learning as a context-sensitive
+Adaptive Operator/Strategy Selection (AOS) mechanism for the Parallel Machine Scheduling
+Problem (P||Cmax ), minimising the makespan. The first, ig_ql, uses Q-Learning to select
+among three destruction strategies within an Iterated Greedy (IG) destruction-reconstruction
+cycle. The second, ils_ql, uses Q-Learning to select among four neighbourhood operators
+within an Iterated Local Search (ILS) framework; both share a compact 81-state representation of search context. Across six synthetic instance classes (20–100 jobs, 4–20 machines, 30
+instances each) and a further validation on over 1 500 published benchmark instances, ig_ql
+significantly outperforms three state-of-the-art baselines (MULTIFIT, a simulated-annealing
+method, and a Bee Colony Optimisation algorithm) with Holm-Bonferroni-corrected significance and non-negligible effect sizes; a four-way ablation study shows the gain requires both
+the IG search mechanism and Q-Learning’s state-conditioned selection, with neither alone
+suﬀicient, and the result is confirmed at N = 100 instances per class. In contrast, ils_ql
+performs statistically equivalently to random operator selection (Wilcoxon p > 0.05); its apparently interpretable learned policy – a near-constant preference for one operator – is shown
+to be substantially an artefact of sparse state coverage and initialisation tie-breaking rather
+than a purely structural property of the problem, a methodological caution for AOS research
+based on tabular reinforcement learning. An isolation control further shows that, for ils_ql,
+extended computational budget contributes more than AOS sophistication.
+∗
+
+Corresponding author.
+Email address: carlos.vinicio@aluno.uece.br (Carlos Vinicio Dantas Araújo)
+
+Preprint submitted to European Journal of Operational Research
+
+September 8, 2026
+
+Keywords: Parallel machine scheduling, Iterated Greedy, Reinforcement learning, Adaptive
+operator selection, Metaheuristics
+1. Introduction
+Scheduling problems are among the most studied in combinatorial optimisation, with
+applications in manufacturing, cloud computing, task allocation in distributed systems, and
+logistics (Pinedo, 2016). The Parallel Machine Scheduling Problem (PMSP) consists of assigning n jobs to m identical parallel machines so as to minimise the makespan Cmax , defined
+as the completion time of the last job. Even for m = 2 the problem is NP-hard (Garey
+and Johnson, 1979), which makes exact methods impractical for medium- and large-sized
+instances.
+Metaheuristics are widely adopted for the PMSP. Iterated Local Search (ILS) (Lourenço
+et al., 2019) is one of the most popular approaches, alternating between a local-improvement
+phase and a perturbation step to escape local optima. Iterated Greedy (IG) (Ruiz and Stützle,
+2007) is a closely related framework that instead alternates cycles of destruction (removing
+a subset of jobs from the current sequence) and reconstruction (greedily reinserting them);
+the destruction-reconstruction cycle itself provides both search and diversification, with no
+separate perturbation phase. In both frameworks, when multiple neighbourhood operators
+or destruction strategies are available, the question of which one to apply at each iteration
+arises: Adaptive Operator Selection (AOS) addresses this demand through mechanisms that
+estimate or learn the relative effectiveness of each choice during the search (Fialho et al.,
+2010; Karimi-Mamaghan et al., 2022).
+Classical AOS strategies include uniform random selection (Pisinger and Ropke, 2007),
+bandit algorithms such as UCB (Upper Confidence Bound) (Auer et al., 2002), and datadriven predictors such as Random Forests (RF) (Maturana and Saubion, 2008). A limitation
+of these approaches is that they generally do not exploit the context of the current search:
+solution quality, degree of load imbalance, budget progress, and stagnation level.
+Reinforcement Learning (RL), and Q-Learning in particular (Watkins and Dayan, 1992;
+Sutton and Barto, 2018), offers a context-sensitive AOS mechanism: the agent maintains
+action-state value estimates and updates its selection policy based on the return obtained at
+2
+
+each iteration. Hybrid RL-metaheuristic approaches have shown promise in vehicle routing
+(Zhang et al., 2020) and job-shop scheduling (Park et al., 2021). In the scheduling literature, Q-Learning as an AOS mechanism has been explored mainly for permutation flowshop,
+integrated with iterated greedy (Karimi-Mamaghan et al., 2023) and with dynamic operatorportfolio management schemes (Karimi-Mamaghan et al., 2024); for the PMSP specifically,
+RL has already been combined with swarm-intelligence metaheuristics in variants with setup
+and release times, but for dynamic parameter tuning rather than operator selection (Ozsoydan, 2025). More recently, Q-Learning has been integrated with Iterated Greedy for
+the PMSP with sequence-dependent setup times, targeting weighted earliness/tardiness –
+not makespan – via greedy destruction-reconstruction rather than neighbourhood operators (Missaoui and O’Sullivan, 2026b). The use of tabular Q-Learning as AOS over neighbourhood operators within an ILS, specifically for the pure PMSP (P||Cmax, identical machines, makespan minimisation), remains, to our knowledge, unexplored. Our second learnheuristic, ig_ql, employs tabular Q-Learning analogously within an Iterated Greedy scheme
+(destruction-reconstruction), in the same general spirit as (Missaoui and O’Sullivan, 2026b);
+the difference lies both in the problem variant/objective and in the learning mechanism.
+Regarding the variant: while Missaoui and O’Sullivan (2026b) address sequence-dependent
+setup times, due-date windows, and weighted earliness/tardiness minimisation, our ig_ql
+addresses the pure PMSP (P||Cmax, identical machines, no setups) with makespan minimisation – the classical variant of the problem. Regarding the mechanism, full-text access to
+(Missaoui and O’Sullivan, 2026b) confirms substantial differences across every component
+of the agent: there, Q-Learning selects the destruction size d (five discrete numeric values,
+d ∈ {1, . . . , 5}) for a single, fixed “strategic” destruction-reconstruction procedure (insertion
+at the first feasible position, advancing on deterioration, a technique from (Missaoui and
+Ruiz, 2022)), over a state space the authors describe as the solutions themselves (with no
+search-feature abstraction), with a reward given by (fbefore − fafter )/10 on improvement, 1
+when the objective value is unchanged, and 0 on deterioration, and simulated-annealing-style
+acceptance (a temperature parameter). In contrast, our ig_ql uses Q-Learning to select
+among three qualitatively distinct destruction strategies (random removal, removal of the
+longest-processing-time jobs, and machine-concentrated removal), keeping the destruction
+3
+
+size d fixed and proportional to instance size; it uses the same compact 81-state representation (Section 4.2) as ils_ql; it uses a symmetric raw-improvement reward truncated at
+zero (the same convention used throughout this work); and it uses deterministic greedy reconstruction (NEH/LPT-style) with purely greedy acceptance (never worsening the current
+solution), with no temperature parameter. This specific combination – tabular Q-Learning
+selecting destruction strategies, rather than their size, over a compact and interpretable state
+space, guiding Iterated Greedy for the pure PMSP – remains, to our knowledge, unexplored
+in both problem variant and adaptation mechanism.
+This article makes the following five contributions. (i) ig_ql, a learnheuristic that embeds tabular Q-Learning as an online destruction-strategy-selection mechanism within an
+Iterated Greedy framework for the PMSP; across six synthetic instance classes and a further
+validation on over 1 500 published benchmark instances (Section 5), it significantly outperforms three state-of-the-art baselines – MULTIFIT, a simulated-annealing method following
+(Li and Perkins, 2024), and a Bee Colony Optimisation algorithm (Davidović et al., 2012) –
+with Holm-Bonferroni-corrected significance and non-negligible effect sizes. (ii) A four-way
+ablation study isolating the IG search mechanism from Q-Learning, and state-conditioning
+from temporal-difference learning, which identifies which components of ig_ql drive its advantage, together with a replication at N = 100 instances per class confirming the result is
+not a small-sample artefact. (iii) ils_ql, a companion learnheuristic embedding the same
+tabular Q-Learning mechanism as an Adaptive Operator Selection module within Iterated
+Local Search, with a compact 81-state representation of search context, evaluated across
+eight AOS configurations on 30 distinct instances per class; we show that the effectively
+reachable coverage of this state space, within a single run’s budget, is substantially smaller
+than nominal (Section 5.9.3), a finding relevant to state-space design for online AOS. (iv)
+An isolation-control experiment (ILS-Rand-HI vs. ILS-QL-HI) that separates the effect of extended computational budget from that of online learning, a methodological step rarely taken
+in the AOS literature. (v) An interpretability analysis of the learned Q-table policy, including a diagnostic of how table initialisation and sparse state coverage can artificially inflate
+the appearance of a near-constant policy – a methodological caution relevant to RL-based
+AOS research.
+4
+
+The remainder of this article is organised as follows: Section 2 reviews related work;
+Section 3 defines the PMSP; Section 4 describes the proposed learnheuristics; Section 5
+presents the computational study; Section 6 discusses broader implications; and Section 7
+concludes the paper.
+2. Related Work
+2.1. Adaptive Operator Selection
+AOS has emerged as a well-established research area within evolutionary algorithms and
+hyper-heuristics (Burke et al., 2013). Fialho et al. (2010) conducted a comprehensive survey of bandit-based AOS mechanisms applied to genetic algorithms, finding that simple
+exploration-exploitation strategies frequently outperform more complex methods in small
+operator spaces. Maturana and Saubion (2008) proposed a Random-Forest-based selector
+that learns to map search states to operators via supervised regression, obtaining gains on
+constraint satisfaction problems. Pisinger and Ropke (2007) introduced ALNS (Adaptive
+Large Neighbourhood Search), in which operator weights are updated based on recent performance, obtaining benchmark results on routing problems.
+Despite these advances, most AOS methods do not explicitly model the state of the search:
+the selected operator does not depend on features such as proximity to a local optimum,
+stagnation, or budget progress. This limitation motivated the investigation of RL-based
+mechanisms, in which the agent observes a state and learns a state-dependent policy.
+2.2. Reinforcement Learning in Combinatorial Optimisation
+The integration of RL with metaheuristics has grown significantly over the last decade
+(Bengio et al., 2021). Zhang et al. (2020) combined ant colony optimisation with RL for
+vehicle routing, using the agent to adjust heuristic parameters online. Park et al. (2021)
+applied graph neural networks with RL to job-shop scheduling, obtaining policies that generalise to unseen instances. Cappart et al. (2021) reviewed the intersection between constraint
+programming and machine learning, pointing to RL as one of the most promising approaches
+for guiding search.
+
+5
+
+In the specific context of AOS, the use of tabular Q-Learning as an operator selector within
+ILS remains little explored. Vázquez-Rodríguez and Ochoa (2011) investigated constructiveheuristic variants for the flow shop using ILS, but without an adaptive operator-learning
+component. Our work fills this gap by proposing and empirically evaluating a tabular QLearning agent as an AOS mechanism within ILS for the PMSP.
+2.3. Parallel Machine Scheduling
+The PMSP is among the most extensively studied scheduling problems (Pinedo, 2016).
+The LPT (Longest Processing Time) rule of Graham (1969) is the best-known constructive
+heuristic, with an approximation guarantee of (4/3 − 1/(3m)). Exact methods based on
+integer programming and branch-and-bound are viable only for small instances, owing to
+the problem’s NP-hardness (Garey and Johnson, 1979). Metaheuristics such as ILS, genetic
+algorithms, and tabu search have been widely applied to the PMSP; the specific combination
+of AOS mechanisms – whether classical or RL-based – with the two search frameworks used
+in this article (ILS and IG) is examined next.
+2.4. Iterated Greedy and Parameter/Strategy Adaptation
+Ruiz and Stützle (2007) introduced Iterated Greedy for the permutation flowshop scheduling problem, showing that a simple destruction-reconstruction cycle – removing and greedily
+reinserting a small number of jobs each iteration – is competitive with substantially more
+complex metaheuristics; this result established IG as a lightweight yet effective alternative
+to ILS across the scheduling literature, and motivates its use as the second search framework
+in this article (Section 4).
+A recurring practical diﬀiculty with IG is that its destruction size is a sensitive parameter
+that typically requires instance-specific tuning. Missaoui and Ruiz (2022) addressed this for
+the hybrid flowshop scheduling problem with setup times and due-date windows by proposing
+a parameter-less IG variant, in which destruction size is adapted automatically rather than
+fixed a priori; the same article introduces the “strategic” reconstruction procedure – inserting
+each removed job at its first feasible position and advancing past infeasible insertions on
+deterioration – later reused, in a Q-Learning-augmented form, by Missaoui and O’Sullivan
+(2026b).
+6
+
+Within the same general problem family as ours (identical parallel machines, single stage),
+Missaoui and O’Sullivan (2026a) applied a related but non-learning adaptive mechanism –
+again the strategic reconstruction technique, this time paired with a “leap size” parameter
+that skips insertion positions and adjusts according to whether the incumbent solution improves or worsens – to parallel machines with weighted tardiness and sequence-dependent
+setup times. Missaoui and O’Sullivan (2026b) extended this line of work by replacing the
+deterministic adaptation rule with tabular Q-Learning, which selects the destruction size at
+each iteration of an IG scheme for parallel machines with sequence-dependent setup times
+and weighted earliness/tardiness; this is the closest work to our ig_ql, and Section 1 details
+the resulting differences at the level of the learning mechanism itself (what is selected, the
+state representation, the reward, the reconstruction procedure, and the acceptance criterion),
+not only the problem variant.
+Notably, Missaoui and O’Sullivan (2026b) and Missaoui and O’Sullivan (2026a) come
+from the same two authors and address the same general problem family (identical parallel machines, single stage) through, respectively, an RL-based and a deterministic adaptive
+mechanism – independent evidence, from within the closest line of related work itself, that
+differentiating contributions in this space by adaptation mechanism, and not only by problem
+variant, is an accepted and meaningful distinction. More broadly, none of this line of work
+addresses the pure PMSP studied here (identical parallel machines, no setups, no due dates,
+makespan minimisation): Ruiz and Stützle (2007) considers a different problem class altogether (permutation flowshop), while each of the Missaoui-and-O’Sullivan articles considers
+parallel machines but adds at least one further problem feature – sequence-dependent setup
+times, due-date windows, or a weighted earliness/tardiness or tardiness objective.
+3. Problem Definition
+Let J = {1, . . . , n} be the set of jobs and M = {1, . . . , m} the set of identical parallel
+machines. Each job j ∈ J has a processing time pj > 0. A feasible solution assigns each job
+∑
+to exactly one machine; the completion time of machine i is Ci = j∈Si pj , where Si ⊆ J is
+the set of jobs assigned to machine i. The objective is to minimise Cmax = maxi∈M Ci .
+
+7
+
+A classical lower bound (Graham, 1969) is given by:
+(
+⌈ ∑ ⌉)
+j pj
+LB = max max pj ,
+.
+j∈J
+m
+
+(1)
+
+The optimality gap is defined as GAP(%) = 100 · (Cmax − LB)/LB; GAP = 0 indicates
+that the lower bound was attained.
+Instance diﬀiculty. The LPT rule, which assigns jobs in non-increasing order of pj , tends
+to leave a significant GAP when the jobs-per-machine ratio n/m is low, since there are few
+opportunities for load balancing. In this work, we focus on n/m ∈ [3.3, 5.0], a regime in
+which LPT produces mean gaps of 2.0–4.4%, ensuring meaningful differentiation between
+methods without trivial instances.
+Relationship to PMSP structure. The makespan is determined directly by machine loads.
+Operators that transfer jobs between distinct machines reduce Cmax by redistributing load;
+operators that only reorder jobs within the same machine leave Ci unchanged and, therefore,
+cannot improve the makespan. This structural property is confirmed empirically by the
+analysis of the learned policy in Section 5.9.3.
+4. Proposed Learnheuristics
+This section describes the ILS framework and its Q-Learning-based AOS mechanism (Sections 4.1–4.4), then the Iterated Greedy framework and its own Q-Learning-based strategyselection mechanism (Sections 4.5–4.6), which reuses the same state representation and QLearning update rule.
+4.1. ILS Framework
+ILS (Algorithm 1) starts from an LPT solution and iterates for T steps. At each step, the
+AOS module selects one of the four neighbourhood operators, which is then applied under
+best-improvement local search. After a fixed number (50) of consecutive iterations without
+improvement, a random double-bridge perturbation (3 random moves) restarts the search
+from the best incumbent. The best result over the T iterations is returned.
+
+8
+
+Table 1: The four neighbourhood operators used in ILS.
+
+Op
+
+Name
+
+Description
+
+Op1
+
+inter-swap
+
+Swaps two jobs between distinct machines.
+
+Op2
+
+reinsert
+
+Moves a job from the most loaded to the
+least loaded machine.
+
+Op3
+
+intra-swap
+
+Swaps two jobs on the same machine (does
+not change Ci ).
+
+Op4
+
+block-move Transfers a contiguous block of jobs between two machines.
+
+Table 1 describes the four operators. Note that Op3 (intra-swap) can never improve the
+makespan, since it reorders jobs on the same machine without changing its load. Its inclusion
+serves as a structural control: an effective AOS should learn to avoid it.
+4.2. State Representation
+The search context is encoded into four scalar features, each mapped to three ordered
+bins (b ∈ {0, 1, 2}), producing 34 = 81 discrete states:
+• f1 (gap): current GAP relative to the LB; thresholds {0.10, 0.35}.
+• f2 (load CV): coeﬀicient of variation of machine loads; thresholds {0.15, 0.40}.
+• f3 (progress): fraction of budget consumed; thresholds {0.33, 0.67}.
+• f4 (stagnation):
+
+fraction of recent iterations without improvement; thresholds
+
+{0.25, 0.60}.
+The state index is s = 27b1 + 9b2 + 3b3 + b4 ∈ {0, . . . , 80}. This compact encoding raises
+the expected number of visits per state from ≈1.6 (in a 54 = 625-state design) to ≈12 over
+1 000 iterations, improving the quality of the Q-value estimates.
+The choice of these four features is motivated by evidence from the AOS literature (Fialho et al., 2010): features related to solution quality (f1 ), structural diversity (f2 ), search
+9
+
+Algorithm 1 ILS with AOS for PMSP
+Input: J , M, budget T , AOS module
+x ← LPT(J , M); x∗ ← x; stag ← 0
+for t = 1, . . . , T do
+s ← encode(x, t, T )
+a ← AOS(s)
+x′ ← BestImprovement(x, Opa )
+r ← Cmax (x) − Cmax (x′ )
+Update AOS with (s, a, r); update x, x∗ , stag
+if stag ≥ threshold then x ← Perturb(x∗ ); stag ← 0
+return x∗
+
+phase (f3 ), and stagnation (f4 ) capture the aspects of search context most relevant to operator selection. This representation is reused unchanged by the ig_ql agent introduced in
+Section 4.5.
+4.3. Q-Learning Agent
+The agent maintains a table Q ∈ R81×4 , initialised to zero, updated at each step via
+off-policy Q-Learning (Watkins and Dayan, 1992):
+[
+]
+′ ′
+Q(s, a) ← Q(s, a) + α r + γ max
+Q(s
+,
+a
+)
+−
+Q(s,
+a)
+,
+′
+a
+
+(2)
+
+after
+before
+≥0
+− Cmax
+where α = 0.1 is the learning rate, γ = 0.9 is the discount factor, and r = Cmax
+
+is the reward (absolute makespan reduction). Operator selection follows an ε-greedy policy,
+with ε initialised at 1.0 (pure exploration) and decayed multiplicatively by a factor of 0.995
+after every step, down to a floor of 0.05 (reached after approximately 591 steps), so that
+exploration dominates early in the run and exploitation dominates later.
+The Q-table is shared throughout a single instance’s run, so the agent simultaneously
+learns to explore different regions of the search space over the T iterations. At the end
+of the run, the greedy policy π(s) = arg maxa Q(s, a) can be inspected for interpretability.
+The same update rule (Equation 2), with the same α, γ, and ε-greedy schedule, is reused
+10
+
+unchanged by ig_ql (Section 4.5); the two methods differ only in what the action a selects,
+in the reward truncation, and in the acceptance criterion applied to the resulting move.
+4.4. ILS Method Variants
+ILS-QL-WS (warm-start). Before optimising each instance, the Q-table is pre-trained on
+a batch of random instances of similar size. This biased initialisation can accelerate early
+convergence, reducing the purely exploratory phase. The pre-trained Q-table is shared across
+all runs of the same instance class.
+ILS-QL-HI and ILS-Rand-HI (high-iteration). Both variants receive an extended iteration
+budget, 1.5 to 4× the base budget, scaled by instance size: from 1 500 iterations for n=20 up
+to 4 000 for n=100, m=20. ILS-Rand-HI uses random operator selection under this extended
+budget, serving as an isolation control: any performance difference between ILS-Rand-HI
+and ILS-QL-HI can be attributed to the AOS strategy rather than to the available budget.
+AOS baselines. Besides ILS-Rand (uniform random selection), we evaluate two further base√
+lines: ILS-UCB, based on the UCB1 algorithm with c= 2, treating operators as bandit
+arms; and ILS-RF, which trains an online Random Forest (Breiman, 2001) on the mapping
+(s, a) → r to predict the expected improvement of each operator.
+4.5. Iterated Greedy Framework
+Our second learnheuristic, ig_ql, embeds the same tabular Q-Learning mechanism within
+an Iterated Greedy (IG) scheme instead of ILS. IG (Algorithm 2) alternates cycles of destruction – removing a subset of jobs from the current solution – and reconstruction – greedily
+reinserting them – with no separate perturbation phase: the destruction-reconstruction cycle
+itself provides both search and diversification.
+Destruction. At each iteration, the AOS module selects one of the three destruction strategies
+in Table 2. The number of removed jobs, d, is fixed and proportional to instance size, d =
+max(2, round(0.3n)), rather than learned; this design choice follows a preliminary sensitivity
+analysis (not reported in detail in this article) showing that a small fixed destruction size,
+adequate for the smaller instance classes, failed to scale to the largest classes (150+ jobs)
+evaluated here.
+11
+
+Table 2: The three destruction strategies used in IG.
+
+Strategy Name
+
+Description
+
+1
+
+random
+
+Removes d uniformly random jobs.
+
+2
+
+most-expensive
+
+Removes the d jobs with the largest processing times.
+
+3
+
+machine-concentrated Removes d jobs, all from a single, randomly chosen machine.
+Algorithm 2 IG with AOS for PMSP
+Input: J , M, budget T , AOS module, destruction size d
+x ← LPT(J , M); x∗ ← x
+for t = 1, . . . , T do
+s ← encode(x, t, T )
+a ← AOS(s)
+x′ ← Reconstruct(Destroy(x, Strategya , d))
+(
+)
+r ← max Cmax (x) − Cmax (x′ ), 0
+Update AOS with (s, a, r)
+if Cmax (x′ ) ≤ Cmax (x) then x ← x′
+if Cmax (x) < Cmax (x∗ ) then x∗ ← x
+return x∗
+
+Reconstruction. Removed jobs are reinserted deterministically in non-increasing order of processing time, each onto the currently least-loaded machine (an NEH/LPT-style greedy rule),
+using a running per-machine load tracker so that a removed job’s original load contribution
+does not bias the choice of destination machine for jobs reinserted after it.
+Acceptance. The reconstructed solution is accepted only if it does not worsen the incumbent’s
+makespan (Cmax (x′ ) ≤ Cmax (x)) – the same purely greedy acceptance rule used by ILS, chosen
+deliberately so that any difference between the two frameworks reflects the search mechanism
+itself (destruction-reconstruction vs. neighbourhood-operator local search), not a difference
+in acceptance criteria.
+12
+
+Shared components and reward. ig_ql reuses, unchanged, the same 81-state representation
+(Section 4.2) and the same Q-Learning update rule, learning rate, discount factor, and ε(
+)
+greedy schedule (Section 4.3) as ils_ql. The reward is r = max Cmax (x) − Cmax (x′ ), 0 :
+unlike best-improvement local search, which by construction never worsens the current solution, the destruction-reconstruction step can produce a worse candidate x′ that is then
+rejected by the acceptance rule; truncating the reward at zero avoids assigning a negative
+learning signal for a candidate that acceptance already discards. The only structural differences from ils_ql are therefore the action space (three destruction strategies rather than
+four neighbourhood operators), this reward truncation, and the destruction-reconstruction
+search step itself. Section 2.4 and Section 1 discuss how this specific combination differs from
+the closest related use of Q-Learning within Iterated Greedy for parallel-machine scheduling.
+4.6. IG Method Variants and Baselines
+Ablation ladder. To isolate which components of ig_ql drive its performance, we evaluate
+four reduced variants alongside the full method. ig_random replaces the Q-Learning agent
+with uniform random selection among the three destruction strategies, isolating the contribution of the IG search mechanism itself from any adaptive selection policy. The remaining three
+variants form a 2×2 factorial design that crosses state-conditioning with temporal-difference
+(TD) learning – the two components combined by Q-Learning: ig_ucb uses a global UCB1
+bandit (Auer et al., 2002) over the three strategies (no state, no TD); ig_ucb_ctx uses
+the same UCB1 formula computed separately within each of the 81 states, updated by a
+simple running average with no discounting or value propagation between states (state, no
+TD); ig_ql_flat reuses the same tabular Q-Learning update as ig_ql – bootstrapping via
+γ maxa′ Q(a′ ), ε-greedy exploration – but with a single aggregated state (TD, no state); and
+ig_ql itself combines both (state and TD). Because ig_ql_flat reuses the same underlying
+Q-Learning implementation internally, with the state space collapsed to one state rather
+than reimplemented, the only difference between ig_ql_flat and ig_ql is the size of the
+state space.
+SOTA baselines. We additionally compare against three methods from the literature, reimplemented from their original publications, with any necessary deliberate deviation docu13
+
+mented in the corresponding source-code module. MULTIFIT (Coffman et al., 1978) is a
+deterministic constructive heuristic with no local search: it binary-searches over a candidate machine-capacity bound and repeatedly applies First-Fit-Decreasing bin-packing until
+the tightest feasible capacity is found. sa_li_perkins reimplements the simulated annealing method of Li and Perkins (2024): a neighbourhood of random inter-machine swaps and
+moves, with worsening moves accepted with probability exp(−a/T ) (a fixed-parameter form
+that, as in the original article, does not scale with the magnitude of the worsening) and T
+decayed geometrically; under the original parameterisation (T0 = 10, decay 0.9, a = 1), the
+temperature saturates within roughly the first 100 iterations regardless of the total budget,
+so the method spends most of a longer run in an essentially greedy regime – a property of the
+published design, not of our reimplementation. BCO (Davidović et al., 2012) is a populationbased constructive metaheuristic in which a colony of bees builds solutions job by job via
+weighted-random task and machine selection, then recruits within the colony via a roulettewheel loyalty mechanism across iterations; we implement the “Modified BCO” variant (their
+Section 5.3), reported in the original article as its best-performing configuration. All three
+baselines start, like every method in this article, from the same LPT solution and run under
+the same iteration budget as ig_ql, except MULTIFIT, which is a one-shot constructive
+method with no iterative budget – isolating the comparison to the search mechanism rather
+than the starting point or the computational budget.
+5. Computational Experiments
+This section reports the computational study in two parts, reflecting how the project’s
+central claim evolved (Section 1). Sections 5.1–5.8 report the ig_ql learnheuristic: its performance against the ILS family and LPT (Section 5.2), against three published state-of-the-art
+baselines (Section 5.3), a factorial ablation that decomposes its advantage into a searchmechanism component and a learning component (Section 5.4), its convergence behaviour
+(Section 5.5), an external validation on published benchmark instances (Section 5.6), the
+structural limits of the ILS mechanism that motivate comparing it with IG in the first place
+(Section 5.7), and a preliminary exploration of hybrid IG/ILS mechanisms (Section 5.8). Section 5.9 then reports the ils_ql chapter: originally the project’s central experiment, it pro14
+
+duced a rich, carefully-controlled null result – Q-Learning-based operator selection performs
+statistically equivalently to random selection – that motivated the mechanism-versus-policy
+decomposition applied to ig_ql in Section 5.4. Section 5.10 synthesises both parts.
+5.1. Experimental Setup
+All experiments use the synthetic instance generator of Section 3 (pj ∼ Uniform[1, 100]
+unless noted otherwise) across twelve instance classes, identified by (n, m): six were used
+throughout the project – (20, 4), (20, 6), (30, 8), (50, 10), (75, 15) and (100, 20), with n/m
+ratios between 3.3 and 5.0 – and six were added later to probe larger scales and a wider
+range of n/m: (40, 5), (60, 20), (150, 15), (150, 30), (250, 25) and (300, 20), with n/m ratios
+between 3.0 and 15.0. Each replication uses an independently sampled random instance
+(distinct seed), not a repeated run on a fixed instance, so that reported statistics reflect
+generalisation across instances of a class, not just variance of the search procedure.
+The method roster grew from 8 to 23 named methods over the course of the project. In
+its final form it comprises: LPT (constructive baseline, Section 3); three published stateof-the-art baselines reimplemented for this study, MULTIFIT (Coffman et al., 1978), a
+simulated-annealing method after Li and Perkins (2024) (sa_li_perkins), and a Bee Colony
+Optimisation method after Davidović et al. (2012) (bco); eight ILS variants at the standard
+budget (ils_random, ils_ucb, ils_rf, ils_ql, ils_ql_ws, plus three mechanism-ablation
+controls, ils_pm, ils_ap and ils_sarsa, that replace the Q-Learning agent with, respectively, Probability Matching, Adaptive Pursuit and SARSA); four single-operator ILS controls (ils_op1_only through ils_op4_only) that restrict the local search to one operator;
+two extended-budget ILS variants (ils_rand_hi, ils_ql_hi, Section 4.4); and the fivemethod ig_* family (Section 4.6): ig_random, ig_ucb, ig_ucb_ctx, ig_ql_flat and ig_ql.
+All 23 methods were run on all 12 classes, single-threaded, one CPU core per run, giving
+22,070 individual runs in total (results.csv). All methods, instance generation and results aggregation are implemented in Python, using NumPy (Harris et al., 2020) and pandas
+(McKinney, 2010) for numerical and tabular data handling.
+Two replication regimes coexist, reflecting this chronological growth rather than a deliberate factorial design. Table 3 summarises them: the twelve original-ILS-family methods
+
+15
+
+(the eight standard-budget ILS variants plus the four single-operator controls) were evaluated with N = 30 independent instances on the six original classes, matching the project’s
+earliest phase (Sections 5.9); every other method-class combination – LPT, the three SOTA
+baselines, the two extended-budget ILS-HI variants, the entire ig_* family, and all methods
+on the six later classes – used N = 100. The smallest class, (20, 4), is the single exception
+that was never revisited: the original-ILS methods there remain at N = 30, and even ig_ql
+itself was only ever run there at N = 30 (its four ablation siblings, introduced later, were run
+there directly at N = 100). This is not an oversight: Section 5.7 shows that LPT is already
+near-optimal in this class, leaving negligible room for any method to differentiate itself, so
+re-running it at higher N was not prioritised.
+Table 3: Replications (N ) by method group and instance-class group. † ig_ql itself follows the top row at
+(20, 4); its four ablation siblings (introduced later) follow the bottom row throughout.
+
+Method group
+
+(20, 4)
+
+5 other original classes
+
+6 later classes
+
+Original ILS family (12 methods)†
+
+30
+
+30
+
+100
+
+LPT, 3 SOTA, 2 ILS-HI variants
+
+30
+
+100
+
+100
+
+ig_* family (5 methods)
+
+100
+
+100
+
+100
+
+The standard iteration budget is T = 1,000 for all methods except MULTIFIT, which
+is a one-shot constructive procedure with no iteration budget (Section 4.6); the extendedbudget -HI variants use up to T = 4,000, re-derived per class from the fraction of the
+81-state space visited at least three times (Section 4.3), rather than a single fixed multiplier,
+after an audit found the project’s original documentation of this budget unreliable for the
+newer classes. All reported percentage gaps are relative to the classical lower bound LB =
+∑
+max(maxj pj , ⌈ j pj /m⌉) (Section 3).
+5.2. Headline Result: ig_ql versus ILS and LPT
+Table 4 reports paired, two-sided Wilcoxon signed-rank tests (Wilcoxon, 1945), computed with SciPy (Virtanen et al., 2020) and Holm-Bonferroni corrected (Holm, 1979) within
+this family of 8 × 12 = 96 comparisons, following standard practice for comparing metaheuristics (Derrac et al., 2011), for ig_ql against LPT and the seven strongest ILS variants
+(ils_random, ils_ucb, ils_rf, ils_ql, ils_rand_hi, ils_ql_ws, ils_ql_hi), across all
+16
+
+Table 4: Wilcoxon signed-rank test (p-values adjusted by Holm-Bonferroni) and effect size (paired rankbiserial correlation, in parentheses) for IG-QL against each competing method. Bold: pholm < 0.05. ↓ =
+IG-QL better; ↑ = IG-QL worse; tie = all pairs identical; N/A = fewer than 3 valid pairs.
+n m IG-QL vs LPT IG-QL vs ILS-Rand IG-QL vs ILS-UCB IG-QL vs ILS-RF IG-QL vs ILS-QL IG-QL vs ILS-Rand-HI IG-QL vs ILS-QL-WS IG-QL vs ILS-QL-HI
+20
+
+4 0.0001↓ (-1.00)
+
+1.0000↓ (-1.00)
+
+0.0383↓ (-1.00)
+
+1.0000↓ (-1.00)
+
+1.0000↓ (-1.00)
+
+1.0000↓ (-1.00)
+
+1.0000↓ (-1.00)
+
+1.0000↓ (-1.00)
+
+20
+
+6 0.0000↓ (-1.00)
+
+0.0265↓ (-1.00)
+
+0.0014↓ (-0.97)
+
+0.0127↓ (-1.00)
+
+0.0081↓ (-0.93)
+
+0.0000↓ (-0.85)
+
+0.0127↓ (-1.00)
+
+0.0000↓ (-0.93)
+
+30
+
+8 0.0000↓ (-1.00)
+
+0.0390↓ (-0.75)
+
+0.0004↓ (-1.00)
+
+0.0036↓ (-1.00)
+
+0.0055↓ (-0.88)
+
+0.0002↓ (-0.78)
+
+0.0036↓ (-1.00)
+
+0.0000↓ (-0.92)
+
+40
+
+5 0.0000↓ (-1.00)
+
+1.0000↑ (-0.24)
+
+0.0008↓ (-0.89)
+
+1.0000↓ (-0.42)
+
+1.0000↑ (-0.06)
+
+1.0000↑ (0.48)
+
+1.0000↑ (0.11)
+
+0.4968↑ (0.80)
+
+50 10 0.0000↓ (-1.00)
+
+0.0013↓ (-0.98)
+
+0.0003↓ (-1.00)
+
+0.0023↓ (-0.98)
+
+0.0055↓ (-0.90)
+
+0.0004↓ (-0.71)
+
+0.0062↓ (-0.95)
+
+0.0000↓ (-0.79)
+
+60 20 0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+75 15 0.0000↓ (-1.00)
+
+0.0024↓ (-0.94)
+
+0.0003↓ (-0.98)
+
+0.0055↓ (-0.92)
+
+0.0104↓ (-0.87)
+
+0.0000↓ (-0.75)
+
+0.0109↓ (-0.82)
+
+0.0000↓ (-0.76)
+
+100 20 0.0000↓ (-1.00)
+
+0.0030↓ (-0.91)
+
+0.0010↓ (-0.98)
+
+0.0047↓ (-0.88)
+
+0.0044↓ (-0.88)
+
+0.0000↓ (-0.77)
+
+0.0044↓ (-0.90)
+
+0.0000↓ (-0.82)
+
+150 15 0.0000↓ (-1.00)
+
+0.1347↓ (-0.43)
+
+0.0000↓ (-0.85)
+
+0.0631↓ (-0.45)
+
+0.2607↓ (-0.40)
+
+1.0000↓ (-0.09)
+
+0.1805↓ (-0.41)
+
+1.0000↓ (-0.27)
+
+150 30 0.0000↓ (-1.00)
+
+0.0000↓ (-0.96)
+
+0.0000↓ (-0.99)
+
+0.0000↓ (-0.98)
+
+0.0000↓ (-0.97)
+
+0.0000↓ (-0.91)
+
+0.0000↓ (-0.96)
+
+0.0000↓ (-0.92)
+
+250 25 0.0000↓ (-1.00)
+
+0.0000↓ (-0.78)
+
+0.0000↓ (-0.95)
+
+0.0000↓ (-0.78)
+
+0.0001↓ (-0.76)
+
+0.0001↓ (-0.74)
+
+0.0001↓ (-0.76)
+
+0.0004↓ (-0.71)
+
+300 20 0.0000↓ (-1.00)
+
+1.0000↓ (-0.34)
+
+0.0015↓ (-0.73)
+
+0.6465↓ (-0.40)
+
+0.6856↓ (-0.40)
+
+1.0000↓ (-0.32)
+
+0.8624↓ (-0.37)
+
+0.9166↓ (-0.36)
+
+12 classes, together with the paired rank-biserial effect size (Kerby, 2014). Of the 96 comparisons, 72 remain significant after the Holm correction (79 before correction; 7 lose significance
+under the more conservative family-wise procedure), and every one of the 72 significant comparisons favours ig_ql: it is never significantly beaten by any ILS variant or by LPT, in any
+class.
+Against LPT specifically, the advantage is significant and large in all 12 classes (effect sizes
+close to −1, meaning ig_ql wins essentially every paired instance). Restricting attention to
+the six strongest ILS competitors – ils_ql, ils_ql_hi, ils_ql_ws, ils_rand_hi, ils_rf
+and ils_ucb, the methods a reviewer is most likely to ask about – 41 of 48 comparisons
+(six classes × eight comparisons per class, restricted to these six competitors across the six
+original and six large classes) are Holm-significant, and all 41 favour ig_ql: not one of these
+stronger comparisons ever reverses. The handful of non-significant cells cluster in the classes
+where the gap available to any method is already tiny – (20, 4) and (40, 5), the highestn/m-ratio small classes (Section 5.7) – where mean gaps for both sides are already below
+0.1–0.2% and the paired differences, while occasionally nominally in favour of an ILS variant,
+are too small relative to their variance to survive correction. This is the most robust and
+least qualified result of the present study.
+
+17
+
+Table 5: Wilcoxon signed-rank test (p-values adjusted by Holm-Bonferroni) and effect size (paired rankbiserial correlation, in parentheses) for IG-QL against each competing method. Bold: pholm < 0.05. ↓ =
+IG-QL better; ↑ = IG-QL worse; tie = all pairs identical; N/A = fewer than 3 valid pairs.
+n m IG-QL vs MultiFit IG-QL vs SA (Li&Perkins) IG-QL vs BCO
+20
+
+4
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+20
+
+6
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+30
+
+8
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+40
+
+5
+
+0.0000↓ (-0.99)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+50 10
+
+0.0005↓ (-0.63)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+60 20
+
+0.6116↓ (-0.09)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+75 15
+
+0.0000↑ (0.96)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+100 20
+
+0.0000↑ (1.00)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+150 15
+
+0.0000↑ (1.00)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+150 30
+
+0.0000↑ (1.00)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+250 25
+
+0.0000↑ (1.00)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+300 20
+
+0.0000↑ (1.00)
+
+0.0000↓ (-1.00)
+
+0.0000↓ (-1.00)
+
+5.3. ig_ql versus Published State-of-the-Art
+Table 5 repeats the same protocol for ig_ql against the three reimplemented SOTA
+baselines (Section 4.6): MULTIFIT (Coffman et al., 1978), sa_li_perkins (Li and Perkins,
+2024) and bco (Davidović et al., 2012). Of the 3 × 12 = 36 comparisons, 35 are Holmsignificant – the sole exception, discussed below, is a genuine statistical tie – but, unlike
+Section 5.2, the direction is not uniform even among the significant cases.
+ig_ql beats sa_li_perkins and bco in all 12 classes each, with effect sizes at or near
+−1 throughout and mean gap differences that widen, not narrow, with instance size (e.g.
+mean GAP against bco grows from 0.72% at (20, 4) to 19.8% at (60, 20) and 25.4% at
+(150, 30)). Against MULTIFIT the picture reverses at scale: ig_ql wins five of the six
+classes with n ≤ 60 – the exception, (60, 20), is a genuine statistical tie (pholm = 0.612, effect
+size −0.09), not a loss – but loses all six classes with n ≥ 75, all six losses Holm-significant
+with effect size +1. This crossover is structurally explained, not anomalous. MULTIFIT is
+a one-shot bin-packing-style construction with no iteration budget at all – it runs once to
+completion regardless of n – and its absolute GAP improves with scale under classical bin18
+
+packing approximation theory (from 0.76% at the smallest classes to 0.17% at the largest);
+it is also, on the evidence surveyed independently in a 2025 systematic review of P∥Cmax
+heuristics that itself co-authors the BCO baseline used here (Ostojić et al., 2025, Section 5),
+one of the best-regarded classical constructive heuristics for this problem, not a deliberately
+weak comparator. ig_ql, by contrast, uses a fixed iteration budget (T = 1,000) independent
+of n, so its absolute GAP grows slowly but steadily with scale (from near 0% to 0.67% across
+the same range) – enough, at the two-to-four largest classes, to fall behind MULTIFIT’s
+scale-improving curve. bco degrades with scale for the opposite structural reason: its perouter-iteration cost is B × n constructive moves for a fixed population parameter B = 5
+(Davidović et al., 2012), so under the same total-moves budget used to equalise it with the
+other methods (Section 4.6) its number of outer iterations collapses to I = max(1, T /(Bn)),
+i.e. one or two outer iterations once n ≳ 80 – a limitation of the baseline’s own budget
+formula, not of the comparison. We confirmed directly, by running ig_ql at up to 10× its
+standard budget (T = 10,000) on the most extreme class, (300, 20), that this crossover is not
+an artefact of an unfairly small budget for ig_ql: mean GAP improves only from 0.094%
+(T = 1,000) to 0.077% (T = 5,000), then plateaus exactly at 0.077% at T = 10,000 – an
+order of magnitude more search than the standard protocol still leaves ig_ql roughly 30×
+worse than MULTIFIT’s 0.003% on this class. The net result – ig_ql wins 16 of 18 SOTA
+comparisons at the original six classes and loses specifically to a 1978 heuristic with no search
+budget at all, only at large n/m – is, in our reading, an honest and publishable claim: neither
+inflated by omitting the large-scale classes, nor undermined by treating the MULTIFIT losses
+as a fatal weakness of the method.
+5.4. Mechanism versus Policy: Ablation and Isolation
+Sections 5.2–5.3 establish that ig_ql wins; this section asks why, using the ablation ladder
+and isolation control introduced in Section 4.6.
+The Q-Learning-specific contribution is not statistically defensible. Table 6 repeats the
+Wilcoxon/Holm protocol for ig_ql against its four ablation siblings – ig_random, ig_ucb,
+ig_ucb_ctx and ig_ql_flat – across all 12 classes (4 × 12 = 48 comparisons).
+Only 7 of the 48 raw p-values fall below 0.05, and none survive the Holm correction. The
+19
+
+Table 6: Wilcoxon signed-rank test (p-values adjusted by Holm-Bonferroni) and effect size (paired rankbiserial correlation, in parentheses) for IG-QL against each competing method. Bold: pholm < 0.05. ↓ =
+IG-QL better; ↑ = IG-QL worse; tie = all pairs identical; N/A = fewer than 3 valid pairs.
+n m IG-QL vs IG-Random IG-QL vs IG-UCB IG-QL vs IG-UCB-Ctx IG-QL vs IG-QL-Flat
+20
+
+4
+
+1.0000↓ (-1.00)
+
+1.0000↓ (-1.00)
+
+1.0000↓ (-1.00)
+
+1.0000↓ (-1.00)
+
+20
+
+6
+
+1.0000↑ (0.22)
+
+1.0000↑ (0.21)
+
+1.0000↑ (0.35)
+
+1.0000↓ (-0.23)
+
+30
+
+8
+
+0.6329↓ (-0.60)
+
+1.0000↓ (-0.15)
+
+1.0000↓ (-0.09)
+
+1.0000↓ (-0.08)
+
+40
+
+5
+
+1.0000↑ (0.24)
+
+1.0000↑ (0.20)
+
+1.0000↓ (-0.06)
+
+1.0000↓ (-0.43)
+
+50 10
+
+1.0000↓ (-0.41)
+
+1.0000↓ (-0.38)
+
+1.0000↓ (-0.36)
+
+1.0000↓ (-0.26)
+
+60 20
+
+1.0000↑ (0.06)
+
+1.0000↑ (-0.02)
+
+1.0000↓ (-0.20)
+
+1.0000↓ (-0.05)
+
+75 15
+
+1.0000↓ (-0.07)
+
+1.0000↓ (-0.13)
+
+1.0000↑ (0.34)
+
+1.0000↑ (0.03)
+
+100 20
+
+1.0000↓ (-0.36)
+
+1.0000↓ (-0.21)
+
+1.0000↓ (-0.31)
+
+0.2236↓ (-0.56)
+
+150 15
+
+1.0000↑ (-0.02)
+
+1.0000↓ (-0.11)
+
+1.0000↓ (-0.41)
+
+1.0000↓ (-0.73)
+
+150 30
+
+1.0000↓ (-0.20)
+
+0.6329↓ (-0.49)
+
+1.0000↓ (-0.27)
+
+1.0000↓ (-0.33)
+
+250 25
+
+1.0000↓ (-0.59)
+
+1.0000↓ (-0.36)
+
+1.0000↓ (-0.37)
+
+0.9274↓ (-0.76)
+
+300 20
+
+1.0000↑ (0.21)
+
+1.0000↑ (0.03)
+
+1.0000↓ (-0.47)
+
+1.0000↑ (0.52)
+
+closest case, ig_ql versus ig_ql_flat at (100, 20), has pholm = 0.224. This is a clean null
+across the full 2 × 2 design that crosses state-conditioning with TD-learning (Section 4.6):
+neither UCB1 with state-conditioning alone (ig_ucb_ctx) nor tabular Q-Learning collapsed
+to a single aggregated state (ig_ql_flat) recovers an advantage over uniform random selection (ig_random) that the full ig_ql agent then improves upon. We emphasise that this null
+is not an absence of evidence – it is evidence of absence, obtained with the same statistical
+power (N = 100 for 11 of 12 classes) and the same correction procedure that detects the
+large, robust effects reported in Sections 5.2–5.3.
+The search mechanism itself is what wins. Table 7 isolates the contribution of the
+destroy-and-reconstruct search mechanism from any adaptive selection at all, by comparing ig_random (uniform random destruction strategy, zero learning) against ils_random
+(uniform random operator selection, zero learning) – the same comparison, at the same fixed
+budget, with learning removed from both sides.
+Ten of the 12 comparisons are Holm-significant, and all ten favour ig_random; the two
+
+20
+
+Table 7: Wilcoxon signed-rank test (p-values adjusted by Holm-Bonferroni) and effect size (paired rankbiserial correlation, in parentheses) for IG-Random against each competing method. Bold: pholm < 0.05. ↓
+= IG-Random better; ↑ = IG-Random worse; tie = all pairs identical; N/A = fewer than 3 valid pairs.
+n m IG-Random vs ILS-Rand
+20
+
+4
+
+0.4427↓ (-1.00)
+
+20
+
+6
+
+0.0030↓ (-0.96)
+
+30
+
+8
+
+0.0207↓ (-0.71)
+
+40
+
+5
+
+0.4427↓ (-0.38)
+
+50 10
+
+0.0003↓ (-0.98)
+
+60 20
+
+0.0000↓ (-1.00)
+
+75 15
+
+0.0018↓ (-0.83)
+
+100 20
+
+0.0018↓ (-0.88)
+
+150 15
+
+0.0258↓ (-0.42)
+
+150 30
+
+0.0000↓ (-0.95)
+
+250 25
+
+0.0003↓ (-0.67)
+
+300 20
+
+0.0207↓ (-0.55)
+
+exceptions are again the near-ceiling classes (20, 4) and (40, 5). Combined with the null of
+Table 6, this is the central mechanistic finding of the study: ig_ql’s advantage over the
+ILS family comes from the destroy-and-reconstruct search mechanism itself, not from the
+Q-Learning policy layered on top of it. This decomposition mirrors, for ig_ql, exactly the
+question that Section 5.9 asks of ils_ql – there, the same style of analysis found that QLearning does not beat random operator selection at all; here, it finds that Q-Learning does
+not add measurably to a search mechanism that is already winning on its own.
+A robustness check: does Q-Learning at least reduce variance?. A natural follow-up hypothesis, raised independently by two literature-search sessions with different large language
+models used as adversarial reviewers of our own reasoning (never as a source of unverified
+claims – every suggestion from these sessions was checked against results.csv before being treated as a finding), is that Q-Learning might reduce the variance of ig_ql’s GAP%
+rather than its mean, which the ablation above shows is unaffected. An initial descriptive
+check was suggestive: across the ten instance classes available at that point in the project,
+
+21
+
+ig_ql had a standard deviation of GAP% equal to or smaller than ig_random’s in nine of
+ten classes. Formal testing does not support the hypothesis, however: the median-centred
+Levene’s test (Brown and Forsythe, 1974) and the Fligner-Killeen test (Fligner and Killeen,
+1976), both Holm-corrected across the ten classes, jointly reject equality of variance in zero
+of ten classes; only one class has either individual test significant after correction (FlignerKilleen at (300, 20), pholm = 0.028), and even there the variance ratio (0.996) is practically
+indistinguishable from parity. We report this negative result explicitly, in the same spirit
+as the ablation above: the informal directional tendency observed first is best explained as
+noise around a true ratio of approximately one, not as a genuine variance-reduction effect,
+and we do not carry the claim forward into Section 7.
+5.5. Convergence Behaviour
+Figure 1 plots best-makespan-so-far against iteration for a single representative run of
+ig_ql, ils_ql and sa_li_perkins at three sizes spanning the range used in Sections 5.2–
+5.3: (20, 4), (100, 20) and (300, 20), all at the standard budget T = 1,000.
+
+Figure 1: Convergence of best-makespan-so-far (as GAP% relative to the lower bound) against iteration,
+for ig_ql, ils_ql and sa_li_perkins, at three representative instance sizes. Dashed segments mark where
+sa_li_perkins has already met its own early-stopping criterion (Section 4.6) and the plotted curve is a
+forward-filled constant, not further search.
+
+Two features are visible that the aggregate tables above cannot show directly. First,
+ils_ql typically improves in larger, less frequent steps early on and then plateaus, consistent
+with an exhaustive best-improvement search that quickly exhausts the moves available around
+its current bottleneck machine (Section 5.8); ig_ql improves in smaller, more frequent steps
+22
+
+throughout the budget, consistent with its stochastic destroy-and-reconstruct step never fully
+exhausting a neighbourhood. Second, sa_li_perkins – faithfully reimplementing the earlystopping rule of Li and Perkins (2024), which halts once the best solution found is within a
+target factor (1.01× by default) of the lower bound – terminates its search well before the
+shared iteration budget in the smaller classes (only 547 of 1,000 iterations actually execute at
+(20, 4)) and, at (300, 20), never executes a single iteration: the initial LPT solution supplied
+to it already has a GAP of 0.25%, already inside the 1% stopping target. This is a legitimate
+property of the original method, not an implementation defect, and the dashed extension
+in the figure exists specifically so that this flat segment is never mistaken for search that
+continued but found nothing.
+5.6. External Validation on Published Benchmark Instances
+The results above use synthetic instances generated for this study. To test whether the
+ig_ql advantage generalises to instances this project did not design, we evaluated the full 13method core roster (LPT, the three SOTA baselines, ils_random, ils_ucb, ils_ql, ils_rf,
+and the five ig_* variants) on a published external benchmark: the processing-time families released with the systematic review of Ostojić et al. (2025), drawn originally from four
+heterogeneous generator families (denoted B, C, E and F in the source material, each itself
+composed of several sub-generators spanning different (n, m) ranges and processing-time distributions – the review’s own stated motivation for releasing this set is the observation that
+“no universal standard set of benchmark instances” exists for P∥Cmax (Ostojić et al., 2025,
+Section 5), which we took as independent, contemporary support for the two-pronged validation strategy used in this study – calibrated synthetic instances plus an external published
+set). A stratified sample of 1,612 instances (512 from B, 400 from C, 400 from E, 300 from
+F) was drawn to cover the generator diversity within each family, all 13 methods were run
+once per instance under the same protocol as Section 5.1, and results were analysed with the
+same Wilcoxon/Holm procedure used throughout this section.1
+1
+
+Two implementation issues surfaced only on this external set and were fixed before the analysis below:
+
+several instances in family B have processing-time ranges wide enough (U [1, 1018 ] in the most extreme case)
+to overflow 64-bit integer accumulators in the load-tracking code; this was fixed by switching to arbitrary-
+
+23
+
+The SOTA-beating claim replicates. ig_ql against the three published SOTA baselines is
+Holm-significant and favourable in a large majority of tests in all four families: B (25/30
+significant, 20 favourable), C (27/30, 26 favourable), E (25/30, 25 favourable, none against),
+F (23/30, 23 favourable, none against). This is a genuine external validation of the study’s
+strongest claim (Section 5.3): it generalises to four instance distributions this project neither
+designed nor tuned against.
+The Q-Learning-specific and mechanism-specific claims do not replicate uniformly. Two more
+specific claims fare worse externally. Isolating the contribution of Q-Learning within the IG
+mechanism (ig_ql against its four ablation siblings, mirroring Section 5.4) yields only 11
+of 160 comparisons (40 per family × four families) Holm-significant (7%), and the direction
+is not consistent: favourable in B (4/4) and E (3/3), absent in C (0 significant of any
+direction), and – notably – unfavourable in all four significant cases in F (ig_ql loses to its own
+simpler ablations there). Isolating the IG search mechanism itself against the ILS mechanism
+(ig_random/ig_ql against the strongest ils_* variants – the same comparison as Table 7 in
+Section 5.4, but here against several ILS variants rather than ils_random alone) is strongly
+family-dependent rather than uniform: ILS wins essentially all significant comparisons in
+family B (31/31, all unfavourable to IG – family B has extreme-variance processing times, and
+Section 5.8 traces this loss to a concrete mechanistic cause), IG wins most of family C (15/15
+significant, 14 favourable), ILS wins most of family E (16/16 significant, 13 unfavourable to
+IG), and family F is mixed (20/20 significant, 12 favourable to IG). We read this honestly:
+the claim that ig_ql beats the published literature generalises well; the two more specific
+mechanistic claims that explain why it wins on our own synthetic instances (Sections 5.4)
+do not generalise uniformly to external data, and the external data make clear that neither
+IG nor ILS dominates universally – which family-specific processing-time and machine-count
+profile a real instance has matters more than either fixed choice of search mechanism, a
+precision Python integers whenever the total processing time exceeds a conservative threshold, verified against
+an independent, from-scratch recomputation in pure Python and covered by 13 new regression tests, with
+zero change in behaviour on every instance used elsewhere in this study. Separately, a duplicate-key collision
+in the batch-execution harness’s resume logic across successive sampling rounds was found and fixed; both
+issues are purely computational-infrastructure fixes with no bearing on the method itself.
+
+24
+
+limitation we return to in Section 6.
+This external sample was later broadened, for coverage rather than for re-testing the
+results above, to 6,780 instances (later found to total 6,880 owing to a small number of instances retained in the results file from an earlier, superseded sampling round – a known,
+non-blocking cleanup item, not new data corruption), executed and verified end-to-end (correct row counts, no missing or duplicated method/instance pairs beyond the pre-existing
+and documented sampling-round leftovers, plausible GAP values) but not re-subjected to
+the formal significance tests above; the 1,612-instance sample therefore remains the basis
+for the significance claims in this subsection, and the larger set is available for future, more
+fine-grained analysis than this study pursues.
+5.7. Structural Limits at High n/m Ratios
+The six classes added later to reach larger n (Section 5.1) also reach higher n/m ratios (up
+to 15.0, against 3.3–5.0 for the six original classes), and this exposed a structural limitation
+of the ILS mechanism itself, independent of which operator-selection policy drives it – a
+limitation that motivates comparing ILS against IG in the first place, and that had to be
+understood before either mechanism’s results at these classes could be trusted.
+At high n/m, LPT alone can already be near-optimal. Piloting the first new large class,
+(150, 15) (n/m = 10.0), against LPT and the standard ILS variants revealed near-total ties:
+every ILS variant, regardless of operator-selection policy, converged to essentially the same
+solution as every other, with n_improvements (local-search moves accepted) of 0 or 1 in
+1,000 iterations for most seeds – and this did not change even at 8× the standard budget
+(8,000 iterations), ruling out an insuﬀicient search budget as the explanation. With ten jobs
+per machine on average, LPT’s own worst-case guarantee is already tight, and with random
+uniform processing times the achieved makespan concentrates close to the mean load per
+machine (an averaging effect that strengthens with more jobs per machine); there is simply
+very little room left for any local search, adaptive or not, to improve on it. Of the six large
+classes, three have n/m ≥ 10 (the two just described plus (300, 20), n/m = 15.0) and share
+this property to varying degrees; only (150, 30) (n/m = 5.0, matching the original classes’
+ratio at larger absolute scale) preserves a diﬀiculty profile comparable to the original six.
+25
+
+The ILS perturbation does not scale with instance size. At (150, 30) – chosen because its n/m
+ratio does not predict the same ceiling – the same near-total stall recurred: best makespan
+changed only three times across 5,000 iterations of one representative run, and no budget
+change (from 1,000 to 5,000 iterations) altered this. The cause was mechanical: the ILS
+perturbation step applies a fixed number of random moves (n_perturb = 3) regardless of n.
+Three random moves meaningfully disturb a 20-job schedule but are a vanishing fraction of
+a 150-job one, too weak to escape the local optimum that the subsequent best-improvement
+phase reconverges to. The direct fix – scaling n_perturb with n (e.g. max(3, ⌊0.15n⌋) = 22
+at n = 150) – did not help, and made results slightly worse at that scale and beyond
+(n_perturb ∈ {22, 50, 80} converged to the same, worse plateau). A systematic joint grid
+search over n_perturb × perturbation_threshold (the number of non-improving iterations
+tolerated before the next perturbation is triggered), using ils_random to isolate the perturbation mechanism from any operator-selection effect, found that the true culprit was the
+threshold, not the perturbation strength: mean GAP improves monotonically as the threshold drops from 400 towards ≈ 15, then worsens again below ≈ 10 – an interior optimum –
+while n_perturb itself matters comparatively little once the threshold is near this optimum.
+This inverts the initial hypothesis: the search was not failing to recover from a strong-enough
+perturbation given more time; it was getting stuck quickly, so that a long recovery window
+(the original default, 50) mostly wastes iterations waiting before the next escape attempt,
+and more frequent, smaller escape attempts (threshold = 15) do better. This was validated
+at N = 100 on (150, 30) (threshold = 15: mean GAP 1.56%; threshold = 50: mean GAP
+1.69%; better in 23 of 100 paired instances, worse in only 5, tied in 72; Wilcoxon p = 0.0003)
+– a genuine, statistically confirmed fix, unlike the earlier attempts. Reconnecting this corrected search to the original question, the operator-selection null persists regardless: under
+threshold = 15, ils_ql remains statistically indistinguishable from ils_random (p = 0.87,
+N = 100, 83 of 100 paired instances numerically identical). This threshold correction (15
+instead of the default 50) is applied specifically when running ILS-family methods on the four
+large classes (Section 5.1); it was never adopted as the new project-wide default, since it was
+validated only at this scale and was never re-tested against the six original, already-published
+classes.
+26
+
+Iterated Greedy does not share this ceiling. Once the perturbation-scaling issue above made
+large-class ILS results trustworthy, the same four large classes were run with the full ig_*
+family. Unlike ils_random, ig_random (the destroy-and-reconstruct mechanism alone, with
+a uniformly random destruction strategy and no learning) beats LPT robustly at every large
+class: formally, all five ig_* variants beat LPT in all four large classes (5 × 4 = 20 tests, all
+Holm-significant, pholm between 4.9 × 10−9 and 1.2 × 10−16 ). This reframes the finding above:
+the ceiling at high n/m is a limitation of the ILS mechanism specifically (a single fixed-size
+perturbation followed by exhaustive local reoptimisation around one bottleneck machine,
+which escapes local optima only rarely) rather than a limitation of the instances themselves.
+The IG mechanism explores a structurally larger neighbourhood at each iteration – partial
+reconstruction of up to 30% of the schedule, rather than a handful of discrete moves – and
+consequently does not stall the same way, which is part of why Sections 5.2–5.3 extend the
+headline comparison to these classes at all.
+What actually decides IG versus ILS: variance, not n/m. An earlier hypothesis, that IG’s
+occasional wins over ILS on particular instances were driven by a low n/m ratio (many
+machines, few jobs each), was tested directly with an orthogonal factorial design that varies
+processing-time variance (low, U [1, 100], versus high, U [1, 108 ]) and n/m (via m ∈ {50, 15, 5}
+at fixed n = 150, giving n/m ∈ {3, 10, 30}) independently – something the external generator
+families of Section 5.6 cannot do, since variance and n/m vary together there by construction.
+At high variance, ILS wins at every n/m level tested, including n/m = 3, the profile the
+original hypothesis specifically predicted would favour IG; at low variance, IG wins or ties at
+every n/m level. Fixing n/m = 3 and varying only variance with the real methods confirms
+the reversal directly: at low variance, ig_ql beats ils_ql by a wide margin (1.24% vs.
+6.83%, representative seed); at high variance, ils_ql beats ig_ql by a comparable margin
+(0.43% vs. 1.32%), on the same n/m ratio. The n/m ratio, on this evidence, mainly scales
+the magnitude of achievable gaps; it is the variance of processing times that decides which
+search mechanism is favoured. Section 5.8 traces this to a mechanistic cause and explores it
+as a design opportunity.
+
+27
+
+5.8. Exploring Hybrid IG/ILS Mechanisms
+Since neither mechanism dominates universally (Sections 5.6–5.7), we explored, at a preliminary level, whether the two could be combined. This subsection reports genuine findings,
+but at a smaller sample size than Sections 5.2–5.6 and without full integration into the main
+battery; we flag it explicitly as exploratory throughout.
+Why ILS beats IG on high-variance instances: a mechanistic diagnostic. Instrumenting both
+search steps to count improving, worsening and neutral proposals, starting from the identical LPT solution, on real high-variance external instances (family B, Section 5.6) makes
+the family-B result of Section 5.6 mechanistically concrete. On the most extreme member
+tested (n = 261, m = 16), 300 iterations of ILS’s random-operator step (Op1/Op2/Op4,
+each an exhaustive best-improvement search restricted to the current bottleneck machine,
+which by construction never worsens the solution) accept an improving move 28 times (9.3%
+of attempts); the same budget of IG’s destroy-and-reconstruct step, isolated per destruction
+strategy, accepts an improvement only 0–3 times (< 1%), with the remainder actively worsening the solution (and being rejected by the greedy acceptance rule, Section 4.6) rather
+than merely doing nothing. The MostExpensive destruction strategy in particular is close
+to a no-op on these instances (0 improvements in 300 attempts on this instance): since
+the greedy reconstruction reinserts jobs in decreasing processing-time order, and the search
+starts from an LPT solution already built by the same rule, removing and reinserting exactly the most expensive jobs largely reproduces their original placement. ILS’s exhaustive,
+bottleneck-focused search simply finds an improving move far more often per iteration than
+IG’s stochastic, undirected reconstruction does, on instances where a few extreme-magnitude
+jobs dominate the schedule. This is not universal, however: on a contrasting external instance
+with many machines and few jobs each, low processing-time variance (family C member 5,
+Section 5.6), the same diagnostic shows ILS as the worst mechanism (7.74% GAP, identical
+across three seeds – complete stagnation) against 1.7–2.6% for IG’s destruction strategies,
+consistent with Section 5.7’s finding that ILS’s single-bottleneck focus does not coordinate
+load rebalancing across many machines at once, which IG’s whole-schedule reconstruction
+does more naturally.
+A real, unequalised computational-cost asymmetry accompanies this comparison: ils_ql
+28
+
+is up to 13.5× slower in wall-clock CPU time than ig_ql at the same nominal iteration budget on the most extreme family-B instance (ILS’s operators are O(n2 ) or O(nm) exhaustive
+searches per iteration; IG’s step is a single O(n) reconstruction). We tested whether this
+asymmetry, rather than a genuinely more effective mechanism, explains ILS’s win on family
+B, in both directions: giving IG a proportionally larger iteration budget to match ILS’s actual
+CPU time closes at most 15–78% of the gap across four representative family-B instances,
+never all of it; giving ILS a proportionally smaller budget to match IG’s CPU time (as low as
+8.6–9.1% of the nominal 1,000 iterations on two instances) still leaves ILS winning decisively.
+The family-B result is therefore robust to CPU-time equalisation in either direction: it reflects a genuine per-iteration difference in the two mechanisms’ effectiveness on this instance
+profile, not an artefact of comparing unequal computational budgets – though the CPU-time
+asymmetry itself is real and worth reporting transparently.
+A unified hybrid agent: robust, but not yet dominant. We prototyped hybrid_ql: the same
+QLearningAgent and 81-state representation used throughout this study (Section 4.2), but
+choosing at each iteration among seven actions – the four ILS operators plus the three IG
+destruction strategies – rather than four or three. This required no change to the shared
+state features, which are defined purely from the current solution’s properties and never
+from which mechanism produced it. On a small pilot (five real external instances – four from
+family B and the contrasting family-C member above – three repetitions each), hybrid_ql
+never fails catastrophically the way each fixed framework does on the instance profile it is
+weak on (it stays well below ILS’s 7.74% stagnation on the family-C instance, and well below
+IG’s weakest family-B result), but it also never beats the better of the two specialists on any
+of the five instances: a result of robustness, not dominance. Inspecting the learned Q-table
+directly explains why: only 5 of the 81 nominal states are visited in a single 1,000-iteration
+run, on both instance types, and the action mix actually executed is close to what pure εgreedy exploration alone would produce, given the same epsilon-decay schedule as Section 4.3
+(≈ 209 exploratory steps out of 1,000, spread over seven actions). The robustness therefore
+comes mostly from Op1 being a broadly competent default action plus occasional exploratory
+excursions into the destruction strategies, rather than from genuine within-run learning of
+when to prefer each mechanism.
+29
+
+Warm-start improves the hybrid, but does not close the state-coverage gap. Motivated by the
+finding of Section 5.7 that variance, not n/m, drives the choice between mechanisms, we pretrained a shared Q-table over 30 rounds that deliberately alternate low-variance (U [1, 100])
+and high-variance (U [1, 108 ]) synthetic instances, then warm-started hybrid_ql from it (mirroring the existing ils_ql_ws warm-start mechanism, Section 4.4). Even aggregated over 30
+pre-training rounds, only 6 of 81 states receive any accumulated signal at all – confirming
+that most of the nominal state space is structurally unreachable under the current state design, not merely under-trained – but among those six, the learned policy now differentiates
+genuinely: three prefer the ILS operator, two prefer random destruction, one prefers targeted
+destruction, in contrast to the cold-start policy’s near-uniform preference for one operator.
+On the same five-instance pilot, warm-start is never worse than cold-start and, for the first
+time in this line of investigation, beats both fixed specialists on one instance (n = 28, m = 3:
+warm-start 0.0103% against ils_ql 0.0125% and ig_ql 0.0278%); it is also 2.9–8.9× faster
+than the cold-start hybrid, because the learned policy shifts action mass toward the cheaper
+IG actions. This is an honest partial improvement: it does not resolve the underlying statecoverage limitation, but it does show that the quality of the policy within the few states that
+are reachable improves meaningfully with better initialisation.
+A priori dispatch and racing: alternatives without a shared action space. A structurally
+different family of mechanisms decides which framework to run, rather than unifying their
+actions. apriori_select computes a single feature, dup_ratio (the fraction of duplicate
+values among an instance’s processing times, computable in O(n log n) from the instance
+alone, no search required) and dispatches to ig_ql when dup_ratio > 0.1 and to ils_ql
+otherwise, a threshold chosen because processing-time ties are more common precisely in the
+low-variance regime that Section 5.7 shows favours IG. Evaluated against the oracle that
+always picks whichever of the two specialists is actually better on each instance, across the
+full external sample of 1,612 instances (Section 5.6), apriori_select achieves a global mean
+GAP of 1.011% against an oracle bound of 0.975% – closing most, though not all, of the gap
+between the better fixed specialist and the theoretical best-of-both. racing (running both
+mechanisms briefly, then committing computational budget to whichever looks better so far)
+is a second alternative. At an intermediate validation scale (a stratified 95-instance sample,
+30
+
+deliberately over-representing the external family where the simple dup_ratio signal is weakest), the four mechanisms explored in this subsection rank consistently: apriori_select is
+strongest (mean GAP 1.053%, closest to the oracle’s 1.025%), racing a solid second (1.085%),
+and both hybrid variants trail (1.073% for the warm-started hybrid, 1.112% for the cold-start
+one – barely better than running ig_ql alone, 1.112%, on this sample). Despite its appealing
+motivation – letting the agent itself learn to combine both action spaces, without committing
+to either a priori – the unified hybrid of the previous two paragraphs is, on this evidence,
+the weakest of the four approaches tried, held back by the same state-coverage limitation
+identified above.
+A cautionary methodological case study: an exciting result that did not survive decomposition.
+While searching for a computable proxy that would let apriori_select detect, without relying on benchmark provenance metadata, instances that behave like the external family
+where it performs worst, we found that retuning dup_ratio’s threshold specifically for that
+family (to 0.16) appeared to be a genuine, stable improvement: the retuned threshold was
+selected identically in all five folds of a five-fold cross-validation, and improved that family’s
+mean GAP by 0.013 percentage points, a pattern of perfect cross-validation stability that this
+project has otherwise treated as strong evidence of a real, non-overfit effect. Decomposing
+the family by its internal sub-generators before searching for a proxy, however, revealed that
+this improvement was concentrated in just two instances, both drawn from a degenerate subgenerator whose every instance has n = 6 – small enough that dup_ratio can only take a few
+discrete values, one of which happens to equal the retuned threshold exactly. Excluding that
+sub-generator (retaining 90% of the family, at realistic scheduling sizes) makes the retuned
+threshold’s effect negative, and the fold-by-fold stability that motivated trusting it in the first
+place disappears along with it. We report this not as a minor correction but as a methodological lesson we did not fully appreciate before this investigation: cross-validation stability,
+on its own, is a necessary but not suﬀicient condition for trusting a retuned parameter – it
+must also be checked against concentration in a small, disproportionately-scaled subset of
+the data, particularly when the parameter being tuned is discrete-valued and the instance
+sizes within the family vary widely. No production code was affected, since the finding was
+correctly held as provisional pending exactly this check before ever being implemented.
+31
+
+Taken together, this subsection’s results are genuine but preliminary: none of the four
+alternative mechanisms explored here has been run on the full battery of Sections 5.2–5.3,
+and we present them as a documented direction for future work (Section 7) rather than as a
+fourth headline method alongside ig_ql.
+5.9. The ils_ql Chapter: A Motivating Negative Result
+The remainder of this section reports the study that originally motivated this project and,
+chronologically, came first: whether Q-Learning-based operator selection improves an Iterated
+Local Search for the PMSP. It produced a rich, carefully controlled null result – ils_ql
+performs statistically equivalently to random operator selection – that directly motivated
+the mechanism-versus-policy decomposition applied to ig_ql in Section 5.4: having found
+once, here, that an adaptive policy failed to beat a random one, we designed the later
+ig_* ablation specifically to test whether the same pattern would recur, and to determine,
+if it did, how much of the ig_ql vs. ILS advantage (Sections 5.2–5.3) was attributable
+to search mechanism rather than to learning. This chapter uses the original protocol of
+Section 5.1: the eight standard-budget ILS variants and LPT, on the six original instance
+classes (n/m ∈ [3.3, 5.0]), with 30 independently sampled instances per class (seeds 0–29) and
+one run of each method per instance, so that variability across the 30 observations reflects
+diﬀiculty differences between instances – generalisation – rather than algorithmic variance
+alone.
+5.9.1. Main Results
+Table 8 reports mean (µ) and standard deviation (σ) of GAP(%) over the 30 instances,
+with the best ILS result per row in bold; Table 9 complements it with mean CPU time
+(seconds) and the percentage of runs reaching GAP = 0 (%Optimal) for three representative
+classes.
+All ILS variants reduce GAP by 55–99% relative to LPT, confirming the effectiveness of
+the ILS framework in every class. Among the standard-budget methods, ILS-UCB shows the
+worst consistent performance (overall mean GAP 1.24% against 0.78–0.83% for the others).
+ILS-QL, ILS-Rand and ILS-RF reach comparable overall means (0.827%, 0.782% and 0.812%,
+respectively), with no configuration consistently standing out. Notably, ILS-RF incurs a
+32
+
+Table 8: Mean GAP(%) ± standard deviation over 30 instances. Bold: best ILS result per row. HI variants
+use an extended budget (Section 4.4).
+20×4
+
+20×6
+
+30×8
+
+50×10
+
+75×15
+
+100×20
+
+Method
+
+µ
+
+LPT
+
+1.95 1.21
+
+ILS-Rand
+
+0.031 0.12 1.022 1.33 0.566 0.43 0.700 0.40 1.150 0.74 1.223 0.60
+
+ILS-UCB
+
+0.255 0.41 1.615 1.66 1.191 0.73 1.158 0.63 1.652 0.87 1.575 0.71
+
+ILS-RF
+
+0.043 0.13 1.014 1.34 0.688 0.39 0.713 0.50 1.101 0.62 1.312 0.71
+
+ILS-QL
+
+0.053 0.14 1.142 1.36 0.661 0.48 0.641 0.51 1.106 0.79 1.359 0.68
+
+ILS-QL-WS
+
+0.041 0.12 1.090 1.32 0.685 0.42 0.657 0.62 1.129 0.81 1.346 0.67
+
+σ
+
+µ
+
+σ
+
+4.40 2.93
+
+µ
+
+σ
+
+3.59 1.85
+
+µ
+
+σ
+
+2.04 1.09
+
+µ
+
+σ
+
+2.26 1.05
+
+µ
+
+σ
+
+2.17 1.05
+
+ILS-Rand-HI 0.031 0.12 1.004 1.34 0.374 0.37 0.422 0.29 0.866 0.49 1.061 0.54
+ILS-QL-HI
+
+0.053 0.14 1.044 1.26 0.441 0.36 0.507 0.32 0.911 0.48 1.242 0.63
+
+4–18× higher computational cost than ILS-Rand (1.75–4.33s against 0.09–0.92s) without
+measurable quality gains, indicating that the random-forest predictor is not justified for this
+problem.
+Figure 2 shows GAP boxplots by instance class for the main methods, revealing growing
+GAP dispersion with instance size.
+Why UCB underperforms. The mean number of improvements per run for ILS-UCB was
+1.0–2.6, against 2.1–3.8 for ILS-Rand, indicating premature commitment to a suboptimal operator. With only four operators, UCB’s exploration bonus decays after O(ln T ) exploratory
+steps, effectively locking in the selector well before the budget is exhausted. This is consistent
+with observations in the AOS literature (Fialho et al., 2010) that low operator cardinality and
+asymmetric reward distributions tend to favour uniform exploration strategies over adaptive
+bandits.
+A wider ablation confirms the pattern, and confirms that the operator set – not the selection
+mechanism – is what matters. The same original protocol was later extended with three
+further classical AOS mechanisms already cited in this study – Probability Matching (Davis,
+1989), Adaptive Pursuit (Thierens, 2005), and an on-policy SARSA agent (Rummery and Niranjan, 1994) reusing the same 81-state representation and reward signal as ILS-QL, differing
+33
+
+Table 9: Mean CPU time (s) and %Optimal (GAP = 0) by method for three representative classes.
+n=20, m=4
+
+n=50, m=10 n=100, m=20
+
+Method
+
+CPU %Opt. CPU %Opt. CPU
+
+%Opt.
+
+LPT
+
+0.00
+
+3.3
+
+0.00
+
+3.3
+
+0.00
+
+0.0
+
+ILS-Rand
+
+0.09
+
+93.3
+
+0.39
+
+6.7
+
+0.92
+
+3.3
+
+ILS-UCB
+
+0.09
+
+56.7
+
+0.42
+
+3.3
+
+0.96
+
+3.3
+
+ILS-RF
+
+1.75
+
+90.0
+
+3.74
+
+13.3
+
+4.33
+
+6.7
+
+ILS-QL
+
+0.11
+
+86.7
+
+0.62
+
+16.7
+
+1.70
+
+3.3
+
+ILS-QL-WS
+
+0.20
+
+90.0
+
+0.47
+
+16.7
+
+1.57
+
+3.3
+
+ILS-Rand-HI
+
+0.37
+
+93.3
+
+0.99
+
+20.0
+
+3.78
+
+3.3
+
+ILS-QL-HI
+
+0.30
+
+86.7
+
+1.18
+
+16.7
+
+6.63
+
+3.3
+
+only in its update rule – together with three further single-operator controls, ils_op2_only
+through ils_op4_only, complementing ils_op1_only above. Aggregated over the same
+six classes and 30 instances each (N = 180 per method), the three new AOS mechanisms
+cluster in the same narrow band as the methods already discussed (mean GAP: Probability
+Matching 0.796%, Adaptive Pursuit 0.796%, SARSA 0.831%, against 0.782–0.827% for ILSRand/RF/QL above) – a third, independent replication of the finding that the specific AOS
+mechanism chosen barely matters for this problem, now spanning six mechanisms (uniform
+random, UCB1, Q-Learning, a random-forest predictor, Probability Matching and Adaptive
+Pursuit) and both major TD-learning paradigms (Q-Learning is off-policy; SARSA is onpolicy). The three additional single-operator controls, by contrast, are markedly worse than
+every multi-operator method (ils_op2_only 1.390%, ils_op4_only 1.408%, ils_op3_only
+2.584%), confirming, alongside ils_op1_only above, that ILS’s effectiveness genuinely depends on having the full four-operator set available. ils_op3_only in particular ties LPT’s
+own makespan exactly in 160 of the 180 instances tested and is never worse than LPT, improving on it only occasionally and modestly in the remainder – a weak but not literally inert
+operator in isolation, and the reason its aggregate GAP sits so close to LPT’s own (2.744%).
+
+34
+
+Figure 2: GAP(%) boxplots by instance class and method. Each box aggregates 30 distinct instances. HI
+variants omitted for clarity.
+
+5.9.2. Statistical Analysis
+Table 10 reports p-values from the paired Wilcoxon signed-rank test (two-sided, n=30
+paired observations) for ILS-QL against four competitors. p < 0.05 indicates a statistically
+significant difference.
+Table 10: Wilcoxon test p-values: ILS-QL vs. each competitor. Bold: significant difference (p < 0.05).
+Headers indicate (n × m).
+Competitor
+
+20×4
+
+20×6
+
+30×8 50×10 75×15 100×20
+
+ILS-Rand
+
+0.715
+
+0.285
+
+0.300
+
+ILS-Rand-HI 0.715
+
+0.427
+
+0.678
+
+0.075
+
+0.169 0.010 0.028
+
+0.064
+
+0.002
+
+ILS-RF
+
+0.893 0.046 0.553
+
+0.470
+
+0.955
+
+0.500
+
+ILS-UCB
+
+0.003 0.008 0.000 0.000 0.000
+
+0.003
+
+ILS-QL shows no statistically significant difference from ILS-Rand in any of the six configurations (p ≥ 0.075), nor from ILS-RF in five of the six. In contrast, ILS-QL significantly
+outperforms ILS-UCB in all six configurations (p ≤ 0.008).
+The isolation-control comparison (ILS-Rand-HI vs. ILS-QL) reveals that the extended
+budget significantly outperforms ILS-QL for n ≥ 30 (p ≤ 0.028), whereas the difference
+35
+
+between ILS-QL-HI and ILS-QL-WS is not statistically significant. These results suggest
+that, for the PMSP under the budgets evaluated, the number of iterations tends to be a
+more impactful factor than the sophistication of the AOS mechanism.
+5.9.3. Learned Policy Analysis
+To assess what the Q-Learning agent internalised, we extracted the greedy policy π(s) =
+arg maxa Q(s, a) from the Q-tables averaged over 30 runs per class and computed the fraction
+of the 81 states in which each operator is greedy-optimal (Table 11).
+Table 11: Fraction of states (%) in which each operator is greedy-optimal, averaged over 30 Q-tables per
+instance class.
+Class
+
+Op1 (inter-swap)
+
+Op2 (reinsert)
+
+Op3 (intra-swap)
+
+Op4 (block-move)
+
+n=20, m=4
+
+87.7
+
+7.4
+
+0.0
+
+4.9
+
+n=20, m=6
+
+93.8
+
+1.2
+
+0.0
+
+4.9
+
+n=30, m=8
+
+90.1
+
+6.2
+
+0.0
+
+3.7
+
+n=50, m=10
+
+96.3
+
+2.5
+
+0.0
+
+1.2
+
+n=75, m=15
+
+95.1
+
+2.5
+
+0.0
+
+2.5
+
+n=100, m=20
+
+96.3
+
+2.5
+
+0.0
+
+1.2
+
+A striking, consistent pattern emerges across all classes: Op1 (inter-machine swap) is the
+greedy-optimal operator in 87–96% of states, and the proportion of Op1 grows with instance
+size. Op3 (intra-machine swap) is never preferred. The preference for Op1 appears invariant
+to search phase (f3 ), stagnation level (f4 ) and solution quality (f1 ): the operator ranking
+is nominally identical across the 81 feature combinations – but, as discussed below, most of
+these combinations are in fact never visited within a run, which is consistent with either a
+genuine invariance or an initialisation artefact.
+This finding is structurally interpretable: makespan depends directly on machine loads,
+so inter-machine transfers (Op1, Op2, Op4) reduce Cmax by redistributing load, while intramachine swaps (Op3) only reorder tasks on the same machine without affecting Ci . The
+Q-Learning agent empirically identifies this structural property without prior knowledge,
+converging to a policy that concentrates search on inter-machine moves.
+
+36
+
+Methodological caveat: how much of this finding is real?. Table 11 was computed over Qtables trained from scratch (zero initialisation) in a single run per instance – the same protocol
+used by all methods in this study. A follow-up investigation revealed two facts that qualify
+this finding. First, across 12 sampled standard Q-tables, only 21.5 of the 81 states on average
+(26.5%) are visited even once during an entire run; for states never visited, the corresponding
+Q-table row remains exactly zero, and NumPy’s argmax tie-break systematically favours the
+action at index 0 (Op1) – an implementation artefact, not a learned preference. Second,
+initialising the Q-table with small uniform noise (eliminating the artificial tie-break) and aggregating 30–100 training episodes before freezing the policy for evaluation, in two reanalysed
+classes (n=20, m=4 and n=50, m=10), makes the preference distribution across the four operators substantially more balanced – for example, at n=50, m=10: Op1 in 21 states, Op2 in
+28, Op3 in 14 and Op4 in 18, of 81 – with Op2 (reinsertion), not Op1, emerging as the most
+frequently preferred operator. Notably, state coverage does not grow beyond ∼ 18–24 of 81
+even aggregating up to 100 training episodes, suggesting that most of the nominal state space
+is dynamically unreachable by the ILS search trajectory – a structural limitation of the state
+design, not merely of training budget. The full reanalysis of all six instance classes under
+this corrected protocol is ongoing; the numbers in Table 11 reflect the original methodology
+(cold-start, zero initialisation) and should be interpreted in light of this caveat.
+Figure 3 presents the heat map of the learned policy (original protocol, cold-start) for
+class n=30, m=8; in light of the caveat above, this map should be read as a portrait of the
+policy under the original protocol, not as independent confirmation of a structural property
+of the PMSP.
+The near-constant policy (under the original protocol) was also offered as an explanation
+for the statistical equivalence between ILS-QL and ILS-Rand: under this policy, Op1 would
+be selected ≈ 90% of the time; under random selection, only 25%. This raised a testable
+hypothesis – that an ILS restricted to Op1 alone would achieve comparable performance,
+with lower overhead – which we tested directly with an additional ils_op1_only selector
+(Section 5). The result refutes this hypothesis: ILS-Op1-only achieved a worse mean GAP
+(0.889%) than every multi-operator method at the same budget (ILS-Rand: 0.782%; ILSRF: 0.812%; ILS-QL-WS: 0.825%; ILS-QL: 0.827%). That is, even though adaptive selection
+37
+
+Figure 3: Heat map of the greedy policy (original protocol, cold-start) for class n=30, m=8: colour indicates
+the greedy-optimal operator at each state (f1 × f2 for different combinations of f3 and f4 ). See the methodological caveat in the text regarding the influence of unvisited states on this visualisation.
+
+itself does not outperform random selection, the availability of the other operators matters
+– probably through the ILS perturbation phase, which draws among all four operators independently of the main selector. This is consistent with the caveat above: the dominance of
+Op1 in the learned greedy policy does not imply that the other operators are dispensable in
+the algorithm’s full dynamics.
+5.9.4. Isolation Control: Budget versus Learning
+The comparison between ILS-Rand-HI and ILS-QL-HI (same extended budget, different
+AOS strategies) isolates the contribution of learning. ILS-Rand-HI achieved a lower mean
+GAP than ILS-QL-HI in all six configurations (Table 8), with significant differences for n ≥ 30
+(p ≤ 0.028, Table 10).
+
+38
+
+This indicates that the Q-Learning agent’s exploration overhead (non-Op1 actions taken
+during the ε-greedy phase) tends to be mildly detrimental when a dominant operator already
+exists and the budget is still moderate. In other words, when the agent’s policy converges
+strongly to a single operator (Section 5.9.3 – with the methodological caveat discussed there
+about how much of this is structural versus an initialisation artefact), the cost of learning that
+preference competes with the benefit of simply running more iterations of random search.
+This result has a methodologically relevant implication for the AOS community: experiments that compare only fixed-budget variants may mask the effect of learning. The isolation
+control proposed here allows the two effects to be discriminated cleanly – the same logic that,
+extended to ig_ql, motivated Section 5.4.
+5.10. Synthesis
+Read together, the study’s two chapters – the ig_ql learnheuristic (Sections 5.1–5.8) and
+the ils_ql chapter that originally motivated it (Section 5.9) – support a single, internally
+consistent account of adaptive search for the PMSP, rather than two unrelated studies joined
+only by shared code.
+ig_ql is a validated, honestly-scoped advance. Section 5.2 shows that ig_ql is never significantly beaten by any of the eight ILS variants or by LPT, in any of the 12 instance classes
+tested; Section 5.3 shows that it beats two of the three published state-of-the-art baselines
+outright and beats the third, MULTIFIT, at every class except the handful with the largest
+n/m ratios, where the crossover is structurally explained – a fixed search budget competing
+against an unbudgeted one-shot construction that improves with scale – rather than left as
+an unexplained anomaly. We take this combination, winning decisively where it wins and explaining rather than concealing where it does not, as the paper’s central and most defensible
+claim.
+The advantage is mechanistic, not learned – and this is now a twice-replicated finding. This
+is, in our view, the study’s most important methodological contribution. The ablation and
+isolation results of Section 5.4 decompose ig_ql’s advantage and show that none of it is
+statistically attributable to the Q-Learning policy specifically – a clean null across a full
+2 × 2 ablation design – while the destroy-and-reconstruct mechanism’s own contribution
+39
+
+over the ILS family, with learning stripped from both sides, is real and robust. This is
+not the first time this exact pattern appears in this study: Section 5.9.4 reports precisely
+the same decomposition for ils_ql itself, where the extended-budget random variant beats
+the extended-budget learned one – the cost of learning a preference the search does not
+strictly need outweighs its benefit. Chronologically, the ils_ql result came first and directly
+motivated designing the ig_ql ablation to check whether the same pattern would recur
+(Section 5.9). That it did recur, on an unrelated search mechanism, using the same state
+representation and learning algorithm but a structurally different action set, is stronger
+evidence of a genuine limitation of Q-Learning at this state/action scale for this problem
+than either null result would be alone – and the wider ablation of Section 5.9.1, extending
+the same null to Probability Matching, Adaptive Pursuit and on-policy SARSA, makes it a
+finding about AOS mechanisms as a class, not an artefact of any single one of them.
+Neither mechanism dominates universally: processing-time variance, not instance shape,
+decides. An earlier, more intuitive hypothesis – that a low n/m ratio favours IG over ILS –
+does not survive Section 5.7’s orthogonal factorial design, which shows directly that it is the
+variance of processing times, not n/m, that determines which mechanism wins. Section 5.8’s
+mechanistic diagnostic explains why: ILS’s exhaustive, bottleneck-focused local search finds
+far more improving moves per iteration on instances dominated by a few extreme-magnitude
+jobs, while IG’s broader, stochastic reconstruction coordinates load across many machines
+more effectively when no single job dominates. The external validation of Section 5.6 confirms
+family-dependence independently, at a much larger and un-tuned scale: ILS wins essentially
+every significant comparison on the highest-variance published family and IG wins most of
+a low-variance one. No single fixed mechanism is the right default for every instance profile
+a practitioner might encounter; the dispatch-based alternatives of Section 5.8 are a first,
+preliminary response to that fact, not yet a resolved one.
+External validity is claim-specific, not all-or-nothing. We consider this distinction, drawn out
+explicitly in Section 5.6, one of the paper’s more important methodological points, precisely
+because it would have been easy to blur. The headline claim – ig_ql beats the published state
+of the art – generalises well to four independent published instance families that this project
+40
+
+neither designed nor tuned against. The two more specific mechanistic claims that explain
+why it wins on our own synthetic instances – that the Q-Learning-specific contribution is
+negligible, and that the IG mechanism dominates ILS in general – do not generalise with the
+same uniformity; both remain honest, family-dependent findings on the evidence available
+(Sections 5.4 and 5.7) rather than universal laws, and we report them at that scope rather
+than overreaching to a stronger claim the external data do not support.
+The ils_ql chapter’s own findings stand on their own merits. Independently of how it
+reframes the rest of the study, Section 5.9 establishes results with direct relevance to the
+AOS-for-scheduling literature in their own right: the ILS framework itself is highly effective
+for the PMSP regardless of which of seven operator-selection mechanisms drives it (every
+variant cuts GAP by 55–99% relative to LPT); Q-Learning, Random-Forest-based selection,
+uniform random selection, Probability Matching, Adaptive Pursuit and on-policy SARSA
+are all statistically indistinguishable, or nearly so, at the standard budget, while UCB1
+consistently underperforms in this small, four-operator action space, consistent with prior
+AOS observations (Fialho et al., 2010); the four single-operator controls confirm that this
+robustness comes from having the full operator set available, not from any one hidden good
+operator; the learned greedy policy appears to concentrate on a single operator, though
+Section 5.9.3’s methodological caveat about sparse state coverage and initialisation artefacts
+means we report this as suggestive rather than confirmed; and additional computational
+budget contributes more to solution quality than additional AOS sophistication does, at this
+budget scale.
+Hybridisation is a documented opportunity, not yet a result. Section 5.8’s exploration is
+preliminary by its own account, but it is not inconclusive. A unified action space spanning
+both mechanisms is robust – it never fails as badly as either specialist does on the instance
+profile that specialist is weak on – but it is not competitive with the better specialist on any
+pilot instance; warm-starting it narrows, without closing, that gap, and for the first time
+beats both fixed specialists on one pilot instance. Two structurally simpler alternatives that
+dispatch between the two existing frameworks, rather than unifying their actions, come closer
+to the oracle bound than either unified agent tried. The section’s cautionary case study – an
+41
+
+apparently robust, cross-validated improvement to one of these dispatch rules that turned
+out to be a discreteness artefact concentrated in two degenerate instances – is offered as a
+portable methodological lesson for this line of work generally: cross-validation stability is
+necessary, but on its own not suﬀicient, evidence that a tuned parameter reflects a real effect
+rather than a small, disproportionately-scaled subset of the data.
+Taken together, the picture that emerges is neither a single algorithm crowned the winner
+nor a purely negative result. It is a search mechanism – Iterated Greedy – that provides a
+real, externally-validated advance over both an established metaheuristic framework and the
+published state of the art for this problem, decomposed carefully enough to show that the
+advance is architectural rather than attributable to the specific learning mechanism this
+project originally set out to study; and a Q-Learning-based operator-selection result that
+failed to beat simpler alternatives not once but twice, on two unrelated search mechanisms
+and against every competing operator-selection strategy tested on either one, reported in
+full rather than discarded once a positive result was found elsewhere. Sections 6–7 return to
+what this combination implies for adaptive operator selection in scheduling metaheuristics
+more broadly.
+6. Discussion
+The results reported in Section 5 raise several broader questions about adaptive operator
+selection (AOS) in scheduling metaheuristics, beyond what Section 5.10 already establishes
+about the internal consistency of this study’s own two chapters. We take up four of them
+here: why the paper proposes ig_ql specifically, rather than its simpler, statistically indistinguishable sibling ig_random, as its headline method; what the mechanism-versus-policy
+decomposition – now replicated on two unrelated search mechanisms – implies methodologically for AOS research beyond this study; how the role of problem structure should be
+understood once sparse state coverage, an initialisation artefact and a genuine processingtime-variance effect are all in play at once; and what follows, practically, from the finding
+that neither IG nor ILS dominates universally.
+On proposing ig_ql, not ig_random, as the paper’s headline method. Section 5.4 shows
+that zero of 48 Holm-corrected comparisons between ig_ql and its ablation siblings are
+42
+
+significant: the Q-Learning-specific contribution is not statistically defensible on the evidence
+gathered here. A careful reader may reasonably ask why the paper’s proposed method still
+carries a learning component that its own ablation shows does not help. We answer this
+directly rather than deferring it, since the same question was anticipated, and decided, before
+this rewrite began. Three considerations support keeping ig_ql. First, Q-Learning never
+significantly underperforms ig_random in any of the twelve classes tested (Table 6), so keeping
+it costs nothing in the classes examined, even though it also does not measurably help.
+Second, ig_ql, not ig_random, is the configuration against which the SOTA comparison of
+Section 5.3 and the external validation of Section 5.6 were actually computed; reporting ig_ql
+as headline keeps the paper’s central claim tied to the exact configuration that was validated
+most extensively. Third, the research programme that produced this paper’s mechanismversus-policy finding was organised from the start around testing whether Q-Learning-based
+AOS helps – first for ILS (Section 5.9), then, motivated by that negative result, for IG – and
+ig_ql is the natural name for the method that carries this research question through to its
+second, independent test.
+We note the equally defensible alternative reading, since this is a judgement call and
+not a further statistical result. An Occam’s-razor framing could instead present ig_random
+– the destroy-and-reconstruct mechanism alone, with no learning at all – as the headline
+method, repositioning ig_ql as a tested and honestly-reported non-significant extension.
+Under that framing the central contribution becomes simpler to state (“even a fixed random
+destruction strategy beats the ILS family and most of the published state of the art”), at some
+cost to the paper’s narrative connection with the ils_ql chapter that motivated the whole
+design. We flag one technical caveat for a reader who prefers this alternative framing: the
+SOTA comparison of Section 5.3 and its external replication were computed with ig_ql, not
+ig_random, as the reference method; the null result of Section 5.4 across twelve classes gives
+us no reason to expect the direction of any of those comparisons to change under ig_random,
+but we have not recomputed them, and we do not present this expectation as verified.
+The mechanism-versus-policy decomposition as a portable experimental design. Section 5.4
+and Section 5.9.4 both separate two questions that AOS studies commonly conflate: does
+the search mechanism these operators sit inside work at all (tested here by comparing a
+43
+
+random-selection variant of the mechanism against a fixed-budget non-adaptive baseline, or
+against the same comparison run on a rival mechanism), and does the adaptive component
+built on top of it add anything (tested by comparing the adaptive variant against its own
+random-selection sibling, same mechanism, same budget). A study that reports only the first
+comparison – adaptive method beats a naive baseline – risks attributing the mechanism’s own
+contribution to the learning layered on top of it. This study finds, twice, on two structurally
+unrelated search mechanisms (ILS’s local search with periodic perturbation, and IG’s destroyand-reconstruct cycle) sharing only the state representation and the reward signal, that most
+of an AOS-augmented method’s advantage over a naive baseline comes from the underlying
+mechanism, not from the adaptive layer – a pattern that a wider ablation across further
+classical AOS mechanisms (Probability Matching, Adaptive Pursuit, an on-policy SARSA
+variant; Section 5.9.1) confirms is not specific to Q-Learning or to any single alternative.
+We do not claim this generalises to every AOS application – Section 5.6’s own external data
+shows the claim is not even uniform across published instance families for this problem – but
+we suggest the decomposition itself, isolating mechanism from policy via a random-selection
+control at matched budget, is inexpensive to add to future AOS studies and would let the
+field distinguish, more often than it currently does, which of the two components is doing
+the work.
+On the role of problem structure. The dominance of Op1 in the learned greedy policy (Section 5.9.3) is consistent with a plausible structural property of the PMSP: instances where
+the makespan is determined by the most heavily loaded machine should benefit primarily
+from moves that redistribute that load. However, Section 5.9.3 also shows that this same
+observable signature (an almost-constant policy) is what one would expect from sparse state
+coverage combined with zero Q-table initialisation – the two explanations are not mutually
+exclusive, and the original protocol’s data cannot separate them with confidence. Only 26.5%
+of the 81 nominal states (21.5 on average) are visited even once during a single standard run,
+a ceiling that persists at roughly 22–30% of states even after aggregating up to 100 training episodes – more training does not, by itself, resolve the ambiguity. A reanalysis with
+corrected initialisation and aggregated training, completed so far for two of the six original
+classes (n=20, m=4 and n=50, m=10; the remaining four classes are ongoing), reduced but
+44
+
+did not eliminate the apparent dominance of Op1, suggesting both effects – genuine problem
+structure and methodological artefact – likely contribute to some degree; we report this as
+suggestive rather than confirmed until the reanalysis is complete.
+A second, independent structural finding operates at a different level entirely. Section 5.7’s
+orthogonal factorial design shows that it is the variance of processing times, not the n/m
+ratio, that decides whether IG or ILS is the stronger mechanism for a given instance: at low
+variance ig_ql wins by a wide margin (1.24% vs. 6.83% at a representative seed); at high
+variance the advantage reverses just as clearly (0.43% vs. 1.32%), on the identical n/m ratio.
+Where the Op1 finding is about which operator an adaptive mechanism should prefer once
+a mechanism is fixed, this second finding is about which mechanism a practitioner should
+fix in the first place; both point to the same broader lesson for problem-structure-aware
+algorithm design: the property of the instance that actually matters is often not the one an
+intuitive first hypothesis names (instance size or shape, in both cases here), and identifying
+the real one requires a control – an orthogonal factorial design in one case, a correctedinitialisation reanalysis in the other – that a study focused only on headline comparisons
+would not naturally run. For PMSP variants with more heterogeneous operator structure,
+such as those with time windows or non-uniform machines, we expect the benefit of online
+AOS to be more pronounced, and recommend that the experimental design for such studies
+build in, from the start, the state-coverage and variance-stratification controls identified here
+as necessary rather than optional.
+On UCB in small operator spaces. UCB1’s failure is especially notable given its wide adoption
+as an AOS baseline (Fialho et al., 2010), and Section 5.9.1 traces the mechanism directly:
+with four operators and T = 1,000 iterations, UCB1 exhausts its exploratory phase after
+O(ln T ) ≈ 7 trials of each operator and commits early to whichever looked best during that
+brief window. If that window falls in the search’s high-variance opening iterations – when
+the GAP is still large and almost any operator can produce an improvement – the operator
+selected may not be the best choice for the remainder of the run. This is not specific to
+Q-Learning’s comparator: UCB1 underperforms every other AOS mechanism tested in this
+study, adaptive or not (Sections 5.9.1 and 5.2), which suggests the failure mode is a property
+of bandit-style commitment under low operator cardinality and asymmetric, non-stationary
+45
+
+reward distributions, rather than of any particular reward signal or state representation.
+Researchers adopting UCB1 as an AOS baseline in similarly small operator spaces should
+consider periodic reinitialisation or an adaptive decay of the exploration bonus before treating
+a bandit-based comparator as a fair representative of adaptive selection.
+On external validity and generalisation. Two design choices in this study’s methodology
+speak to generalisation, at different scales. At the scale of this project’s own synthetic instances, evaluating 30 distinct instances per class – rather than repeated runs of a single
+instance – is what makes the relatively high standard deviations of Table 8 visible at all;
+a study reporting only repeated-run means on one instance per size would underestimate
+the real variability documented here, and we recommend multiple distinct instances per configuration as standard practice for PMSP metaheuristic studies going forward. At a larger
+scale, Section 5.6’s evaluation on 1,612 published instances this project neither designed
+nor tuned against shows that generalisation is claim-specific rather than all-or-nothing: the
+headline claim, that ig_ql beats the published state of the art, replicates in a large majority
+of comparisons across all four external families; the two more specific mechanistic claims
+that explain why it wins on our own instances do not replicate with the same uniformity –
+the Q-Learning-specific contribution remains negligible overall (7% of external comparisons
+Holm-significant, consistent with Section 5.4’s null), but the IG-versus-ILS mechanism comparison is strongly family-dependent, with ILS winning essentially every significant case in
+the highest-variance external family and IG winning most of a low-variance one. We consider
+this distinction one of the paper’s more important methodological points, precisely because
+it would have been easy to blur: an external validation exercise that checked only the headline claim would have reported an unqualified success, while checking the mechanistic claims
+separately reveals that they are honest, family-dependent findings rather than universal laws.
+We recommend that future AOS validation studies report external generalisation at the same
+granularity – headline claim and mechanistic explanation separately – rather than treating
+a successful headline replication as evidence for the explanation behind it.
+On why no single mechanism dominates, and what that means for practice. Section 5.7’s
+variance-driven reversal and Section 5.6’s family-dependent external results both point to
+46
+
+the same practical conclusion: a practitioner choosing between an IG-style destroy-andreconstruct mechanism and an ILS-style local-search-with-perturbation mechanism for a
+new PMSP instance should not expect one fixed choice to be safe across the full range
+of processing-time profiles encountered in practice. Section 5.8’s exploration of this problem
+is preliminary – by its own account, none of the four alternative mechanisms tried there (a
+unified action space spanning both mechanisms, its warm-started variant, and two simpler
+dispatch rules that route between the two existing frameworks using a cheap instance-level signal) has been subjected to the full statistical battery of Sections 5.2–5.3 – but it is informative
+about the shape of a practical solution. The two dispatch-based alternatives, which commit
+to one existing, already-validated mechanism per instance rather than trying to unify their
+action spaces into a new agent, came closer to the oracle bound (the best of the two specialists, chosen with hindsight) than either unified agent did; the unified hybrid’s shortfall traces
+to the same sparse state-coverage limitation documented in Section 5.9.3, now compounded
+by a larger, joint action space. This suggests that, at least at this state-representation scale,
+composing existing validated mechanisms via a simple, cheap-to-compute dispatch signal is a
+more promising near-term direction than training a single agent to select among the union of
+their moves – though Section 5.8’s own cautionary case study, in which an apparently stable,
+cross-validated dispatch-threshold improvement turned out to be concentrated in two degenerate instances, is a reminder that any such dispatch rule needs to be checked for exactly
+this failure mode before being trusted.
+7. Conclusions
+We proposed and evaluated ig_ql, a learnheuristic that integrates online Q-Learning as
+an operator-selection mechanism within an Iterated Greedy destroy-and-reconstruct framework for makespan minimisation on the PMSP, alongside a companion ils_ql chapter that
+originally motivated its design. ig_ql is never significantly beaten by LPT or by any of
+seven ILS variants across twelve instance classes (72 of 96 Holm-corrected comparisons significant, all 72 favourable; Section 5.2), beats two of three published state-of-the-art baselines
+outright in every class tested (Section 5.3), and beats the third, MULTIFIT, at five of six
+classes with n ≤ 60 (the exception a genuine statistical tie) before losing at larger scale for a
+47
+
+structurally identified and directly tested reason – MULTIFIT’s unbudgeted, scale-improving
+construction against ig_ql’s fixed search budget. This headline claim generalises to four independent published instance families that this project neither designed nor tuned against,
+remaining Holm-significant and favourable in a large majority of comparisons in every family
+(Section 5.6).
+A second major contribution, decomposed with the same rigour as the headline result,
+qualifies it. The advantage ig_ql holds over the ILS family is attributable to the destroyand-reconstruct search mechanism itself, not to the Q-Learning policy layered on top of it: an
+ablation across ig_ql’s four closest siblings finds zero of 48 Holm-corrected comparisons significant (Section 5.4), while isolating the same search mechanism from any adaptive selection
+at all (ig_random against ils_random, both with zero learning) finds 10 of 12 comparisons
+significant, all favouring the IG mechanism. This is not an isolated result: it replicates, on
+an unrelated search mechanism using the same state representation and learning algorithm
+but a structurally different action set, a pattern first observed in the ils_ql chapter that
+motivated this study (below), and a wider ablation across further classical AOS mechanisms
+confirms the same pattern is not specific to any single one of them (Section 5.9.1). We report
+it as a clean, twice-replicated finding, not a residual caveat on an otherwise unqualified claim.
+Three further findings, secondary to the two above but methodologically significant in
+their own right, emerge from the ils_ql chapter (Section 5.9) that originally motivated this
+study’s design. First, every ILS variant tested reduces GAP by 55–99% relative to LPT,
+but ILS-QL is statistically indistinguishable from uniform random operator selection in all
+six original instance classes (p ≥ 0.075) and from a random-forest-based selector in five of
+six, while both significantly outperform UCB1 in every class (p ≤ 0.008); a wider ablation
+across three further classical AOS mechanisms (Probability Matching, Adaptive Pursuit,
+an on-policy SARSA variant) later confirmed the same equivalence pattern (Section 5.9.1).
+UCB1’s failure appears to be a structural property of bandit-style commitment in small,
+asymmetric-reward operator spaces (Section 6) rather than an artefact of this study’s specific
+setup. Second, the greedy policy the Q-Learning agent converges to under the original
+cold-start protocol concentrates heavily on one operator (inter-machine swap, 87–96% of
+nominal states), but a follow-up investigation shows this is explained in substantial part
+48
+
+by sparse state coverage (only 26.5% of the 81 nominal states visited in a typical single
+run, a ceiling that persists at roughly 22–30% even after aggregating up to 100 training
+episodes) combined with a zero-initialisation tie-break artefact, not purely by a structural
+property of the PMSP; a corrected-protocol reanalysis, completed for two of the six original
+classes so far, reduces but does not eliminate the apparent preference, so we report the
+operator-preference finding as suggestive pending completion of the remaining four classes
+(Section 5.9.3). The specific sub-hypothesis this preference initially suggested – that an ILS
+restricted to Op1 alone would match multi-operator performance at lower overhead – was
+tested directly and refuted: ILS-Op1-only’s mean GAP (0.889%) is worse than every multioperator method at the same budget (Section 5.9.3). Third, an isolation control comparing
+extended-budget random selection against extended-budget Q-Learning selection found the
+former significantly better for n ≥ 30 (p ≤ 0.028), indicating that, at this budget scale,
+additional iterations contribute more to solution quality than additional AOS sophistication,
+and that the Q-Learning agent’s exploration overhead is mildly detrimental once a dominant
+operator already exists – the same decomposition, in miniature, that motivated designing
+the ig_ql ablation above. A further, more purely practical finding: ILS-RF incurs a 4–18×
+higher computational cost than ILS-Rand with no measurable quality gain, indicating that
+a random-forest-based predictor is not justified for this problem at this scale.
+A final finding, orthogonal to the two decompositions above, concerns problem structure
+directly: an earlier hypothesis that a low n/m ratio favours IG over ILS does not survive a
+factorial design that varies processing-time variance and n/m independently – it is variance,
+not n/m, that decides which mechanism wins, with the two mechanisms’ relative advantage
+reversing completely at fixed n/m as variance moves from low to high (Section 5.7). This
+same factorial design also exposed and corrected a scale-dependent limitation of the ILS
+perturbation step itself (a fixed perturbation size that fails to scale with n, initially masked
+as an n/m ceiling but actually resolved by retuning the perturbation-acceptance threshold
+rather than the perturbation size), a correction applied specifically to the four largest instance
+classes evaluated in this study (Section 5.1).
+Future directions include: (i) completing the state-coverage and initialisation reanalysis
+of Section 5.9.3 for the remaining four of six original instance classes, to quantify precisely
+49
+
+how much of the apparent Op1 dominance is attributable to methodological artefact versus
+genuine problem structure – noting that the reanalysis’s original motivating sub-hypothesis,
+that an Op1-only ILS would match multi-operator performance, has already been tested and
+refuted; (ii) evaluating the framework on PMSP variants with heterogeneous machines, time
+windows and weighted objectives, where online AOS is expected to matter more, and where
+the state-coverage and variance-stratification controls identified in this study should be built
+into the experimental design from the outset; (iii) exploring deep Q-networks (DQN) or
+other continuous-state representations that might capture instance diversity more effectively
+than the four discretised features used here; (iv) extending the wider AOS-mechanism ablation (Section 5.9.1) with mechanisms that explicitly model operator heterogeneity, rather
+than relying only on the state features used throughout this study; (v) completing the
+dispatch-based mechanism-selection direction piloted in Section 5.8 – both apriori_select
+and racing outperformed the unified hybrid agent on preliminary samples and came closer
+to the oracle bound, but neither has been subjected to the full Wilcoxon/Holm battery of
+Sections 5.2–5.3, and any retuned dispatch threshold must be checked for concentration in a
+small, disproportionately-scaled subset of instances before being trusted, per the cautionary
+case study of Section 5.8; and (vi) subjecting the broadened external sample of 6,880 published instances (Section 5.6), already executed and integrity-checked but not yet formally
+significance-tested, to the same Wilcoxon/Holm analysis applied to the 1,612-instance sample in this study, for a more fine-grained picture of family-dependent generalisation than the
+stratified sample supports alone.
+References
+Auer, P., Cesa-Bianchi, N., Fischer, P., 2002. Finite-time analysis of the multiarmed bandit
+problem. Machine Learning 47, 235–256.
+Bengio, Y., Lodi, A., Prouvost, A., 2021. Machine learning for combinatorial optimization:
+a methodological tour d’horizon. European Journal of Operational Research 290, 405–421.
+Breiman, L., 2001. Random forests. Machine Learning 45, 5–32.
+
+50
+
+Brown, M.B., Forsythe, A.B., 1974. Robust tests for the equality of variances. Journal of
+the American Statistical Association 69, 364–367.
+Burke, E.K., Gendreau, M., Hyde, M., Kendall, G., Ochoa, G., Özcan, E., Qu, R., 2013.
+Hyper-heuristics: a survey of the state of the art. Journal of the Operational Research
+Society 64, 1695–1724.
+Cappart, Q., Chételat, D., Khalil, E., Lodi, A., Morris, C., Veličković, P., 2021. Combinatorial optimization and reasoning with graph neural networks, in: Proceedings of IJCAI,
+pp. 4439–4449.
+Coffman, Jr., E.G., Garey, M.R., Johnson, D.S., 1978. An application of bin-packing to
+multiprocessor scheduling. SIAM Journal on Computing 7, 1–17.
+Davidović, T., Šelmić, M., Teodorović, D., Ramljak, D., 2012. Bee colony optimization for
+scheduling independent tasks to identical processors. Journal of Heuristics 18, 549–569.
+Davis, L., 1989. Adapting operator probabilities in genetic algorithms, in: Proceedings of
+the Third International Conference on Genetic Algorithms, Morgan Kaufmann. pp. 61–69.
+Derrac, J., García, S., Molina, D., Herrera, F., 2011. A practical tutorial on the use of
+nonparametric statistical tests as a methodology for comparing evolutionary and swarm
+intelligence algorithms. Swarm and Evolutionary Computation 1, 3–18.
+Fialho, Á., Costa, L.D., Schoenauer, M., Sebag, M., 2010. Analyzing bandit-based adaptive
+operator selection mechanisms. Annals of Mathematics and Artificial Intelligence 60, 25–
+64.
+Fligner, M.A., Killeen, T.J., 1976. Distribution-free two-sample tests for scale. Journal of
+the American Statistical Association 71, 210–213.
+Garey, M.R., Johnson, D.S., 1979. Computers and Intractability: A Guide to the Theory of
+NP-Completeness. W. H. Freeman.
+Graham, R.L., 1969. Bounds on multiprocessing timing anomalies. SIAM Journal on Applied
+Mathematics 17, 416–429.
+51
+
+Harris, C.R., et al., 2020. Array programming with NumPy. Nature 585, 357–362.
+Holm, S., 1979. A simple sequentially rejective multiple test procedure. Scandinavian Journal
+of Statistics 6, 65–70.
+Karimi-Mamaghan, M., Mohammadi, M., Dullaert, W., Vigo, D., Pirayesh, A., 2024. Dynamic operator management in meta-heuristics using reinforcement learning: an application to permutation flowshop scheduling problems. arXiv:2408.14864.
+Karimi-Mamaghan, M., Mohammadi, M., Meyer, P., Karimi-Mamaghan, A.M., Talbi, E.G.,
+2022. Machine learning at the service of meta-heuristics for solving combinatorial optimization problems: A state-of-the-art. European Journal of Operational Research 296,
+393–422.
+Karimi-Mamaghan, M., Mohammadi, M., Pasdeloup, B., Meyer, P., 2023. Learning to select
+operators in meta-heuristics: An integration of Q-learning into the iterated greedy algorithm for the permutation flowshop scheduling problem. European Journal of Operational
+Research 304, 1296–1330.
+Kerby, D.S., 2014. The simple difference formula: an approach to teaching nonparametric
+correlation. Comprehensive Psychology 3, 1.
+Li, J., Perkins, D., 2024. A simulated annealing approach to identical parallel machine
+scheduling. arXiv:2410.11880.
+Lourenço, H.R., Martin, O.C., Stützle, T., 2019. Iterated local search: framework and
+applications, in: Gendreau, M., Potvin, J.Y. (Eds.), Handbook of Metaheuristics. 3 ed..
+Springer, pp. 129–168.
+Maturana, J., Saubion, F., 2008. A compass to guide genetic algorithms, in: Parallel Problem
+Solving from Nature – PPSN X, Springer. pp. 256–265.
+McKinney, W., 2010. Data structures for statistical computing in Python, in: Proceedings
+of the 9th Python in Science Conference (SciPy 2010), pp. 56–61.
+
+52
+
+Missaoui, A., O’Sullivan, B., 2026a. Iterated greedy with strategic reconstruction for parallel
+machine problem with weighted tardiness and setup times. Operational Research 26, 104.
+Missaoui, A., O’Sullivan, B., 2026b. Reinforcement learning based iterated greedy for parallel
+machine scheduling with weighted earliness tardiness, in: Advances and Trends in Artificial
+Intelligence. Theory and Applications. Springer, Singapore. volume 15706 of Lecture Notes
+in Computer Science, pp. 15–26. doi:10.1007/978-981-96-8889-0_2.
+Missaoui, A., Ruiz, R., 2022. A parameter-less iterated greedy method for the hybrid flowshop scheduling problem with setup times and due date windows. European Journal of
+Operational Research 303, 99–113.
+Ostojić, D., Ramljak, D., Urošević, A., Jolović, M., Drašković, R., Kakka, J., Krüger, T.J.,
+Davidović, T., 2025. Systematic literature review of optimization algorithms for P||Cmax
+problem. Symmetry 17, 178.
+Ozsoydan, F.B., 2025. Reinforcement learning enhanced swarm intelligence and trajectorybased algorithms for parallel machine scheduling problems. Computers & Industrial Engineering 203, 110948.
+Park, J., Chun, J., Kim, S.H., Kim, Y., Park, J., 2021. Learning to schedule job-shop
+problems: representation and policy learning using graph neural network and reinforcement
+learning. International Journal of Production Research 59, 3360–3377.
+Pinedo, M.L., 2016. Scheduling: Theory, Algorithms, and Systems. 5 ed., Springer.
+Pisinger, D., Ropke, S., 2007. A general heuristic for vehicle routing problems. Computers
+& Operations Research 34, 2403–2435.
+Ruiz, R., Stützle, T., 2007. A simple and effective iterated greedy algorithm for the permutation flowshop scheduling problem. European Journal of Operational Research 177,
+2033–2049.
+Rummery, G.A., Niranjan, M., 1994. On-line Q-learning using connectionist systems. Technical Report CUED/F-INFENG/TR 166. Cambridge University Engineering Department.
+53
+
+Sutton, R.S., Barto, A.G., 2018. Reinforcement Learning: An Introduction. 2 ed., MIT
+Press.
+Thierens, D., 2005. An adaptive pursuit strategy for allocating operator probabilities, in:
+Proceedings of the 2005 Genetic and Evolutionary Computation Conference (GECCO),
+ACM.
+Vázquez-Rodríguez, J.A., Ochoa, G., 2011. On the automatic discovery of variants of the neh
+procedure for flow shop scheduling using iterated local search. Journal of the Operational
+Research Society 62, 322–332.
+Virtanen, P., et al., 2020. SciPy 1.0: fundamental algorithms for scientific computing in
+Python. Nature Methods 17, 261–272.
+Watkins, C.J.C.H., Dayan, P., 1992. Q-learning. Machine Learning 8, 279–292.
+Wilcoxon, F., 1945. Individual comparisons by ranking methods. Biometrics Bulletin 1,
+80–83.
+Zhang, J., Liu, F., Zhu, S., Wang, C., 2020. A hybrid ant colony and reinforcement learning
+algorithm for vehicle routing problems. Applied Intelligence 50, 4104–4117.
+
+54
+
+

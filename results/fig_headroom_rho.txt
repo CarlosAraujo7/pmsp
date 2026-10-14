@@ -1,0 +1,2 @@
+A. Actions: destruction strategies: n=28 rho=0.7438 p_two=5.72e-06
+B. Actions: destruction size: n=28 rho=-0.3727 p_two=0.0508

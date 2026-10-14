@@ -1,0 +1,47 @@
+{
+  "gerado_por": "data/materialize_instances.py",
+  "fonte_config": "experiment/config.py",
+  "base_seed": 0,
+  "n_instances_por_classe": 30,
+  "distribuicao": "p_j ~ U[1,100] inteiro (PMSPInstance.random, low=1, high=100 default)",
+  "formula_seed": "seed = BASE_SEED + inst_id, inst_id em range(N_INSTANCES)",
+  "classes": [
+    {
+      "classe": "rand_20j_4m",
+      "n": 20,
+      "m": 4,
+      "n_arquivos": 30
+    },
+    {
+      "classe": "rand_20j_6m",
+      "n": 20,
+      "m": 6,
+      "n_arquivos": 30
+    },
+    {
+      "classe": "rand_30j_8m",
+      "n": 30,
+      "m": 8,
+      "n_arquivos": 30
+    },
+    {
+      "classe": "rand_50j_10m",
+      "n": 50,
+      "m": 10,
+      "n_arquivos": 30
+    },
+    {
+      "classe": "rand_75j_15m",
+      "n": 75,
+      "m": 15,
+      "n_arquivos": 30
+    },
+    {
+      "classe": "rand_100j_20m",
+      "n": 100,
+      "m": 20,
+      "n_arquivos": 30
+    }
+  ],
+  "nota": "Estas instancias sao EXATAMENTE as mesmas usadas para gerar results/results.csv (mesma formula de seed, mesma chamada PMSPInstance.random). Materializadas em disco para permitir Data Availability / reproducibilidade auditavel no EJOR."
+}

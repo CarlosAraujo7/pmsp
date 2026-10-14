@@ -1,0 +1,14 @@
+9a7cbc9b5c5a781489d69200289e0bd1 *pmsp/ldm.py
+881ae7159d3f3d55bbce0dfbd01e8331 *pmsp/seeding.py
+24f37885aa44f3bdd94774136525bb93 *pmsp/ig.py
+ea6486b678b08e5adccef55ccf634251 *experiment/runner.py
+cb783959947586e82957ec3a3b80c3df *experiment/run_seeded_baselines_entrada102.py
+8479c95410ff55366daab95d141fdc6f *analysis/report_entrada102_seeded_baselines.py
+148b5e8f29da1b4e1d67999b5c497a75 *external_benchmarks/pcmax_symmetry2025/run_external_battery.py
+71132915ad76ff51a8c399e6237d06b8 *external_benchmarks/pcmax_symmetry2025/manifest.csv
+8510c9a43c28ee2c15fd5ef4036ef962 *results/results.csv
+0d2a1dc75fa1e5243789eb8e14222e57 *external_benchmarks/pcmax_symmetry2025/results_external_symmetry2025.csv
+83fa0c4fb4876e6af08567d1d8d56518 *results/exact_reference_synthetic_entrada101.csv
+2bc0536535a1016184c90ad072d6159d *analysis/report_entrada102_seeded_baselines.py
+# EMENDA 1 (analise): linha acima = relatorio apos correcao de cobertura (rand_20j_4m 30 reps => |S|=1130), feita ANTES de ver resultados
+# NOTA (Entrada 112): pmsp/ig.py foi alterado DEPOIS deste congelamento (Entrada 104: ganchos aditivos reward_fn/state_fn, default None = comportamento anterior; tests/test_signal_hooks.py e reexecucao de 54 runs seeded reproduzem os makespans armazenados); o hash atual de ig.py esta' em entrada104_prereg_hashes.txt.

@@ -1,0 +1,34 @@
+==============================================================================================================
+LEI DO ORCAMENTO: politica e folga vs T (P||Cmax) -- teste pre-registrado, Entrada 121
+==============================================================================================================
+
+--- PRIMARIA (Holm sobre 4) ---
+id                             comparison    n  mean_d_pct  mean_diff  ci90_lo   ci90_hi    p_raw  p_holm  confirmada  relevante
+B1          ig_ql_cal vs ig_random @T=100 1200    -0.01092        NaN -0.03109   0.01014   0.5605       1       False      False
+B2          ig_ql_cal vs ig_random @T=250 1200    -0.01471        NaN -0.02928 0.0006602   0.1776  0.5329       False      False
+B3 politica_d por classe: T=100 vs T=1000   12         NaN     0.0004      NaN       NaN   0.9697       1       False      False
+B4    folga_d por classe: T=100 vs T=1000   12         NaN   -0.06572      NaN       NaN 0.006836 0.02734        True      False
+
+'orcamento vinculante torna a politica relevante' (B1 confirmada e relevante E B3 confirmada): NAO
+
+--- politica_d (ig_ql_cal vs ig_random, pooled) e folga (oraculo das 3 estrategias) por T ---
+T= 100: politica ig_ql_cal d = -0.0109% IC90 [-0.0311, +0.0101] | folga oraculo d = -0.1031% | politica ig_ql (original) d = -0.0132% IC90 [-0.0332, +0.0077] p=0.466
+T= 250: politica ig_ql_cal d = -0.0147% IC90 [-0.0293, +0.0007] | folga oraculo d = -0.0669% | politica ig_ql (original) d = -0.0122% IC90 [-0.0268, +0.0030] p=0.166
+T=1000: politica ig_ql_cal d = -0.0113% IC90 [-0.0219, -0.0007] | folga oraculo d = -0.0373% | politica ig_ql (original) d = -0.0163% IC90 [-0.0272, -0.0056] p=0.0223
+
+--- por classe: politica_d e folga_d (%) por T ---
+               pol_T100   pol_T250  pol_T1000  folga_T100  folga_T250  folga_T1000
+rand_100j_20m  -0.05119   -0.06279   -0.04265     -0.2249     -0.2134      -0.1133
+rand_150j_15m  -0.01165   0.003606   0.007936    -0.06072    -0.03934     -0.01751
+rand_150j_30m   0.02537    0.03448  -0.009323     -0.1319    -0.06884       -0.105
+rand_20j_4m    0.007368   -0.01644  0.0006664    -0.09782    -0.03672     -0.01496
+rand_20j_6m    0.002134    0.04213    0.02729     -0.2664    -0.08978     -0.01816
+rand_250j_25m  -0.01153  -0.007577   -0.02418    -0.03088     -0.0231     -0.03406
+rand_300j_20m -0.001246 -0.0001903   0.004138    -0.01549    -0.01583     -0.01323
+rand_30j_8m    -0.03886   -0.07744   -0.04301     -0.2555      -0.202      -0.1197
+rand_40j_5m    0.003574   0.008676   0.004475    -0.05247    -0.04977     -0.01167
+rand_50j_10m   0.008014    0.03497  -0.004262    -0.09986    -0.08493     -0.04408
+rand_60j_20m   -0.09154   -0.08707   -0.03459      0.1616      0.1612       0.1291
+rand_75j_15m    0.02855   -0.04883   -0.02233     -0.1624     -0.1408     -0.08562
+
+makespan medio ig_random por T: T=100: 333.56, T=250: 333.14, T=1000: 332.75

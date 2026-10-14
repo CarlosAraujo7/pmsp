@@ -1,0 +1,59 @@
+==============================================================================================================
+SENSIBILIDADE A HIPERPARAMETROS -- teste pre-registrado, Entrada 105
+==============================================================================================================
+instancias: 300
+
+--- PRIMARIA: IG-QL (config) vs controle aleatorio correspondente (Holm sobre 9) ---
+     first       control   n  better  worse  tie  mean_d_pct  ci90_lo   ci90_hi  rank_biserial    p_raw    p_holm  confirmada  relevante  equivalent
+ ig_ql_d10 ig_random_d10 300      75     21  204     -0.1118  -0.1477  -0.07465        -0.5876 2.35e-08 2.115e-07        True       True       False
+ ig_ql_d20 ig_random_d20 300      69     32  199    -0.05736 -0.08436  -0.03158        -0.3516 0.001937   0.01549        True       True       False
+ ig_ql_d40 ig_random_d40 300      49     19  232    -0.03709 -0.05449  -0.01982        -0.4412 0.003289   0.02303        True      False       False
+ ig_ql_a05     ig_random 300      53     45  202    -0.01336 -0.03535  0.007534       -0.08926   0.4273         1       False      False        True
+ ig_ql_a30     ig_random 300      52     43  205    -0.01633  -0.0372  0.004132        -0.1136   0.3973         1       False      False        True
+ ig_ql_g50     ig_random 300      50     37  213    -0.02275  -0.0442 -0.003307        -0.1784   0.0758    0.4548       False      False        True
+ ig_ql_g99     ig_random 300      54     43  203    -0.01886 -0.04068   0.00232        -0.1315   0.2218         1       False      False        True
+ig_ql_e990     ig_random 300      44     50  206    0.006881 -0.01543   0.02869        0.04143    0.411         1       False      False        True
+ig_ql_e999     ig_random 300      49     49  202   -0.005519 -0.02812   0.01615              0   0.7059         1       False      False        True
+
+REGRA: configuracoes com beneficio praticamente relevante do QL (confirmada e d<=-0,05%): ['ig_ql_d10', 'ig_ql_d20'] -> politica ~ nula NAO robusta
+equivalentes na margem de 0,05%: 6/9
+
+--- GAP medio (%) vs LB classico por classe (rows) -- IG-random por fracao d ---
+
+ig_random
+               d=0.1  d=0.2  d=0.3 (padrao)   d=0.4
+instance                                           
+rand_20j_6m    1.723 0.8552          0.5127  0.5483
+rand_50j_10m  0.2115 0.1812          0.2928  0.3853
+rand_75j_15m    0.21 0.4039          0.5742  0.5942
+rand_100j_20m 0.2777 0.5026          0.7265  0.6136
+rand_150j_30m 0.4705 0.7626          0.8839  0.7295
+rand_300j_20m 0.1256 0.1016         0.07293 0.05986
+MEDIA         0.5031 0.4679          0.5105  0.4884
+
+ig_ql
+               d=0.1   d=0.2  d=0.3 (padrao)   d=0.4
+instance                                            
+rand_20j_6m    1.381  0.6674          0.5216  0.4948
+rand_50j_10m  0.1482  0.1491          0.2624  0.3779
+rand_75j_15m  0.1484  0.3345          0.5905  0.5414
+rand_100j_20m 0.1873  0.4633          0.6193  0.5782
+rand_150j_30m 0.3383  0.7524          0.8387  0.6641
+rand_300j_20m  0.133 0.09155         0.08361 0.04938
+MEDIA         0.3894  0.4097           0.486   0.451
+
+--- sensibilidade do IG-QL a alpha/gamma/decaimento (d relativo medio vs ig_ql padrao; %) ---
+  ig_ql_a05    d=+0.0108%  melhor/pior/empate=22/29/249  p=0.431
+  ig_ql_a30    d=+0.0078%  melhor/pior/empate=21/27/252  p=0.479
+  ig_ql_g50    d=+0.0014%  melhor/pior/empate=21/22/257  p=0.681
+  ig_ql_g99    d=+0.0053%  melhor/pior/empate=24/27/249  p=0.697
+  ig_ql_e990   d=+0.0311%  melhor/pior/empate=36/56/208  p=0.0246
+  ig_ql_e999   d=+0.0187%  melhor/pior/empate=38/55/207  p=0.313
+
+--- melhor fracao d por classe (IG-random) e perda do padrao 0,3 em relacao a ela (pp de d relativo) ---
+  rand_20j_6m     melhor=ig_random      perda do padrao = 0.0000%
+  rand_50j_10m    melhor=ig_random_d20  perda do padrao = 0.1162%
+  rand_75j_15m    melhor=ig_random_d10  perda do padrao = 0.3647%
+  rand_100j_20m   melhor=ig_random_d10  perda do padrao = 0.4526%
+  rand_150j_30m   melhor=ig_random_d10  perda do padrao = 0.4136%
+  rand_300j_20m   melhor=ig_random_d40  perda do padrao = 0.0131%

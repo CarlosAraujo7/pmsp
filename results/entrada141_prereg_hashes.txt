@@ -1,0 +1,18 @@
+3bb2d4477bbc7fffb4ea27df5f50333a *experiment/run_lpig_benchmark_entrada141.py
+9fa73cb21c83e96304a0bcea02b8f02b *analysis/report_entrada141_lpig.py
+f733a2095d21eb87775694128407a312 *pmsp/unrelated_lp.py
+668a2d7e089c32f42f14489a44935dc7 *pmsp/unrelated.py
+d339c3d82c0fabbe11f01abd3e7fc28c *pmsp/unrelated_exact.py
+5b54a4c6da8a1227536f3b408dfb762a *experiment/run_rcmax_benchmark_entrada137.py
+86b732ea467daaefe2b7c512264420c4 *results/rcmax_manifest_entrada137.csv
+dd80cf47e44a4386c0fa4f5106d7bf53 *results/rcmax_choice_d_entrada137.json
+65c73cfe05633df6e6ecda88536ab27c *results/state_calibration_unrelated_entrada118.json
+fb1d4d5d81506a2b15d81cbc4b11ca74 *results/lpig_design_exploration_entrada141.csv
+a1b0a80b96ee9e7fbb90e64a2a318710 *external_benchmarks/rcmax_fanjul_ruiz/raw/res_all_instances.csv
+# (apos o ajuste de d/n do LP-IG; antes da calibracao)
+229d5fc66a418887ce28756e818cbcd8 *results/lpig_tune_d_entrada141.csv
+2bd533deec660b773af55b121e876aaf *results/lpig_choice_d_entrada141.json
+# (apos a calibracao sequencial de CPU; antes do teste; K < 1 em n = 200 e 500: T_eq cai no piso 1000, o que e' conservador para o LP-IG; d/n = 0,01 em n = 500 esta na borda da grade)
+a29ac96ace6be38b0f39980002f1ab54 *results/lpig_cpu_ratio_entrada141.json
+# (saida do teste, antes do relatorio)
+a1ccbe343eaf431337cc4536960a298d *results/lpig_test_entrada141.csv

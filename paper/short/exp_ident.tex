@@ -1,0 +1,41 @@
+\paragraph{The Q-Learning-guided IG wins, but the question is why}
+Against LPT and seven ILS variants in the twelve synthetic classes, \texttt{ig\_ql} wins every one of the $72$ comparisons that remain significant after Holm correction (of $96$); the $24$
+non-significant ones fall in four classes in which the gap available to any method is already below $0.3\%$. It also beats the reimplemented simulated annealing \citep{LiPerkins2024} and bee
+colony \citep{DavidovicEtal2012} in all classes (including with the budget rules relaxed in their favour: $36$ of $36$ tests) but loses to MULTIFIT \citep{CoffmanGareyJohnson1978}
+for $n\geq75$, a one-shot construction that costs about one fiftieth of the CPU time; ten times the budget leaves it $30\times$ worse at $(300,20)$. These results, in
+Supplementary Section~\ref{S-sec:f1-headline}, are what a typical study would report and read as a success of the learned policy. The rest of the section asks what the policy contributes. Optimality
+is certified with the linear relaxation of the arc-flow model, which equals the best makespan found in $75.3\%$ of the synthetic instances (proving optimality) and never exceeded the optimum in $150$
+published instances (Supplementary Section~\ref{S-sec:lbaf}).
+
+\paragraph{The policy adds hundredths of a point; the mechanism, tenths}
+Against its four ablation siblings (random selection, UCB1, UCB1 per state, Q-Learning without state) \texttt{ig\_ql} has $7$ of $48$ raw $p$-values below $0.05$ and none after Holm correction: per
+class, single-run tests cannot resolve the effect. Ten algorithm seeds on $240$ instances show that it is real but strictly negligible ($\bar d=-0.011\%$, 90\% interval $-0.019$ to $-0.003$), and
+pooled tests on published instances (Section~\ref{sec:external}) put it at $0.01$--$0.03$ points. The search mechanism, by contrast, is large: with learning removed from both sides,
+\texttt{ig\_random} beats \texttt{ils\_random} in $10$ of $12$ classes (the exceptions are the near-ceiling classes $(20,4)$ and $(40,5)$), by $0.49\%$ on seed averages, against $0.53\%$ for the learned versions.
+
+\paragraph{Which part of the search structure? Equal CPU time decides}
+The advantage of the IG mixes the destruction--reconstruction cycle with the absence of an exhaustive local search. A hybrid that adds a short best-improvement descent after each reconstruction separates
+them (Tables~\ref{tab:f25_igls_p} and~\ref{tab:f28_igls_eq}). The pure IG already beats the ILS by $0.59\%$ ($381$ wins against $61$), the descent adds a further $0.15\%$ ($436$ against $16$) and Q-Learning adds
+nothing to the hybrid ($-0.004\%$). That $0.15\%$, however, is a comparison at an equal number of iterations, and the descent multiplies the CPU time per iteration by $2.1$ to $52.4$. Giving the plain IG the
+CPU time of the hybrid (calibrated sequentially on an idle machine) reduces the advantage of the local search to $0.010\%$ (90\% interval $0.002$--$0.018$, inside the $\pm0.05\%$ margin):
+\textbf{$93\%$ of the gain was budget}. The active ingredient for identical machines is the destruction--reconstruction cycle and the number of iterations it receives; the descent mostly substitutes for iterations.
+
+\input{f25_igls_p.tex}
+\input{f28_igls_eq.tex}
+
+\paragraph{Why the policy adds so little}
+Four explanations were tested with analyses specified beforehand (details in Supplementary Section~\ref{S-sec:m-robust}). \emph{Nothing to learn:} the best fixed destruction strategy per class is no better than random
+selection and an oracle that knew the best strategy of every instance would gain only $0.037\%$. \emph{State:} the original state is nearly degenerate (two features constant), but two recalibrated
+states leave \texttt{ig\_ql} indistinguishable from random destruction (pooled $p_{\mathrm{Holm}}=0.28$) and make the ILS agent significantly \emph{worse} than random operator selection ($+4.8\%$ of the GAP,
+$p_{\mathrm{Holm}}=0.009$). \emph{Signal:} a dense reward makes the agent worse ($+0.084\%$), pre-training the table per class on $50$ instances leaves it equivalent to random ($+0.002\%$) and
+the learning rate, discount and exploration decay change nothing ($|\bar d|\leq0.023\%$). \emph{Budget:} tightening $T$ from $1000$ to $100$ almost triples the headroom ($0.037\%\to0.103\%$) but leaves the
+policy effect unchanged ($-0.011\%$ at both).
+
+\paragraph{An action space with real headroom: the destruction size}
+If the three strategies are nearly interchangeable, the destruction size $d/n\in\{0.05,\ldots,0.40\}$ is not. Table~\ref{tab:f15_dsel} reports the pre-specified test ($1{,}200$ instances). The fraction
+chosen \emph{by validation} on $30$ separate instances per class beats random choice out of sample ($\bar d=-0.089\%$), so the headroom is real. Q-Learning over the same five actions does not capture it
+($+0.015\%$, $2\%$ of the headroom), neither does UCB1 ($+0.007\%$), and Q-Learning is worse than the validated fraction by $0.103\%$ ($318$ of $375$ decisive instances). With five times the budget it still
+captures nothing significant ($-0.010\%$, interval $-0.028$ to $+0.008$, while $0.049\%$ of headroom remains), and a table pre-trained on $50$ independent instances per class loses $0.063\%$ to validation. In this problem
+the gain of the action space is realised by choosing the parameter \emph{offline}, on separate instances, not by the online or cross-instance tabular learning tested here.
+
+\input{f15_dsel.tex}

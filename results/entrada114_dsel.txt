@@ -1,0 +1,43 @@
+==============================================================================================================
+A POLITICA IMPORTA QUANDO HA FOLGA? (acao = tamanho de destruicao) -- teste pre-registrado, Entrada 114
+==============================================================================================================
+instancias de teste: 1200
+d escolhido por classe (ajuste): 20x4:0.40, 20x6:0.30, 30x8:0.20, 40x5:0.10, 50x10:0.10, 60x20:0.10, 75x15:0.10, 100x20:0.10, 150x15:0.05, 150x30:0.05, 250x25:0.05, 300x20:0.40
+
+--- PRIMARIA (Holm sobre 4) ---
+id               comparison    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada  relevante
+A1    cvfixed vs igd_random 1200     324     47  829    -0.08852 -0.09996 -0.07671        -0.7555 1.884e-30 5.653e-30        True       True
+A2 igd_ql_cal vs igd_random 1200     229    213  758     0.01466 0.001096  0.02956       -0.01602   0.06173    0.1235       False      False
+A3    igd_ucb vs igd_random 1200     165    178  857    0.006881  -0.0045  0.01805        0.04585    0.3661    0.3661       False      False
+A4    igd_ql_cal vs cvfixed 1200      57    318  825      0.1034  0.09164   0.1163          0.713 8.575e-36  3.43e-35       False      False
+
+REGRA 'a folga existe no espaco de acoes d' (A1 confirmada e relevante): SUPORTADA
+REGRA 'a politica importa quando ha folga' (A1 e A2 confirmadas e relevantes): REFUTADA (folga existe mas a politica nao a captura)
+
+--- SECUNDARIAS (descritivas, sem Holm) ---
+                                         comparison    n  better  worse  tie  mean_d_pct   ci90_lo  ci90_hi     p_raw
+                           igd_ql_def vs igd_random 1200     221    195  784    0.008717 -0.004731  0.02249    0.1399
+      best fixed in TEST (optimistic) vs igd_random 1200     329     41  830    -0.09409    -0.105 -0.08303 1.137e-35
+       per-instance oracle of the 5 d vs igd_random 1200     386     16  798     -0.1268   -0.1379  -0.1155 1.239e-57
+cvfixed vs ig_random (default d=0.3n, 3 strategies) 1200     508     33  659     -0.1875   -0.2016  -0.1729 4.215e-68
+                            igd_ql_cal vs ig_random 1200     391    163  646    -0.08434   -0.1018 -0.06664 1.316e-14
+                         cvfixed vs ig_ql (default) 1130     501     36  593     -0.1816   -0.1957  -0.1672  7.17e-64
+                      igd_ql_cal vs ig_ql (default) 1130     388    162  580    -0.07768  -0.09503 -0.05877 8.533e-12
+                            igd_fix30 vs igd_random 1200      78    369  753      0.1053   0.09206   0.1177 1.363e-29
+
+--- por classe: folga (random -> cvfixed, %), fracao capturada por QL/UCB, d relativo de cada d fixo vs random (%) ---
+     instance  d_cv  mean_random  mean_cvfixed  mean_ql  mean_ucb  headroom_pct  ql_captures  ucb_captures  igd_fix05  igd_fix10  igd_fix20  igd_fix30  igd_fix40
+rand_100j_20m   0.1        256.2         255.8    255.9     256.2          0.16       0.6585      -0.02439    -0.1327      -0.16     0.2927      0.324      0.242
+rand_150j_15m  0.05        509.6         509.3    509.3     509.6       0.05691        0.931       0.03448   -0.05691    0.05298      0.102    0.04317   -0.00785
+rand_150j_30m  0.05        255.9         255.4    255.4     255.9        0.2149       0.9091             0    -0.2149    -0.1055     0.4611     0.3282     0.1915
+  rand_20j_4m   0.4        256.9         256.9    257.1       257       0.01557        -3.75          -0.5     0.2569     0.2569   0.007784   -0.02724   -0.01557
+  rand_20j_6m   0.3        172.3         172.2    172.5     172.3       0.08704         -1.2        0.1333     0.7195     0.7195    0.06383   -0.08704   -0.09285
+rand_250j_25m  0.05        509.2         508.8    508.9     509.1        0.0766       0.7949        0.1026    -0.0766     0.1237    0.07856     0.0216   -0.03928
+rand_300j_20m   0.4        761.5         761.3    761.7     761.5       0.01839       -1.286      -0.07143    0.03546    0.07485    0.03677   0.001313   -0.01839
+  rand_30j_8m   0.2        193.1           193    193.4     193.2       0.06731       -2.308       -0.3077     0.6161     0.2226   -0.06731   -0.05695    0.05695
+  rand_40j_5m   0.1        409.7         409.7    409.8     409.7      0.007322       -3.333             0    0.05858  -0.007322  -0.009763    0.01709   0.009763
+ rand_50j_10m   0.1        255.1         254.9    255.4     255.1       0.07057       -1.667       -0.3333      0.345   -0.07057   -0.04313     0.1411     0.1686
+ rand_60j_20m   0.1        154.4         154.1    154.6     154.4        0.1619        -0.88          0.08     0.4275    -0.1619    -0.2073     0.2785     0.5506
+ rand_75j_15m   0.1        255.9         255.6    255.8       256        0.1368          0.4       -0.3143   -0.01954    -0.1368     0.1094      0.297     0.2462
+
+fracao pooled da folga capturada: QL = 0.021; UCB = -0.055 (em makespan medio; classes de tamanhos distintos pesam diferente)

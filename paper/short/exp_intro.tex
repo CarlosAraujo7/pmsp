@@ -1,0 +1,53 @@
+\section{Computational Experiments}
+\label{sec:experiments}
+
+Table~\ref{tab:evidence} maps the claims of the study to the evidence. Section~\ref{sec:setup} describes the setup; Section~\ref{sec:f3f4-ablation} decomposes the gain of the Q-Learning-guided
+IG for identical machines into search structure and policy; Section~\ref{sec:recipe} derives the learning-free recipe and its budget; Section~\ref{sec:external} validates the findings on
+published instances; Section~\ref{sec:unrelated} repeats the protocol for unrelated machines and Section~\ref{sec:pfsp} for the flowshop, with a synthesis across the seven environments.
+The comparison with published baselines, robustness checks, granularity and dispatch, and a companion ILS study are in the supplement.
+
+\begin{table}[t]
+\centering
+\caption{Claims of the study, the evidence for each and where it is reported. All hypotheses were specified before the runs; non-confirmations are reported in the sections indicated.}
+\label{tab:evidence}
+{\scriptsize\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{0.26\textwidth}p{0.50\textwidth}p{0.14\textwidth}@{}}
+\toprule
+Claim & Evidence (size of the effect) & Sections \\
+\midrule
+1. The search structure, not the learned policy, produces the gain &
+P$||C_{\max}$: IG beats ILS by $0.3$--$0.7\%$ against a policy effect of $0.01$--$0.05\%$; R$||C_{\max}$: IG with local search beats ILS by $2.1\%$ at equal CPU (standard benchmark) against $0.03$--$0.06\%$; flowshop: IG $=$ ILS at equal CPU, policy $+0.14\%$ (worse) &
+\ref{sec:f3f4-ablation}, \ref{sec:unrelated}, \ref{sec:pfsp} \\[2pt]
+2. The active ingredient depends on the problem; only an equal-CPU ablation reveals it &
+Local search: $-0.150\%$ at equal iterations, $-0.010\%$ at equal CPU (P$||C_{\max}$); $-0.21\%$ at equal CPU (flowshop); R$||C_{\max}$: neither IG nor ILS alone, the combination wins &
+\ref{sec:f3f4-ablation}, \ref{sec:recipe}, \ref{sec:pfsp} \\[2pt]
+3. Offline validation beats online learning &
+Destruction size: $+0.36\%$ (R$||C_{\max}$), $+0.16\%$ (flowshop), $+0.10\%$ (P$||C_{\max}$) in favour of validation; five learners fail to beat random choice &
+\ref{sec:f3f4-ablation}, \ref{sec:unrelated}, \ref{sec:pfsp} \\[2pt]
+4. Headroom is necessary, not sufficient &
+Strategies: policy gain follows headroom across cells ($\rho=0.59$, $0.74$); size: prospective test failed ($\rho=-0.37$, agent worse than random) &
+\ref{sec:unrelated}, \ref{sec:pfsp} \\[2pt]
+5. Learning-free solvers are strong &
+P$||C_{\max}$: recipe provably optimal on $74.7\%$ of the instances at $T=10^3$ (MULTIFIT: $48.5\%$) and on $97.5\%$ at $T=6.4\times10^4$ (six classes; $75.5\%$ at $T=10^3$); R$||C_{\max}$: GAP to best known $2.23\%\to0.25$--$0.30\%$ (LP start $+$ restricted MILP; CPLEX two hours: $0.18$--$0.20\%$) &
+\ref{sec:recipe}, \ref{sec:unrelated} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\subsection{Setup}
+\label{sec:setup}
+
+\paragraph{Instances and budgets}
+The identical-machine experiments use twelve synthetic classes $(n,m)\in\{(20,4),\ldots,(300,20)\}$ with $100$ independently generated instances each (seeds fixed per instance), $6{,}780$
+published instances (B, C, E, F; stratified sample), $4{,}160$ held-out and $2{,}690$ fresh published instances for confirmatory tests, and a certified lower bound for the synthetic ones.
+The standard budget is $T=1{,}000$ iterations; larger budgets and CPU-equalised budgets are stated where used. Each run is single-threaded; all code, seeds and result files are in the repository.
+
+\paragraph{Pre-specification}
+Every confirmatory test belongs to a family, fixed with its hypothesis, decision rule and code hash before the data (Section~\ref{sec:protocol}); the full list, with verdicts, is in
+Supplementary Table~\ref{S-tab:s_prereg_all}. Exploratory analyses are labelled as such, and the cases in which the predictions recorded beforehand were wrong are reported.
+
+\paragraph{Reading the tables}
+$\bar d$ is the mean paired difference in the makespan in per cent (negative: the first method better); W/L/T counts wins, losses and ties; $p_{\mathrm{Holm}}$ is Holm-adjusted within the family.
+
+\subsection{Identical machines: mechanism versus policy}
+\label{sec:f3f4-ablation}

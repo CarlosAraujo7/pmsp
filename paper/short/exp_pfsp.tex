@@ -1,0 +1,28 @@
+\subsection{A third problem and a synthesis across environments}
+\label{sec:pfsp}
+
+To test whether the attribution is a property of parallel machine scheduling, the protocol was applied to the permutation flowshop (makespan), the problem in which Iterated Greedy originated \citep{RuizStutzle2007}.
+The IG starts from NEH, removes $d$ random jobs, reinserts them at the best position (Taillard's acceleration), applies an insertion local search and accepts with a constant temperature; the action is the
+destruction size $d\in\{2,3,4,6,8\}$. The ILS has the same local search and perturbs by two random insertions. The instances are Taillard-style, generated here ($n\in\{50,100\}$, $m\in\{10,20\}$; $30$ test and $10$ tuning
+instances per size; $T=300$); comparisons are paired, CPU times are equalised by sequential calibration, and the design, the Holm family of five tests and the predictions were recorded before the test (Table~\ref{tab:f36_pfsp}).
+
+\paragraph{The active ingredient is yet another}
+In the flowshop the destruction--reconstruction cycle does not separate the methods: the IG and the ILS, with the same local search, are equivalent at equal CPU time ($-0.03\%$, $p_{\mathrm{Holm}}=0.18$; the
+prediction that the IG would win was wrong). The local search, however, pays its cost: the IG without it, with $17$ to $57$ times more iterations for the same CPU time, is worse by $0.21\%$ ($65$ wins against $17$,
+$p_{\mathrm{Holm}}=10^{-6}$), the opposite of what was found for identical machines. The active ingredient is thus the destruction--reconstruction cycle for identical machines, its combination with a descent for unrelated
+machines and the local search for the flowshop, and only an ablation at equal CPU time reveals which.
+
+\paragraph{The policy over the destruction size is harmful again}
+Q-Learning over $d$ is worse than random choice of $d$ ($+0.14\%$, $p_{\mathrm{Holm}}=5\times10^{-4}$), the validated size beats it by $0.16\%$ ($p_{\mathrm{Holm}}=8\times10^{-5}$), and the headroom of the size over
+random choice is null ($-0.02\%$). The signs of the predictions recorded beforehand were right, except that the validated size was expected only to match the agent.
+
+\input{f36_pfsp.tex}
+
+\paragraph{Synthesis}
+Table~\ref{tab:f35_synthesis} puts the seven environments side by side. The oracle headroom is negative (some fixed action beats random selection per instance) in six of the seven, and the validated choice
+captures a part of it wherever it is real. The agent behaves differently by type of action. Over qualitatively different destruction \emph{strategies} its gain is small but never positive, and it recovers
+$0.44$ to $0.68$ of the validated gain at $1000\times50$ and on the standard benchmark. Over the destruction \emph{size}, an ordered parameter, it is worse than random choice in all three problems
+($+0.015\%$, $+0.152\%$, $+0.142\%$), although the size has headroom that validation captures in two of them. This regularity was noticed after the results and is a hypothesis, not a finding: headroom is necessary for a
+policy gain, and whether an online agent can use it seems to depend on the type of action and on how early the reward arrives.
+
+\input{f35_synthesis.tex}

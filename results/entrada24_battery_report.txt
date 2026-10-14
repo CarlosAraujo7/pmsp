@@ -1,0 +1,159 @@
+=== TABELA gap_pct MEDIO (%) por metodo x classe ===
+instance      rand_20j_4m  rand_20j_6m  rand_30j_8m  rand_50j_10m  rand_75j_15m  rand_100j_20m
+method                                                                                        
+lpt                1.9545       4.3982       3.5882        2.0406        2.2599         2.1710
+ils_random         0.0310       1.0223       0.5663        0.7004        1.1496         1.2225
+ils_ucb            0.2549       1.6147       1.1914        1.1584        1.6516         1.5750
+ils_rf             0.0430       1.0141       0.6880        0.7125        1.1010         1.3121
+ils_ql             0.0532       1.1416       0.6606        0.6409        1.1061         1.3588
+ils_ql_hi          0.0532       1.0436       0.4406        0.5066        0.9110         1.2423
+ils_rand_hi        0.0310       1.0044       0.3739        0.4223        0.8661         1.0606
+ils_ql_ws          0.0406       1.0900       0.6846        0.6565        1.1292         1.3461
+ils_sarsa          0.0138       1.1256       0.7740        0.7027        1.0994         1.2712
+ils_pm             0.0245       1.2053       0.6644        0.5496        1.0484         1.2824
+ils_ap             0.0395       1.0552       0.6274        0.6657        1.1270         1.2622
+ils_op2_only       0.3958       1.9204       1.6939        1.1352        1.6015         1.5905
+ils_op3_only       1.8248       4.0635       3.3624        1.8995        2.2081         2.1458
+ils_op4_only       0.3460       1.9579       1.8005        1.2097        1.5162         1.6175
+ig_ql              0.0000       0.6139       0.1894        0.2548        0.5872         0.6377
+
+=== N de replicas por metodo x classe (confirmar 30 em tudo) ===
+instance      rand_20j_4m  rand_20j_6m  rand_30j_8m  rand_50j_10m  rand_75j_15m  rand_100j_20m
+method                                                                                        
+lpt                    30           30           30            30            30             30
+ils_random             30           30           30            30            30             30
+ils_ucb                30           30           30            30            30             30
+ils_rf                 30           30           30            30            30             30
+ils_ql                 30           30           30            30            30             30
+ils_ql_hi              30           30           30            30            30             30
+ils_rand_hi            30           30           30            30            30             30
+ils_ql_ws              30           30           30            30            30             30
+ils_sarsa              30           30           30            30            30             30
+ils_pm                 30           30           30            30            30             30
+ils_ap                 30           30           30            30            30             30
+ils_op2_only           30           30           30            30            30             30
+ils_op3_only           30           30           30            30            30             30
+ils_op4_only           30           30           30            30            30             30
+ig_ql                  30           30           30            30            30             30
+
+=== SANITY CHECK: ig_ql nunca pior que LPT (makespan_ig_ql <= makespan_lpt) ===
+  rand_20j_4m: violacoes=0 (n pares=30)
+  rand_20j_6m: violacoes=0 (n pares=30)
+  rand_30j_8m: violacoes=0 (n pares=30)
+  rand_50j_10m: violacoes=0 (n pares=30)
+  rand_75j_15m: violacoes=0 (n pares=30)
+  rand_100j_20m: violacoes=0 (n pares=30)
+TOTAL violacoes: 0 (esperado: 0)
+
+=== WILCOXON pareado (rep): ig_ql vs cada baseline, por classe ===
+          classe             vs   gap_igql    gap_ref  wins  loss  ties      p-value
+     rand_20j_4m     ils_random     0.0000     0.0310     2     0    28     0.179712
+     rand_20j_4m        ils_ucb     0.0000     0.2549    13     0    17     0.001474
+     rand_20j_4m         ils_rf     0.0000     0.0430     3     0    27     0.108809
+     rand_20j_4m         ils_ql     0.0000     0.0532     4     0    26     0.067889
+     rand_20j_4m      ils_ql_hi     0.0000     0.0532     4     0    26     0.067889
+     rand_20j_4m    ils_rand_hi     0.0000     0.0310     2     0    28     0.179712
+     rand_20j_4m      ils_ql_ws     0.0000     0.0406     3     0    27     0.108809
+     rand_20j_4m      ils_sarsa     0.0000     0.0138     1     0    29     0.317311
+     rand_20j_4m         ils_pm     0.0000     0.0245     2     0    28     0.179712
+     rand_20j_4m         ils_ap     0.0000     0.0395     3     0    27     0.108809
+     rand_20j_6m     ils_random     0.6139     1.0223    14     0    16     0.000982
+     rand_20j_6m        ils_ucb     0.6139     1.6147    23     1     6     0.000030
+     rand_20j_6m         ils_rf     0.6139     1.0141    16     0    14     0.000437
+     rand_20j_6m         ils_ql     0.6139     1.1416    19     1    10     0.000253
+     rand_20j_6m      ils_ql_hi     0.6139     1.0436    17     1    12     0.000455
+     rand_20j_6m    ils_rand_hi     0.6139     1.0044    14     1    15     0.001470
+     rand_20j_6m      ils_ql_ws     0.6139     1.0900    16     0    14     0.000438
+     rand_20j_6m      ils_sarsa     0.6139     1.1256    16     0    14     0.000438
+     rand_20j_6m         ils_pm     0.6139     1.2053    18     0    12     0.000196
+     rand_20j_6m         ils_ap     0.6139     1.0552    17     1    12     0.000386
+     rand_30j_8m     ils_random     0.1894     0.5663    20     3     7     0.001560
+     rand_30j_8m        ils_ucb     0.1894     1.1914    26     0     4     0.000008
+     rand_30j_8m         ils_rf     0.1894     0.6880    20     0    10     0.000088
+     rand_30j_8m         ils_ql     0.1894     0.6606    22     2     6     0.000162
+     rand_30j_8m      ils_ql_hi     0.1894     0.4406    15     3    12     0.005305
+     rand_30j_8m    ils_rand_hi     0.1894     0.3739    14     4    12     0.064154
+     rand_30j_8m      ils_ql_ws     0.1894     0.6846    20     0    10     0.000088
+     rand_30j_8m      ils_sarsa     0.1894     0.7740    23     0     7     0.000027
+     rand_30j_8m         ils_pm     0.1894     0.6644    21     1     8     0.000260
+     rand_30j_8m         ils_ap     0.1894     0.6274    19     0    11     0.000132
+    rand_50j_10m     ils_random     0.2548     0.7004    23     1     6     0.000027
+    rand_50j_10m        ils_ucb     0.2548     1.1584    27     0     3     0.000006
+    rand_50j_10m         ils_rf     0.2548     0.7125    21     1     8     0.000053
+    rand_50j_10m         ils_ql     0.2548     0.6409    20     3     7     0.000153
+    rand_50j_10m      ils_ql_hi     0.2548     0.5066    17     3    10     0.000635
+    rand_50j_10m    ils_rand_hi     0.2548     0.4223    15     5    10     0.009996
+    rand_50j_10m      ils_ql_ws     0.2548     0.6565    18     2    10     0.000189
+    rand_50j_10m      ils_sarsa     0.2548     0.7027    21     0     9     0.000060
+    rand_50j_10m         ils_pm     0.2548     0.5496    18     1    11     0.000182
+    rand_50j_10m         ils_ap     0.2548     0.6657    22     0     8     0.000040
+    rand_75j_15m     ils_random     0.5872     1.1496    23     1     6     0.000056
+    rand_75j_15m        ils_ucb     0.5872     1.6516    27     1     2     0.000006
+    rand_75j_15m         ils_rf     0.5872     1.1010    20     2     8     0.000155
+    rand_75j_15m         ils_ql     0.5872     1.1061    20     2     8     0.000334
+    rand_75j_15m      ils_ql_hi     0.5872     0.9110    18     4     8     0.001549
+    rand_75j_15m    ils_rand_hi     0.5872     0.8661    17     4     9     0.005142
+    rand_75j_15m      ils_ql_ws     0.5872     1.1292    21     4     5     0.000364
+    rand_75j_15m      ils_sarsa     0.5872     1.0994    21     2     7     0.000233
+    rand_75j_15m         ils_pm     0.5872     1.0484    19     3     8     0.000334
+    rand_75j_15m         ils_ap     0.5872     1.1270    21     2     7     0.000162
+   rand_100j_20m     ils_random     0.6377     1.2225    23     2     5     0.000072
+   rand_100j_20m        ils_ucb     0.6377     1.5750    24     1     5     0.000020
+   rand_100j_20m         ils_rf     0.6377     1.3121    22     3     5     0.000126
+   rand_100j_20m         ils_ql     0.6377     1.3588    23     2     5     0.000113
+   rand_100j_20m      ils_ql_hi     0.6377     1.2423    21     2     7     0.000332
+   rand_100j_20m    ils_rand_hi     0.6377     1.0606    19     4     7     0.001405
+   rand_100j_20m      ils_ql_ws     0.6377     1.3461    22     2     6     0.000115
+   rand_100j_20m      ils_sarsa     0.6377     1.2712    21     2     7     0.000295
+   rand_100j_20m         ils_pm     0.6377     1.2824    23     2     5     0.000090
+   rand_100j_20m         ils_ap     0.6377     1.2622    22     2     6     0.000182
+
+=== CPU TIME: media (s) por metodo x classe ===
+instance     rand_20j_4m  rand_20j_6m  rand_30j_8m  rand_50j_10m  rand_75j_15m  rand_100j_20m
+method                                                                                       
+ils_random        0.0864       0.0873       0.1126        0.3890        0.6254         0.9191
+ils_ql            0.1096       0.1092       0.1603        0.6213        1.1112         1.7021
+ils_ql_hi         0.1669       0.1638       0.3307        0.7918        1.8360         5.8129
+ils_rand_hi       0.3732       0.3752       0.5999        0.9896        1.9421         3.7774
+ig_ql             0.1190       0.1211       0.1272        0.1436        0.1597         0.1821
+
+=== RAZAO cpu_time: ig_ql / ils_ql por classe ===
+  rand_20j_4m: ig_ql=0.1190s  ils_ql=0.1096s  razao=1.0865
+  rand_20j_6m: ig_ql=0.1211s  ils_ql=0.1092s  razao=1.1089
+  rand_30j_8m: ig_ql=0.1272s  ils_ql=0.1603s  razao=0.7932
+  rand_50j_10m: ig_ql=0.1436s  ils_ql=0.6213s  razao=0.2311
+  rand_75j_15m: ig_ql=0.1597s  ils_ql=1.1112s  razao=0.1437
+  rand_100j_20m: ig_ql=0.1821s  ils_ql=1.7021s  razao=0.1070
+
+=== n_improvements medio: ig_ql vs ils_ql vs ils_random ===
+  rand_20j_4m ils_random: n_improvements_mean=2.77
+  rand_20j_4m ils_ql: n_improvements_mean=2.63
+  rand_20j_4m ig_ql: n_improvements_mean=3.17
+  rand_20j_6m ils_random: n_improvements_mean=2.93
+  rand_20j_6m ils_ql: n_improvements_mean=2.77
+  rand_20j_6m ig_ql: n_improvements_mean=3.17
+  rand_30j_8m ils_random: n_improvements_mean=3.80
+  rand_30j_8m ils_ql: n_improvements_mean=3.57
+  rand_30j_8m ig_ql: n_improvements_mean=4.20
+  rand_50j_10m ils_random: n_improvements_mean=2.17
+  rand_50j_10m ils_ql: n_improvements_mean=2.30
+  rand_50j_10m ig_ql: n_improvements_mean=3.53
+  rand_75j_15m ils_random: n_improvements_mean=2.10
+  rand_75j_15m ils_ql: n_improvements_mean=2.20
+  rand_75j_15m ig_ql: n_improvements_mean=3.00
+  rand_100j_20m ils_random: n_improvements_mean=1.93
+  rand_100j_20m ils_ql: n_improvements_mean=1.63
+  rand_100j_20m ig_ql: n_improvements_mean=3.07
+
+=== 7 metodos novos: gap_pct medio, todas as 6 classes agregadas ===
+                mean     std  count
+method                             
+ig_ql         0.3805  0.6215    180
+ils_ap        0.7961  0.8197    180
+ils_op2_only  1.3896  0.9870    180
+ils_op3_only  2.5840  1.7141    180
+ils_op4_only  1.4080  1.0132    180
+ils_pm        0.7958  0.8048    180
+ils_ql        0.8269  0.8635    180
+ils_random    0.7820  0.8120    180
+ils_sarsa     0.8311  0.8227    180

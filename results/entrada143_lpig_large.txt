@@ -1,0 +1,23 @@
+==============================================================================================================
+O LP-IG BATE O MILP-60s EM R||Cmax n = 1000, m = 50? -- Entrada 143
+==============================================================================================================
+instancias: 32
+
+--- PRIMARIA (Holm sobre 2) ---
+id                comparison  n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial  p_raw  p_holm  confirmada
+M1 lpig (T=1000) vs MILP-60s 32      15     12    5     -0.7578   -2.102   0.1275        -0.5026 0.3612  0.7224       False
+M2    lpig_T5000 vs MILP-60s 32      15     12    5     -0.7578   -2.102   0.1275        -0.5026 0.3612  0.7224       False
+
+'o LP-IG bate o MILP-60s onde o IG+LS-QL perdia': NAO
+
+GAP medio ao melhor limite inferior (%): IG+LS-QL T=1000 (E127) 4.153, IG+LS-QL T=5000 (E127) 2.782, LP-IG T=1000 1.088, LP-IG T=5000 1.088, MILP-60s 2.040
+CPU medio por execucao (s): LP-IG T=1000 6.5; LP-IG T=5000 29.9; MILP 50.7
+LP-IG <= MILP em 62.5% (T=1000) e 62.5% (T=5000); IG+LS-QL T=5000 (E127) em 28.1%
+
+Por distribuicao (GAP % ao melhor LB; % LP-IG <= MILP)
+          milp    lpig   lpig5  igls_ql5  lpig_le_milp
+lo  hi                                                
+1   100  1.226   2.457   2.457      6.37          37.5
+10  100  6.248   1.589   1.589     4.055          87.5
+100 120 0.1186 0.03121 0.03121    0.1373            50
+    200 0.5658  0.2767  0.2767    0.5658            75

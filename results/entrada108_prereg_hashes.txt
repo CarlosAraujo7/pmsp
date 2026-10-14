@@ -1,0 +1,13 @@
+3f53911b30cc577d2f634adda67ee728 *pmsp/generators.py
+2205dacbaa515e531b02a37a94782c67 *pmsp/ig.py
+9a7cbc9b5c5a781489d69200289e0bd1 *pmsp/ldm.py
+881ae7159d3f3d55bbce0dfbd01e8331 *pmsp/seeding.py
+4c6267ed02452d58203081a3361b3a7d *pmsp/exact.py
+ea6486b678b08e5adccef55ccf634251 *experiment/runner.py
+ebd6732feb2dbd915d65c59e4714a139 *experiment/run_new_distributions_entrada108.py
+f8d1e7c751f0a08f7a086d0c8d9b8b5b *analysis/report_entrada108_new_distributions.py
+3fda84f1b648517da1fbe7489dd5253c *pmsp/apriori_select.py
+5050fc0085b03183ff9f24a3b851d90d *experiment/run_new_distributions_entrada108.py
+# EMENDA 1 (fase exata): ignora LP quando #tamanhos x UB > 3e6 (usa LB classico melhorado); decidida ao ver a fase exata travar em u1_10000, ANTES de qualquer analise de resultados
+236abade25fbf95ec2999610245ae466 *experiment/run_new_distributions_entrada108.py
+# EMENDA 2 (fase exata): limiar rebaixado para 4e5 (3e6 ainda deixava u1_10000 n>=50 levando >10 min/instancia); linhas ja resolvidas pelo LP permanecem; decidida antes de analisar resultados

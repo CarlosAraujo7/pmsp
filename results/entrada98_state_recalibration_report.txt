@@ -1,0 +1,85 @@
+====================================================================================================
+DIAGNOSTICO DO ESTADO (QL recalibrado): ocupacao dos bins f1/f2 e estados distintos por corrida
+====================================================================================================
+            distinct_states  f1_max_bin_share  f2_max_bin_share  runs
+method                                                               
+ig_ql_cal             18.13            0.6834            0.6162  1200
+ig_ql_rel                18             0.724            0.6569  1200
+ils_ql_cal            26.77            0.6111            0.5758  1200
+ils_ql_rel            26.82            0.6429            0.5387  1200
+(participacao media do bin mais ocupado; 1,0 = feature constante; estado padrao = 1,0 em f1 e f2)
+
+====================================================================================================
+ITEM 1 -- PRIMARIA
+====================================================================================================
+
+--- familia IG: Holm sobre 2 (mean_rel_d<0 => metodo MELHOR que o controle; rank_biserial>0 => metodo PIOR) ---
+   n  better  worse  tie  mean_rel_d  pooled_rel_change_pct  rank_biserial  p_raw    method        vs  p_holm  reject
+1200     171    145  884    0.003173                 -3.137        -0.1092 0.2667 ig_ql_cal ig_random  0.2783   False
+1200     157    126  917    -0.04613                 -3.648        -0.1508 0.1391 ig_ql_rel ig_random  0.2783   False
+VEREDITO IG: NULO
+
+--- familia ILS: Holm sobre 2 (mean_rel_d<0 => metodo MELHOR que o controle; rank_biserial>0 => metodo PIOR) ---
+   n  better  worse  tie  mean_rel_d  pooled_rel_change_pct  rank_biserial    p_raw     method         vs   p_holm  reject
+1200     113    157  930      0.0672                  4.826         0.2193  0.00445 ils_ql_cal ils_random 0.008899    True
+1200     118    156  926       0.068                  4.675         0.2073 0.006357 ils_ql_rel ils_random 0.008899    True
+VEREDITO ILS: EFEITO CONTRARIO
+
+====================================================================================================
+ITEM 1 -- SECUNDARIAS (descritivas)
+====================================================================================================
+
+--- secundarias (Holm sobre o conjunto) (mean_rel_d<0 => metodo MELHOR que o controle; rank_biserial>0 => metodo PIOR) ---
+   n  better  worse  tie  mean_rel_d  pooled_rel_change_pct  rank_biserial     p_raw     method               vs   p_holm  reject
+1200     161    106  933    -0.08783                 -4.925        -0.2148  0.002428  ig_ql_cal       ig_ql_flat  0.01214    True
+1130      89    107  934     0.01097                  1.129        0.02849    0.7926  ig_ql_cal            ig_ql        1   False
+ 600      42     54  504     0.04348                  1.826         0.1879    0.1398 ils_ql_cal ils_ql (6 orig.)   0.5594   False
+1200     164    106  930     -0.1175                 -5.426        -0.2078 0.0007215  ig_ql_rel       ig_ql_flat 0.004329    True
+1130      89    101  940    -0.01186                 0.5938       0.004519    0.9989  ig_ql_rel            ig_ql        1   False
+ 600      43     50  507     0.04281                  1.577         0.1789    0.2364 ils_ql_rel ils_ql (6 orig.)   0.7093   False
+
+media de gap por classe e metodo:
+               ig_random   ig_ql  ig_ql_flat  ig_ql_cal  ig_ql_rel  ils_random  ils_ql  ils_ql_cal  ils_ql_rel
+rand_20j_4m      0.01501       0     0.02341    0.01565     0.0115      0.0498 0.05851      0.0696     0.07069
+rand_20j_6m       0.4031  0.4255      0.4466     0.4302     0.3902      0.7672  0.8598      0.9297      0.9262
+rand_30j_8m       0.2664  0.2108      0.2388      0.223     0.2211      0.5974  0.6774      0.6716       0.658
+rand_40j_5m      0.01609 0.02055      0.0294    0.02056     0.0159      0.0199 0.01919     0.02113     0.02133
+rand_50j_10m       0.319   0.291      0.3268     0.3144      0.315       0.671  0.6317      0.6172      0.6138
+rand_60j_20m       0.835  0.8543      0.8731     0.7992     0.8325       3.955   4.221       4.229       4.229
+rand_75j_15m       0.571  0.5592      0.5585     0.5483     0.5555      0.9816   0.966      0.9902      0.9902
+rand_100j_20m     0.7426  0.6662      0.7536     0.6992     0.6962       1.191   1.225        1.22       1.229
+rand_150j_15m     0.1627  0.1663      0.1761     0.1706     0.1723       0.219  0.2148      0.2206      0.2206
+rand_150j_30m     0.8692  0.8158      0.8557     0.8593     0.8421       1.668   1.681       1.661       1.654
+rand_250j_25m     0.1892  0.1747      0.1906     0.1649      0.169      0.2735  0.2676      0.2697      0.2716
+rand_300j_20m    0.06816 0.07355     0.06839    0.07228    0.07348     0.09438 0.09564     0.09441     0.09441
+
+====================================================================================================
+ITEM 2 -- UCB normalizado
+====================================================================================================
+
+--- primarias do item 2 (Holm sobre 2) (mean_rel_d<0 => metodo MELHOR que o controle; rank_biserial>0 => metodo PIOR) ---
+   n  better  worse  tie  mean_rel_d  pooled_rel_change_pct  rank_biserial     p_raw                                     test    p_holm  reject
+1200     449     25  726     -0.3427                 -23.65        -0.8899 4.158e-66 (a) ils_ucb_norm vs ils_ucb (12 classes) 8.317e-66    True
+ 600      85     89  426    0.003274                -0.7924       -0.03107    0.7764     (b) ils_ql vs ils_ucb_norm (6 orig.)    0.7764   False
+VEREDITO item 2 (alegacao 'UCB1 consistentemente pior / QL vence UCB'): RETRATADA
+
+descritivas:
+   n  better  worse  tie  mean_rel_d  pooled_rel_change_pct  rank_biserial    p_raw       method         vs
+1200      63     65 1072   -0.008765                 0.6303        0.06444   0.6869  ig_ucb_norm     ig_ucb
+1200     114    138  948     0.02459                  3.935         0.1776  0.06876 ils_ucb_norm ils_random
+ 600      21    272  307       1.054                  60.88         0.9021 1.51e-39      ils_ucb ils_random
+
+media de gap por classe:
+               ils_random  ils_ucb  ils_ucb_norm  ils_ql  ig_ucb  ig_ucb_norm
+rand_20j_4m        0.0498    0.201       0.05626 0.05851 0.03146      0.02644
+rand_20j_6m        0.7672    1.422         0.837  0.8598  0.4112       0.4284
+rand_30j_8m        0.5974    1.325        0.6925  0.6774  0.2307       0.2277
+rand_40j_5m        0.0199  0.09363       0.01729 0.01919 0.01836      0.01847
+rand_50j_10m        0.671    1.059        0.6068  0.6317  0.3295       0.3401
+rand_60j_20m        3.955    4.731         4.196   4.221  0.8485       0.8847
+rand_75j_15m       0.9816    1.392         1.028   0.966  0.5741       0.5671
+rand_100j_20m       1.191    1.451         1.233   1.225  0.7327       0.7176
+rand_150j_15m       0.219   0.3028        0.2263  0.2148  0.1666       0.1666
+rand_150j_30m       1.668    1.863         1.646   1.681  0.8746         0.87
+rand_250j_25m      0.2735   0.3184        0.2677  0.2676  0.1828       0.1828
+rand_300j_20m     0.09438   0.1192        0.0944 0.09564 0.07228      0.07099

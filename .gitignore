@@ -1,0 +1,79 @@
+# --- Dated backup snapshots created during iterative editing ---------------
+# This project's actual version history lives in `diario_pesquisa.md` and
+# `ANALISE_E_PLANO_EJOR.md` (a detailed research diary predating git in this
+# project) and, from now on, in git itself. The dated "*_backup_*" /
+# "*_pre_..._backup*" copies scattered across the tree were a manual
+# substitute for version control and are now redundant with git history.
+*_backup_*.py
+*_backup_*.tex
+*_backup_*.bib
+*_backup_*.md
+*_backup_*.csv
+*_backup_*.txt
+*pre_*backup*.py
+*pre_*backup*.tex
+*pre_*backup*.bib
+*pre_*backup*.md
+*pre_*backup*.csv
+*pre_*backup*.txt
+
+# --- Diary-append working files ---------------------------------------------
+# Each diary entry (Entrada N) was appended via a small trio of files
+# (entradaN_text.md, notaN_text.txt, append_entradaN.py). Their content is
+# already inside diario_pesquisa.md / ANALISE_E_PLANO_EJOR.md, so keeping
+# ~90 sets of these separately would just duplicate the record.
+entrada*_text.md
+entrada*_text_tmp.md
+nota*_text.txt
+nota*_text_tmp.txt
+append_entrada*.py
+
+# --- Python ------------------------------------------------------------------
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+
+# --- LaTeX build artifacts ---------------------------------------------------
+# Regenerated from paper/learnheuristic_pmsp.tex + paper/refs.bib by
+# xelatex/bibtex; only the sources and the figures they include are tracked.
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/*.synctex.gz
+paper/*.spl
+paper/*.pdf
+
+# --- Scratch / intermediate files not part of the reported results ---------
+_scratch_*
+*_tmp.*
+*.log
+
+# --- Explicitly superseded/deprecated material ------------------------------
+archive/
+_to_delete/
+
+# --- Third-party public benchmark (Ostojic et al., 2025) -------------------
+# Redistributing the raw dataset here would just duplicate someone else's
+# data. See external_benchmarks/pcmax_symmetry2025/README.md for the
+# canonical download URL; loader.py reads directly from the downloaded
+# .zip files, and manifest.csv (tracked) records exactly which instances
+# this study sampled. Results_iAF.xlsx is the source's own reference
+# solutions file, also third-party and re-downloadable from the same place.
+external_benchmarks/pcmax_symmetry2025/*.zip
+external_benchmarks/pcmax_symmetry2025/extracted/
+external_benchmarks/pcmax_symmetry2025/Results_iAF.xlsx
+
+# --- Reference material supplied for formatting guidance, not this
+# project's own output (possibly copyrighted third-party papers). ----------
+Artigos EJOR - Exemplo/
+
+# --- OS / editor cruft -------------------------------------------------------
+.DS_Store
+Thumbs.db
+
+# --- R||Cmax benchmark data (not redistributed; see its README) ---------------
+external_benchmarks/rcmax_fanjul_ruiz/raw/
+external_benchmarks/rcmax_fanjul_ruiz/extracted/

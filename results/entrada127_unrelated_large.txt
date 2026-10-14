@@ -1,0 +1,30 @@
+==============================================================================================================
+R||Cmax n=1000, m=50: O IG BATE O MILP ONDE ELE NAO ALCANCA? -- Entrada 127
+==============================================================================================================
+instancias: 32 | MILP-60s sem incumbente: 0
+
+--- PRIMARIA (Holm sobre 2; instancias com incumbente do MILP) ---
+id                      comparison  n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi    p_raw    p_holm  confirmada
+G1 ur_igls_ql (T=1000) vs MILP-60s 32       3     28    1       2.241   0.6641    3.573 5.88e-05 0.0001176       False
+G2    ur_igls_ql_T5000 vs MILP-60s 32       8     23    1      0.8866  -0.4552    1.952  0.02296   0.02296       False
+
+'o IG bate o MILP onde ele nao alcanca' (G1): NAO | G2: NAO
+
+--- GAP medio ao melhor limite inferior e frequencias ---
+  mct                GAP 16.784%
+  ur_igls_random     GAP 4.729%
+  ur_igls_ql         GAP 4.153%
+  ur_igls_ql_T5000   GAP 2.782%
+  MILP-60s (com incumbente) GAP 2.040% | otimo provado 28.1%
+  IG(T=1000) <= MILP-60s em 12.5% | IG(T=5000) <= MILP em 28.1% (ausente conta como vitoria do IG)
+  MILP-60s pior que o construtivo MCT em 1 instancias
+  CPU medio (s): mct 0.0, ur_igls_random 5.5, ur_igls_ql 7.7, ur_igls_ql_T5000 37.1 | MILP-60s 50.7
+  politica ql vs random (32 instancias, descritivo): d = -0.523% (IC90 -0.809; -0.258)
+
+Por distribuicao: GAP ao melhor LB do MILP-60s, do IG (T=1000) e do IG (T=5000); % IG <= MILP
+         milp_gap  ig_gap  ig5_gap  igle
+lo  hi                                  
+1   100     1.226   9.543     6.37     0
+10  100     6.248   4.932    4.055  12.5
+100 120    0.1186  0.2559   0.1373    25
+    200    0.5658   1.882   0.5658  12.5

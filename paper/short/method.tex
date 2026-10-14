@@ -1,0 +1,108 @@
+\section{Problems, Mechanisms and the Attribution Protocol}
+\label{sec:problem}
+
+\subsection{Problems and instances}
+
+\paragraph{Identical parallel machines (P$||C_{\max}$)}
+Jobs $\mathcal J=\{1,\ldots,n\}$ with processing times $p_j>0$ are assigned to $m$ identical machines to minimise $C_{\max}=\max_i\sum_{j\in S_i}p_j$; the problem is NP-hard
+\citep{GareyJohnson1979}. The classical bound is $\mathrm{LB}=\max(\max_jp_j,\lceil\sum_jp_j/m\rceil)$ \citep{Graham1969}, with $\mathrm{GAP}(\%)=100\,(C_{\max}-\mathrm{LB})/\mathrm{LB}$.
+A certified, tighter bound comes from the linear relaxation of the arc-flow model \citep{MradSouayah2018,GharbiBamatraf2022} (validated against $150$ proven optima; Supplement). The
+synthetic instances have $p_j\sim U[1,100]$ in twelve classes $(n,m)$ with $n/m$ from $3$ to $15$; the published instances are the families B, C, E and F of the benchmark of
+\citet{OstojicEtAl2025}.
+
+\paragraph{Unrelated parallel machines (R$||C_{\max}$)}
+The processing time $p_{ij}$ depends on the machine; the classical bound is $\max\{\max_j\min_ip_{ij},\lceil\sum_j\min_ip_{ij}/m\rceil\}$ and the linear relaxation of the assignment model is
+stronger \citep{LenstraEtal1990}. Synthetic instances use four distributions ($U[1,100]$, $U[10,100]$, $U[100,200]$, $U[100,120]$); the standard benchmark of \citet{FanjulPeyroRuiz2010}
+(in the copy distributed with \citealt{AbladEtAl2021}) has $1{,}400$ instances (seven types, $m\in\{10,\ldots,50\}$, $n\in\{100,\ldots,1000\}$) with the best solution known from CPLEX
+(two hours), Gurobi and an exact method (300 seconds each).
+
+\paragraph{Permutation flowshop ($Fm|prmu|C_{\max}$)}
+Jobs visit $m$ machines in the same order and the sequence is a permutation; instances are generated as in Taillard ($p\sim U\{1,\ldots,99\}$, $n\in\{50,100\}$, $m\in\{10,20\}$).
+
+\subsection{Search mechanisms and selectors}
+\label{sec:method}
+
+\paragraph{Iterated Local Search}
+\label{sec:ils}
+The ILS starts from LPT and, at each iteration, an adaptive selector chooses one of four neighbourhood operators (inter-swap, reinsert, intra-swap, block-move), applied under best improvement; after
+$50$ non-improving iterations three random moves restart the search from the incumbent. For the flowshop the ILS uses the same insertion local search as the IG and perturbs by two random insertions.
+
+\paragraph{Iterated Greedy}
+\label{sec:ig}
+The IG (Algorithm~\ref{alg:ig}) alternates destruction (removing $d$ jobs) and greedy reconstruction, with no separate perturbation phase \citep{RuizStutzle2007}. For P$||C_{\max}$ the selector
+chooses among three destruction strategies (random, longest jobs, machine-concentrated) with $d=\max(2,\mathrm{round}(0.3n))$ unless stated, and removed jobs are reinserted in non-increasing
+time onto the least-loaded machine; acceptance is greedy ($C_{\max}(x')\leq C_{\max}(x)$). For R$||C_{\max}$ there are four strategies (random, largest on the current machine, random machine,
+critical machine), reinsertion at the earliest completion and an optional descent that moves or swaps jobs from the critical machine. For the flowshop the IG starts from NEH, reinserts at the best
+position (Taillard's acceleration), applies an insertion local search and accepts with a constant temperature. The reward of an iteration is the improvement of the makespan, truncated at zero.
+
+\begin{algorithm}[tb]
+\caption{IG with an adaptive selector}
+\label{alg:ig}
+\begin{algorithmic}[1]
+\REQUIRE Instance, iteration budget $T$, selector (random, UCB1, Q-Learning, fixed action), destruction size $d$
+\STATE $x \leftarrow$ constructive solution; $x^{*} \leftarrow x$
+\FOR{$t = 1, \ldots, T$}
+\STATE $a \leftarrow \mathrm{Selector}(s_t)$; \quad $x' \leftarrow \mathrm{Reconstruct}(\mathrm{Destroy}(x,\, a,\, d))$ \hfill (+ local search, where used)
+\STATE $r \leftarrow \max\bigl(C_{\max}(x) - C_{\max}(x'),\, 0\bigr)$; \quad update the selector with $(s_t, a, r)$
+\IF{$x'$ is accepted}\STATE $x \leftarrow x'$\ENDIF
+\IF{$C_{\max}(x) < C_{\max}(x^{*})$}\STATE $x^{*} \leftarrow x$\ENDIF
+\ENDFOR
+\RETURN~$x^{*}$
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{State and agent}
+\label{sec:state}
+\label{sec:qlm}
+The Q-Learning agent keeps a table over $81$ states ($4$ features $\times$ $3$ bins: gap or improvement relative to a reference, load imbalance, fraction of the budget used, stagnation) and the
+actions of the selector, updates $Q(s,a)\leftarrow Q(s,a)+\alpha[r+\gamma\max_{a'}Q(s',a')-Q(s,a)]$ with $\alpha=0.1$, $\gamma=0.9$ (Equation~\ref{eq:ql}), and explores
+$\varepsilon$-greedily with $\varepsilon$ decaying from $1.0$ to $0.05$ by a factor of $0.995$ per step. The table is learned online, from zero, in each run. With the original thresholds the
+two features that describe the incumbent are constant in IG runs for identical machines; recalibrated states (terciles of calibration runs, or values relative to the start) were also tested and
+change no conclusion (Supplement).
+\begin{equation}
+  Q(s,a) \leftarrow Q(s,a) + \alpha \bigl[ r + \gamma \max_{a'} Q(s', a') - Q(s,a) \bigr].
+  \label{eq:ql}
+\end{equation}
+
+\paragraph{Controls and baselines}
+\label{sec:igvariants}
+Four selectors isolate the components of the agent: \texttt{ig\_random} (uniform selection: the control of the protocol), \texttt{ig\_ucb} (UCB1 normalised to $[0,1]$, no state),
+\texttt{ig\_ucb\_ctx} (UCB1 within each state, no temporal-difference learning) and \texttt{ig\_ql\_flat} (Q-Learning with a single state), against the full \texttt{ig\_ql}. The published
+baselines (LPT, MULTIFIT, LDM, simulated annealing, bee colony) and their budget sensitivity are in the supplement.
+
+\subsection{The budget-fair attribution protocol}
+\label{sec:protocol}
+
+Every comparison in this article follows the same eight rules, which are the methodological contribution.
+
+\paragraph{1. Random control at a matched budget}
+The policy effect is the difference between the learned selector and uniform random selection over the same actions, the same iterations and the same instances; differences are
+$\bar d=100\,(A-B)/B$ in the makespan (negative: $A$ better), computed per instance and tested in pairs.
+
+\paragraph{2. Equal CPU time, calibrated sequentially}
+An agent changes the CPU time per iteration and a local search multiplies it, so equal iteration counts are not equal budgets. For each pair, the ratio of CPU times is measured on separate
+instances, in sequence, on an otherwise idle machine, and the cheaper method receives the corresponding number of iterations; timings of parallel runs depend on the machine load and are not used
+for this.
+
+\paragraph{3. A configuration validated offline}
+The competitor of an online policy is the best fixed action, chosen on separate tuning instances of the same type, size or class. It is a stronger baseline than random selection and the
+natural alternative for the practitioner.
+
+\paragraph{4. Headroom and capture}
+The headroom of an action space is the gain of the best fixed action per instance (an oracle that includes selection noise) over random selection; the capture ratio is the fraction of the
+validated gain that the learned policy attains.
+
+\paragraph{5. Certified bounds and third-party references}
+Gaps are reported against a certified lower bound (arc-flow or assignment relaxation) and, for unrelated machines, against the best solutions known from CPLEX, Gurobi and an exact method.
+
+\paragraph{6. Paired tests with multiplicity control and equivalence margins}
+Wilcoxon signed-rank tests on paired instances, Holm--Bonferroni within each pre-specified family \citep{Wilcoxon1945,Holm1979,DerracEtal2011}, rank-biserial effect sizes
+\citep{Kerby2014}, bootstrap intervals (90\%) and practical-equivalence margins of $\pm0.05\%$ ($\pm0.10\%$ where stated).
+
+\paragraph{7. Pre-registration with hashes}
+Hypotheses, decision rules and the md5 hashes of the code and data are recorded in a dated, append-only research diary \emph{before} each analysis; amendments are logged before any test data are
+read; predictions are recorded before the runs and the cases in which they failed are reported. The diary is a dated, hash-stamped record, not a public registry.
+
+\paragraph{8. Separate tuning, test and reserve instances}
+Parameters, thresholds and the validated configuration are fitted on tuning instances only; tests use other instances; a reserve is touched once. Exploratory analyses decided after seeing results are
+labelled as such.

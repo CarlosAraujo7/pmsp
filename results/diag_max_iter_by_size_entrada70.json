@@ -1,0 +1,59 @@
+{
+  "description": "Diagnostico Task #101 (Entrada 70): cobertura de estados (agent.visits, N_STATES=81) ao final de UMA rodada de ils_run(), variando max_iter, seed=1 (curva unica por classe, nao multi-seed -- ver ressalva no diario). Mede o mesmo uso real de ils_ql_hi/ils_rand_hi (agente fresco por instancia, sem warm start). Confirma que o criterio original do config.py (~50% dos 81 estados com 3+ visitas) nao e alcancavel em orcamento pratico para NENHUMA classe testada, incluindo as originais -- usado para escolher um 'ponto de joelho' (ganho substancial x custo) por classe em vez de perseguir 50%.",
+  "original_classes_validation": {
+    "rand_100j_20m": {"n": 100, "m": 20, "perturbation_threshold": 50, "configured_max_iter_by_size": 4000,
+      "curve": [
+        {"max_iter": 1000, "states_1plus": 25, "states_3plus": 22, "cpu_s": 0.92},
+        {"max_iter": 4000, "states_1plus": 32, "states_3plus": 30, "cpu_s": 3.64, "note": "valor real configurado -- ja aqui, 3+ = 30/81 = 37%, nao 50%"},
+        {"max_iter": 8000, "states_1plus": 32, "states_3plus": 32, "cpu_s": 7.43},
+        {"max_iter": 16000, "states_1plus": 30, "states_3plus": 30, "cpu_s": 14.64},
+        {"max_iter": 32000, "states_1plus": 32, "states_3plus": 32, "cpu_s": 28.17}
+      ],
+      "conclusion": "plateau claro por volta de max_iter=4000 (30-32 estados, ~37-39%) -- 8x mais iteracoes (32000) nao melhora nada. O valor real configurado (4000) bate bem com o PONTO DE PLATOU, mas o platou fica bem abaixo dos 50% que o comentario do config.py alega."
+    }
+  },
+  "new_large_classes": {
+    "rand_40j_5m": {"n": 40, "m": 5, "perturbation_threshold": 50, "curve": [
+        {"max_iter": 500, "states_3plus": 12}, {"max_iter": 1000, "states_3plus": 15}, {"max_iter": 2000, "states_3plus": 16},
+        {"max_iter": 4000, "states_3plus": 23}, {"max_iter": 8000, "states_3plus": 25}, {"max_iter": 16000, "states_3plus": 25},
+        {"max_iter": 32000, "states_3plus": 29}, {"max_iter": 64000, "states_3plus": 33}, {"max_iter": 96000, "states_3plus": 36},
+        {"max_iter": 160000, "states_3plus": 36}, {"max_iter": 256000, "states_3plus": 37}
+      ],
+      "conclusion": "sem platou limpo mesmo a 256.000 iteracoes (256x o generico) -- ainda subindo lentamente. Ganho grande entre 2000->4000 (16->23); escolhido max_iter=8000 (joelho pratico, 8x o generico, mesma familia de multiplicador das classes originais)."
+    },
+    "rand_60j_20m": {"n": 60, "m": 20, "perturbation_threshold": 50, "curve": [
+        {"max_iter": 1000, "states_3plus": 22}, {"max_iter": 2000, "states_3plus": 26}, {"max_iter": 4000, "states_3plus": 29},
+        {"max_iter": 8000, "states_3plus": 34}, {"max_iter": 16000, "states_3plus": 32}, {"max_iter": 32000, "states_3plus": 33},
+        {"max_iter": 64000, "states_3plus": 36}
+      ],
+      "conclusion": "ganho forte ate 8000 (34 estados), depois oscila/cresce devagar. Escolhido max_iter=8000 (joelho, 8x o generico)."
+    },
+    "rand_150j_15m": {"n": 150, "m": 15, "perturbation_threshold": 15, "curve": [
+        {"max_iter": 1000, "states_3plus": 10}, {"max_iter": 2000, "states_3plus": 11}, {"max_iter": 4000, "states_3plus": 15},
+        {"max_iter": 8000, "states_3plus": 15}, {"max_iter": 16000, "states_3plus": 18}, {"max_iter": 24000, "states_3plus": 20}
+      ],
+      "conclusion": "crescimento lento e continuo, sem platou ate 24000. Escolhido max_iter=8000 (equilibrio custo/ganho -- alem disso o ganho marginal cai e o custo por rep sobe rapido)."
+    },
+    "rand_150j_30m": {"n": 150, "m": 30, "perturbation_threshold": 15, "curve": [
+        {"max_iter": 1000, "states_3plus": 20}, {"max_iter": 2000, "states_3plus": 21}, {"max_iter": 4000, "states_3plus": 22},
+        {"max_iter": 8000, "states_3plus": 21}, {"max_iter": 16000, "states_3plus": 24}, {"max_iter": 24000, "states_3plus": 25}
+      ],
+      "conclusion": "mesmo padrao de (150,15) (mesmo n) -- usado o MESMO max_iter=8000 pra manter o precedente ja estabelecido nas classes originais de que o mesmo n leva ao mesmo valor (ex.: (20,4) e (20,6) ambos usam 1500)."
+    },
+    "rand_250j_25m": {"n": 250, "m": 25, "perturbation_threshold": 15, "curve": [
+        {"max_iter": 1000, "states_3plus": 10}, {"max_iter": 2000, "states_3plus": 11}, {"max_iter": 4000, "states_3plus": 14},
+        {"max_iter": 8000, "states_3plus": 14}, {"max_iter": 12000, "states_3plus": 14}
+      ],
+      "conclusion": "platou claro por volta de max_iter=4000 (14 estados, ~17%) -- 3x mais iteracoes (12000) nao muda nada. Escolhido max_iter=4000 (bate com o platou observado, evita gastar tempo caro -- 4,55ms/iteracao -- sem ganho)."
+    },
+    "rand_300j_20m": {"n": 300, "m": 20, "perturbation_threshold": 15, "curve": [
+        {"max_iter": 1000, "states_3plus": 9}, {"max_iter": 2000, "states_3plus": 10}, {"max_iter": 4000, "states_3plus": 11},
+        {"max_iter": 8000, "states_3plus": 10}, {"max_iter": 10000, "states_3plus": 11}
+      ],
+      "conclusion": "platou quase imediato (ja em ~1000-2000 iteracoes, ~11-14%) -- a classe mais cara por iteracao (4,94ms) e a que MENOS se beneficia de orcamento estendido nesta metrica. Escolhido max_iter=2000 (bate com o platou, evita desperdicar tempo -- a classe mais cara do lote -- sem nenhum ganho de cobertura)."
+    }
+  },
+  "chosen_max_iter_by_size_additions": {
+    "40x5": 8000, "60x20": 8000, "150x15": 8000, "150x30": 8000, "250x25": 4000, "300x20": 2000
+  }
+}

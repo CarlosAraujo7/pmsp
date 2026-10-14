@@ -1,0 +1,72 @@
+{
+ "JobsCorre": {
+  "best": "ur_igls_random",
+  "means": {
+   "ur_igls_fix0": 1.0223612938911186,
+   "ur_igls_fix1": 1.0407032194539512,
+   "ur_igls_fix2": 1.020211882478669,
+   "ur_igls_fix3": 1.019880487271028,
+   "ur_igls_random": 1.018630734264163
+  }
+ },
+ "MaqCorre": {
+  "best": "ur_igls_random",
+  "means": {
+   "ur_igls_fix0": 1.0288056130893755,
+   "ur_igls_fix1": 1.124602752675106,
+   "ur_igls_fix2": 1.03005182134324,
+   "ur_igls_fix3": 1.0393693708279055,
+   "ur_igls_random": 1.0176092909336858
+  }
+ },
+ "U1000a1100": {
+  "best": "ur_igls_random",
+  "means": {
+   "ur_igls_fix0": 1.0021051424674163,
+   "ur_igls_fix1": 1.0032473007199456,
+   "ur_igls_fix2": 1.0022517545565437,
+   "ur_igls_fix3": 1.0021397865464787,
+   "ur_igls_random": 1.0010980193077452
+  }
+ },
+ "U100a120": {
+  "best": "ur_igls_random",
+  "means": {
+   "ur_igls_fix0": 1.0087398603003015,
+   "ur_igls_fix1": 1.0111854723335623,
+   "ur_igls_fix2": 1.0108092925080145,
+   "ur_igls_fix3": 1.0100209139700302,
+   "ur_igls_random": 1.0026482716194418
+  }
+ },
+ "U100a200": {
+  "best": "ur_igls_random",
+  "means": {
+   "ur_igls_fix0": 1.0072588233121762,
+   "ur_igls_fix1": 1.0545640715614304,
+   "ur_igls_fix2": 1.0203007333445338,
+   "ur_igls_fix3": 1.019832333261392,
+   "ur_igls_random": 1.0067704567558642
+  }
+ },
+ "U10a100": {
+  "best": "ur_igls_fix0",
+  "means": {
+   "ur_igls_fix0": 1.0421129332382133,
+   "ur_igls_fix1": 1.1251939089881697,
+   "ur_igls_fix2": 1.0655502118316167,
+   "ur_igls_fix3": 1.070382923513216,
+   "ur_igls_random": 1.0441916202759614
+  }
+ },
+ "U1a100": {
+  "best": "ur_igls_fix0",
+  "means": {
+   "ur_igls_fix0": 1.0517795074232374,
+   "ur_igls_fix1": 1.142430631143412,
+   "ur_igls_fix2": 1.0873870633761313,
+   "ur_igls_fix3": 1.1019357498847369,
+   "ur_igls_random": 1.0611697737202643
+  }
+ }
+}

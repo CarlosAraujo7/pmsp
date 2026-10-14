@@ -1,0 +1,957 @@
+%% learnheuristic_pmsp.tex
+%% Compilar: xelatex -> bibtex learnheuristic_pmsp -> xelatex -> xelatex
+%% Migrado para a classe elsarticle (Elsevier) na Entrada 76 (08/09/2026)
+%% -- exigencia do EJOR (ver ANALISE_E_PLANO_EJOR.md, Secao 4). elsarticle.cls
+%% e elsarticle-harv.bst (citacao estilo Harvard/autor-ano, pedido do EJOR)
+%% vem junto deste arquivo, na mesma pasta -- nao fazem parte de nenhuma
+%% instalacao TeX Live padrao (pacote texlive-publishers, confirmado ausente
+%% tanto no ambiente de Carlos quanto no de verificacao).
+%% Opcoes da classe atualizadas na Entrada 85 (09/09/2026, Task #45) para
+%% bater exatamente com o artigo irmao do LCPP (Amaro Junior et al., em
+%% preparacao para o EJOR, mesmo grupo/coautoria de Carlos): [final,3p]
+%% no lugar de [preprint,review] -- decisao explicita de Carlos, coluna
+%% unica em largura "de producao" (mais estreita que o preprint largo),
+%% sem numeracao de linha de revisor. [times] ativa txfonts (Type 1,
+%% compativel com xelatex sem fontspec) em vez da Computer Modern padrao,
+%% [11pt] no lugar de [12pt] -- ambos tambem para bater com o LCPP.
+%% \onehalfspacing (pacote setspace) e' carregado explicitamente depois
+%% da classe pra manter 1.5 espaco mesmo com [final] (que por si so'
+%% forcaria espaco simples) -- mesmo padrao usado no LCPP, apropriado
+%% enquanto o artigo ainda esta' em fase de rascunho/revisao interna.
+%% [authoryear] ativa a citacao estilo Harvard via natbib (\citep/\citet),
+%% carregado automaticamente pela propria classe -- nao precisa de
+%% \usepackage{natbib} manual.
+\documentclass[final,3p,times,11pt,authoryear]{elsarticle}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\floatstyle{ruled}
+\restylefloat{algorithm}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{enumitem}
+\setlist{nosep,topsep=2pt,itemsep=1pt,parsep=0pt,leftmargin=*}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{2pt}
+\usepackage{xcolor}
+\usepackage{bm}
+
+\sloppy
+
+\journal{Journal of Heuristics}
+
+
+%% supplementary_material.tex -- material suplementar (Entrada 95).
+%% Contem o capitulo `ils_ql` e a exploracao de mecanismos hibridos IG/ILS,
+%% movidos do corpo do artigo para respeitar o limite de 30 paginas do EJOR.
+%% Referencias cruzadas ao artigo principal via pacote xr (compile o artigo
+%% principal primeiro, depois este arquivo, depois o principal de novo).
+\usepackage{xr}
+\externaldocument{learnheuristic_pmsp}
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\theequation}{S\arabic{equation}}
+
+\begin{document}
+\begin{frontmatter}
+\title{Supplementary material for: \emph{Mechanism or policy? Budget-fair attribution of the gains of
+       learning-guided metaheuristics in scheduling}}
+\author{Carlos Vinicio Dantas Ara\'{u}jo}
+\address{Graduate Program in Computer Science, State University of Cear\'{a} (UECE), Fortaleza, CE, Brazil}
+\begin{abstract}
+This supplement collects the parts of the study that the main text summarises but does not reproduce:
+the details of the experimental design (state, Iterated Greedy components, instances and methods);
+the full comparisons of the Q-Learning-guided IG with the ILS family and the published baselines, the
+stronger baselines and the exact reference for identical machines; the robustness analyses of the
+policy effect (state, reward, hyperparameters, seeds, budget); the recipe with a local search at equal CPU
+time; the full external validation; the granularity of the processing times and the dispatch rule; the
+synthetic unrelated-machine experiments; the companion \texttt{ils\_ql} study; a preliminary exploration of
+hybrid IG/ILS mechanisms; further robustness experiments; the certified lower bound; and the record of all
+pre-specified analyses.
+\end{abstract}
+\end{frontmatter}
+\input{s_moved.tex}
+\section{Exploring Hybrid IG/ILS Mechanisms}
+\label{sec:hybrid}
+
+Since neither mechanism dominates universally (Sections~\ref{sec:external}%
+--\ref{sec:nm-structural}), whether the two could be combined was
+explored at a preliminary level. This subsection reports genuine findings,
+but at a smaller sample size than Sections~\ref{sec:f1-headline}--%
+\ref{sec:external} and without full integration into the main battery;
+it is flagged explicitly as exploratory throughout.
+
+\paragraph{Why ILS beats IG on high-variance instances: a mechanistic
+diagnostic} Instrumenting both search steps to count improving,
+worsening and neutral proposals, starting from the identical LPT
+solution, on real high-variance external instances (family B,
+Section~\ref{sec:external}) makes the family-B result of
+Section~\ref{sec:external} mechanistically concrete. On the most
+extreme member tested ($n=261$, $m=16$), $300$ iterations of ILS's
+random-operator step (Op1/Op2/Op4, each an exhaustive best-improvement
+search restricted to the current bottleneck machine, which by
+construction never worsens the solution) accept an improving move
+$28$ times ($9.3\%$ of attempts); the same budget of IG's destroy-%
+and-reconstruct step, isolated per destruction strategy, accepts an
+improvement only $0$--$3$ times ($<1\%$), with the remainder actively
+\emph{worsening} the solution (and being rejected by the greedy
+acceptance rule, Section~\ref{sec:igvariants}) rather than merely
+doing nothing. The \texttt{MostExpensive} destruction strategy in
+particular is close to a no-op on these instances ($0$ improvements
+in $300$ attempts on this instance): since the greedy reconstruction
+reinserts jobs in decreasing processing-time order, and the search
+starts from an LPT solution already built by the same rule, removing
+and reinserting exactly the most expensive jobs largely reproduces
+their original placement. ILS's exhaustive, bottleneck-focused search
+simply finds an improving move far more often per iteration than IG's
+stochastic, undirected reconstruction does, on instances where a few
+extreme-magnitude jobs dominate the schedule. This is not universal,
+however: on a contrasting external instance with many machines and
+few jobs each, low processing-time variance (family C member 5,
+Section~\ref{sec:external}), the same diagnostic shows ILS as the
+\emph{worst} mechanism ($7.74\%$ GAP, identical across three seeds --
+complete stagnation) against $1.7$--$2.6\%$ for IG's destruction
+strategies, consistent with Section~\ref{sec:nm-structural}'s finding
+that ILS's single-bottleneck focus does not coordinate load
+rebalancing across many machines at once, which IG's whole-schedule
+reconstruction does more naturally.
+
+A real, unequalised computational-cost asymmetry accompanies this
+comparison: \texttt{ils\_ql} is up to $13.5\times$ slower in wall-clock
+CPU time than \texttt{ig\_ql} at the same nominal iteration budget on
+the most extreme family-B instance (ILS's operators are $O(n^2)$ or
+$O(nm)$ exhaustive searches per iteration; IG's step is a single
+$O(n)$ reconstruction). Whether this asymmetry, rather than
+a genuinely more effective mechanism, explains ILS's win on family B
+was tested in both directions: giving IG a proportionally larger iteration budget
+to match ILS's actual CPU time closes at most $15$--$78\%$ of the gap
+across four representative family-B instances, never all of it; giving
+ILS a proportionally \emph{smaller} budget to match IG's CPU time (as
+low as $8.6$--$9.1\%$ of the nominal $1{,}000$ iterations on two
+instances) still leaves ILS winning decisively. The family-B result is
+therefore robust to CPU-time equalisation in either direction: it
+reflects a genuine per-iteration difference in the two mechanisms'
+effectiveness on this instance profile, not an artefact of comparing
+unequal computational budgets -- though the CPU-time asymmetry itself
+is real and worth reporting transparently.
+
+\paragraph{A unified hybrid agent: robust, but not yet dominant}
+\texttt{hybrid\_ql} was prototyped: the same \texttt{QLearningAgent}
+and 81-state representation used throughout this study
+(Section~\ref{sec:state}), but choosing at each iteration among seven
+actions -- the four ILS operators plus the three IG destruction
+strategies -- rather than four or three. This required no change to
+the shared state features, which are defined purely from the current
+solution's properties and never from which mechanism produced it. On
+a small pilot (five real external instances -- four from family B and
+the contrasting family-C member above -- three repetitions each),
+\texttt{hybrid\_ql} never fails catastrophically the way each fixed
+framework does on the instance profile it is weak on (it stays well
+below ILS's $7.74\%$ stagnation on the family-C instance, and well
+below IG's weakest family-B result), but it also never beats the
+better of the two specialists on any of the five instances: a result
+of \emph{robustness}, not dominance. Inspecting the learned Q-table
+directly explains why: only $5$ of the $81$ nominal states are
+visited in a single $1{,}000$-iteration run, on both instance types,
+and the action mix actually executed is close to what pure
+$\varepsilon$-greedy exploration alone would produce, given the same
+epsilon-decay schedule as Section~\ref{sec:qlm} ($\approx 209$
+exploratory steps out of $1{,}000$, spread over seven actions).
+The robustness therefore comes mostly from Op1 being a broadly
+competent default action plus occasional exploratory excursions into
+the destruction strategies, rather than from genuine within-run
+learning of when to prefer each mechanism.
+
+\paragraph{Warm-start improves the hybrid, but does not close the state-coverage gap}
+Motivated by the finding of Section~\ref{sec:nm-structural} that
+variance, not $n/m$, drives the choice between mechanisms, a shared
+Q-table was pre-trained over $30$ rounds that deliberately
+alternate low-variance ($U[1,100]$) and high-variance ($U[1,10^8]$)
+synthetic instances, then warm-started \texttt{hybrid\_ql} from it
+(mirroring the existing \texttt{ils\_ql\_ws} warm-start mechanism,
+Section~\ref{sec:variants}). Even aggregated over $30$ pre-training
+rounds, only $6$ of $81$ states receive any accumulated signal at
+all -- confirming that most of the nominal state space is structurally
+unreachable under the current state design, not merely under-trained
+-- but among those six, the learned policy now differentiates
+genuinely: three prefer the ILS operator, two prefer random
+destruction, one prefers targeted destruction, in contrast to the
+cold-start policy's near-uniform preference for one operator. On the
+same five-instance pilot, warm-start is never worse than cold-start
+and, for the first time in this line of investigation, \emph{beats
+both} fixed specialists on one instance ($n=28$, $m=3$: warm-start
+$0.0103\%$ against \texttt{ils\_ql} $0.0125\%$ and \texttt{ig\_ql}
+$0.0278\%$); it is also $2.9$--$8.9\times$ faster than the cold-start
+hybrid, because the learned policy shifts action mass toward the
+cheaper IG actions. This is an honest partial improvement: it does
+not resolve the underlying state-coverage limitation, but it does
+show that the \emph{quality} of the policy within the few states that
+are reachable improves meaningfully with better initialisation.
+
+\paragraph{A priori dispatch and racing: alternatives without a shared
+action space} A structurally different family of mechanisms decides
+\emph{which framework to run}, rather than unifying their actions.
+\texttt{apriori\_select} computes a single feature, $\mathit{dup\_ratio}$
+(the fraction of duplicate values among an instance's processing times,
+computable in $O(n\log n)$ from the instance alone, no search
+required) and dispatches to \texttt{ig\_ql} when $\mathit{dup\_ratio} > 0.1$
+and to \texttt{ils\_ql} otherwise, a threshold chosen because
+processing-time ties are more common precisely in the low-variance
+regime that Section~\ref{sec:nm-structural} shows favours IG. Evaluated
+against the oracle that always picks whichever of the two specialists
+is actually better on each instance, across the full external sample
+of $1{,}612$ instances (Section~\ref{sec:external}), \texttt{apriori\_select}
+achieves a global mean GAP of $1.011\%$ against an oracle bound of
+$0.975\%$ -- closing most, though not all, of the gap between the
+better fixed specialist and the theoretical best-of-both. \texttt{racing}
+(running both mechanisms briefly, then committing computational budget
+to whichever looks better so far) is a second alternative. At an
+intermediate validation scale (a stratified $95$-instance sample,
+deliberately over-representing the external family where the simple
+$\mathit{dup\_ratio}$ signal is weakest), the four mechanisms explored
+in this subsection rank consistently: \texttt{apriori\_select} is
+strongest (mean GAP $1.053\%$, closest to the oracle's $1.025\%$),
+\texttt{racing} a solid second ($1.085\%$), and both hybrid variants
+trail ($1.073\%$ for the warm-started hybrid, $1.112\%$ for the
+cold-start one -- barely better than running \texttt{ig\_ql} alone,
+$1.112\%$, on this sample). Despite its appealing motivation --
+letting the agent itself learn to combine both action spaces, without
+committing to either a priori -- the unified hybrid of the previous
+two paragraphs is, on this evidence, the weakest of the four
+approaches tried, held back by the same state-coverage limitation
+identified above.
+
+\paragraph{A cautionary methodological case study: an exciting result
+that did not survive decomposition} While searching for a computable
+proxy that would let \texttt{apriori\_select} detect, without relying
+on benchmark provenance metadata, instances that behave like the
+external family where it performs worst, it was found that retuning
+$\mathit{dup\_ratio}$'s threshold specifically for that family
+(to $0.1\overline{6}$) appeared to be a genuine, stable improvement:
+the retuned threshold was selected identically in all five folds of a
+five-fold cross-validation, and improved that family's mean GAP by
+$0.013$ percentage points, a pattern of perfect cross-validation
+stability that this project has otherwise treated as strong evidence
+of a real, non-overfit effect. Decomposing the family by its internal
+sub-generators before searching for a proxy, however, revealed that
+this improvement was concentrated in just two instances, both drawn
+from a degenerate sub-generator whose every instance has $n=6$ --
+small enough that $\mathit{dup\_ratio}$ can only take a few discrete
+values, one of which happens to equal the retuned threshold exactly.
+Excluding that sub-generator (retaining $90\%$ of the family, at
+realistic scheduling sizes) makes the retuned threshold's effect
+negative, and the fold-by-fold stability that motivated trusting it
+in the first place disappears along with it. This is reported not as a
+minor correction but as a methodological lesson not fully
+appreciated before this investigation: cross-validation stability, on
+its own, is a \emph{necessary} but not \emph{sufficient} condition for
+trusting a retuned parameter -- it must also be checked against
+concentration in a small, disproportionately-scaled subset of the
+data, particularly when the parameter being tuned is discrete-valued
+and the instance sizes within the family vary widely. No production
+code was affected, since the finding was correctly held as provisional
+pending exactly this check before ever being implemented.
+
+Taken together, this subsection's results are genuine but preliminary:
+none of the four alternative mechanisms explored here has been run on
+the full battery of Sections~\ref{sec:f1-headline}--\ref{sec:f2-sota},
+and they are presented as a documented direction for future work
+(Section~\ref{sec:conclusions}) rather than as a fourth headline
+method alongside \texttt{ig\_ql}.
+
+\section{The \texttt{ils\_ql} Chapter: A Motivating Negative Result}
+\label{sec:ils-chapter}
+
+The remainder of this section reports the study that originally
+motivated this project and, chronologically, came first: whether
+Q-Learning-based operator selection improves an Iterated Local Search
+for the PMSP. It produced a rich, carefully controlled null result --
+\texttt{ils\_ql} performs statistically equivalently to random
+operator selection -- that directly motivated the mechanism-versus-%
+policy decomposition applied to \texttt{ig\_ql} in
+Section~\ref{sec:f3f4-ablation}: having found once, here, that an
+adaptive policy failed to beat a random one, the later
+\texttt{ig\_*} ablation was designed specifically to test whether the same pattern
+would recur, and to determine, if it did, how much of the
+\texttt{ig\_ql} vs.\ ILS advantage (Sections~\ref{sec:f1-headline}--%
+\ref{sec:f2-sota}) was attributable to search mechanism rather than
+to learning. This chapter uses the original protocol of
+Section~\ref{sec:setup}: the eight standard-budget ILS variants and
+LPT, on the six original instance classes ($n/m \in [3.3, 5.0]$), with
+30 independently sampled instances per class (seeds 0--29) and one
+run of each method per instance, so that variability across the 30
+observations reflects difficulty differences between instances --
+generalisation -- rather than algorithmic variance alone.
+
+\subsection{Main Results}
+\label{sec:ils-results}
+
+Table~\ref{tab:results} reports mean ($\mu$) and standard deviation
+($\sigma$) of GAP(\%) over the 30 instances, with the best ILS result
+per row in bold; Table~\ref{tab:aux} complements it with mean CPU time
+(seconds) and the percentage of runs reaching $\mathrm{GAP}=0$
+(\%Optimal) for three representative classes.
+
+\begin{table}[ht]
+\centering
+\caption{Mean GAP(\%) $\pm$ standard deviation over 30 instances.
+         \textbf{Bold}: best ILS result per row. HI variants use an
+         extended budget (Section~\ref{sec:variants}).}
+\label{tab:results}
+\renewcommand{\arraystretch}{1.15}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lrrrrrrrrrrrr@{}}
+\toprule
+ & \multicolumn{2}{c}{$20{\times}4$}
+ & \multicolumn{2}{c}{$20{\times}6$}
+ & \multicolumn{2}{c}{$30{\times}8$}
+ & \multicolumn{2}{c}{$50{\times}10$}
+ & \multicolumn{2}{c}{$75{\times}15$}
+ & \multicolumn{2}{c}{$100{\times}20$} \\
+Method & $\mu$ & $\sigma$ & $\mu$ & $\sigma$ & $\mu$ & $\sigma$
+       & $\mu$ & $\sigma$ & $\mu$ & $\sigma$ & $\mu$ & $\sigma$ \\
+\midrule
+LPT
+  & 1.95 & 1.21 & 4.40 & 2.93 & 3.59 & 1.85
+  & 2.04 & 1.09 & 2.26 & 1.05 & 2.17 & 1.05 \\
+\midrule
+ILS-Rand
+  & 0.031 & 0.12 & 1.022 & 1.33 & 0.566 & 0.43
+  & 0.700 & 0.40 & 1.150 & 0.74 & 1.223 & 0.60 \\
+ILS-UCB
+  & 0.255 & 0.41 & 1.615 & 1.66 & 1.191 & 0.73
+  & 1.158 & 0.63 & 1.652 & 0.87 & 1.575 & 0.71 \\
+ILS-RF
+  & 0.043 & 0.13 & 1.014 & 1.34 & 0.688 & 0.39
+  & 0.713 & 0.50 & 1.101 & 0.62 & 1.312 & 0.71 \\
+ILS-QL
+  & 0.053 & 0.14 & 1.142 & 1.36 & 0.661 & 0.48
+  & 0.641 & 0.51 & 1.106 & 0.79 & 1.359 & 0.68 \\
+ILS-QL-WS
+  & 0.041 & 0.12 & 1.090 & 1.32 & 0.685 & 0.42
+  & 0.657 & 0.62 & 1.129 & 0.81 & 1.346 & 0.67 \\
+\midrule
+ILS-Rand-HI
+  & \textbf{0.031} & 0.12 & \textbf{1.004} & 1.34
+  & \textbf{0.374} & 0.37 & \textbf{0.422} & 0.29
+  & \textbf{0.866} & 0.49 & \textbf{1.061} & 0.54 \\
+ILS-QL-HI
+  & 0.053 & 0.14 & 1.044 & 1.26 & 0.441 & 0.36
+  & 0.507 & 0.32 & 0.911 & 0.48 & 1.242 & 0.63 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\caption{Mean CPU time (s) and \%Optimal ($\mathrm{GAP}=0$) by method
+         for three representative classes.}
+\label{tab:aux}
+\renewcommand{\arraystretch}{1.15}
+{\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+ & \multicolumn{2}{c}{$n{=}20$, $m{=}4$}
+ & \multicolumn{2}{c}{$n{=}50$, $m{=}10$}
+ & \multicolumn{2}{c}{$n{=}100$, $m{=}20$} \\
+Method & CPU & \%Opt. & CPU & \%Opt. & CPU & \%Opt. \\
+\midrule
+LPT         & 0.00 &  3.3 & 0.00 &  3.3 & 0.00 & 0.0 \\
+ILS-Rand    & 0.09 & 93.3 & 0.39 &  6.7 & 0.92 & 3.3 \\
+ILS-UCB     & 0.09 & 56.7 & 0.42 &  3.3 & 0.96 & 3.3 \\
+ILS-RF      & 1.75 & 90.0 & 3.74 & 13.3 & 4.33 & 6.7 \\
+ILS-QL      & 0.11 & 86.7 & 0.62 & 16.7 & 1.70 & 3.3 \\
+ILS-QL-WS   & 0.20 & 90.0 & 0.47 & 16.7 & 1.57 & 3.3 \\
+ILS-Rand-HI & 0.37 & 93.3 & 0.99 & 20.0 & 3.78 & 3.3 \\
+ILS-QL-HI   & 0.30 & 86.7 & 1.18 & 16.7 & 6.63 & 3.3 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+All ILS variants reduce GAP by $55$--$99\%$ relative to LPT,
+confirming the effectiveness of the ILS framework in every class.
+Among the standard-budget methods, ILS-UCB shows the worst consistent
+performance (overall mean GAP $1.24\%$ against $0.78$--$0.83\%$ for
+the others) -- an artefact of its raw-reward implementation, as shown
+below. ILS-QL, ILS-Rand and ILS-RF reach comparable overall
+means ($0.827\%$, $0.782\%$ and $0.812\%$, respectively), with no
+configuration consistently standing out. Notably, ILS-RF incurs a
+$4$--$18\times$ higher computational cost than ILS-Rand ($1.75$--$4.33$s
+against $0.09$--$0.92$s) without measurable quality gains, indicating
+that the random-forest predictor is not justified for this problem.
+
+Figure~\ref{fig:boxplot} shows GAP boxplots by instance class for the
+main methods, revealing growing GAP dispersion with instance size.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.92\textwidth]{fig_gap_boxplot.png}
+\caption{GAP(\%) boxplots by instance class and method. Each box
+         aggregates 30 distinct instances. HI variants omitted for
+         clarity.}
+\label{fig:boxplot}
+\end{figure}
+
+\paragraph{Why UCB underperformed, and why that was an artefact}
+In the runs above, UCB1 was fed raw rewards (reductions of the makespan
+in units of the processing times), whereas the analysis of UCB1
+assumes rewards in $[0,1]$. With rewards that are zero in almost every
+step and large when they occur, the exploration bonus either dominates
+the mean (small rewards) or vanishes (large ones), so the behaviour
+depends on the scale of the instance: the raw selector is not scale
+invariant. The mean number of improvements per run for ILS-UCB was
+$1.0$--$2.6$, against $2.1$--$3.8$ for ILS-Rand. The earlier
+explanation (premature commitment to a suboptimal operator) is
+therefore withdrawn. Re-running UCB1 with each reward divided by the
+largest reward observed so far ($N=100$ instances in each of the 12
+classes; hypotheses and decision rules fixed in the research diary before
+the runs), the normalised variant is far better than the raw one (pooled
+GAP $-23.7\%$, $p_{\mathrm{holm}}=8\times10^{-66}$), indistinguishable
+from ILS-QL on the six original classes ($p=0.78$) and not significantly
+different from random selection ($+3.9\%$, $p=0.069$). In IG, raw and
+normalised UCB1 do not differ ($p=0.69$).
+
+\paragraph{A wider ablation confirms the pattern, and confirms that
+the operator set -- not the selection mechanism -- is what matters}
+The same original protocol was later extended with three further
+classical AOS mechanisms already cited in this study -- Probability
+Matching \citep{Davis1989}, Adaptive Pursuit \citep{Thierens2005}, and
+an on-policy SARSA agent \citep{RummeryNiranjan1994} reusing the same
+81-state representation and reward signal as ILS-QL, differing only
+in its update rule -- together with three further single-operator
+controls, \texttt{ils\_op2\_only} through \texttt{ils\_op4\_only},
+complementing \texttt{ils\_op1\_only} above. Aggregated over the same
+six classes and 30 instances each ($N=180$ per method), the three new
+AOS mechanisms cluster in the same narrow band as the methods already
+discussed (mean GAP: Probability Matching $0.796\%$, Adaptive Pursuit
+$0.796\%$, SARSA $0.831\%$, against $0.782$--$0.827\%$ for
+ILS-Rand/RF/QL above) -- a third, independent replication of the
+finding that the specific AOS mechanism chosen barely matters for
+this problem, now spanning six mechanisms (uniform random, UCB1,
+Q-Learning, a random-forest predictor, Probability Matching and
+Adaptive Pursuit) and both major TD-learning paradigms (Q-Learning is
+off-policy; SARSA is on-policy). The three additional single-operator
+controls, by contrast, are markedly worse than every multi-operator
+method (\texttt{ils\_op2\_only} $1.390\%$, \texttt{ils\_op4\_only}
+$1.408\%$, \texttt{ils\_op3\_only} $2.584\%$), confirming, alongside
+\texttt{ils\_op1\_only} above, that ILS's effectiveness genuinely
+depends on having the full four-operator set available.
+\texttt{ils\_op3\_only} in particular ties LPT's own makespan exactly
+in $160$ of the $180$ instances tested and is never worse than LPT,
+improving on it only occasionally and modestly in the remainder -- a
+weak but not literally inert operator in isolation, and the reason
+its aggregate GAP sits so close to LPT's own ($2.744\%$).
+
+\subsection{Statistical Analysis}
+\label{sec:stats}
+
+Table~\ref{tab:wilcoxon} reports $p$-values from the paired Wilcoxon
+signed-rank test (two-sided, $n{=}30$ paired observations) for ILS-QL
+against four competitors. $p<0.05$ indicates a statistically
+significant difference.
+
+\begin{table}[ht]
+\centering
+\caption{Wilcoxon test $p$-values: ILS-QL vs.\ each competitor.
+         \textbf{Bold}: significant difference ($p < 0.05$).
+         Headers indicate $(n \times m)$.}
+\label{tab:wilcoxon}
+\renewcommand{\arraystretch}{1.15}
+{\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+Competitor
+  & $20{\times}4$  & $20{\times}6$  & $30{\times}8$
+  & $50{\times}10$ & $75{\times}15$ & $100{\times}20$ \\
+\midrule
+ILS-Rand
+  & 0.715 & 0.285 & 0.300 & 0.427 & 0.678 & 0.075 \\
+ILS-Rand-HI
+  & 0.715 & 0.169 & \textbf{0.010}
+  & \textbf{0.028} & 0.064 & \textbf{0.002} \\
+ILS-RF
+  & 0.893 & \textbf{0.046} & 0.553 & 0.470 & 0.955 & 0.500 \\
+ILS-UCB
+  & \textbf{0.003} & \textbf{0.008} & \textbf{0.000}
+  & \textbf{0.000} & \textbf{0.000} & \textbf{0.003} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+ILS-QL shows no statistically significant difference from ILS-Rand in
+any of the six configurations ($p > 0.07$), nor from ILS-RF in
+five of the six. In the original runs ILS-QL appeared to outperform
+ILS-UCB in all six configurations ($p \leq 0.008$); this was an artefact
+of the raw-reward UCB1 (see above), and with normalised rewards the two
+are indistinguishable.
+
+The isolation-control comparison (ILS-Rand-HI vs.\ ILS-QL) reveals
+that the extended budget significantly outperforms ILS-QL for
+$n \geq 30$ ($p \leq 0.028$), whereas the difference between ILS-QL-HI
+and ILS-QL-WS is not statistically significant. These results suggest
+that, for the PMSP under the budgets evaluated, the number of
+iterations tends to be a more impactful factor than the sophistication
+of the AOS mechanism.
+
+\subsection{Learned Policy Analysis}
+\label{sec:policy}
+
+To assess what the Q-Learning agent internalised, the greedy policy
+$\pi(s) = \arg\max_a Q(s,a)$ was extracted from the Q-tables averaged
+over 30 runs per class and computed the fraction of the 81 states in
+which each operator is greedy-optimal (Table~\ref{tab:policy}).
+
+\begin{table}[ht]
+\centering
+\caption{Fraction of states (\%) in which each operator is
+         greedy-optimal, averaged over 30 Q-tables per instance
+         class.}
+\label{tab:policy}
+\renewcommand{\arraystretch}{1.15}
+{\footnotesize
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Class & Op1 (inter-swap) & Op2 (reinsert) & Op3 (intra-swap) & Op4 (block-move) \\
+\midrule
+$n{=}20$, $m{=}4$   & 87.7 & 7.4 & 0.0 & 4.9 \\
+$n{=}20$, $m{=}6$   & 93.8 & 1.2 & 0.0 & 4.9 \\
+$n{=}30$, $m{=}8$   & 90.1 & 6.2 & 0.0 & 3.7 \\
+$n{=}50$, $m{=}10$  & 96.3 & 2.5 & 0.0 & 1.2 \\
+$n{=}75$, $m{=}15$  & 95.1 & 2.5 & 0.0 & 2.5 \\
+$n{=}100$, $m{=}20$ & 96.3 & 2.5 & 0.0 & 1.2 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+A striking, consistent pattern emerges across all classes: Op1
+(inter-machine swap) is the greedy-optimal operator in $87$--$96\%$
+of states, and the proportion of Op1 grows with instance size. Op3
+(intra-machine swap) is \emph{never} preferred. The preference for
+Op1 appears invariant to search phase ($f_3$), stagnation level
+($f_4$) and solution quality ($f_1$): the operator ranking is
+nominally identical across the 81 feature combinations -- but, as
+discussed below, most of these combinations are in fact never
+visited within a run, which is consistent with either a genuine
+invariance or an initialisation artefact.
+
+This finding is structurally interpretable: makespan depends directly
+on machine loads, so inter-machine transfers (Op1, Op2, Op4) reduce
+$C_{\max}$ by redistributing load, while intra-machine swaps (Op3)
+only reorder tasks on the same machine without affecting $C_i$. The
+Q-Learning agent empirically identifies this structural property
+without prior knowledge, converging to a policy that concentrates
+search on inter-machine moves.
+
+\paragraph{Methodological caveat: how much of this finding is real?}
+Table~\ref{tab:policy} was computed over Q-tables trained from
+scratch (zero initialisation) in a single run per instance -- the
+same protocol used by all methods in this study. A follow-up
+investigation revealed two facts that qualify this finding. First,
+across 12 sampled standard Q-tables, only $21.5$ of the 81 states on
+average ($26.5\%$) are visited even once during an entire run; for
+states never visited, the corresponding Q-table row remains exactly
+zero, and NumPy's \texttt{argmax} tie-break systematically favours
+the action at index $0$ (Op1) -- an implementation artefact, not a
+learned preference. Second, initialising the Q-table with small
+uniform noise (eliminating the artificial tie-break) and aggregating
+$30$--$100$ training episodes before freezing the policy for
+evaluation, in two reanalysed classes ($n{=}20,m{=}4$ and
+$n{=}50,m{=}10$), makes the preference distribution across the four
+operators substantially more balanced -- for example, at
+$n{=}50,m{=}10$: Op1 in 21 states, Op2 in 28, Op3 in 14 and Op4 in 18,
+of 81 -- with Op2 (reinsertion), not Op1, emerging as the most
+frequently preferred operator. Notably, state coverage does not grow
+beyond $\sim 18$--$24$ of 81 even aggregating up to 100 training
+episodes, suggesting that most of the nominal state space is
+dynamically unreachable by the ILS search trajectory -- a structural
+limitation of the state design, not merely of training budget. The
+corrected protocol has not been extended to the other four original
+classes (it is listed as future work in
+Section~\ref{sec:conclusions}); the numbers in
+Table~\ref{tab:policy} reflect the original methodology (cold-start,
+zero initialisation) and should be interpreted in light of this
+caveat.
+
+Figure~\ref{fig:heatmap} presents the heat map of the learned policy
+(original protocol, cold-start) for class $n{=}30$, $m{=}8$; in light
+of the caveat above, this map should be read as a portrait of the
+policy under the original protocol, not as independent confirmation
+of a structural property of the PMSP.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\textwidth]{fig_policy_heatmap.png}
+\caption{Heat map of the greedy policy (original protocol,
+         cold-start) for class $n{=}30$, $m{=}8$: colour indicates
+         the greedy-optimal operator at each state ($f_1 \times f_2$
+         for different combinations of $f_3$ and $f_4$). See the
+         methodological caveat in the text regarding the influence of
+         unvisited states on this visualisation.}
+\label{fig:heatmap}
+\end{figure}
+
+The near-constant policy (under the original protocol) was also
+offered as an explanation for the statistical equivalence between
+ILS-QL and ILS-Rand: under this policy, Op1 would be selected
+$\approx 90\%$ of the time; under random selection, only $25\%$. This
+raised a testable hypothesis -- that an ILS restricted to Op1 alone
+would achieve comparable performance, with lower overhead -- which was
+tested directly with an additional \texttt{ils\_op1\_only} selector
+(Section~\ref{sec:experiments}). The result \textbf{refutes} this
+hypothesis: ILS-Op1-only achieved a worse mean GAP ($0.889\%$) than
+every multi-operator method at the same budget (ILS-Rand: $0.782\%$;
+ILS-RF: $0.812\%$; ILS-QL-WS: $0.825\%$; ILS-QL: $0.827\%$). That is,
+even though adaptive selection itself does not outperform random
+selection, the availability of the other operators matters --
+probably through the ILS perturbation phase, which draws among all
+four operators independently of the main selector. This is consistent
+with the caveat above: the dominance of Op1 in the learned
+\emph{greedy} policy does not imply that the other operators are
+dispensable in the algorithm's full dynamics.
+
+\subsection{Isolation Control: Budget versus Learning}
+\label{sec:isolation}
+
+The comparison between ILS-Rand-HI and ILS-QL-HI (same extended
+budget, different AOS strategies) isolates the contribution of
+learning. ILS-Rand-HI achieved a lower mean GAP than ILS-QL-HI in all
+six configurations (Table~\ref{tab:results}), with significant
+differences for $n \geq 30$ ($p \leq 0.028$, Table~\ref{tab:wilcoxon}).
+
+This indicates that the Q-Learning agent's exploration overhead
+(non-Op1 actions taken during the $\varepsilon$-greedy phase) tends to
+be mildly detrimental when a dominant operator already exists and the
+budget is still moderate. In other words, when the agent's policy
+converges strongly to a single operator (Section~\ref{sec:policy} --
+with the methodological caveat discussed there about how much of this
+is structural versus an initialisation artefact), the cost of
+learning that preference competes with the benefit of simply running
+more iterations of random search.
+
+This result has a methodologically relevant implication for the AOS
+community: experiments that compare only fixed-budget variants may
+mask the effect of learning. The isolation control proposed here
+allows the two effects to be discriminated cleanly -- the same logic
+that, extended to \texttt{ig\_ql}, motivated
+Section~\ref{sec:f3f4-ablation}.
+
+
+
+% =====================================================================
+\section{ILS framework and variants}
+\label{sec:ils-framework}
+\subsection{ILS framework}
+
+ILS (Algorithm~\ref{alg:ils}) starts from an LPT solution and iterates
+for $T$ steps.
+At each step, the AOS module selects one of the four neighbourhood
+operators, which is then applied under best-improvement local search.
+After a fixed number (50) of consecutive iterations without
+improvement, a random perturbation (3 random
+moves) restarts the search from the best incumbent.
+The best result over the $T$ iterations is returned.
+
+\begin{table}[ht]
+\centering
+\caption{The four neighbourhood operators used in ILS.}
+\label{tab:operators}
+\begin{tabular}{@{}clp{7.5cm}@{}}
+\toprule
+\textbf{Op} & \textbf{Name} & \textbf{Description} \\
+\midrule
+Op1 & inter-swap    & Swaps two jobs between distinct machines. \\
+Op2 & reinsert      & Moves a job from the most loaded to the least loaded machine. \\
+Op3 & intra-swap    & Swaps two jobs on the same machine (does not change $C_i$). \\
+Op4 & block-move    & Transfers a contiguous block of jobs between two machines. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{algorithm}[tb]
+\caption{ILS with AOS for PMSP}
+\label{alg:ils}
+\begin{algorithmic}[1]
+\REQUIRE Jobs $\mathcal{J}$, machines $\mathcal{M}$, iteration budget $T$, AOS module
+\STATE $x \leftarrow \mathrm{LPT}(\mathcal{J},\mathcal{M})$; $x^{*} \leftarrow x$; $\mathrm{stag} \leftarrow 0$
+\FOR{$t = 1, \ldots, T$}
+\STATE $s \leftarrow \mathrm{encode}(x, t, T)$
+\STATE $a \leftarrow \mathrm{AOS}(s)$
+\STATE $x' \leftarrow \mathrm{BestImprovement}(x,\, \mathrm{Op}_a)$
+\STATE $r \leftarrow C_{\max}(x) - C_{\max}(x')$
+\STATE Update AOS with $(s, a, r)$; update $x$, $x^{*}$, $\mathrm{stag}$
+\IF{$\mathrm{stag} \geq \mathrm{threshold}$}
+\STATE $x \leftarrow \mathrm{Perturb}(x^{*})$; $\mathrm{stag} \leftarrow 0$
+\ENDIF
+\ENDFOR
+\RETURN~$x^{*}$
+\end{algorithmic}
+\end{algorithm}
+
+Table~\ref{tab:operators} describes the four operators.
+Note that Op3 (intra-swap) can never improve the makespan, since it
+reorders jobs on the same machine without changing its load.
+Its inclusion serves as a structural control: an effective AOS should
+learn to avoid it.
+
+
+\subsection{ILS method variants}
+\label{sec:variants}
+
+\paragraph{ILS-QL-WS (\textit{warm-start})}
+Before optimising each instance, the Q-table is pre-trained on a batch
+of random instances of similar size.
+This biased initialisation can accelerate early convergence, reducing
+the purely exploratory phase.
+The pre-trained Q-table is shared across all runs of the same instance
+class.
+
+\paragraph{ILS-QL-HI and ILS-Rand-HI (\textit{high-iteration})}
+Both variants receive an extended iteration budget, $1.5$ to
+$4{\times}$ the base budget, scaled by instance size: from 1\,500
+iterations for $n{=}20$ up to 4\,000 for $n{=}100$, $m{=}20$.
+ILS-Rand-HI uses random operator selection under this extended budget,
+serving as an \emph{isolation control}: any performance difference
+between ILS-Rand-HI and ILS-QL-HI can be attributed to the AOS
+strategy rather than to the available budget.
+
+\paragraph{AOS baselines}
+Besides ILS-Rand (uniform random selection), two further baselines are
+evaluated: ILS-UCB, based on the UCB1 algorithm with $c{=}\sqrt{2}$,
+treating operators as bandit arms; and ILS-RF, which trains an online
+Random Forest \citep{BreimanRF2001} on the mapping $(s,a) \to r$ to
+predict the expected improvement of each operator.
+
+
+% =====================================================================
+\section{Additional robustness experiments and pre-specification record}
+\label{sec:robust}
+
+This section reports the experiments run to answer foreseeable reviewer
+objections. Each one was specified before it was run: the hypotheses, the
+decision rule, the test family and the md5 hashes of the code and of the
+data files it reads were written in the research diary, and the analysis
+script was frozen. Deviations that had to be made are listed in
+Section~\ref{sec:prereg-record}; none was made after seeing a result of
+the affected test.
+
+\subsection{Convergence behaviour}
+\label{sec:convergence}
+
+Figure~\ref{fig:convergence} plots best-makespan-so-far against
+iteration for a single representative run of \texttt{ig\_ql},
+\texttt{ils\_ql} and \texttt{sa\_li\_perkins} at three sizes:
+$(20,4)$, $(100,20)$ and $(300,20)$, all at the standard budget
+$T=1{,}000$.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.95\textwidth]{fig_convergence.png}
+\caption{Convergence of best-makespan-so-far (as GAP\% relative to the
+         lower bound) against iteration, for \texttt{ig\_ql},
+         \texttt{ils\_ql} and \texttt{sa\_li\_perkins}, at three
+         representative instance sizes. Dashed segments mark where
+         \texttt{sa\_li\_perkins} has already met its own early-stopping
+         criterion and the plotted curve is a forward-filled constant,
+         not further search.}
+\label{fig:convergence}
+\end{figure}
+
+\texttt{ils\_ql} typically improves in larger, less frequent steps early
+on and then plateaus, consistent with an exhaustive best-improvement
+search that quickly exhausts the moves around its current bottleneck
+machine (Section~\ref{sec:hybrid}); \texttt{ig\_ql} improves in smaller,
+more frequent steps throughout the budget, since its stochastic
+destroy-and-reconstruct step never fully exhausts a neighbourhood.
+\texttt{sa\_li\_perkins}, faithfully reimplementing the early-stopping
+rule of \citet{LiPerkins2024} (halt once the best solution is within
+$1.01\times$ of the lower bound), terminates well before the shared
+budget in the smaller classes (only $547$ of $1{,}000$ iterations execute
+at $(20,4)$) and at $(300,20)$ never executes an iteration: the initial
+LPT solution already has a GAP of $0.25\%$, inside the stopping target.
+This is a property of the original method, not an implementation defect,
+and the dashed extension exists so that the flat segment is not mistaken
+for search that found nothing.
+
+\subsection{Seed variance}
+\label{sec:seedvar}
+
+All batteries run each method once per instance. To measure the noise this
+leaves, all twelve classes were rerun with 20 instances and ten algorithm seeds
+each ($9{,}600$ runs; a pilot on three classes with the same design came first).
+Table~\ref{tab:s_seed} shows that the share of the GAP variance explained by the
+instance has a median of $0.44$--$0.45$ for the IG and $0.72$--$0.74$ for the
+ILS, and that the within-instance standard deviation (median $0.13$--$0.14$
+percentage points, up to $0.9$ for the ILS at $(60,20)$) is of the same order as
+the policy effect itself, which is why per-class single-run tests cannot resolve
+it. The pre-specified criterion for the pilot (S1: equivalence to zero within
+$\pm0.05\%$ of the policy effect on seed averages) was \emph{not} met
+($\bar d=-0.045\%$, 90\% interval $-0.063$ to $-0.027$), because the three
+pilot classes happened to have the largest effects. The twelve-class test (S1$'$,
+240 instances) gives $\bar d=-0.011\%$ (90\% interval $-0.019$ to $-0.003$,
+$p=0.009$): a real effect, and strictly equivalent to zero within $\pm0.05\%$;
+only $(30,8)$ detects it individually after correction ($-0.076\%$). Criterion
+S2$'$ (the sign of the IG-versus-ILS contrast on seed averages equals that of the
+single run, per class, for the random and the Q-Learning variants) was met in
+$23$ of $24$ contrasts (the exception is a tie at $(20,4)$); on seed averages the
+IG beats the ILS by $0.49\%$ (random variants, 90\% interval $0.39$--$0.60$) and
+$0.53\%$ (Q-Learning variants, $0.43$--$0.64$), in $156$ and $168$ of the $240$
+instances.
+
+\input{s_seed_variance.tex}
+
+\subsection{Other processing-time distributions and the hard region}
+\label{sec:newdist}
+
+To test whether the findings depend on $U[1,100]$ times, 900 new
+instances were generated: six distributions ($U[1,100]$, $U[50,100]$,
+$U[1,10^4]$, log-normal with parameters $(3,1)$, a bimodal mixture of
+$U[5,25]$ and $U[75,100]$, and a Pareto with shape $1.5$ capped at $1000$)
+$\times$ five sizes $(n,m)\in\{(25,10),(60,20),(50,10),(100,10),(200,20)\}$
+$\times$ 30 replications; the first two sizes lie in the hard region
+$n/m \leq 3$. Table~\ref{tab:s_newdist} summarises the outcome.
+Pre-specified hypothesis H1 (the policy is equivalent to random selection
+within $\pm0.05\%$) was confirmed: $\bar d=-0.016\%$ for \texttt{ig\_ql}
+against \texttt{ig\_random} (90\% interval $-0.027$ to $-0.004$) and
+$-0.012\%$ with the strong start; the narrow-range $U[50,100]$ is where
+the policy helps most ($-0.03$ to $-0.04\%$). All four tests of the
+confirmatory family were confirmed (Holm over four): the a priori dispatch
+rule (duplicate ratio $>0.1$ selects IG, otherwise ILS; threshold fixed in
+earlier work and never retuned) beats always-\texttt{ig\_ql}
+($\bar d=-0.022\%$, $p_{\mathrm{Holm}}=3\times10^{-10}$) and
+always-\texttt{ils\_ql} ($-0.263\%$, $p_{\mathrm{Holm}}=2\times10^{-36}$);
+IG beats ILS when the duplicate ratio exceeds $0.1$ ($\bar d=-0.30\%$, 726
+instances) and ILS beats IG when it does not ($+0.10\%$, 174 instances;
+115 against 18 wins). The granularity finding of
+Section~\ref{sec:nm-structural} therefore holds outside the distribution
+in which it was found.
+
+Three further observations. (i) MULTIFIT is \emph{worse} than LPT on
+$U[50,100]$ ($3.68\%$ against $2.48\%$ mean GAP; none of its solutions is
+provably optimal), so its strength in Section~\ref{sec:f2-sota} is a
+property of wide-range times, not of the algorithm in general; LDM does
+well there ($49\%$ provably optimal). (ii) \textsc{IG-QL}$^{+}$ improves on
+the best constructive solution in $168$ of the $900$ instances and never
+worsens it; it has the lowest GAP in four of six distributions (Pareto and
+$U[1,10^4]$ are the exceptions). (iii) In the hard region ($n/m\leq3$)
+\texttt{ig\_ql} proves optimality for $72\%$ of the instances, against
+$52\%$ elsewhere, but these are the smallest sizes, so the comparison is
+confounded with $n$.
+
+\input{s_new_distributions.tex}
+
+\subsection{IG versus ILS at equal CPU time}
+\label{sec:eqcpu}
+
+For equal $T$, an ILS iteration costs more than an IG iteration (up to
+$24.8\times$ at $n=300$; Section~\ref{sec:exact-ref}). To check that
+the IG-versus-ILS findings are not an artefact of the iteration budget,
+IG was given $T_{\mathrm{IG}}=1000\,K(n)$ iterations, with $K$ interpolated
+from the measured CPU ratios ($K=1.5$ to $15$ for the Q-Learning variant,
+$1.1$ to $6.3$ for the random one) and fixed in advance, on the
+fine-grained $U[1,10^4]$ and the coarse $U[1,100]$ instances of the
+previous subsection. Table~\ref{tab:s_eqcpu} shows that the ILS advantage
+on fine-grained times persists at equal CPU ($\bar d=+0.09\%$ and
+$+0.14\%$, $p_{\mathrm{Holm}}\leq10^{-7}$; ILS is ahead at every size from $n=50$, the Q-Learning variant only marginally at $n=60$),
+and that the IG advantage on coarse times grows ($-0.70\%$ and $-0.68\%$).
+The realised IG/ILS CPU ratio was $0.8$--$1.7$.
+
+\input{s_equal_cpu.tex}
+
+\subsection{Destruction size and other hyperparameters}
+\label{sec:hyper}
+
+$\alpha$, $\gamma$, the $\varepsilon$ decay and the destruction fraction
+$d/n$ were varied one at a time around the defaults ($0.1$, $0.9$, $0.995$,
+$0.3$) on six classes with 50 instances each (3{,}600 runs). The family of
+nine pre-specified tests (Holm) asked whether the Q-Learning policy beats
+the matched random control by a practically relevant margin
+($\geq0.05\%$) in any setting; it does at $d=0.1n$ ($-0.112\%$,
+$p_{\mathrm{Holm}}=2\times10^{-7}$) and $d=0.2n$ ($-0.057\%$,
+$p_{\mathrm{Holm}}=0.015$), not at $d=0.4n$ ($-0.037\%$) nor for any value of
+$\alpha$, $\gamma$ or the decay (all $|\bar d|\leq0.023\%$, none
+significant). The null of the policy is therefore not robust to the
+destruction size, although the effect never exceeds $0.11\%$.
+Table~\ref{tab:s_hyperd} shows that the default $d=0.3n$ is clearly
+suboptimal at larger $n$: $d=0.1n$ cuts the mean GAP of \texttt{ig\_ql}
+by a factor of three to four at $(100,20)$ and $(75,15)$ and by more than half at
+$(150,30)$, but it hurts at $(20,6)$, where the larger sizes are better. Choosing $d$ by instance size (for instance, by cross-validation on
+separate instances) is a natural improvement that was deliberately not
+applied, so that no parameter was tuned on the evaluation instances.
+
+\input{s_hyper_d.tex}
+
+\paragraph{Budget of the learning-free recipe}
+Table~\ref{tab:s_recipe_budget} extends the recipe of the main text (tuned destruction size, start from the best constructive solution, no learning, no local search) to larger budgets on six classes. The trajectories share the seed, so quality is non-increasing in $T$ by construction. The share of provably optimal solutions rises from $75.5\%$ at $T=1{,}000$ to $86.8\%$, $92.7\%$ and $97.5\%$ at $T=4{,}000$, $16{,}000$ and $64{,}000$ (mean GAP $0.099\%$ to $0.009\%$; $100\%$ at $(50,10)$), at a CPU time of $3$--$6$ seconds per run at $T=16{,}000$ and $12$--$24$ seconds at $T=64{,}000$ (parallel runs, indicative). The classes with $n/m\geq10$ are saturated early because the start is already optimal; the saturation point is not reached by $T=64{,}000$ in the four smaller classes (analysis descriptive, specified in the diary, Entry 139).
+
+%% Table~\ref{tab:s_recipe_budget} now lives in the main text (Section 4.3).
+
+\subsection{Certified lower bound: method and validation}
+\label{sec:lbaf}
+
+For a capacity $C$ let the nodes be the partial sums $0\leq s\leq C$
+reachable by a subset of the processing times, with an arc $s\to s+p$ for
+each distinct time $p$ and each reachable $s$, plus loss arcs to node $C$.
+The relaxation minimises the flow $z$ from $0$ to $C$ subject to flow
+conservation and to using each distinct size $p$ exactly as often as it
+occurs: $z^{*}(C)$ is the minimum fractional number of bins of capacity $C$.
+If $z^{*}(C)>m$, no schedule has makespan $\leq C$, and $z^{*}$ is
+non-increasing in $C$, so LB$^{\mathrm{AF}}$ is found by bisection between
+the improved classical bound $\max\{p_{\max},\lceil\sum p/m\rceil,p_{(m)}+p_{(m+1)}\}$
+and the best known makespan. Infeasibility is declared only if
+$z^{*}(C)>m+10^{-4}$, and if the interior-point solver does not finish in 90 s
+nothing is declared, so the bound can only be too weak, never invalid.
+Validation: (i) against brute force on random small instances the bound is
+valid and at least $85\%$ tight; (ii) on 150 published instances with
+optimum proven by the iAF method it exceeded the optimum in none and
+equalled it in $148$ ($98.7\%$), with a median time of $0.2$\,s (maximum
+$149$\,s); (iii) on the 1{,}200 synthetic instances $903$ were proven optimal,
+for $199$\,s of CPU in total. For distributions with very wide ranges
+(Section~\ref{sec:newdist}) the graph exceeds $4\times10^{5}$ arcs and
+the classical improved bound is used instead.
+
+\subsection{Pre-specification record}
+\label{sec:prereg-record}
+
+Table~\ref{tab:s_prereg_all} lists, for every confirmatory analysis of the study,
+the diary entry holding its specification (hypotheses, decision rule, test family,
+and the md5 hashes of the code and of the data files it reads), and the outcome. The
+families are Holm-corrected within themselves; all outcomes, including every
+non-confirmation, are listed. Deviations that occurred were decided before any test
+result of the affected analysis had been read: (a) the synthetic subset in the
+stronger-baselines test has $1{,}130$ rather than $1{,}200$ instances because the stored
+$(20,4)$ runs of three methods have 30 replications (a failed coverage assertion
+revealed it); (b) the reference rows of the signal test use the available pairs for the
+same reason; (c) the exact phase of the new-distributions run skips instances whose
+arc-flow graph is too large ($>4\times10^{5}$ arcs, after an initial limit of
+$3\times10^{6}$ proved too permissive); (d) two analysis scripts had a type error
+that aborted them before producing any output, and were corrected without changing a
+hypothesis or a rule (seed variance, twelve classes; the unrelated-machine law). Two
+process-pool crashes of the operating system, unrelated to the data, interrupted
+runs, which were relaunched from the start or resumed. Deviations in the earlier
+analyses, if any, are recorded in their diary entries. The pre-specification is a
+dated, hash-stamped diary, not a public registry.
+
+\input{s_prereg_all.tex}
+
+\begingroup\scriptsize\setlength{\bibsep}{0pt}
+\bibliographystyle{elsarticle-harv}
+\bibliography{refs}
+\endgroup
+\end{document}

@@ -1,0 +1,13 @@
+ee2cb8c0a74d7205f2d1179658b3b788 *experiment/run_lprc_benchmark_entrada156.py
+234412f0cc0f04770ad639b3a4d2ef65 *analysis/report_entrada156_lprc.py
+4fa3d10a8291c4bc638ac3b2732116b2 *pmsp/unrelated_srmilp.py
+5c738af129ae0a76c777de05b89ce21c *pmsp/unrelated_lp.py
+668a2d7e089c32f42f14489a44935dc7 *pmsp/unrelated.py
+3bb2d4477bbc7fffb4ea27df5f50333a *experiment/run_lpig_benchmark_entrada141.py
+5b54a4c6da8a1227536f3b408dfb762a *experiment/run_rcmax_benchmark_entrada137.py
+2bd533deec660b773af55b121e876aaf *results/lpig_choice_d_entrada141.json
+86b732ea467daaefe2b7c512264420c4 *results/rcmax_manifest_entrada137.csv
+e0cc3822873ac1a710195b25db93565f *results/lprc_design_probe_entrada156.csv
+a1b0a80b96ee9e7fbb90e64a2a318710 *external_benchmarks/rcmax_fanjul_ruiz/raw/res_all_instances.csv
+# (saida do teste, antes do relatorio)
+ab9d51f6e2de13d4ee6f0fbbedc7159e *results/lprc_test_entrada156.csv

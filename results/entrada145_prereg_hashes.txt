@@ -1,0 +1,17 @@
+846f970ae9b4829a3a0fac540cc2927c *experiment/run_dpolicy_entrada145.py
+66a177f807385f932154a34b0650c9df *analysis/report_entrada145_dpolicy.py
+5b54a4c6da8a1227536f3b408dfb762a *experiment/run_rcmax_benchmark_entrada137.py
+3bb2d4477bbc7fffb4ea27df5f50333a *experiment/run_lpig_benchmark_entrada141.py
+f733a2095d21eb87775694128407a312 *pmsp/unrelated_lp.py
+668a2d7e089c32f42f14489a44935dc7 *pmsp/unrelated.py
+cee6731e624961506996328361d99ff0 *pmsp/qlearning.py
+ed54384b6fc8f5296a17b42f88924966 *pmsp/selectors.py
+6e08c0cea6b269959faa28b73d225939 *pmsp/fixed_selector.py
+86b732ea467daaefe2b7c512264420c4 *results/rcmax_manifest_entrada137.csv
+229d5fc66a418887ce28756e818cbcd8 *results/lpig_tune_d_entrada141.csv
+2bd533deec660b773af55b121e876aaf *results/lpig_choice_d_entrada141.json
+65c73cfe05633df6e6ecda88536ab27c *results/state_calibration_unrelated_entrada118.json
+# (apos o pre-treino das tabelas Q; antes do teste)
+acc7483da2637840b501fd52fd587aa4 *results/dpolicy_qtables_entrada145.npz
+# (saida do teste, antes do relatorio)
+08543b620a861da94b9d92275cb018ba *results/dpolicy_test_entrada145.csv

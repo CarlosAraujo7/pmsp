@@ -1,0 +1,46 @@
+% Quadro global das analises pre-especificadas (Entrada 125). Linhas E124 preenchidas apos a execucao.
+\begin{longtable}{@{}p{0.23\textwidth}p{0.06\textwidth}p{0.33\textwidth}p{0.30\textwidth}@{}}
+\caption{All pre-specified (confirmatory) analyses of the study, with the verdict under the stated decision rule. Non-confirmations are listed on equal footing.}\label{tab:s_prereg_all}\\
+\toprule
+Analysis & Diary & Decision rule & Outcome \\
+\midrule
+\endfirsthead
+\toprule
+Analysis & Diary & Decision rule & Outcome \\
+\midrule
+\endhead
+Held-out Q-Learning effect (4{,}160 published instances) & 90 & Family-level paired test, three families & Confirmed in B, C, E (small) \\
+A priori dispatch (held-out) & 94 & Beats always-IG and always-ILS (Holm 2) & Confirmed (2/2) \\
+Granularity factorial & 98 & Direction of IG vs.\ ILS per granularity level & Confirmed (3/3) \\
+State recalibration & 98 & Q-Learning vs.\ random with informative state & IG: null; ILS: worse \\
+Stronger baselines (P1--P4, two data sets) & 102 & Eight paired tests (Holm 8) & 8/8 confirmed; P1 negligible \\
+Headroom and signal & 104 & Headroom $>-0.05\%$; dense and pre-trained reward (Holm 3) & Headroom supported; signal explanation refuted \\
+Hyperparameters & 105 & Nine tests vs.\ matched random (Holm 9) & \emph{Not} robust at $d\leq0.2n$ \\
+Other distributions & 108 & Equivalence H1; dispatch and granularity (Holm 4) & H1 and 4/4 confirmed \\
+Seed variance, three classes & 109 & Equivalence S1; sign agreement S2 & S1 \emph{not} met; S2 met (6/6) \\
+Equal CPU time & 110 & ILS advantage on fine times persists (Holm 4) & Persists \\
+Destruction size as action space & 114 & Headroom A1; policy A2--A4 (Holm 4) & A1 confirmed; policy captures none (A2 \emph{not} confirmed) \\
+Second confirmatory test (2{,}690 new published instances) & 115 & Original and informative state vs.\ random (Holm 6) & 6/6 confirmed; informative state adds nothing \\
+Seed variance, twelve classes & 117 & Equivalence S1$'$; sign agreement S2$'$ & Real and strictly equivalent ($-0.011\%$); 23/24 \\
+Strong start for both mechanisms & 117 & I1--I3, two data sets (Holm 6) & Confirmed; ILS policy slightly worse (I1) \\
+Unrelated machines & 118 & M1--M4 (Holm 4) & M1, M2 confirmed; ILS policy worse; MILP not beaten (M4 \emph{not}) \\
+Budget law ($T=100,250$) & 121 & B1--B4 (Holm 4) & B4 (headroom) confirmed; B1--B3 (policy) \emph{not} \\
+Destruction size, $T=5000$ and pre-training & 121 & D1--D4 (Holm 4) & D2 confirmed; D1, D3 \emph{not}; D4: validation better \\
+Tuned-$d$ + strong start & 121 & E1--E4, two data sets (Holm 8) & 8/8 confirmed \\
+Unrelated machines: budget and equal CPU & 121 & RB1--RB4 (Holm 4) & RB2 confirmed; RB1, RB3, RB4 \emph{not} \\
+Unrelated machines: fresh instances, ablation & 124 & L1--L6 (Holm 6) & L1 confirmed ($\rho=0.59$); L4 confirmed; L2, L3, L5, L6 \emph{not} (policy gain $-0.07\%$) \\
+Hybrid IG with local search ($\mathrm{P}||C_{\max}$) & 124 & P1--P3 (Holm 3) & P1, P2 confirmed (local search adds $0.15\%$; hybrid beats ILS by $0.72\%$); policy P3 \emph{not} ($-0.004\%$) \\
+Recipe with local search & 127 & F1--F5, two data sets (Holm 5) & F1, F3, F4, F5 confirmed (equal iterations); F2 (\emph{equal CPU}) \emph{not}: the local search is worse by $0.034\%$ \\
+Unrelated machines at $1000\times50$ vs.\ MILP (60\,s) & 127 & G1--G2 (Holm 2) & \emph{Neither} confirmed: the MILP is better ($+2.24\%$, $+0.89\%$) \\
+Hybrid IG at equal CPU ($\mathrm{P}||C_{\max}$) & 129 & Q1 (single test) & Q1 significant but negligible ($-0.010\%$; equivalent within $\pm0.05\%$): $93\%$ of the $0.15\%$ was budget \\
+Policy at $1000\times50$ ($\mathrm{R}||C_{\max}$), equal CPU & 133 & Q1, Q2 (Holm 2) & \emph{Neither} confirmed (pooled $-0.35\%$, $-0.19\%$); post hoc: $-1.73\%$ in $U[1,100]$, worse than random in two distributions \\
+Offline validation vs.\ policy at $1000\times50$ ($\mathrm{R}||C_{\max}$) & 135 & V1--V3 (Holm 3) & V2 confirmed ($-0.46\%$); V1 inconclusive ($-0.14\%$); V3 \emph{not} ($-0.31\%$) \\
+External validation, standard $\mathrm{R}||C_{\max}$ benchmark (700 instances) & 137 & B1, B2a, B2b, B3, B4 (Holm 5) & B1 confirmed ($-2.14\%$ at equal CPU); B2a, B2b \emph{not} ($-0.055\%$, $-0.033\%$); B3 confirmed ($\rho=0.74$); B4 confirmed (validation beats the policy by $0.066\%$) \\
+LP-started IG, standard $\mathrm{R}||C_{\max}$ benchmark (420 unused instances) & 141 & L1--L3 (Holm 3) & L1 confirmed ($-1.18\%$ at equal CPU); L2 confirmed ($-0.12\%$); L3 \emph{not} ($+0.055\%$); competitiveness criterion met ($0.85\%$, $0.31\%$ at $n=1000$) \\
+LP-started IG vs.\ MILP at $1000\times50$ & 143 & M1--M2 (Holm 2) & \emph{Neither} confirmed ($-0.76\%$, $p_{\mathrm{Holm}}=0.72$); GAP $1.09\%$ against $2.04\%$; equal or better in $62.5\%$ \\
+Prospective headroom law, destruction size ($\mathrm{R}||C_{\max}$ benchmark, 700 instances) & 145 & D1--D5 (Holm 5) & D1 confirmed ($-0.065\%$); D2--D5 \emph{not}: Q-Learning worse than random ($+0.15\%$), validation beats online ($+0.36\%$) and pre-trained ($+0.25\%$), $\rho=-0.37$ \\
+LP-IG + restricted MILP, standard $\mathrm{R}||C_{\max}$ benchmark (420 unused instances) & 149 & S1--S3 (Holm 3) & All confirmed ($-0.49\%$ at similar CPU; $-0.68\%$; $-0.55\%$); GAP $0.25\%$; criterion met overall and per $n$, \emph{not} per type (job-correlated $0.67\%$) \\
+Permutation flowshop (third problem), 120 test instances & 152 & P1--P5 (Holm 5) & P2, P4 confirmed (local search $-0.21\%$ at equal CPU; validation beats the agent by $0.16\%$); P1 (IG vs.\ ILS), P3 (agent $+0.14\%$, worse than random), P5 \emph{not} \\
+LP-reduced-cost candidates for the restricted MILP, standard $\mathrm{R}||C_{\max}$ benchmark (700 test instances) & 156 & R1--R3 (Holm 3) & All confirmed in sign; R1 negligible ($-0.03\%$); criterion (GAP $\leq0.25\%$; every type $\leq0.5\%$) \emph{not} met ($0.27\%$; $0.64\%$ in $U[10,100]$) \\
+\bottomrule
+\end{longtable}

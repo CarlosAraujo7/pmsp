@@ -1,0 +1,40 @@
+15d1b7cfae8a3db5da38cea1b6e3b07b *experiment/run_igcvls_entrada127.py
+51cf45bd436bd76d35d31326862edf96 *analysis/report_entrada127_igcvls.py
+04ecbd0dde6f74cbd88b819d2d52fb39 *experiment/run_unrelated_large_entrada127.py
+edcff16f61a08c245cc3a75656c54f54 *analysis/report_entrada127_unrelated_large.py
+9e5bbc309225179e84b3eafe0f5b4860 *experiment/run_igls_p_entrada124.py
+b77bcc42faa284e5d919741629301b3e *experiment/run_dsel_entrada114.py
+174d06036e53f5dbe798a97140aee943 *experiment/run_igcv_seed_entrada121.py
+a47b1870a4685db672aa14bb2c296c3f *experiment/run_unrelated_entrada118.py
+363eb2f1be7d55d4ffdc855a7c570b47 *pmsp/ig.py
+d00efa72451ee765b98a28fecf3e4b3a *pmsp/operators.py
+668a2d7e089c32f42f14489a44935dc7 *pmsp/unrelated.py
+d339c3d82c0fabbe11f01abd3e7fc28c *pmsp/unrelated_exact.py
+881ae7159d3f3d55bbce0dfbd01e8331 *pmsp/seeding.py
+6e08c0cea6b269959faa28b73d225939 *pmsp/fixed_selector.py
+8510c9a43c28ee2c15fd5ef4036ef962 *results/results.csv
+4da6117054666ecdb444904a1e8b8502 *results/seeded_baselines_entrada102.csv
+8e072bacbdd01ef961709e96b2547fc1 *results/igcv_seed_entrada121.csv
+ca3a4a576736c5ece0844e48a35d597b *results/dsel_tuning_entrada114.csv
+a61c5467f3fe1caf662d44fa352f8863 *results/igcv_ext_choice_entrada121.json
+c9d0a5f88ba660e9886c947acc60a887 *results/dsel_unrelated_entrada118.json
+65c73cfe05633df6e6ecda88536ab27c *results/state_calibration_unrelated_entrada118.json
+83fa0c4fb4876e6af08567d1d8d56518 *results/exact_reference_synthetic_entrada101.csv
+235f745f4a69c97335533102aa265c7c *external_benchmarks/pcmax_symmetry2025/manifest_ilsseed_entrada117.csv
+1c6d509d383fcad406dad44386d6d9f3 *external_benchmarks/pcmax_symmetry2025/results_external_igcv_seed_entrada121.csv
+ef8159da3eeea7fe58810cb90bb0fd5b *external_benchmarks/pcmax_symmetry2025/results_external_seeded_entrada102.csv
+0d2a1dc75fa1e5243789eb8e14222e57 *external_benchmarks/pcmax_symmetry2025/results_external_symmetry2025.csv
+# (apos a calibracao sequencial, antes da fase sintetica)
+f1c181f611349c97fb338bc306dd273a *results/igcvls_cpu_ratio_entrada127.json
+# (saidas da frente 1, apos a execucao e antes do relatorio)
+dcbc863a9afa59188d26a1e207c32992 *results/igcvls_seed_entrada127.csv
+3d139ebcaa9bb6e3592342553b0ff24a *external_benchmarks/pcmax_symmetry2025/results_external_igcvls_seed_entrada127.csv
+# EMENDA 1 (frente 2, 10/10/2026, antes de qualquer dado de teste): a grade original de d/n {0,02; 0,05; 0,10} deu o otimo na BORDA (0,02: 1,0497; 0,05: 1,0762; 0,10: 1,0952; salvo em results/dsel_unrelated_large_entrada127_grade_original.json); a grade foi estendida para {0,005; 0,01; 0,02; 0,05; 0,10} e o ajuste refeito nas MESMAS 24 instancias de ajuste. Nenhuma hipotese ou regra de decisao foi alterada. Hash do runner apos a emenda:
+6f1a1c2ba98831f6c74bf82fd1dcc0db *experiment/run_unrelated_large_entrada127.py
+09980fef39afab91c45338815d47bccd *results/dsel_unrelated_large_entrada127_grade_original.json
+# (ajuste refeito com a grade estendida; 0,02 permanece o melhor e agora e' interior; congelado antes da execucao de teste)
+8e71c2fa647bf859dd84b69043fdb45b *results/dsel_unrelated_large_entrada127.json
+# (saidas das heuristicas da frente 2, antes da fase exata)
+a5304e916989c536ee3a40ad075c89a6 *results/unrelated_large_entrada127.csv
+# (saida da fase exata da frente 2, antes do relatorio)
+1c52b656aeb543891f348a6bc1cda054 *results/unrelated_large_exact_entrada127.csv

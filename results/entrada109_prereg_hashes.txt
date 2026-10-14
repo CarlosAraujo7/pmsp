@@ -1,0 +1,3 @@
+99aa4943719ea0b1eb10e5b684485ed6 *experiment/run_seed_variance_entrada109.py
+b993da88ff34e7224bcd0dabbc1eb2d7 *analysis/report_entrada109_seed_variance.py
+8510c9a43c28ee2c15fd5ef4036ef962 *results/results.csv

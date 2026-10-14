@@ -1,0 +1,14 @@
+e978ce590477abed3b4a44ad71fdb6c6 *experiment/run_igls_eq_entrada129.py
+4038e9bf090433166e489c873dbe28b2 *analysis/report_entrada129_igls_eq.py
+9e5bbc309225179e84b3eafe0f5b4860 *experiment/run_igls_p_entrada124.py
+ea6486b678b08e5adccef55ccf634251 *experiment/runner.py
+363eb2f1be7d55d4ffdc855a7c570b47 *pmsp/ig.py
+d00efa72451ee765b98a28fecf3e4b3a *pmsp/operators.py
+ed54384b6fc8f5296a17b42f88924966 *pmsp/selectors.py
+8510c9a43c28ee2c15fd5ef4036ef962 *results/results.csv
+0ffe61469486ad9ad9c2e0053000856b *results/igls_p_entrada124.csv
+83fa0c4fb4876e6af08567d1d8d56518 *results/exact_reference_synthetic_entrada101.csv
+# (apos a calibracao sequencial, antes da fase de execucao)
+db5a8c078e13abd6947018a03f3b0a84 *results/igls_eq_cpu_ratio_entrada129.json
+# (saida da frente 3, antes do relatorio)
+33bb2389a3dd93cba34d7b592ed8574a *results/igls_eq_entrada129.csv

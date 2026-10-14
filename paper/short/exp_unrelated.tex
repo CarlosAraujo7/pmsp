@@ -1,0 +1,69 @@
+\subsection{Unrelated machines: the same question, a different answer}
+\label{sec:unrelated}
+
+Identical machines are a favourable case for exact methods and for saturating the search. To see whether the decomposition is a property of the problem or of the method, the protocol was repeated on
+$\mathrm{R}||C_{\max}$, with the same agent, state and decision rules. The IG removes $d$ jobs with one of four strategies and reinserts them greedily, with or without a local search (a descent that moves or
+swaps jobs from the critical machine); the ILS applies a best-improvement move, swap or double move from the critical machine. Following the lesson of Section~\ref{sec:f3f4-ablation}, $d/n$ was chosen per size on
+separate instances. The synthetic study has $400$ instances (four distributions, five sizes from $50\times10$ to $500\times30$, $T=1{,}000$), with the LP relaxation and a MILP (HiGHS) as references on $160$ of them.
+
+\paragraph{The mechanism matters, with a different cause}
+The IG with local search beats the ILS by $4.16\%$ ($384$ of $400$ instances), also at equal CPU time ($2.16\%$). But the \emph{pure} IG does not beat the ILS ($+1.39\%$) and the local search improves it by
+$5.40\%$: for unrelated machines the active ingredient is the \emph{combination} of destruction--reconstruction with a descent, whereas for identical machines the cycle alone sufficed.
+
+\paragraph{The policy matters more, but still little, and follows the headroom}
+Q-Learning over the four destruction strategies of the IG with local search gains $0.145\%$ over random selection (90\% interval $0.054$--$0.234$), thirteen times the identical-machine value
+but thirty times smaller than the mechanism effect; in the ILS the agent is \emph{worse} than random operator selection ($+0.96\%$, $p_{\mathrm{Holm}}<10^{-14}$), also with eight times the budget. The headroom explains the difference:
+the omniscient per-instance choice among the strategies gains $0.38\%$ (against $0.04\%$ for identical machines), and the policy gain is large where the headroom is large and null in $U[100,120]$, where the machines
+are almost identical. The law was tested on $400$ new instances: the Spearman correlation between the headroom of a cell and the policy gain is $0.59$ over $20$ cells ($p_{\mathrm{Holm}}=0.015$), but the magnitude is unstable
+(pooled $0.073\%$, not significant alone; both samples together $0.109\%$, computed after seeing both), and the gain requires the state and temporal-difference learning together (Supplementary Section~\ref{S-sec:m-unrelated}).
+
+\paragraph{Exact references: the metaheuristic does not win here}
+The MILP proves optimality in $66.9\%$ of the $160$ instances within $60$ seconds; the IG with local search and Q-Learning ends $2.04\%$ above the best lower bound (MILP: $0.43\%$). At $1000\times50$ ($32$ new
+instances) the MILP returns an incumbent in all of them, $2.24\%$ better than the IG at $T=1{,}000$ ($p_{\mathrm{Holm}}=10^{-4}$). On these $32$ instances the policy gain over random selection was $0.52\%$, five times larger than at
+$n\leq500$, so a further $96$ instances tested whether it survives, also at equal CPU time (the agent costs $1.39\times$): pooled, it does not ($0.35\%$ and $0.19\%$; $p_{\mathrm{Holm}}=0.19$ and $0.67$; the prediction recorded beforehand was wrong).
+The effect is not uniform: in $U[1,100]$ one strategy dominates the mixture by $1.66\%$ and Q-Learning finds it ($+1.73\%$ gain, $17$ wins and no losses), but a strategy validated offline captures the headroom of the fixed strategies at a lower CPU time, and in two
+distributions the agent is worse than random selection. The heuristics of this part are therefore not competitive with the exact method at these sizes; their role here is the attribution (Supplementary Section~\ref{S-sec:m-unrelated}).
+
+\subsubsection*{External validation on the standard benchmark}
+The synthetic instances were repeated on the standard $\mathrm{R}||C_{\max}$ benchmark of \citet{FanjulPeyroRuiz2010} (the copy distributed with \citealt{AbladEtAl2021}): $1{,}400$ instances (seven types,
+$m\in\{10,\ldots,50\}$, $n\in\{100,\ldots,1000\}$) with the best solution known from CPLEX (two hours), Gurobi and an exact method (300 seconds each), proved optimal for $73\%$ of the test instances. Two instances per cell
+($280$) were used for tuning, five ($700$) for a pre-specified test (Table~\ref{tab:f31_rcmax_benchmark}) and the rest ($420$) were reserved. The decomposition replicates. The IG with local search beats the ILS at equal CPU
+time by $2.14\%$ ($529$ wins against $99$); the policy gain over random selection is $0.055\%$ at equal $T$ and $0.033\%$ at equal CPU (neither confirmed); the validated strategy beats Q-Learning by $0.066\%$
+($p_{\mathrm{Holm}}=0.007$); and the headroom law is confirmed on third-party data (Spearman $0.74$ over $28$ cells, $p_{\mathrm{Holm}}=10^{-5}$). The gain is concentrated where one fixed strategy dominates
+($0.61\%$ in $U[1,100]$; $+0.20\%$, worse, in machine-correlated instances). The IG with local search ends $2.08\%$ above the best known solution on average, against $0.07\%$ for Gurobi: the exact references remain ahead.
+
+\input{f31_rcmax_benchmark.tex}
+
+\subsubsection*{A prospective test of the headroom law}
+The law was derived from, and tested on, destruction strategies. To test it prospectively in an action space with headroom, an IG started from the rounded LP relaxation (LP-IG, described below) was run with the
+destruction size $d/n\in\{0.01,0.02,0.05,0.10,0.20\}$ as the action on the $700$ benchmark instances, with the design fixed beforehand (Table~\ref{tab:f33_dpolicy}), against random choice of $d$, the choice validated on $10$ separate instances
+per type and job count, online Q-Learning, UCB1 and a table pre-trained offline. The headroom is real but modest: validation improves on random choice by $0.065\%$ per $n$ and $0.201\%$ per type and $n$ (per-instance
+oracle: $0.325\%$). The policy does not capture it. Online Q-Learning is \emph{worse} than random choice ($+0.152\%$, $p_{\mathrm{Holm}}=10^{-5}$) and than the validated choice ($+0.360\%$), the pre-trained table also loses to validation ($+0.249\%$),
+and over the $28$ cells the policy gain is unrelated to the headroom (Spearman $-0.37$; the criterion fixed beforehand was $\geq0.5$; Figure~\ref{fig:headroom}); the largest loss ($+0.44\%$) is in $U[1,100]$, where the headroom is largest. Most of the predictions
+recorded before the run were wrong. \textbf{Headroom is therefore necessary but not sufficient.} An exploratory diagnostic suggests why: the immediate reward ranks the sizes consistently with their final quality, but more than $90\%$ of it arrives in
+the first $100$ of the $1{,}000$ iterations, leaving the agent a very short window to learn; and bandits designed for such a window (Thompson sampling, with and without discounting, and a successive-elimination race) did not beat random choice either in a
+pilot on $126$ tuning instances, so none of five learners captures the headroom. Choosing $d$ is, in these data, a configuration problem solved offline, not a control problem solved online.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.95\textwidth]{fig_headroom.pdf}
+\caption{Headroom of the actions against the gain of the Q-Learning policy over random selection, per cell (type $\times$ $n$; $28$ cells) of the standard $\mathrm{R}||C_{\max}$ benchmark, $700$ test instances. Headroom is the gain of the
+per-instance oracle over random selection (negative where selection noise outweighs the differences between actions). A: destruction strategies, where the law holds (Spearman $\rho=0.74$). B: destruction size, a prospective test
+with $\rho=-0.37$: the largest headroom goes with the largest losses of the policy (below zero).}
+\label{fig:headroom}
+\end{figure}
+
+\input{f33_dpolicy.tex}
+
+\subsubsection*{A stronger learning-free heuristic: LP start and a restricted MILP}
+The distance to the exact references suggested improving the heuristic rather than the policy. The linear relaxation of the assignment model (solved in $0.4$ seconds on average) has a vertex solution with
+fewer fractional jobs than machines ($29$ of $1{,}000$ jobs in the largest cells); rounding it (integral jobs stay, fractional ones go to the machine of earliest completion within their support) and descending gives a start that is
+poor by itself ($5.2\%$ above the best known solution) but from which the same IG is far better. On the $420$ reserved instances, with $d/n$ tuned on $280$ others and a pre-specified design, this LP-IG beats the IG started
+from the constructive solution by $1.18\%$ at equal CPU time ($308$ wins against $21$), and the mean GAP to the best known solutions falls from $2.23\%$ to $0.97\%$. A MILP restricted to the six cheapest machines of each job (and to the
+machine of the incumbent, so that the restricted problem contains the LP-IG solution), solved with HiGHS for at most $30$ seconds, never worsens the solution and improves $54.8\%$ of them; against more iterations of the LP-IG at a
+similar CPU time ($T=8000$) it is better by $0.49\%$ ($196$ wins against $33$, $p_{\mathrm{Holm}}=10^{-24}$), and the GAP falls to $0.25\%$ ($0.11\%$ for $n=1000$; Table~\ref{tab:f34_lpigsr}). That is within the range of CPLEX with two hours
+($0.20\%$) and $0.15$ points from Gurobi and the exact method with $300$ seconds. The criterion fixed beforehand ($\leq0.3\%$ overall and $\leq0.5\%$ in every job count and type) is met overall and for every $n$ but not for
+job-correlated instances ($0.67\%$). A variant that chooses the candidate machines by the reduced cost of the LP was tested on the remaining $700$ instances: significant in sign but negligible in size ($-0.03\%$;
+mean GAP $0.30\%\to0.27\%$), and its criterion ($\leq0.25\%$) was not met. No learned component takes part in any of the three steps.
+
+\input{f34_lpigsr.tex}

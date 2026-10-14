@@ -1,0 +1,204 @@
+[
+  {
+    "label": "rand_20j_4m",
+    "n": 20,
+    "m": 4,
+    "configs": [
+      {
+        "n_train_episodes": 30,
+        "eps_eval": 0.0,
+        "coverage_final": 24,
+        "coverage_pct": 29.6,
+        "coverage_history_every10": [
+          17,
+          19,
+          24
+        ],
+        "dominance_counts": {
+          "0": 19,
+          "1": 27,
+          "2": 16,
+          "3": 19
+        },
+        "gap_mean": 0.08969099731941527,
+        "gap_std": 0.1635990963299966,
+        "gap_median": 0.0
+      },
+      {
+        "n_train_episodes": 30,
+        "eps_eval": 0.05,
+        "coverage_final": 24,
+        "coverage_pct": 29.6,
+        "coverage_history_every10": [
+          17,
+          19,
+          24
+        ],
+        "dominance_counts": {
+          "0": 19,
+          "1": 27,
+          "2": 16,
+          "3": 19
+        },
+        "gap_mean": 0.08969099731941527,
+        "gap_std": 0.1635990963299966,
+        "gap_median": 0.0
+      },
+      {
+        "n_train_episodes": 100,
+        "eps_eval": 0.0,
+        "coverage_final": 18,
+        "coverage_pct": 22.2,
+        "coverage_history_every10": [
+          17,
+          19,
+          24,
+          19,
+          21,
+          18,
+          18,
+          20,
+          21,
+          18
+        ],
+        "dominance_counts": {
+          "0": 19,
+          "1": 28,
+          "2": 16,
+          "3": 18
+        },
+        "gap_mean": 0.11601941971489244,
+        "gap_std": 0.17873553241873813,
+        "gap_median": 0.0
+      },
+      {
+        "n_train_episodes": 100,
+        "eps_eval": 0.05,
+        "coverage_final": 18,
+        "coverage_pct": 22.2,
+        "coverage_history_every10": [
+          17,
+          19,
+          24,
+          19,
+          21,
+          18,
+          18,
+          20,
+          21,
+          18
+        ],
+        "dominance_counts": {
+          "0": 19,
+          "1": 28,
+          "2": 16,
+          "3": 18
+        },
+        "gap_mean": 0.05731882223272669,
+        "gap_std": 0.14735412077781662,
+        "gap_median": 0.0
+      }
+    ]
+  },
+  {
+    "label": "rand_50j_10m",
+    "n": 50,
+    "m": 10,
+    "configs": [
+      {
+        "n_train_episodes": 30,
+        "eps_eval": 0.0,
+        "coverage_final": 18,
+        "coverage_pct": 22.2,
+        "coverage_history_every10": [
+          19,
+          17,
+          18
+        ],
+        "dominance_counts": {
+          "0": 21,
+          "1": 28,
+          "2": 14,
+          "3": 18
+        },
+        "gap_mean": 0.7193874300139197,
+        "gap_std": 0.47425728582984705,
+        "gap_median": 0.6997198673957454
+      },
+      {
+        "n_train_episodes": 30,
+        "eps_eval": 0.05,
+        "coverage_final": 18,
+        "coverage_pct": 22.2,
+        "coverage_history_every10": [
+          19,
+          17,
+          18
+        ],
+        "dominance_counts": {
+          "0": 21,
+          "1": 28,
+          "2": 14,
+          "3": 18
+        },
+        "gap_mean": 0.7062121994473849,
+        "gap_std": 0.48835947411919023,
+        "gap_median": 0.6997198673957454
+      },
+      {
+        "n_train_episodes": 100,
+        "eps_eval": 0.0,
+        "coverage_final": 16,
+        "coverage_pct": 19.8,
+        "coverage_history_every10": [
+          19,
+          17,
+          18,
+          18,
+          19,
+          16,
+          18,
+          20,
+          16,
+          16
+        ],
+        "dominance_counts": {
+          "0": 20,
+          "1": 26,
+          "2": 14,
+          "3": 21
+        },
+        "gap_mean": 0.7193874300139197,
+        "gap_std": 0.47425728582984705,
+        "gap_median": 0.6997198673957454
+      },
+      {
+        "n_train_episodes": 100,
+        "eps_eval": 0.05,
+        "coverage_final": 16,
+        "coverage_pct": 19.8,
+        "coverage_history_every10": [
+          19,
+          17,
+          18,
+          18,
+          19,
+          16,
+          18,
+          20,
+          16,
+          16
+        ],
+        "dominance_counts": {
+          "0": 20,
+          "1": 26,
+          "2": 14,
+          "3": 21
+        },
+        "gap_mean": 0.7062121994473849,
+        "gap_std": 0.48835947411919023,
+        "gap_median": 0.6997198673957454
+      }
+    ]
+  }
+]

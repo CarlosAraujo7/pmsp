@@ -1,0 +1,31 @@
+====================================================================================================
+TESTE FORMAL DE IGUALDADE DE VARIANCIA: ig_ql vs. ig_random (hipotese da Entrada 47)
+====================================================================================================
+
+Hipotese (diario_pesquisa.md, Entrada 47 -- 2 consultas INDEPENDENTES ao Gemini,
+uma sem saber da outra): Q-Learning reduz a VARIANCIA do gap%, nao necessariamente
+a media. H0: variancias iguais. Levene (centrado na mediana, robusto a
+nao-normalidade) e Fligner-Killeen (nao-parametrico) lado a lado -- concordancia
+entre os dois e' evidencia mais forte que qualquer um isolado. Cada teste
+Holm-corrigido SEPARADAMENTE (ver docstring de variance_equality_family).
+
+                        family reference     other   n  m  n_ref  n_other  std_ref  std_other  ratio_std  p_levene  p_holm_levene  reject_holm_levene  p_fligner  p_holm_fligner  reject_holm_fligner  agreement
+V1_ig_ql_vs_ig_random_variance     ig_ql ig_random  20  4     30      100        0    0.07494          0    0.2758              1               False     0.2706               1                False       True
+V1_ig_ql_vs_ig_random_variance     ig_ql ig_random  20  6    100      100   0.8888     0.8922     0.9963     0.859              1               False     0.7281               1                False       True
+V1_ig_ql_vs_ig_random_variance     ig_ql ig_random  30  8    100      100    0.256     0.2766     0.9257   0.04149         0.4149               False     0.8446               1                False       True
+V1_ig_ql_vs_ig_random_variance     ig_ql ig_random  50 10    100      100    0.213     0.2166     0.9834    0.8664              1               False     0.2741               1                False       True
+V1_ig_ql_vs_ig_random_variance     ig_ql ig_random  75 15    100      100   0.2412     0.2467     0.9775    0.5598              1               False     0.4704               1                False       True
+V1_ig_ql_vs_ig_random_variance     ig_ql ig_random 100 20    100      100   0.2182     0.2451     0.8902    0.5184              1               False     0.3038               1                False       True
+V1_ig_ql_vs_ig_random_variance     ig_ql ig_random 150 15    100      100  0.09713    0.09992     0.9721    0.7745              1               False     0.3471               1                False       True
+V1_ig_ql_vs_ig_random_variance     ig_ql ig_random 150 30    100      100   0.2149     0.2439      0.881   0.06348         0.5713               False     0.1212               1                False       True
+V1_ig_ql_vs_ig_random_variance     ig_ql ig_random 250 25    100      100   0.1077     0.1012      1.065    0.4517              1               False     0.9772               1                False       True
+V1_ig_ql_vs_ig_random_variance     ig_ql ig_random 300 20    100      100  0.06561    0.06589     0.9957    0.5815              1               False   0.002773         0.02773                 True      False
+
+====================================================================================================
+RESUMO
+====================================================================================================
+Classes testadas: 10
+Classes com ratio_std < 1 (ig_ql com MENOS variancia que ig_random): 9/10
+Classes onde os DOIS testes (Levene E Fligner) rejeitam H0 apos Holm: 0/10
+Classes onde PELO MENOS UM dos dois rejeita H0 apos Holm: 1/10
+Classes onde os dois testes CONCORDAM na decisao (rejeitar ou nao): 9/10

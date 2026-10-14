@@ -1,0 +1,15 @@
+587b5610a1fc4a13ed80bb8b08662df5 *experiment/run_unrelated_valid_entrada135.py
+4eaec6c048fdb47db2f47158f28e6c01 *analysis/report_entrada135_unrelated_valid.py
+c9f444f58f7a774e7dada25a0cd7e5d6 *experiment/run_unrelated_policy_entrada133.py
+6f1a1c2ba98831f6c74bf82fd1dcc0db *experiment/run_unrelated_large_entrada127.py
+668a2d7e089c32f42f14489a44935dc7 *pmsp/unrelated.py
+cee6731e624961506996328361d99ff0 *pmsp/qlearning.py
+6e08c0cea6b269959faa28b73d225939 *pmsp/fixed_selector.py
+8e71c2fa647bf859dd84b69043fdb45b *results/dsel_unrelated_large_entrada127.json
+65c73cfe05633df6e6ecda88536ab27c *results/state_calibration_unrelated_entrada118.json
+cb87c840297087b9e152354b0ac054d1 *results/unrelated_policy_entrada133.csv
+# (apos o ajuste, antes da fase de teste)
+b5ce5539f7920efb5623308ef224ebff *results/valid_tune_entrada135.csv
+204638711132bce53d8aeea628c40703 *results/valid_choice_entrada135.json
+# (saida do teste, antes do relatorio)
+366271473b59d9501cf083190bf491ce *results/unrelated_valid_entrada135.csv

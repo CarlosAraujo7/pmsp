@@ -1,0 +1,22 @@
+5b54a4c6da8a1227536f3b408dfb762a *experiment/run_rcmax_benchmark_entrada137.py
+bed0f6dd084664a1b2b84f41afa228cb *analysis/report_entrada137_rcmax_benchmark.py
+668a2d7e089c32f42f14489a44935dc7 *pmsp/unrelated.py
+cee6731e624961506996328361d99ff0 *pmsp/qlearning.py
+ed54384b6fc8f5296a17b42f88924966 *pmsp/selectors.py
+6e08c0cea6b269959faa28b73d225939 *pmsp/fixed_selector.py
+65c73cfe05633df6e6ecda88536ab27c *results/state_calibration_unrelated_entrada118.json
+86b732ea467daaefe2b7c512264420c4 *results/rcmax_manifest_entrada137.csv
+f700bfda53d39853e2d0c32f54c7a4c3 *external_benchmarks/rcmax_fanjul_ruiz/raw/instances.7z
+a1b0a80b96ee9e7fbb90e64a2a318710 *external_benchmarks/rcmax_fanjul_ruiz/raw/res_all_instances.csv
+1f94ddd4e0f22e2332b5c4ba61274870 *external_benchmarks/rcmax_fanjul_ruiz/raw/Summary_of_results.md
+60acc71bdb7ca70f2c5317d5b1de8ecb *extracted-instances-combined (md5 of sorted per-file md5 list)
+# (apos o ajuste de d/n; n = 1000 -> 0,02 esta na borda da grade, mas 0,01 e 0,005 ja' foram piores em 1000 x 50 na Entrada 127)
+dfab483f6b8355c4bfcd8c197059c8d7 *results/rcmax_tune_d_entrada137.csv
+dd80cf47e44a4386c0fa4f5106d7bf53 *results/rcmax_choice_d_entrada137.json
+# (apos a escolha do braco por tipo; antes da calibracao de CPU)
+37bf09dab7f99eb4dfec1cb8afa603d0 *results/rcmax_tune_arm_entrada137.csv
+d67be85a4e895811dd8aaac8bf2f7466 *results/rcmax_choice_arm_entrada137.json
+# (apos a calibracao sequencial de CPU; antes do teste)
+97b0f4e7256186f53711af1be3b843cf *results/rcmax_cpu_ratio_entrada137.json
+# (saida do teste, antes do relatorio)
+91e210902915ca5f971603e193f35c45 *results/rcmax_test_entrada137.csv

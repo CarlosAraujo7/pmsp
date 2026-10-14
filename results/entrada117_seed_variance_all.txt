@@ -1,0 +1,61 @@
+==============================================================================================================
+VARIANCIA ENTRE SEEDS NAS 12 CLASSES -- teste pre-registrado, Entrada 117
+==============================================================================================================
+instancias (medias por seed): 240
+
+S1' politica (ig_ql vs ig_random, medias por seed, 240 instancias): d = -0.0110% IC90 [-0.0191, -0.0030] p = 0.00874
+  efeito real (d<0, p<0,05): SIM | estritamente equivalente (IC90 em +-0,05%): SIM | desprezivel frente ao mecanismo (IC90 em +-0,10%): SIM
+
+S2' concordancia de sinal IG vs ILS (medias por seed vs execucao unica): 23/24 -> CONFIRMADA (criterio >= 22/24)
+     instance                    pair  d_seedavg  d_single  same_sign
+rand_100j_20m ig_random vs ils_random    -0.4501   -0.3826       True
+rand_100j_20m         ig_ql vs ils_ql    -0.4902   -0.6348       True
+rand_150j_15m ig_random vs ils_random   -0.06591  -0.09485       True
+rand_150j_15m         ig_ql vs ils_ql   -0.07352  -0.06552       True
+rand_150j_30m ig_random vs ils_random    -0.6138   -0.5461       True
+rand_150j_30m         ig_ql vs ils_ql    -0.6671   -0.6551       True
+  rand_20j_4m ig_random vs ils_random  -0.004621         0      False
+  rand_20j_4m         ig_ql vs ils_ql   -0.06162  -0.03655       True
+  rand_20j_6m ig_random vs ils_random     -0.431   -0.3279       True
+  rand_20j_6m         ig_ql vs ils_ql    -0.4792   -0.5014       True
+rand_250j_25m ig_random vs ils_random    -0.0376  -0.02963       True
+rand_250j_25m         ig_ql vs ils_ql   -0.03667  -0.04944       True
+rand_300j_20m ig_random vs ils_random   -0.01018 -0.006516       True
+rand_300j_20m         ig_ql vs ils_ql   -0.01225  -0.01317       True
+  rand_30j_8m ig_random vs ils_random    -0.3919   -0.2907       True
+  rand_30j_8m         ig_ql vs ils_ql    -0.5496   -0.4449       True
+  rand_40j_5m ig_random vs ils_random   0.003364  0.009899       True
+  rand_40j_5m         ig_ql vs ils_ql   0.003558   0.02177       True
+ rand_50j_10m ig_random vs ils_random    -0.1836   -0.3552       True
+ rand_50j_10m         ig_ql vs ils_ql    -0.2489   -0.3866       True
+ rand_60j_20m ig_random vs ils_random     -3.392    -3.264       True
+ rand_60j_20m         ig_ql vs ils_ql     -3.359     -3.65       True
+ rand_75j_15m ig_random vs ils_random    -0.3383   -0.3364       True
+ rand_75j_15m         ig_ql vs ils_ql    -0.4094   -0.3303       True
+S3' ig_random vs ils_random: d = -0.493% IC90 [-0.598, -0.391]; IG melhor em 156 de 240 instancias (media por seed)
+S3' ig_ql vs ils_ql: d = -0.532% IC90 [-0.636, -0.429]; IG melhor em 168 de 240 instancias (media por seed)
+
+S4' politica por classe (Holm sobre 12):
+     instance   d_policy  better  worse     p_raw   p_holm
+rand_100j_20m   -0.03284      12      6    0.1084        1
+rand_150j_15m    -0.0084      10      3    0.2163        1
+rand_150j_30m   -0.02262      12      7    0.2579        1
+  rand_20j_4m   -0.01993       5      1         1        1
+  rand_20j_6m    0.02654       4      7    0.4131        1
+rand_250j_25m -5.169e-05       4      6         1        1
+rand_300j_20m  0.0005045       3      3         1        1
+  rand_30j_8m    -0.0764      12      1 0.0004883 0.005859
+  rand_40j_5m   0.001005       4      5         1        1
+ rand_50j_10m   -0.00662       8      7    0.4954        1
+ rand_60j_20m    0.04208       5     11   0.05768   0.6345
+ rand_75j_15m   -0.03539      11      6    0.1202        1
+classes com efeito detectado (p_holm<0,05): 1/12
+
+ICC e SD intra-instancia do GAP (resumo por metodo):
+                icc               sd_within_gap              
+                min median    max           min median    max
+method                                                       
+ig_ql      -0.02118 0.4549 0.9877       0.01739 0.1322 0.3148
+ig_random    0.1549 0.4406 0.9884       0.01834 0.1335 0.2829
+ils_ql       0.2136 0.7378  0.985      0.005133  0.139 0.8927
+ils_random   0.1197  0.716 0.9871      0.004802 0.1398 0.9131

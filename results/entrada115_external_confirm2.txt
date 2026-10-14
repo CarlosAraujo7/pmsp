@@ -1,0 +1,32 @@
+==============================================================================================================
+SEGUNDO TESTE CONFIRMATORIO EXTERNO -- estado informativo e replicacao, Entrada 115
+==============================================================================================================
+instancias: 2690 {'B': 980, 'C': 1050, 'E': 660}
+limiares pooled: {  "rel": {   "f1": [    0.2041754691189263,    0.5625630478861305   ],   "f2": [    0.32698148287365547,    0.7271468391014504   ]  },  "n_instances": 553,  "n_steps": 553000,  "quantiles": [   0.3333333333333333,   0.6666666666666666  ] }
+
+--- PRIMARIA (Holm sobre 6) ---
+ id             comparison    n  better  worse  tie  mean_diff_pp  rel_gap_pct  rank_biserial     p_raw    p_holm  confirmada
+R_B ig_ql_rel vs ig_random  980     493    367  120      -0.00789       -2.869        -0.1356 0.0005696  0.001709        True
+O_B     ig_ql vs ig_random  980     507    348  125      -0.01473       -5.354        -0.2167 4.049e-08 2.429e-07        True
+R_C ig_ql_rel vs ig_random 1050     284    177  589      -0.04974       -3.126        -0.2366 1.074e-05 5.371e-05        True
+O_C     ig_ql vs ig_random 1050     268    182  600      -0.02938       -1.846        -0.1594  0.003396  0.003396        True
+R_E ig_ql_rel vs ig_random  660     130     78  452       -0.0279       -3.334        -0.2942  0.000234 0.0009362        True
+O_E     ig_ql vs ig_random  660     133     88  439      -0.02681       -3.203         -0.254  0.001061  0.002122        True
+
+REPLICACAO do efeito pequeno (O_*): 3/3 confirmadas -> REPLICADO
+ESTADO INFORMATIVO: R_* confirmadas = 3/3; pooled ig_ql_rel vs ig_ql (original): d GAP = -0.63% (p=0.767) -> 'estado informativo NAO agrega ao original'
+
+--- ig_ql_rel vs ig_ql (descritiva) ---
+family    n  better  worse  tie  mean_diff_pp  rel_gap_pct  rank_biserial   p_raw
+     B  980     271    315  394      0.006836        2.626         0.1024 0.03179
+     C 1050     167    138  745      -0.02036       -1.304        -0.1277 0.05324
+     E  660      85     84  491     -0.001097      -0.1354        -0.0275  0.7565
+   ALL 2690     523    537 1630     -0.005728      -0.6342       -0.01053  0.7666
+
+--- GAP medio (%) ---
+        ig_random  ig_ql  ig_ql_rel
+family                             
+B           0.275 0.2603     0.2672
+C           1.591  1.562      1.541
+E          0.8369 0.8101      0.809
+ALL        0.9266 0.9032     0.8974

@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite it as below."
+title: "PMSP learnheuristics: code, data and analysis for 'Mechanism or policy? Budget-fair attribution of the gains of learning-guided metaheuristics in scheduling'"
+type: software
+authors:
+  - family-names: "Araújo"
+    given-names: "Carlos Vinicio Dantas"
+    email: "carlos.vinicio@aluno.uece.br"
+    affiliation: "State University of Ceará (UECE), Fortaleza, Brazil"
+version: "1.0.0"
+date-released: "2026-10-08"
+license: MIT
+repository-code: "https://github.com/CarlosAraujo7/pmsp"
+keywords:
+  - parallel machine scheduling
+  - makespan
+  - iterated greedy
+  - Q-learning
+  - adaptive operator selection
+  - learnheuristics
+abstract: >-
+  Source code, pre-specified experiment scripts (with md5 hashes of the frozen
+  versions), result files and LaTeX sources supporting a study that decomposes the
+  gains of Q-Learning-guided metaheuristics for P||Cmax into the contribution of
+  the search mechanism and of the learned selection policy.

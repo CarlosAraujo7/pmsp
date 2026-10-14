@@ -1,0 +1,50 @@
+==============================================================================================================
+IG+ vs ILS+ (partida forte nos dois) -- teste pre-registrado, Entrada 117
+==============================================================================================================
+S: 1200 instancias | X': 1500 {'B': 400, 'C': 400, 'E': 400, 'F': 300}
+
+--- PRIMARIA (Holm sobre 6; 'confirmada' = p_holm<0,05 e d<0; para I1 e I2 o sinal e' informativo, ver 'reject') ---
+set id                       comparison    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial      p_raw     p_holm  reject  confirmada
+  S I1   ils_ql_seed vs ils_random_seed 1200      15     41 1144     0.01471 0.007253  0.02305         0.4637  0.0005595   0.001119    True       False
+  S I2        ig_ql_seed vs ils_ql_seed 1200     164     10 1026    -0.09286  -0.1067 -0.07919          -0.91  2.142e-29  1.071e-28    True        True
+  S I3 ils_ql_seed vs best constructive 1130     114      0 1016    -0.07739 -0.09177 -0.06365             -1  1.917e-20  7.666e-20    True        True
+  X I1   ils_ql_seed vs ils_random_seed 1500     224    305  971     0.02403   0.0158  0.03239         0.1079  1.215e-05  3.646e-05    True       False
+  X I2        ig_ql_seed vs ils_ql_seed 1500     232    554  714     -0.0648 -0.08145 -0.04895         0.6093   0.004569   0.004569    True        True
+  X I3 ils_ql_seed vs best constructive 1500     788      0  712     -0.2566  -0.2874  -0.2273             -1 1.259e-130 7.551e-130    True        True
+
+--- secundaria por classe (S) / familia (X') ---
+set         group id   n  better  worse  tie  mean_d_pct     p_raw
+  S rand_100j_20m I1 100       1      0   99   -0.003968       NaN
+  S rand_100j_20m I2 100       0      1   99    0.003984       NaN
+  S rand_150j_15m I1 100       0      0  100           0       NaN
+  S rand_150j_15m I2 100       0      0  100           0       NaN
+  S rand_150j_30m I1 100       0      0  100           0       NaN
+  S rand_150j_30m I2 100       0      0  100           0       NaN
+  S   rand_20j_4m I1 100       4      7   89     0.01532    0.2783
+  S   rand_20j_4m I2 100      15      4   81    -0.05042  0.001934
+  S   rand_20j_6m I1 100       5     14   81      0.0758   0.07656
+  S   rand_20j_6m I2 100      53      0   47     -0.3975 2.368e-10
+  S rand_250j_25m I1 100       0      0  100           0       NaN
+  S rand_250j_25m I2 100       0      0  100           0       NaN
+  S rand_300j_20m I1 100       0      0  100           0       NaN
+  S rand_300j_20m I2 100       0      0  100           0       NaN
+  S   rand_30j_8m I1 100       3     17   80     0.08738   0.01069
+  S   rand_30j_8m I2 100      69      0   31     -0.5466 5.208e-13
+  S   rand_40j_5m I1 100       1      2   97    0.002261       NaN
+  S   rand_40j_5m I2 100       2      2   96  -0.0005077       NaN
+  S  rand_50j_10m I1 100       1      1   98  -0.0002378       NaN
+  S  rand_50j_10m I2 100      13      3   84    -0.04397    0.0173
+  S  rand_60j_20m I1 100       0      0  100           0       NaN
+  S  rand_60j_20m I2 100      11      0   89    -0.07526 0.0009766
+  S  rand_75j_15m I1 100       0      0  100           0       NaN
+  S  rand_75j_15m I2 100       1      0   99   -0.004032       NaN
+  X             B I1 400     138    169   93     0.01009   0.08259
+  X             B I2 400      24    322   54     0.03169 6.569e-39
+  X             C I1 400      13     12  375    0.004188    0.7265
+  X             C I2 400      70     51  279     -0.1436 1.183e-07
+  X             E I1 400      38     75  287     0.06926 3.748e-05
+  X             E I2 400      83    107  210     -0.1101   0.02947
+  X             F I1 300      35     49  216    0.008744   0.04335
+  X             F I2 300      55     74  171    -0.02793    0.1383
+S: busca melhora a melhor construtiva: IG+ 19.3% | ILS+ 10.1% (n=1130)
+X: busca melhora a melhor construtiva: IG+ 32.9% | ILS+ 52.5% (n=1500)

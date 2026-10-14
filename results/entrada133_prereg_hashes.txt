@@ -1,0 +1,18 @@
+bf51a6f6e3f3bc5381c3ef7ab788f2b7 *experiment/run_unrelated_policy_entrada133.py
+9508c57b163692e268cf34f6f3e47ab6 *analysis/report_entrada133_unrelated_policy.py
+a47b1870a4685db672aa14bb2c296c3f *experiment/run_unrelated_entrada118.py
+6f1a1c2ba98831f6c74bf82fd1dcc0db *experiment/run_unrelated_large_entrada127.py
+668a2d7e089c32f42f14489a44935dc7 *pmsp/unrelated.py
+cee6731e624961506996328361d99ff0 *pmsp/qlearning.py
+ed54384b6fc8f5296a17b42f88924966 *pmsp/selectors.py
+6e08c0cea6b269959faa28b73d225939 *pmsp/fixed_selector.py
+8e71c2fa647bf859dd84b69043fdb45b *results/dsel_unrelated_large_entrada127.json
+65c73cfe05633df6e6ecda88536ab27c *results/state_calibration_unrelated_entrada118.json
+a5304e916989c536ee3a40ad075c89a6 *results/unrelated_large_entrada127.csv
+9b03f0aba54a294e8dd06659e2decbaf *AUDITORIA_REVISOR_CICLO4.md
+# EMENDA 1 (10/10/2026, antes de qualquer dado de teste): a calibracao inicial (K unico = 1,258 com 8 instancias; salva em results/unrelated_policy_cpu_ratio_entrada133_calib_inicial.json) mostrou razao de CPU ql/random de 0,98 (U[1,100]) a 1,80 (U[100,200]); o K passou a ser POR DISTRIBUICAO (mediana de 6 instancias de ajuste, rep 0-5): T_eq = 1000, 1164, 1734, 1436 para U[1,100], U[10,100], U[100,200], U[100,120]. Nenhuma hipotese ou regra de decisao alterada. Hashes apos a emenda:
+c9f444f58f7a774e7dada25a0cd7e5d6 *experiment/run_unrelated_policy_entrada133.py
+551ac741222f3b023938d7fc2ed45c52 *results/unrelated_policy_cpu_ratio_entrada133.json
+74c9a6a55949f84b0b18a0721b48c2a4 *results/unrelated_policy_cpu_ratio_entrada133_calib_inicial.json
+# (saida do experimento, antes do relatorio)
+cb87c840297087b9e152354b0ac054d1 *results/unrelated_policy_entrada133.csv

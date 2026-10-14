@@ -1,0 +1,35 @@
+==============================================================================================================
+MILP RESTRITO COM CANDIDATAS POR CUSTO REDUZIDO DO LP (LP-RC) -- Entrada 156
+==============================================================================================================
+instancias de teste: 700 | referencia provada otima em 73.4% | violacoes de integridade: 0 (esperado 0)
+
+--- PRIMARIA (Holm sobre 3) ---
+id                                    comparison   n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada
+R1 lpig_rc6 vs lpig_sr6 (custo reduzido vs p_ij) 700     124     65  511    -0.02753 -0.06291  0.01512        -0.3647 7.174e-06 7.174e-06        True
+R2          lpig_rc6 vs lpig_T8000 (CPU ~ igual) 700     282     69  349     -0.4153  -0.5019   -0.335         -0.627 9.056e-31 1.811e-30        True
+R3                              lpig_rc6 vs lpig 700     348      0  352     -0.6131  -0.7173  -0.5188             -1 8.604e-59 2.581e-58        True
+
+GAP medio ao melhor conhecido (%): lpig 0.914, lpig_T8000 0.705, lpig_sr6 0.296, lpig_rc6 0.267, gurobi 0.067, lr 0.093, cplex 0.183
+CPU medio por execucao (s; inclui LP e MILP): lpig 6.6, lpig_T8000 48.3, lpig_sr6 28.1, lpig_rc6 29.2
+iguala ou bate o melhor conhecido (%): lpig 23.3, lpig_sr6 42.6, lpig_rc6 49.6 | estritamente melhor: lpig_rc6 3.1%
+
+--- GAP medio ao melhor conhecido por n (%) ---
+       lpig  lpig_sr6  lpig_rc6  gurobi       lr
+n                                               
+100   1.448     0.301    0.3302  0.1591        0
+200   1.318     0.395    0.3104 0.04523 0.004992
+500  0.5969    0.2966     0.273 0.03934   0.2139
+1000 0.2951     0.191    0.1551  0.0234   0.1532
+
+--- por tipo ---
+              lpig  lpig_sr6  lpig_rc6   gurobi       lr
+type                                                    
+JobsCorre   0.5683    0.5415    0.5294   0.3415   0.1607
+MaqCorre    0.4907     0.308   0.07692 0.004387  0.07816
+U1000a1100 0.01954  0.009218  0.008841 0.009479 0.003009
+U100a120   0.04576   0.02354   0.02037 0.006272 0.007477
+U100a200     0.241    0.1038    0.0967   0.0392  0.05866
+U10a100      1.984    0.6902    0.6388  0.05601   0.3431
+U1a100       3.052    0.3953    0.4993  0.01045        0
+
+Criterio pre-fixado (lpig_rc6): total 0.267% <= 0,25%: NAO; todos os tipos <= 0,5%: NAO (max 0.639%); todos os n <= 0,5%: SIM (max 0.330%)

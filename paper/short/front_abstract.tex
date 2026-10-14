@@ -1,0 +1,21 @@
+\begin{highlights}
+\item Equal-CPU attribution shows the gains of learning-guided search are mostly structure and budget.
+\item An offline-validated configuration beats online learning in every environment tested.
+\item Headroom is necessary but not sufficient for an online policy to help.
+\item The active ingredient differs by problem; only an equal-CPU ablation reveals it.
+\item Learning-free solvers: 97.5\% provably optimal (P$||C_{\max}$), about 0.3\% from best known (R$||C_{\max}$).
+\end{highlights}
+
+\begin{abstract}
+Learning-guided metaheuristics are routinely reported to win because of a learned policy, yet the search mechanism they embed and the CPU time they consume are rarely isolated.
+We propose a budget-fair attribution protocol (random control at matched budget, equal CPU time calibrated sequentially, a configuration validated offline, oracle headroom, certified bounds,
+equivalence margins and hypotheses pre-registered with code hashes) and apply it to tabular Q-Learning selecting destruction strategies or sizes in Iterated Greedy (IG) and operators in
+Iterated Local Search (ILS), for three problems: identical and unrelated parallel machines and the permutation flowshop. The evidence covers twelve synthetic classes, more than $13{,}000$ published
+identical-machine instances and the standard unrelated-machine benchmark. (i) The gain comes from the search structure, not from the policy ($0.01$--$0.05$ percentage points for identical machines,
+about $0.1\%$ for unrelated machines, none for the flowshop). The active ingredient differs by problem (destruction--reconstruction, its combination with a descent, the local search itself), and only an
+ablation at equal CPU time reveals it: $93\%$ of the $0.15\%$ advantage of a local search disappears when the CPU time is equalised. (ii) Choosing the configuration offline on separate instances beats
+online learning in every environment, against five learners including bandits designed for the short learning window. A headroom law holds for destruction strategies but failed prospectively for
+the destruction size: headroom is necessary, not sufficient. (iii) Learning-free solvers follow. An IG with a validated destruction size and a strong start is provably optimal on $97.5\%$ of the
+synthetic identical-machine instances at $64{,}000$ iterations, and an IG started from the linear relaxation and polished by a restricted MILP is within $0.25$--$0.30\%$ of the best known solutions of the
+standard unrelated-machine benchmark (CPLEX with two hours: $0.18$--$0.20\%$). All hypotheses, decision rules and non-confirmations are reported.
+\end{abstract}

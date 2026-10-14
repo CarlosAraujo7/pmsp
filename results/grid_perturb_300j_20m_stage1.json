@@ -1,0 +1,128 @@
+{
+  "np3_th15": {
+    "0": {
+      "gap_pct": 0.12562814070351758,
+      "n_improvements": 1
+    },
+    "1": {
+      "gap_pct": 0.12836970474967907,
+      "n_improvements": 0
+    },
+    "2": {
+      "gap_pct": 0.13020833333333334,
+      "n_improvements": 0
+    },
+    "3": {
+      "gap_pct": 0.0,
+      "n_improvements": 0
+    },
+    "4": {
+      "gap_pct": 0.1264222503160556,
+      "n_improvements": 1
+    },
+    "5": {
+      "gap_pct": 0.0,
+      "n_improvements": 1
+    },
+    "6": {
+      "gap_pct": 0.1272264631043257,
+      "n_improvements": 1
+    },
+    "7": {
+      "gap_pct": 0.12578616352201258,
+      "n_improvements": 0
+    },
+    "8": {
+      "gap_pct": 0.13157894736842105,
+      "n_improvements": 0
+    },
+    "9": {
+      "gap_pct": 0.12690355329949238,
+      "n_improvements": 0
+    }
+  },
+  "np3_th50": {
+    "0": {
+      "gap_pct": 0.12562814070351758,
+      "n_improvements": 1
+    },
+    "1": {
+      "gap_pct": 0.12836970474967907,
+      "n_improvements": 0
+    },
+    "2": {
+      "gap_pct": 0.13020833333333334,
+      "n_improvements": 0
+    },
+    "3": {
+      "gap_pct": 0.0,
+      "n_improvements": 0
+    },
+    "4": {
+      "gap_pct": 0.1264222503160556,
+      "n_improvements": 1
+    },
+    "5": {
+      "gap_pct": 0.0,
+      "n_improvements": 1
+    },
+    "6": {
+      "gap_pct": 0.2544529262086514,
+      "n_improvements": 0
+    },
+    "7": {
+      "gap_pct": 0.12578616352201258,
+      "n_improvements": 0
+    },
+    "8": {
+      "gap_pct": 0.13157894736842105,
+      "n_improvements": 0
+    },
+    "9": {
+      "gap_pct": 0.12690355329949238,
+      "n_improvements": 0
+    }
+  },
+  "np3_th100": {
+    "0": {
+      "gap_pct": 0.12562814070351758,
+      "n_improvements": 1
+    },
+    "1": {
+      "gap_pct": 0.12836970474967907,
+      "n_improvements": 0
+    },
+    "2": {
+      "gap_pct": 0.13020833333333334,
+      "n_improvements": 0
+    },
+    "3": {
+      "gap_pct": 0.0,
+      "n_improvements": 0
+    },
+    "4": {
+      "gap_pct": 0.1264222503160556,
+      "n_improvements": 1
+    },
+    "5": {
+      "gap_pct": 0.0,
+      "n_improvements": 1
+    },
+    "6": {
+      "gap_pct": 0.2544529262086514,
+      "n_improvements": 0
+    },
+    "7": {
+      "gap_pct": 0.12578616352201258,
+      "n_improvements": 0
+    },
+    "8": {
+      "gap_pct": 0.13157894736842105,
+      "n_improvements": 0
+    },
+    "9": {
+      "gap_pct": 0.12690355329949238,
+      "n_improvements": 0
+    }
+  }
+}

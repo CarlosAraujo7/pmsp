@@ -1,0 +1,128 @@
+{
+  "np3_th15": {
+    "0": {
+      "gap_pct": 0.0,
+      "n_improvements": 1
+    },
+    "1": {
+      "gap_pct": 0.0,
+      "n_improvements": 2
+    },
+    "2": {
+      "gap_pct": 0.19607843137254902,
+      "n_improvements": 1
+    },
+    "3": {
+      "gap_pct": 0.0,
+      "n_improvements": 0
+    },
+    "4": {
+      "gap_pct": 0.38684719535783363,
+      "n_improvements": 1
+    },
+    "5": {
+      "gap_pct": 0.3976143141153082,
+      "n_improvements": 3
+    },
+    "6": {
+      "gap_pct": 0.37735849056603776,
+      "n_improvements": 0
+    },
+    "7": {
+      "gap_pct": 0.37523452157598497,
+      "n_improvements": 1
+    },
+    "8": {
+      "gap_pct": 0.6036217303822937,
+      "n_improvements": 0
+    },
+    "9": {
+      "gap_pct": 0.0,
+      "n_improvements": 1
+    }
+  },
+  "np3_th50": {
+    "0": {
+      "gap_pct": 0.0,
+      "n_improvements": 1
+    },
+    "1": {
+      "gap_pct": 0.0,
+      "n_improvements": 2
+    },
+    "2": {
+      "gap_pct": 0.19607843137254902,
+      "n_improvements": 1
+    },
+    "3": {
+      "gap_pct": 0.0,
+      "n_improvements": 0
+    },
+    "4": {
+      "gap_pct": 0.38684719535783363,
+      "n_improvements": 1
+    },
+    "5": {
+      "gap_pct": 0.3976143141153082,
+      "n_improvements": 3
+    },
+    "6": {
+      "gap_pct": 0.37735849056603776,
+      "n_improvements": 0
+    },
+    "7": {
+      "gap_pct": 0.37523452157598497,
+      "n_improvements": 1
+    },
+    "8": {
+      "gap_pct": 0.6036217303822937,
+      "n_improvements": 0
+    },
+    "9": {
+      "gap_pct": 0.0,
+      "n_improvements": 1
+    }
+  },
+  "np3_th100": {
+    "0": {
+      "gap_pct": 0.18832391713747645,
+      "n_improvements": 0
+    },
+    "1": {
+      "gap_pct": 0.19230769230769232,
+      "n_improvements": 1
+    },
+    "2": {
+      "gap_pct": 0.19607843137254902,
+      "n_improvements": 1
+    },
+    "3": {
+      "gap_pct": 0.0,
+      "n_improvements": 0
+    },
+    "4": {
+      "gap_pct": 0.38684719535783363,
+      "n_improvements": 1
+    },
+    "5": {
+      "gap_pct": 0.3976143141153082,
+      "n_improvements": 3
+    },
+    "6": {
+      "gap_pct": 0.37735849056603776,
+      "n_improvements": 0
+    },
+    "7": {
+      "gap_pct": 0.37523452157598497,
+      "n_improvements": 1
+    },
+    "8": {
+      "gap_pct": 0.6036217303822937,
+      "n_improvements": 0
+    },
+    "9": {
+      "gap_pct": 0.0,
+      "n_improvements": 1
+    }
+  }
+}

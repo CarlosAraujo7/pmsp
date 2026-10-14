@@ -1,0 +1,22 @@
+==============================================================================================================
+VALIDACAO OFFLINE vs Q-LEARNING (R||Cmax 1000 x 50) -- Entrada 135
+==============================================================================================================
+instancias: 96
+escolha por distribuicao: U[1,100] -> fix0, U[10,100] -> random, U[100,120] -> random, U[100,200] -> random
+
+--- PRIMARIA (Holm sobre 3) ---
+id                   comparison  n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada
+V1       validada vs ur_igls_ql 96      47     23   26      -0.135  -0.3366  0.07026        -0.5091    0.2201    0.2962       False
+V2   validada vs ur_igls_random 96      17      0   79     -0.4608  -0.6476  -0.2825             -1 0.0002812 0.0008435        True
+V3 ur_igls_ql vs ur_igls_random 96      38     45   13     -0.3118  -0.5861 -0.04392         0.2946    0.1481    0.2962       False
+
+Leitura pre-fixada: inconclusivo (V1 nao confirmada e IC90 fora de +-0,10%)
+CPU medio por execucao (s): valid 3.3, ur_igls_ql 4.7, ur_igls_random 3.3
+GAP medio ao LB classico: valid 4.553%, ur_igls_ql 4.688%, ur_igls_random 5.077%
+
+--- por distribuicao (d %) ---
+      dist escolha  valid_vs_random  ql_vs_random  valid_vs_ql
+  U[1,100]    fix0           -1.843        -2.293       0.4626
+ U[10,100]  random                0       -0.1563       0.1579
+U[100,120]  random                0       0.09972     -0.09959
+U[100,200]  random                0         1.103       -1.061

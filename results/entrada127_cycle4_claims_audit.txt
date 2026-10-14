@@ -1,0 +1,24 @@
+                            claim  recalculado  no_texto    tol   ok
+                lei L1 rho (0,59)       0.5925    0.5925 0.0006 True
+            lei L1 p_holm (0,015)       0.0148    0.0148 0.0006 True
+     lei L2 ql vs random (-0,073)      -0.0727   -0.0727 0.0006 True
+             lei L2 p_holm (0,21)       0.2078    0.2078 0.0060 True
+           lei L3 estado (-0,075)      -0.0751   -0.0751 0.0006 True
+     lei L4 TD vs bandit (-0,136)      -0.1360   -0.1360 0.0006 True
+            lei L4 p_holm (0,009)       0.0094    0.0094 0.0006 True
+   lei L5 flat vs random (+0,008)       0.0075    0.0075 0.0006 True
+    lei L6 ucb vs random (+0,098)       0.0982    0.0982 0.0006 True
+      lei: instancias novas (400)     400.0000  400.0000 0.0000 True
+     lei: folga agregada (-0,240)      -0.2404   -0.2404 0.0015 True
+  lei: politica agregada (-0,073)      -0.0727   -0.0727 0.0015 True
+ lei: razao politica/folga (0,30)       0.3024    0.3020 0.0100 True
+ lei: Spearman recalculado (0,59)       0.5925    0.5925 0.0006 True
+  hibrido P1 busca local (-0,150)      -0.1502   -0.1502 0.0006 True
+          hibrido P1 melhor (436)     436.0000  436.0000 0.0000 True
+             hibrido P1 pior (16)      16.0000   16.0000 0.0000 True
+       hibrido P2 vs ILS (-0,722)      -0.7224   -0.7224 0.0006 True
+     hibrido P3 politica (-0,004)      -0.0037   -0.0037 0.0006 True
+              hibrido P3 p (0,65)       0.6463    0.6463 0.0060 True
+hibrido: pares igls_random (1200)    1200.0000 1200.0000 0.0000 True
+
+21/21 OK

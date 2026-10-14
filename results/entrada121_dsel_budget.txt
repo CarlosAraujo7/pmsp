@@ -1,0 +1,30 @@
+==============================================================================================================
+ORCAMENTO MAIOR E PRE-TREINO NAS ACOES d -- teste pre-registrado, Entrada 121
+==============================================================================================================
+instancias: 300
+d escolhido (ajuste) T=5000: 100x20:05, 150x30:05, 300x20:40, 30x8:20, 50x10:10, 75x15:10
+d escolhido (ajuste) T=1000: 100x20:10, 150x30:05, 300x20:40, 30x8:20, 50x10:10, 75x15:10
+
+--- PRIMARIA (Holm sobre 4) ---
+id                            comparison   n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada  relevante
+D1      igd_ql_cal vs igd_random @T=5000 300      37     29  234    -0.01022 -0.02758 0.008432        -0.1212    0.7885    0.7885       False      False
+D2    cvfixed_5000 vs igd_random @T=5000 300      41      1  258     -0.0489 -0.06209 -0.03669        -0.9524 1.271e-07 5.083e-07        True      False
+D3   igd_ql_ws_cal vs igd_random @T=1000 300      63     37  200    -0.03231 -0.05423 -0.01039        -0.2622    0.1856    0.3711       False      False
+D4 igd_ql_ws_cal vs cvfixed_1000 @T=1000 300      19     67  214     0.06344  0.04398  0.08302         0.5683 5.135e-07 1.541e-06       False      False
+
+'orcamento maior resolve' (D1 confirmada e relevante): NAO
+'pre-treino resolve' (D3 confirmada e relevante E D4 sem vantagem confirmada do ajuste fixo): NAO
+
+--- SECUNDARIAS ---
+                        comparison   n  better  worse  tie  mean_d_pct   ci90_lo  ci90_hi     p_raw
+     igd_ucb vs igd_random @T=5000 300      18     23  259    0.008137 -0.005797  0.02195     0.265
+igd_ql_cal vs cvfixed_5000 @T=5000 300      10     42  248     0.03874   0.02357  0.05463 0.0002424
+
+--- por classe (d % vs igd_random): QL online T=5000, cvfixed T=5000, QL pre-treinado T=1000, cvfixed T=1000 ---
+     instance     d5_ql    d5_cv    d1_ws    d1_cv
+rand_100j_20m  -0.08686 -0.08512 -0.09756   -0.114
+rand_150j_30m   -0.0937 -0.07744  -0.1537  -0.2033
+rand_300j_20m   0.01274 -0.01074 0.002449 -0.01329
+  rand_30j_8m   0.09729 -0.01928  0.02432 -0.02855
+ rand_50j_10m   0.01695 -0.04545  0.01389 -0.06568
+ rand_75j_15m -0.007742 -0.05537   0.0167  -0.1481

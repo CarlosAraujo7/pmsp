@@ -1,0 +1,14 @@
+e2402f37766d03b0b4c2de822b5d08b1 *experiment/run_pfsp_entrada152.py
+5698332ed4ad21806aefcd7bf4b14c29 *analysis/report_entrada152_pfsp.py
+feda10e7060c2fb86d04e46525f2a19b *pmsp/pfsp.py
+a9d5ad64c20fade660da6ab1c162ac6b *tests/test_pfsp.py
+cee6731e624961506996328361d99ff0 *pmsp/qlearning.py
+ed54384b6fc8f5296a17b42f88924966 *pmsp/selectors.py
+6e08c0cea6b269959faa28b73d225939 *pmsp/fixed_selector.py
+# (apos o ajuste: d validado e limiares de estado; antes da calibracao de CPU)
+eab0abe35c3108baa8fffbf9672974ee *results/pfsp_tune_entrada152.csv
+13f32a04d7a1f2babe85f5c126f9340b *results/pfsp_choice_entrada152.json
+# (apos a calibracao sequencial de CPU; antes do teste; a limiar f2 do estado ficou degenerado [0,0]: o traco folga-sobre-o-melhor vale 0 ou 2)
+43af0bd136583e0f29e6b66c1bb50011 *results/pfsp_choice_entrada152.json
+# (saida do teste, antes do relatorio)
+c0f5d4126d4ca2a6f90f42146ec027de *results/pfsp_test_entrada152.csv

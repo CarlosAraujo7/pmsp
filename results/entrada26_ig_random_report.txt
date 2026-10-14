@@ -1,0 +1,41 @@
+=== gap_pct medio: ig_ql vs ig_random vs ils_random, N=30 (reps 0-29), 6 classes ===
+          classe      ig_ql  ig_random ils_random
+     rand_20j_4m     0.0000     0.0138     0.0310
+     rand_20j_6m     0.6139     0.6132     1.0223
+     rand_30j_8m     0.1894     0.2682     0.5663
+    rand_50j_10m     0.2548     0.2927     0.7004
+    rand_75j_15m     0.5872     0.5746     1.1496
+   rand_100j_20m     0.6377     0.7361     1.2225
+
+=== WILCOXON pareado (rep), N=30: ig_ql vs ig_random ===
+          classe   gap_igql gap_igrand  wins_ql  loss_ql  ties      p-value
+     rand_20j_4m     0.0000     0.0138        1        0    29     0.317311
+     rand_20j_6m     0.6139     0.6132        2        2    26     1.000000
+     rand_30j_8m     0.1894     0.2682        5        1    24     0.074735
+    rand_50j_10m     0.2548     0.2927        3        1    26     0.144127
+    rand_75j_15m     0.5872     0.5746        7        8    15     0.820280
+   rand_100j_20m     0.6377     0.7361       11        4    15     0.280434
+
+=== WILCOXON pareado (rep), N=100 (onde disponivel): ig_ql vs ig_random ===
+          classe   gap_igql gap_igrand  wins_ql  loss_ql  ties      p-value
+     rand_30j_8m     0.2108     0.2664       16        6    78     0.013592
+    rand_50j_10m     0.2910     0.3190       14        9    77     0.088505
+   rand_100j_20m     0.6662     0.7426       32       12    56     0.035145
+
+=== ig_random vs ils_random (N=30, 6 classes): o IG ainda vence o ILS sem nenhum aprendizado? ===
+          classe gap_igrand gap_ilsrand  wins  loss  ties      p-value
+     rand_20j_4m     0.0138     0.0310     1     0    29     0.317311
+     rand_20j_6m     0.6132     1.0223    16     1    13     0.000503
+     rand_30j_8m     0.2682     0.5663    18     3     9     0.004132
+    rand_50j_10m     0.2927     0.7004    22     2     6     0.000027
+    rand_75j_15m     0.5746     1.1496    22     4     4     0.000219
+   rand_100j_20m     0.7361     1.2225    20     3     7     0.000233
+
+=== sanity check: ig_random nunca pior que LPT (N=30, 6 classes) ===
+  rand_20j_4m: violacoes=0 (n pares=30)
+  rand_20j_6m: violacoes=0 (n pares=30)
+  rand_30j_8m: violacoes=0 (n pares=30)
+  rand_50j_10m: violacoes=0 (n pares=30)
+  rand_75j_15m: violacoes=0 (n pares=30)
+  rand_100j_20m: violacoes=0 (n pares=30)
+TOTAL violacoes: 0 (esperado: 0)
