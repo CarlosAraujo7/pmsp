@@ -32,7 +32,7 @@ R$||C_{\max}$ benchmark, destruction size: Q-Learning vs random / vs validated &
 Several explanations of the small policy effect were tested. The headroom of the action space is necessary: where the per-instance oracle gains little (three destruction strategies, identical machines: $0.04\%$) the agent has
 nothing to learn, and where it is larger (unrelated machines: $0.38\%$) the agent captures $30$--$38\%$ of it ($0.44$--$0.68$ of the validated gain at $1000\times50$ and on the standard benchmark), and the gain follows the headroom across cells (Spearman $0.59$ and $0.74$). It is not sufficient:
 for the destruction size, with headroom that validation captures, Q-Learning is worse than random choice in all three problems, also when pre-trained or run with five times the budget, and the correlation between headroom and gain
-reverses ($-0.37$). The exploratory diagnostics point to the learning window (more than $90\%$ of the reward arrives in the first tenth of the run) and to the type of action, a hypothesis for pre-specified follow-up. Together, the
+reverses ($-0.37$). A contextual bandit and an instance-conditional selector trained offline did not change this (Section~\ref{sec:unrelated}). The exploratory diagnostics point to the learning window (more than $90\%$ of the reward arrives in the first tenth of the run) and to the type of action, a hypothesis for pre-specified follow-up. Together, the
 evidence supports a simple rule for practice: \emph{choose the configuration offline on separate instances; consider an online policy only where the actions are qualitatively different and one of them dominates}.
 
 \paragraph{What works}
@@ -48,9 +48,9 @@ single-run tests cannot; and hypotheses and decision rules with hashes, fixed be
 instances, and a headroom law suggested by one sample was refuted prospectively). The protocol is a methodology contribution that generalises beyond scheduling to any adaptive component of a search.
 
 \paragraph{Limits}
-(i) The agent is tabular, with one dense reward and one pre-training scheme tried, and the action spaces are small; function approximation, richer actions, other learners and tighter budgets are outside the evidence, so the
-results are about this agent at this scale, not about learning in general. (ii) The solvers are not state of the art: exact methods are stronger for both parallel-machine problems (about $85\%$ of families C and F of the identical-machine benchmark are solved
+(i) The main agent is tabular, with one dense reward and one pre-training scheme tried, and the action spaces are small; two learners of other classes (a linear contextual bandit and an instance-conditional selector trained offline on $280$ instances) were tested in one environment only, and neural policies,
+richer actions, other learners and tighter budgets are outside the evidence, so the results are about these learners at this scale, not about learning in general. (ii) The solvers are not state of the art: exact methods are stronger for both parallel-machine problems (about $85\%$ of families C and F of the identical-machine benchmark are solved
 in about a second; $0.07$--$0.1\%$ from the best known for unrelated machines), and the heuristic is weakest on job-correlated and small instances. (iii) Most instances for unrelated machines and the flowshop are synthetic or generated; the standard benchmark was
-used for one validation and the classical flowshop instances were not run. (iv) The main comparisons use $T=1{,}000$ iterations ($T=300$ for the flowshop); the equal-CPU analyses show that conclusions about added components depend on the budget
+used for one validation and the classic flowshop instances only for a replication with $40$ instances. (iv) The main comparisons use $T=1{,}000$ iterations ($T=300$ for the flowshop); the equal-CPU analyses show that conclusions about added components depend on the budget
 convention, and the policy was not studied at budgets much beyond $T=5{,}000$. (v) The pre-specification is a dated, hash-stamped diary, not a public registry, and the number of analyses is large; all families and verdicts, with every non-confirmation,
 are in Supplementary Table~\ref{S-tab:s_prereg_all}. (vi) The synthesis across action types was noticed after the results and is a hypothesis.

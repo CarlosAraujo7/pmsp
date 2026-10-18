@@ -13,7 +13,7 @@
 
 **O que sobrou de positivo:** (i) um **protocolo de atribuição justo ao orçamento** (controle aleatório pareado, CPU igual calibrada em sequência, concorrente validado offline, folga do oráculo, limite certificado, margens de equivalência, pré-registro com hashes); (ii) **solvers sem aprendizado fortes** (97,5% de ótimos provados em P||Cmax sintético a T = 64.000; 0,25–0,30% do melhor conhecido no benchmark padrão de R||Cmax, perto do CPLEX de 2 h); (iii) um pacote auditável (338 testes, 368 conferências numéricas automáticas, diário com todas as não-confirmações).
 
-**Onde estamos:** artigo de 24 páginas + suplemento de 43 + relatório técnico longo de 46; decisão de periódico em `DECISAO_SUBMISSAO.md` (recomendação: Journal of Heuristics). Chegamos ao limite da abordagem "método novo com aprendizado"; o que falta é empacotamento, coautoria e submissão.
+**Onde estamos:** artigo de 25 páginas + suplemento de 44 + relatório técnico longo de 46; decisão de periódico em `DECISAO_SUBMISSAO.md` (recomendação: Journal of Heuristics). Chegamos ao limite da abordagem "método novo com aprendizado"; o que falta é empacotamento, coautoria e submissão.
 
 ---
 
@@ -57,6 +57,11 @@ Carlos levantou o limite de páginas (E114) e instituiu a **regra mestra** (E115
 
 ### Fase 5 — Reposicionamento e empacotamento (11–14/10; E152, E158)
 Com liberdade para reposicionar ("fica a seu critério"), a tese passou a ser **a atribuição** (o protocolo), com os resultados de solver como contribuição de apoio. Pergunta de Carlos: "já chegamos no limite?" Resposta: sim para método novo com aprendizado (`DECISAO_SUBMISSAO.md` §1). Versão de 30 páginas montada (24 pp), suplemento reorganizado, versão longa arquivada, decisão de periódico, este documento e o playbook.
+
+---
+
+### Fase 6 — Ciclo 12: responder às três críticas mais graves (18/10; E159–E161)
+Nota crítica de 67/100 apontou: "o aprendiz é um espantalho", "a prática comum é um espantalho" e "flowshop só em instâncias geradas". Respostas: (A) replicação em 40 instâncias **clássicas de Taillard** (regeneradas do gerador publicado, verificadas contra a matriz impressa; o achado se replica); (B) **auditoria de literatura** com protocolo congelado antes de ler (12 artigos de arXiv: controles baratos mais comuns do que o previsto, controles de orçamento, concorrente offline e multiplicidade raros; todos concluem que o aprendizado ajuda; 5 de 7 previsões erradas, relatado); (C) **aprendizes de outra classe** (LinUCB contextual e seletor offline condicionado à instância): nenhum muda a conclusão. Nota estimada depois: ~72. Erros e armadilhas do ciclo: pool de processos caiu no primeiro lançamento do teste do LinUCB (retomado com menos workers), um heredoc com `\\textwidth` virou TAB (corrigido com Edit), o site de Taillard não respondeu (usado o gerador publicado na OR-Library), HTML do arXiv de um artigo era um modelo vazio (excluído por regra).
 
 ---
 

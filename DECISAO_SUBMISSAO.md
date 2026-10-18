@@ -29,11 +29,20 @@ O que ainda pode aumentar a força, fora do escopo desta rodada: (a) instâncias
 3. **Referências:** as 8 novas de `paper/refs.bib` (Entrada 158) foram em parte conferidas; confira as restantes no DOI antes de submeter. Rode `bash paper/build.sh` e confira se não há citações indefinidas.
 4. **Reformatar** para o gabarito do periódico escolhido (Springer Nature `sn-jnl` para JoH). O conteúdo não muda.
 5. **Ler o texto novo** (resumo, introdução, discussão): foi escrito por mim a partir dos resultados auditados; as frases de posicionamento são sua decisão.
-6. (Opcional) autorizar o download das instâncias de Taillard do flowshop para trocar as instâncias geradas por instâncias clássicas.
+6. ~~Instâncias clássicas de Taillard do flowshop~~: **feito em 18/10/2026** (regeneradas do gerador publicado; replicação com 40 instâncias, o achado se replica).
 
 ## 4. Estado do arquivo para submissão
 
-- Artigo principal: `paper/learnheuristic_pmsp.pdf` (24 páginas com referências; limite de 30).
-- Suplemento: `paper/supplementary_material.pdf` (43 páginas, inclui todo o material movido e a tabela de pré-registro).
+- Artigo principal: `paper/learnheuristic_pmsp.pdf` (25 páginas com referências; limite de 30).
+- Suplemento: `paper/supplementary_material.pdf` (44 páginas, inclui o material movido, a auditoria de literatura, a replicação em Taillard e a tabela de pré-registro).
 - Relatório técnico (versão longa): `paper/learnheuristic_pmsp_long_v46pp.pdf` (46 páginas), com tudo que existia antes do corte.
-- Auditorias: 338 testes; 63/63, 59/59, 21/21 e 225/225 conferências numéricas; auditoria de proveniência numérica da versão curta (`analysis/audit_short_numbers.py`).
+- Auditorias: 342 testes; 63/63, 59/59, 21/21, 225/225 e 45/45 conferências numéricas; auditoria de proveniência numérica da versão curta (`analysis/audit_short_numbers.py`).
+
+## 5. Atualização de 18/10/2026 (Ciclo 12, Entradas 159-161)
+
+Nova nota crítica estimada: **~72/100** (era 67; fundamentação e ressalvas abaixo). O que mudou desde a nota de 67:
+- **Crítica "o aprendiz é um espantalho":** agora há um bandit contextual linear (LinUCB) e um seletor treinado offline condicionado à instância, no espaço do tamanho de destruição de R||Cmax (700 instâncias). Resultado: nenhum muda a conclusão (LinUCB capta 19% do ganho validado; o seletor offline capta 50% mas perde para a validação por célula por 0,105%, p = 3e-9). Limite: uma classe adicional num ambiente; redes neurais não testadas.
+- **Crítica "flowshop em instâncias geradas":** replicação em 40 instâncias clássicas de Taillard (ta041–090 em quatro tamanhos), tudo congelado; o achado do flowshop se replica (IG ≈ ILS a CPU igual; busca local −0,28%; política não ajuda; validação −0,17%, p_Holm = 0,064 com N = 40).
+- **Crítica "a prática comum é um espantalho":** auditoria de literatura (12 artigos de arXiv, protocolo congelado antes de ler): controles baratos são mais comuns do que eu previ (aleatório 5/12; ablação 8/12), mas CPU igual (2/12), concorrente offline (2/12), separação ajuste/teste (3/12) e multiplicidade (1 de 6 que testam) são raros; todos os 12 concluem que o aprendizado ajuda. Limites: n = 12, só arXiv, um codificador (IA).
+- **Referências:** as 8 novas foram conferidas na web.
+- Por que não mais: o teto continua sendo novidade (protocolo reúne boas práticas conhecidas), autor único, sem revisão externa e sem DOI do pré-registro (use `DEPOSITO_ZENODO_PASSO_A_PASSO.md`, ~+3 pontos), e sem dupla codificação da auditoria (Carlos, 8 artigos sorteados listados em `results/entrada159_litaudit.txt`).

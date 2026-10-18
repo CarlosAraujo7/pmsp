@@ -1,0 +1,26 @@
+==============================================================================================================
+FLOWSHOP DE PERMUTACAO EM INSTANCIAS CLASSICAS DE TAILLARD (replicacao da Entrada 152) -- Entrada 159/160
+==============================================================================================================
+instancias: 40 | d validado por tamanho (ajuste gerado): 50x10 -> 8, 50x20 -> 6, 100x10 -> 8, 100x20 -> 6
+
+--- PRIMARIA (Holm sobre 5) ---
+id                                     comparison  n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada
+P1       ig_rand vs ils_eq (mecanismo, CPU igual) 40      18     16    6   -0.006466 -0.09346  0.07812       -0.08067    0.6729    0.7357       False
+P2 ig_rand vs ig_nols_eq (busca local, CPU igual) 40      26      7    7       -0.28  -0.3981  -0.1714        -0.6791 0.0001446 0.0007229        True
+P3             ig_ql vs ig_rand (politica online) 40      15     20    5     0.06456 -0.02305   0.1565         0.1857    0.3678    0.7357       False
+P4             val vs ig_ql (validacao vs online) 40      24     13    3     -0.1745   -0.294 -0.05193        -0.4538   0.01588   0.06352       False
+P5                    val vs ig_rand (folga de d) 40      22     11    7     -0.1112  -0.2013 -0.02181        -0.4367   0.04054    0.1216       False
+
+Leitura pre-fixada: 'o achado do flowshop (Entrada 153) se replica nas instancias classicas' (P1 nao, P2 sim, P3 nao, sinal de P4 favoravel a validacao): SIM
+
+Ganho sobre ig_rand (d %): val -0.111, ig_ql +0.065, ig_ucb +0.015, oracle -0.326, ils_eq +0.008, ig_nols_eq +0.283 | razao de captura do ig_ql: -0.58
+RPD medio ao melhor makespan encontrado (%): ig_rand 0.363, ig_ql 0.427, ig_ucb 0.377, val 0.251, oracle 0.035, ils_eq 0.371, ig_nols_eq 0.647
+GAP medio ao limite inferior de Taillard (%): ig_rand 5.25, ig_ql 5.31, ils_eq 5.25, ig_nols_eq 5.54
+CPU medio por execucao (s): ig_rand 25.2, ig_ql 21.7, ils_eq 26.8, ig_nols_eq 27.5 | razao ils_eq/ig_rand 1.06; ig_nols_eq/ig_rand 1.09
+
+--- por tamanho (d %) ---
+  size  d_val  val_vs_rand  ql_vs_rand  oracle_vs_rand  ig_vs_ils  ls_vs_nols
+ 50x10      8     -0.04705      0.1004         -0.2466   0.001091      -0.436
+ 50x20      6      -0.2178    -0.01722          -0.561   -0.04133     -0.3333
+100x10      8      0.02896      0.2033         -0.1739    0.01667     -0.2626
+100x20      6      -0.2091    -0.02828         -0.3227  -0.002293    -0.08792

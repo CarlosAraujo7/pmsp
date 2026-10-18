@@ -1,0 +1,20 @@
+id,included,year,problem,learner,host,random_control,budget_basis,learner_overhead_reported,offline_tuned_static,tune_test_split,stat_test,multiplicity,ablation_policy,code_or_data,claim_policy_helps,note
+2607.02315,Y,2026.0,1D bin packing,tabular Q-learning,hybrid grouping GA,N,ITER,N,U,U,N,NA,Y,U,MIXED,ablation vs fixed-probability selection (not random); learner cost not separated
+2408.14864,Y,2024.0,permutation flowshop,tabular Q-learning,iterated greedy / ILS,Y,CPU,Y,U,U,Y,U,Y,Y,Y,RIG = random selection; Wilcoxon; overhead discussed analytically
+2202.12866,Y,2022.0,mining complexes (stochastic IP),actor-critic RL,multi-neighbourhood SA,N,MIXED,N,N,N,N,NA,Y,U,MIXED,lambda_RL = 0 ablation; same instances for training and test in stages 1-2
+2506.02746,Y,2025.0,pod repositioning,PPO,ALNS,N,U,Y,Y,N,U,NA,N,U,Y,ALNS tuned by random search on the small instance; training cost reported
+2211.00759,Y,2022.0,"OPSWTW (and CVRP, TSP, mTSP)",PPO,ALNS,N,ITER,Y,Y,Y,Y,U,N,Y,Y,ALNS-BO tuned with SMAC3 on separate instances; significance test unnamed
+2505.23098,Y,2025.0,VRP with multiple time windows,PPO transformer policy,adaptive VNS,Y,MIXED,N,U,Y,N,NA,Y,U,Y,RVNS random policy within the same VNS
+2305.02805,Y,2023.0,CVRP,none (LOC modifier on PM/AP/DRL selectors),local search with 17 operators,N,ITER,Y,N,U,Y,U,N,U,Y,Wilcoxon; parameters of PM/AP 'arbitrarily set'; third-party code only
+2404.10252,Y,2024.0,CVRPTW and real-valued benchmarks,DRL (DDQN/DQN) + adaptive pursuit,DE / CVRPTW host,Y,U,Y,U,Y,Y,U,Y,U,Y,Random selection compared; overhead qualitative only; budget by reference to prior work
+2512.19321,Y,2025.0,urban cable routing,multi-agent DRL (REINFORCE) for position sampling,VNS,Y,CPU,Y,N,U,Y,U,Y,Y,Y,"uniform random sampling replaces DRL-guided sampling (positions, not operators)"
+2206.03185,Y,2022.0,capacitated electric VRP,"bandits (eps-greedy, TS, UCB1)",adaptive SA,Y,ITER,N,U,U,Y,Y,Y,N,Y,Friedman + Holm; code not available; baselines taken from the literature
+2304.04022,Y,2023.0,team formation (0-1 IP),tabular Q-learning,genetic programming,N,U,N,N,U,N,NA,N,U,Y,claim confounded with ensemble and surrogate; no ablation of the selector
+2207.03876,Y,2022.0,"TSP, TSPTW, CTSP",Q-learning / Sarsa / Monte Carlo,LKH / LKH-3,N,MIXED,N,N,U,N,NA,Y,Y,Y,ablation against fixed candidate-set choices (not random); same time/iteration limits for all
+2401.05350,N,,,,,,,,,,,,,,,full text inaccessible (HTML template; PDF extraction timed out)
+2601.11189,N,,,,,,,,,,,,,,,no metaheuristic host (dispatching-rule selector in a constructive procedure)
+2310.09686,N,,,,,,,,,,,,,,,"host is exact column generation, not a (meta)heuristic search"
+2304.06675,N,,,,,,,,,,,,,,,"learned component is a surrogate model, not a selector (abstract screening)"
+2004.10874,N,,,,,,,,,,,,,,,"continuous multi-objective benchmark, not combinatorial (abstract screening)"
+1905.08006,N,,,,,,,,,,,,,,,continuous parameter control in differential evolution (abstract screening)
+1812.07958,N,,,,,,,,,,,,,,,continuous multi-objective engineering optimisation (abstract screening)

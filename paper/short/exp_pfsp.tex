@@ -18,6 +18,12 @@ random choice is null ($-0.02\%$). The signs of the predictions recorded beforeh
 
 \input{f36_pfsp.tex}
 
+\paragraph{Replication on the classic instances}
+The study was repeated on $40$ classic instances of \citet{Taillard1993} (ta041--ta050, ta051--ta060, ta071--ta080, ta081--ta090; regenerated from the published generator and seeds and checked against the matrix printed with it),
+with every setting frozen from the study above (the validated size, state thresholds and CPU ratios, all chosen on generated instances; realised CPU ratios $1.06$ and $1.09$), the same family of five tests and the predictions recorded beforehand.
+The findings replicate. The IG and the ILS are equivalent at equal CPU time ($-0.006\%$, $p_{\mathrm{Holm}}=0.74$), the local search pays its cost ($-0.28\%$, $26$ wins against $7$, $p_{\mathrm{Holm}}=7\times10^{-4}$), Q-Learning over $d$ is not better than random choice
+($+0.065\%$, interval $-0.02$ to $+0.16$), the validated size beats the agent by $0.17\%$ (interval $-0.29$ to $-0.05$; $p_{\mathrm{Holm}}=0.064$, short of the threshold with $40$ instances) and its headroom over random choice is $-0.11\%$ ($p_{\mathrm{Holm}}=0.12$; the magnitude predicted beforehand was below $0.05\%$). With $40$ instances only the local-search effect is individually confirmed, so the replication is of signs and magnitudes (Supplementary Section~\ref{S-sec:m-taillard}).
+
 \paragraph{Synthesis}
 Table~\ref{tab:f35_synthesis} puts the seven environments side by side. The oracle headroom is negative (some fixed action beats random selection per instance) in six of the seven, and the validated choice
 captures a part of it wherever it is real. The agent behaves differently by type of action. Over qualitatively different destruction \emph{strategies} its gain is small but never positive, and it recovers

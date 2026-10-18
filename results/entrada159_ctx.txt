@@ -1,0 +1,20 @@
+==============================================================================================================
+APRENDIZES DE OUTRA CLASSE: tamanho de destruicao do LP-IG em R||Cmax -- Entrada 159/160
+==============================================================================================================
+instancias de teste: 700 | modelo offline escolhido por CV no ajuste: knn | CV (razao media do braco escolhido): ridge 1.01130, forest 1.01078, knn 1.01044, cell_best 1.00995, global_best 1.01171, oracle 1.00743
+
+--- PRIMARIA (Holm sobre 4) ---
+id                                                                comparison   n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05
+C1 val_ctx vs val_tn (offline instancia-condicional vs validacao por celula) 700      38    116  546      0.1048  0.05607   0.1584          0.464 1.137e-09  3.41e-09       False             False
+C2                                      val_ctx vs rand_d (captura da folga) 700     196    151  353     -0.1005  -0.1577 -0.04344        -0.1431 0.0002362 0.0004725        True             False
+C3                           linucb_d vs rand_d (aprendiz online contextual) 700     164    168  368    -0.03878 -0.09175  0.01328        0.03462    0.6919    0.6919       False             False
+C4                       val_tn vs linucb_d (validacao vs online contextual) 700     234     91  375     -0.1592  -0.2177  -0.1042         -0.449 2.164e-15 8.657e-15        True             False
+
+Leitura pre-fixada: 'um aprendiz de outra classe muda a conclusao' (C1 ou C3 com captura >= 0,5): NAO | 'nao e' artefato do aprendiz tabular' (C3 nao e C4 sim): SIM
+
+Ganho sobre rand_d (d %): val_tn -0.201, val_ctx -0.100, linucb_d -0.039, ql_d +0.152, ucb_d -0.018, ql_d_pre +0.040, oracle -0.325
+Razao de captura (ganho / ganho de val_tn): val_ctx 0.50, linucb_d 0.19, ql_d -0.76, ucb_d 0.09, ql_d_pre -0.20, oracle 1.61
+Spearman(folga da celula, ganho de val_ctx) em 28 celulas: rho = 0.644 (p bicaudal 0.000219); sinal: ganho negativo = melhor que o sorteio
+Spearman(folga da celula, ganho de linucb_d) em 28 celulas: rho = 0.323 (p bicaudal 0.0937); sinal: ganho negativo = melhor que o sorteio
+CPU medio (s): rand_d 5.11, linucb_d 5.24, ql_d 3.31 | razao linucb_d/rand_d 1.03
+bracos previstos pelo seletor offline no teste (d/n 0,01 ... 0,20): 0.01: 196, 0.02: 137, 0.05: 194, 0.1: 142, 0.2: 31

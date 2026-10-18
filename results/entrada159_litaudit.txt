@@ -1,0 +1,22 @@
+====================================================================================================
+AUDITORIA DE LITERATURA (Entrada 159): prevalencia dos controles do protocolo
+====================================================================================================
+artigos incluidos: 12 (arXiv, 2015-2026; texto completo aberto; um codificador; ver emendas no cabecalho do script); excluidos apos triagem/texto completo: 7
+Leitura principal: 'U' conta como 'nao demonstrado'.
+
+controle aleatorio das mesmas acoes (random_control = Y)                       5/12 (42%)   previsao registrada: <40%
+orcamento por CPU/tempo nas comparacoes (budget_basis = CPU)                   2/12 (17%)   previsao registrada: <30%
+custo do aprendiz reportado/discutido (learner_overhead_reported = Y)          6/12 (50%)   previsao registrada: <40%
+concorrente estatico ajustado offline (offline_tuned_static = Y)               2/12 (17%)   previsao registrada: <25%
+instancias de ajuste separadas das de teste (tune_test_split = Y)              3/12 (25%)   previsao registrada: (sem previsao)
+teste estatistico (stat_test = Y)                                              6/12 (50%)   previsao registrada: <50%
+correcao de multiplicidade entre os que testam (multiplicity = Y)               1/6 (17%)   previsao registrada: <15%
+ablacao que isola a politica do mecanismo (ablation_policy = Y)                8/12 (67%)   previsao registrada: <40%
+codigo ou dados disponiveis (code_or_data = Y)                                 4/12 (33%)   previsao registrada: (sem previsao)
+
+budget_basis: CPU 2, ITER 4, MIXED 3, U 3
+claim_policy_helps: Y 10, MIXED 2, N 0  (nenhum artigo conclui que o componente aprendido nao ajuda)
+previsoes registradas antes de ler que se confirmaram: 2 de 7 (orcamento por CPU e ajuste offline, sim; controle aleatorio, custo do aprendiz, teste estatistico, multiplicidade e ablacao, nao: os controles baratos sao mais comuns do que eu previ; os controles de ORCAMENTO, de AJUSTE OFFLINE, de SEPARACAO ajuste/teste e de MULTIPLICIDADE sao raros)
+
+Artigos sorteados (semente 0) para dupla codificacao por Carlos: 2202.12866, 2207.03876, 2211.00759, 2304.04022, 2305.02805, 2506.02746, 2512.19321, 2607.02315
+Limites: n pequeno; so' arXiv (texto aberto); um codificador (assistente de IA) com leitura por recuperacao de texto; sem inter-codificacao ate' Carlos revisar a amostra.

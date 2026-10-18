@@ -77,3 +77,7 @@ Thumbs.db
 # --- R||Cmax benchmark data (not redistributed; see its README) ---------------
 external_benchmarks/rcmax_fanjul_ruiz/raw/
 external_benchmarks/rcmax_fanjul_ruiz/extracted/
+
+# --- Taillard flowshop: third-party download (OR-Library files) and instances regenerated from the published generator ---
+external_benchmarks/pfsp_taillard/raw/
+external_benchmarks/pfsp_taillard/instances/

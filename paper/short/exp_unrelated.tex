@@ -44,6 +44,14 @@ recorded before the run were wrong. \textbf{Headroom is therefore necessary but 
 the first $100$ of the $1{,}000$ iterations, leaving the agent a very short window to learn; and bandits designed for such a window (Thompson sampling, with and without discounting, and a successive-elimination race) did not beat random choice either in a
 pilot on $126$ tuning instances, so none of five learners captures the headroom. Choosing $d$ is, in these data, a configuration problem solved offline, not a control problem solved online.
 
+\paragraph{Learners of other classes}
+Since all five learners above are tabular or multi-armed, two learners of other classes were tested on the same $700$ instances, with the design and the predictions recorded beforehand (Table~\ref{tab:f37_ctx}). A contextual bandit with linear function approximation (LinUCB; context: progress, stagnation and two solver features;
+$\alpha$ chosen on tuning instances) gains $0.039\%$ over random choice of $d$ (interval $-0.092$ to $+0.013$; $p_{\mathrm{Holm}}=0.69$; $19\%$ of the validated gain) and loses $0.159\%$ to the validated choice ($p_{\mathrm{Holm}}=9\times10^{-15}$); its cost is $1.03$ times that of random choice. A selector trained \emph{offline} on the $280$ tuning instances from eight features of the time matrix, without the instance type
+(a nearest-neighbour regression chosen by cross-validation), does capture half of the validated gain ($0.100\%$ over random choice; $p_{\mathrm{Holm}}=5\times10^{-4}$) but is worse than validation per type and $n$ by $0.105\%$ ($p_{\mathrm{Holm}}=3\times10^{-9}$; $38$ wins against $116$ losses); its cross-validated ratio on the tuning instances already ranked it behind the validated choice. Neither changes the conclusion: the class of the learner is not what prevents the capture of the headroom,
+and with $280$ tuning instances the choice validated per cell remains the best configuration found. The gain of the instance-conditional selector does follow the headroom across the $28$ cells (Spearman $0.64$), as the law predicts for a selector trained offline.
+
+\input{f37_ctx.tex}
+
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.95\textwidth]{fig_headroom.pdf}

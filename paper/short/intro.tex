@@ -21,7 +21,7 @@ The main findings are the following. (a) The gain of the Q-Learning-guided IG ov
 identical machines and about $0.1\%$ for unrelated machines, and nothing for the flowshop. (b) The \emph{active ingredient} differs by problem and is revealed only by ablations at equal CPU
 time: destruction--reconstruction for identical machines, its combination with a descent for unrelated machines, the local search for the flowshop; a local search that looked $0.15\%$ better
 at an equal number of iterations is $0.01\%$ better at equal CPU time. (c) A configuration chosen \emph{offline} on separate instances beats the online agent in all seven environments studied,
-against five learners; the headroom of the actions predicts where a policy could help for destruction \emph{strategies} but failed prospectively for the destruction \emph{size}, so headroom is
+against seven learners; the headroom of the actions predicts where a policy could help for destruction \emph{strategies} but failed prospectively for the destruction \emph{size}, so headroom is
 necessary but not sufficient. (d) Learning-free solvers follow from these findings and are competitive: an IG with a validated destruction size and a start from the best constructive solution
 reaches $97.5\%$ of provably optimal solutions on synthetic identical-machine instances, and an IG started from the linear relaxation and polished by a restricted MILP is within $0.25$--$0.30\%$ of the
 best known solutions of the standard unrelated-machine benchmark.

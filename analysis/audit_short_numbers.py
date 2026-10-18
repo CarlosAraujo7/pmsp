@@ -47,7 +47,7 @@ def read_all(paths):
 short_files = sorted((P / "short").glob("*.tex"))
 short_files = [f for f in short_files if f.name != "backmatter.tex"]
 source_files = [P / "learnheuristic_pmsp_long.tex", P / "supplementary_material.tex"] + sorted(P.glob("f*.tex")) + sorted(P.glob("s_*.tex"))
-source_files += [ROOT / "results" / "fig_headroom_rho.txt"]
+source_files += [ROOT / "results" / "fig_headroom_rho.txt"] + sorted((ROOT / "results").glob("entrada159_*.txt"))
 src = tokens(read_all(source_files))
 # the short version may reformat 0.15 as 0.150 and so on; both are in `src` through rstrip
 

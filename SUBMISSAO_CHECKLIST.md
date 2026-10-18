@@ -18,7 +18,7 @@ Tudo o que dependia de experimento, texto técnico ou higiene do repositório fo
 
 ## 2. Antes de submeter
 - **ATUALIZAÇÃO 14/10/2026:** versão curta montada (corpo 24 páginas, suplemento 43, versão longa de 46 páginas arquivada como relatório técnico); periódico recomendado: Journal of Heuristics (ver `DECISAO_SUBMISSAO.md`); conferir as 8 referências novas de `paper/refs.bib` (E158) e reformatar para o gabarito do periódico. Os itens de página abaixo estão desatualizados.
-- [ ] Rodar `bash paper/build.sh` (corpo: 24 páginas; suplemento: 43; sem referências indefinidas) e conferir o PDF final.
+- [ ] Rodar `bash paper/build.sh` (corpo: 25 páginas; suplemento: 44; sem referências indefinidas) e conferir o PDF final. **18/10/2026 (Ciclo 12): Taillard clássico feito; auditoria de literatura feita (peça a dupla codificação de 8 artigos, `results/entrada159_litaudit.txt`); depósito Zenodo: `DEPOSITO_ZENODO_PASSO_A_PASSO.md`.**
 - [ ] `python -m pytest tests` (338 testes) e as quatro auditorias numéricas (`audit_entrada113_final_claims` 63/63, `audit_entrada126_final_claims` 59/59, `audit_entrada127_cycle4_claims` 21/21, `audit_entrada133_cycle5_claims` 225/225).
 - [ ] Primeiro commit e depósito com DOI; atualizar placeholders.
 - [ ] Suplemento (17 páginas) como arquivo adicional; conferir referências cruzadas (`xr`) compilando corpo → suplemento → corpo.

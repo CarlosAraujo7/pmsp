@@ -24,7 +24,8 @@ That the component responsible for a gain must be isolated by controlled experim
 \citep{Hooker1995,BarrEtal1995}; a similar concern with confounded comparisons, whose results depend on implementation details, hyperparameters
 and budgets, arose in deep reinforcement learning \citep{Henderson2018}. For parameters, automatic offline configuration on training instances (ParamILS, iterated racing;
 \citealp{HutterEtal2009,LopezIbanezEtal2016}) is the standard alternative to adapting them during the run, which has its own taxonomy and surveys \citep{EibenEtal1999,KarafotiasEtal2015,AletiMoser2016}. The protocol of this article
-brings these principles to learnheuristics: a random control, an offline-validated competitor, an equal-CPU budget and analyses specified before the data.
+brings these principles to learnheuristics: a random control, an offline-validated competitor, an equal-CPU budget and analyses specified before the data. How far current practice is from them was checked on 12 recent open-access papers that embed a learned selector in a metaheuristic
+(Supplementary Section~\ref{S-sec:m-litaudit}): five include a random-selection control and eight an ablation of the policy, but only two compare with the variants without learning at an equal time limit, two include a static configuration tuned offline, and one of the six that use a statistical test corrects for multiple comparisons; all twelve conclude that the learned component helps.
 
 \paragraph{Iterated Greedy}
 \citet{RuizStutzle2007} introduced Iterated Greedy for the permutation flowshop, showing that a destruction--reconstruction cycle is competitive with far more complex metaheuristics; its
