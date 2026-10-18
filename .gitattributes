@@ -1,0 +1,5 @@
+# Keep line endings identical on every platform so that the md5 hashes of the pre-registration record (results/entrada*_prereg_hashes.txt) verify after a clone.
+* text=auto eol=lf
+*.pdf binary
+*.npz binary
+*.png binary
