@@ -55,7 +55,7 @@ lab = {"F1": r"F1: IG+LS vs.\ IG ($T=1000$), synthetic", "F2": r"F2: IG+LS vs.\ 
        "F3": r"F3: IG+LS vs.\ IG ($T=1000$), published", "F4": r"F4: IG+LS vs.\ best constructive, synthetic", "F5": r"F5: IG+LS vs.\ best constructive, published"}
 L = head(r"Does adding the local search of the hybrid to the practical recipe help? Both variants use random destruction with $d/n$ chosen on separate instances and start from the best of LPT, MULTIFIT and LDM. "
          r"IG+LS adds the descent (inter-swap, reinsert; two passes) after each reconstruction ($T=1000$). \textsc{IG-Tuned}$^{+}$ at equal CPU runs the recipe without local search for $T_{\mathrm{eq}}$ iterations, "
-         r"$T_{\mathrm{eq}}=1000K$ with $K$ the CPU ratio measured per class ($K$ from $2.3$ to $82.9$; $T_{\mathrm{eq}}$ from $2{,}298$ to $82{,}855$). Synthetic: 1{,}200 instances (1{,}130 with a constructive reference); published: 1{,}500. "
+         r"$T_{\mathrm{eq}}=1000K$ with $K$ the CPU ratio measured per class ($K$ from $2.3$ to $82.9$; $T_{\mathrm{eq}}$ from $2{,}298$ to $82{,}855$); F2 used the first, loop-based implementation of the descent, and with a vectorized or a compiled one it is neutral (Table~\ref{tab:f38_igls_impl} of the main text). Synthetic: 1{,}200 instances (1{,}130 with a constructive reference); published: 1{,}500. "
          r"$\bar d$ in \% of the makespan (negative: IG+LS better); Wilcoxon, Holm over five.",
          "tab:f26_igcvls", r"Comparison & $N$ & W/L/T & $\bar d$ (\%) & 90\% interval & $p_{\mathrm{Holm}}$", r"lrrrrr")
 for r in P.itertuples():

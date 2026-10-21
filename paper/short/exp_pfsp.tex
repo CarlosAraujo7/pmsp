@@ -32,3 +32,10 @@ $0.44$ to $0.68$ of the validated gain at $1000\times50$ and on the standard ben
 policy gain, and whether an online agent can use it seems to depend on the type of action and on how early the reward arrives.
 
 \input{f35_synthesis.tex}
+
+\paragraph{The learners of other classes in the other two problems}
+The contextual bandit and the neural Q-learner of Section~\ref{sec:unrelated} were also run in the other two problems, over the destruction size, with the same instances, actions and baselines (Table~\ref{tab:f40_online}; predictions recorded beforehand). For identical machines neither differs from random choice
+($+0.003\%$ and $+0.006\%$; $p_{\mathrm{Holm}}=0.82$) and validation beats both by $0.09\%$ ($p_{\mathrm{Holm}}<10^{-30}$). In the flowshop LinUCB is level with random choice ($+0.027\%$), the neural learner is significantly \emph{worse} ($+0.099\%$, $p_{\mathrm{Holm}}=0.027$) and validation
+beats it by $0.14\%$ ($p_{\mathrm{Holm}}=4\times10^{-4}$) and LinUCB by $0.07\%$ ($p_{\mathrm{Holm}}=0.15$, not confirmed with $160$ instances). The attribution does not change in any of the three problems.
+
+\input{f40_online_replic.tex}

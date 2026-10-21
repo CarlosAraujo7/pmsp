@@ -82,7 +82,8 @@ $\bar d=100\,(A-B)/B$ in the makespan (negative: $A$ better), computed per insta
 \paragraph{2. Equal CPU time, calibrated sequentially}
 An agent changes the CPU time per iteration and a local search multiplies it, so equal iteration counts are not equal budgets. For each pair, the ratio of CPU times is measured on separate
 instances, in sequence, on an otherwise idle machine, and the cheaper method receives the corresponding number of iterations; timings of parallel runs depend on the machine load and are not used
-for this.
+for this. The ratio is a property of the \emph{implementation}: every arm must be implemented with comparable efficiency (here, vectorized or compiled), the ratio is reported, and the conclusion is checked against an implementation-independent unit (iterations or move evaluations) whose cost model is stated:
+a count of evaluations ranks the cost of components differently from CPU time and its verdict moves with the weights. In this study a first, loop-based local search made the ratio $9.6$ instead of $1.8$ (vectorized) or $2.0$ (compiled) and reversed the reading of its gain (Section~\ref{sec:f3f4-ablation}).
 
 \paragraph{3. A configuration validated offline}
 The competitor of an online policy is the best fixed action, chosen on separate tuning instances of the same type, size or class. It is a stronger baseline than random selection and the

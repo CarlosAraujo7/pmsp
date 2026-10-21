@@ -18,7 +18,7 @@ def rng(a, b):
 
 
 # tables that now live in the main text (their \input lines are dropped here)
-DROP_INPUTS = ("f25_igls_p.tex", "f26_igcvls.tex", "f12_stronger_baselines.tex")
+DROP_INPUTS = ("f25_igls_p.tex", "f12_stronger_baselines.tex")
 
 
 def clean(lines):
@@ -70,7 +70,9 @@ add("Experimental design details", "sec:m-design", [
 add("Identical machines: the ILS family and published baselines", "sec:m-baselines", [
     (928, 1065),
     (1067, 1159),  # the quality--time figure (1160--1170) now lives in the main text
-], note="The comparisons that a typical study would report as the success of the learned policy; the main text (Section~\\ref{sec:f3f4-ablation}) summarises them.")
+], note="The comparisons that a typical study would report as the success of the learned policy; the main text (Section~\\ref{sec:f3f4-ablation}) summarises them. "
+         r"\textbf{Update (Entradas 164 and 174).} The CPU times of the ILS in the first version of this section were measured with loop-based operators, which are $6.2$ times slower than the vectorized ones (same results). The quality--time figure and the paragraph ``Quality versus time'' below were re-timed with the vectorized ILS and rewritten; "
+         r"the statistical comparisons of this section are at an equal number of iterations and are unaffected, and the comparison of the IG with the ILS at equal CPU time with the vectorized ILS is in Section~\ref{sec:f3f4-ablation} of the main text and confirms the IG advantage.")
 
 # ---------------------------------------------------------------- robustness of the null
 add("Identical machines: robustness of the policy effect", "sec:m-robust", [
@@ -83,9 +85,27 @@ add("Identical machines: robustness of the policy effect", "sec:m-robust", [
 ], note="Details of the analyses summarised in Section~\\ref{sec:f3f4-ablation}.")
 
 # ---------------------------------------------------------------- recipe + LS
+RECIPE_NEW = r"""\paragraph{Does a local search help the recipe? At an equal number of iterations, slightly; at equal CPU time, no}
+The hybrid analysis of Section~\ref{sec:f3f4-ablation} suggests adding the descent of the hybrid to the recipe. Table~\ref{tab:f26_igcvls} tests it with a pre-specified design, on the same synthetic and published instances.
+At an equal number of iterations the local search helps: $-0.036\%$ on the synthetic and $-0.072\%$ on the published instances (F1, F3), and the recipe with local search reaches $81.2\%$ of provably optimal solutions against $74.7\%$.
+But the descent costs CPU time, and how much depends on how it is implemented (Table~\ref{tab:f38_igls_impl} of the main text). With the first, loop-based descent one iteration costs between $2.3$ and $82.9$ times more CPU time, depending on the class
+(on average $0.35$ against $6.7$ seconds per synthetic instance, and $0.37$ against $37.5$ seconds per published instance); the recipe \emph{without} local search, given the same CPU time ($T_{\mathrm{eq}}$ between $2{,}298$ and $82{,}855$ iterations,
+calibrated sequentially per class; the timings of the parallel run, which depend on the load, gave ratios between $0.74$ and $1.17$), was better: the local search lost by $0.034\%$ (F2, $24$ wins against $115$ losses, $p_{\mathrm{Holm}}=3\times10^{-8}$) and the
+equal-CPU recipe reached $89.0\%$ of provably optimal solutions and a mean GAP of $0.058\%$, against $0.094\%$. That reading, that the advantage of the local search was an effect of budget and that the same CPU time was better spent on more
+destruction--reconstruction iterations, was an artefact of the implementation. With the same descent vectorized (same moves, tie-breaking and results; cost ratio $1.2$ to $2.4$) the difference at equal CPU time is $-0.008\%$ (90\% interval $-0.016$ to $-0.001$;
+$56$ wins against $38$), and with the iterated greedy and the descent both compiled (cost ratio $1.7$ to $6.3$) it is $-0.006\%$ (interval $-0.012$ to $+0.001$; $49$ against $40$): the descent is neutral for the recipe at equal CPU time, equivalent to zero within $\pm0.05\%$,
+and at an equal number of evaluations it is slightly worse ($+0.018\%$). Two remarks follow: the strongest variant of the study is the learning-free recipe \emph{with a larger iteration budget} (on six classes it reaches $86.8\%$, $92.7\%$ and $97.5\%$
+of provably optimal solutions at $T=4{,}000$, $16{,}000$ and $64{,}000$, against $75.5\%$ at $T=1{,}000$; Table~\ref{tab:s_recipe_budget}), and the results at $T=1{,}000$ throughout the paper are comparisons at a fixed, small budget, not claims about what each method can reach.
+
+\input{f26_igcvls.tex}"""
+_rec = clean(rng(1427, 1450))
+_a, _b = _rec.index("\\paragraph{Does a local search help the recipe?"), _rec.index("\\input{f26_igcvls.tex}") + len("\\input{f26_igcvls.tex}")
+assert _a == 0 or _rec[:_a].strip() == "", _rec[:_a]
+RECIPE_TEXT = _rec[:_a] + RECIPE_NEW + _rec[_b:]
 add("The recipe with a local search, at equal iterations and at equal CPU time", "sec:m-recipe", [
-    (1427, 1450),
-])
+    RECIPE_TEXT,
+], note=r"\textbf{Update (Entrada 171).} The paragraph below was rewritten after the checks with a vectorized and a compiled implementation of the descent (Entradas 164 and 171): the first reading, that the descent loses at equal CPU, came from the loop-based implementation and is reported as such. "
+         r"The equal-iteration results are unchanged.")
 
 # ---------------------------------------------------------------- external
 add("External validation on published identical-machine instances: full text", "sec:m-external", [
@@ -107,13 +127,31 @@ add("Unrelated machines: synthetic experiments and the headroom law in detail", 
     (1863, 1884),
 ], note="Section~\\ref{sec:unrelated} gives the condensed version.")
 
-(HERE / "s_moved.tex").write_text("\n".join(parts), encoding="utf-8")
+_text = "\n".join(parts)
+_QT_OLD = re.compile(r"For the same \$T\$, \\texttt\{ils\\_ql\} costs between.*?does not drive the conclusions\.", re.S)
+_QT_NEW = (r"For the same $T$, with vectorized operators for the ILS (same results as the first, loop-based operators, $6.2$ times faster; the ILS was re-timed in a second session and its times were expressed on the scale of the first through the IG times measured in both; Entrada 174), "
+           r"\texttt{ils\_ql} costs between $0.45\times$ ($n=300$) and $1.08\times$ ($n=60$) the CPU time of \texttt{ig\_ql}, and \texttt{ils\_random} between $0.34\times$ and $0.99\times$ that of \texttt{ig\_random}; BCO with its published $I=100$ costs $3.2$--$16\times$ that of \texttt{ig\_ql} "
+           r"and is dominated in the panel means. The ILS is therefore no longer dominated in CPU terms: for $n\geq150$ it is cheaper than the IG, and it still lies far from the quality end of the frontier (mean GAP $0.56\%$ against $0.03\%$ for \textsc{IG-QL}$^{+}$ at $n\geq150$). "
+           r"MULTIFIT costs $50$--$500$ times less than \texttt{ig\_ql}. Because an ILS iteration is cheaper than an IG iteration in most classes, comparing at equal $T$ gives the IG more CPU time; the comparison at equal CPU time, in which the ILS receives up to $2.4$ times more iterations, "
+           r"is in Section~\ref{sec:f3f4-ablation} of the main text, and the IG still wins by $0.46\%$.")
+assert _QT_OLD.search(_text), "quality-time paragraph not found"
+_text = _QT_OLD.sub(lambda m: _QT_NEW, _text)
+(HERE / "s_moved.tex").write_text(_text, encoding="utf-8")
 
 # ---------------------------------------------------------------- back matter
 back = clean(rng(2107, 2157))
 back = back.replace("[Insert Repository\nLink/DOI, e.g., GitHub, Zenodo]",
                     "\\url{https://github.com/CarlosAraujo7/pmsp} (a DOI will be added on deposit)")
 assert "Insert Repository" not in back
+# marcas em vermelho (versao de rascunho; ver \draftmarks no preambulo): o que ainda sera melhorado
+for old, new in [
+    ("(a DOI will be added on deposit)", r"\todo{(a DOI will be added on deposit: Zenodo release pending)}"),
+    ("Writing original draft, Writing review and editing, Visualization).", r"Writing original draft, Writing review and editing, Visualization). \todonote{coauthors or advisor to be added; CRediT roles to be revised}"),
+    ("content of the published article.", r"content of the published article. \todonote{the author must read and adjust this declaration}"),
+    ("public, commercial, or not-for-profit sectors.", r"public, commercial, or not-for-profit sectors. \todonote{confirm funding (CAPES, FUNCAP, CNPq) before submission}"),
+]:
+    assert old in back, old
+    back = back.replace(old, new)
 (HERE / "short").mkdir(exist_ok=True)
 (HERE / "short" / "backmatter.tex").write_text(back + "\n", encoding="utf-8")
 print("ok", sum(len(p) for p in parts), "chars in s_moved.tex;", len(back), "chars in backmatter.tex")

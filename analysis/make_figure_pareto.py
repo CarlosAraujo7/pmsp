@@ -45,6 +45,14 @@ def main() -> None:
     gap = d.groupby(["instance", "method"]).gap_af.mean().unstack("method")
     t = pd.read_csv(ROOT / "results" / "timing_entrada107.csv")
     cpu = t.groupby(["instance", "method"]).cpu_time.median().unstack("method")
+    fast = ROOT / "results" / "timing_ils_fast_entrada174.csv"
+    if fast.exists():
+        # Entrada 174: o ILS foi remedido com os operadores vetorizados (resultados identicos, 6,2 vezes mais rapido) numa segunda sessao que reexecutou ig_random e ig_ql_seed como pontes;
+        # os tempos novos do ILS sao expressos na escala da sessao antiga pela razao (CPU antigo / CPU novo) das duas pontes, media geometrica por classe.
+        tf = pd.read_csv(fast).groupby(["instance", "method"]).cpu_time.median().unstack("method")
+        scale = np.exp(0.5 * (np.log(cpu["ig_random"] / tf["ig_random_s2"]) + np.log(cpu["ig_ql_seed"] / tf["ig_ql_seed_s2"])))
+        cpu["ils_random"] = tf["ils_random_fast"] * scale
+        cpu["ils_ql"] = tf["ils_ql_fast"] * scale
     fig, axes = plt.subplots(1, 3, figsize=(11.5, 3.9), sharey=False)
     out = []
     for ax, (title, classes) in zip(axes, PANELS):

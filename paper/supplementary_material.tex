@@ -48,6 +48,10 @@
 \setlength{\abovecaptionskip}{4pt}
 \setlength{\belowcaptionskip}{2pt}
 \usepackage{xcolor}
+%% Marcas de rascunho (Entrada 169): \draftmarkstrue = o que ainda sera melhorado aparece em vermelho; \draftmarksfalse = versao limpa.
+\newif\ifdraftmarks \draftmarkstrue
+\newcommand{\todo}[1]{\ifdraftmarks\textcolor{red}{#1}\else #1\fi}
+\newcommand{\todonote}[1]{\ifdraftmarks\textcolor{red}{\textbf{[#1]}}\fi}
 \usepackage{bm}
 
 \sloppy
@@ -82,7 +86,7 @@ policy effect (state, reward, hyperparameters, seeds, budget); the recipe with a
 time; the full external validation; the granularity of the processing times and the dispatch rule; the
 synthetic unrelated-machine experiments; the companion \texttt{ils\_ql} study; a preliminary exploration of
 hybrid IG/ILS mechanisms; further robustness experiments; the certified lower bound; and the record of all
-pre-specified analyses.
+pre-specified analyses. \todonote{Draft: items in red are still to be improved; the material moved from the long version is being revised.}
 \end{abstract}
 \end{frontmatter}
 \input{s_moved.tex}
@@ -861,7 +865,12 @@ confounded with $n$.
 \subsection{IG versus ILS at equal CPU time}
 \label{sec:eqcpu}
 
-For equal $T$, an ILS iteration costs more than an IG iteration (up to
+\textbf{Update (Entradas 174 and 179).} The cost ratios of this subsection were measured with the first, loop-based ILS operators, which are $6.2$ times slower than the vectorized ones (same results). With vectorized operators an ILS iteration costs $0.34$ to $1.08$ times an IG iteration, so
+at equal CPU the ILS receives more iterations (up to $2.2$ times as many) and the IG gets fewer than in the original comparison. The comparison was repeated that way on the same $150$ instances per row, with the IG at $T=1000$ and the ILS at $T_{\mathrm{ILS}}=\mathrm{round}(1000/K)$ (Table~\ref{tab:s_eqcpu_fast}; design and predictions recorded beforehand): the ILS advantage on fine-grained times
+\emph{grows} ($+0.21\%$ and $+0.22\%$, against $+0.09\%$ and $+0.14\%$ with the loop-based ratios; $p_{\mathrm{Holm}}<10^{-14}$) and the IG advantage on coarse times \emph{shrinks} but stays large ($-0.65\%$ and $-0.59\%$, against $-0.70\%$ and $-0.68\%$; $p_{\mathrm{Holm}}<10^{-9}$); the shrinkage was smaller than predicted for the coarse times
+(the two predictions of the range of $\bar d$ in the coarse cells, $-0.55$ to $-0.15$, missed; the other five held). The conclusions about the direction of the IG--ILS difference by granularity therefore stand with the efficient ILS.
+
+For equal $T$, an ILS iteration costs more than an IG iteration with the first, loop-based operators (up to
 $24.8\times$ at $n=300$; Section~\ref{sec:exact-ref}). To check that
 the IG-versus-ILS findings are not an artefact of the iteration budget,
 IG was given $T_{\mathrm{IG}}=1000\,K(n)$ iterations, with $K$ interpolated
@@ -875,6 +884,7 @@ and that the IG advantage on coarse times grows ($-0.70\%$ and $-0.68\%$).
 The realised IG/ILS CPU ratio was $0.8$--$1.7$.
 
 \input{s_equal_cpu.tex}
+\input{s_eqcpu_fast.tex}
 
 \subsection{Destruction size and other hyperparameters}
 \label{sec:hyper}

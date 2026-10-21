@@ -11,17 +11,25 @@ published instances (Supplementary Section~\ref{S-sec:lbaf}).
 Against its four ablation siblings (random selection, UCB1, UCB1 per state, Q-Learning without state) \texttt{ig\_ql} has $7$ of $48$ raw $p$-values below $0.05$ and none after Holm correction: per
 class, single-run tests cannot resolve the effect. Ten algorithm seeds on $240$ instances show that it is real but strictly negligible ($\bar d=-0.011\%$, 90\% interval $-0.019$ to $-0.003$), and
 pooled tests on published instances (Section~\ref{sec:external}) put it at $0.01$--$0.03$ points. The search mechanism, by contrast, is large: with learning removed from both sides,
-\texttt{ig\_random} beats \texttt{ils\_random} in $10$ of $12$ classes (the exceptions are the near-ceiling classes $(20,4)$ and $(40,5)$), by $0.49\%$ on seed averages, against $0.53\%$ for the learned versions.
+\texttt{ig\_random} beats \texttt{ils\_random} in $10$ of $12$ classes (the exceptions are the near-ceiling classes $(20,4)$ and $(40,5)$), by $0.49\%$ on seed averages, against $0.53\%$ for the learned versions. The result does not depend on how efficiently
+the ILS is implemented: with vectorized operators (identical results, $6.2$ times faster than the loop version, an iteration costing $0.4$ to $1.9$ times that of the IG), the IG still beats the ILS by $0.46\%$ at equal CPU time ($557$ wins against $87$) and by $0.50\%$ at equal iterations ($p_{\mathrm{Holm}}<10^{-80}$ in both).
 
-\paragraph{Which part of the search structure? Equal CPU time decides}
+\paragraph{Which part of the search structure? The budget, and how efficiently it is spent}
 The advantage of the IG mixes the destruction--reconstruction cycle with the absence of an exhaustive local search. A hybrid that adds a short best-improvement descent after each reconstruction separates
-them (Tables~\ref{tab:f25_igls_p} and~\ref{tab:f28_igls_eq}). The pure IG already beats the ILS by $0.59\%$ ($381$ wins against $61$), the descent adds a further $0.15\%$ ($436$ against $16$) and Q-Learning adds
-nothing to the hybrid ($-0.004\%$). That $0.15\%$, however, is a comparison at an equal number of iterations, and the descent multiplies the CPU time per iteration by $2.1$ to $52.4$. Giving the plain IG the
-CPU time of the hybrid (calibrated sequentially on an idle machine) reduces the advantage of the local search to $0.010\%$ (90\% interval $0.002$--$0.018$, inside the $\pm0.05\%$ margin):
-\textbf{$93\%$ of the gain was budget}. The active ingredient for identical machines is the destruction--reconstruction cycle and the number of iterations it receives; the descent mostly substitutes for iterations.
+them (Tables~\ref{tab:f25_igls_p} and~\ref{tab:f38_igls_impl}). The pure IG already beats the ILS by $0.59\%$ ($381$ wins against $61$), the descent adds a further $0.15\%$ ($436$ against $16$) and Q-Learning adds
+nothing to the hybrid ($-0.004\%$). That $0.15\%$ is a comparison at an equal number of iterations, and the descent costs CPU time, so the verdict at equal CPU depends on how efficiently it is implemented. With the first implementation
+of the descent (Python loops over all moves) it multiplied the CPU time per iteration by $2.1$ to $52.4$, and giving the plain IG the CPU time of the hybrid reduced the advantage to $0.010\%$ (\emph{$93\%$ of the gain would have been budget}).
+Vectorizing the same descent (same moves, tie-breaking and results: $120$ of $120$ runs identical, $188$ unit tests) cut the cost ratio to $1.5$--$2.1$, and the advantage at equal CPU is $0.105\%$ (90\% interval $0.095$--$0.115$; $330$ wins
+against $18$): \textbf{$30\%$ of the gain was budget}, not $93\%$ (predicted beforehand: $15$--$70\%$). The earlier reading was an artefact of the implementation, a lesson built into rule~2 of the protocol (Section~\ref{sec:protocol}). A third check compiles both the IG and the descent (numba; same moves and tie-breaking, exact on $403$ unit tests; the random draws use another generator and the aggregate
+equivalence with the Python version holds within $0.01\%$ in four checks) and adds a count of evaluations as an implementation-independent budget. The compiled cost ratio is $1.7$--$2.4$ and the reading is the same: an advantage of $0.115\%$ at equal CPU
+(90\% interval $0.104$--$0.126$; $348$ wins against $13$), that is, $28\%$ of the gain was budget (predicted: $15$--$55\%$); all sixteen predictions recorded before this check held, the cost-ratio ones with the help of a five-class timing pilot. The count of evaluations
+agrees in sign but not in size ($0.080\%$ at equal evaluations, $50\%$ of the gain) because it is not assumption-free: it weighs a candidate move of the descent and a machine comparison of the reconstruction equally, the descent costs $1.9$ to $9.1$ times the
+evaluations of the plain IG but only $1.7$ to $2.4$ times its CPU time (rank correlation $0.71$ between the two ratios over $24$ class--scenario pairs), and giving a reconstruction comparison a weight of $0.25$ or $4$ moves the advantage between
+$0.026\%$ and $0.124\%$. An evaluation count therefore needs a stated cost model, and equal CPU with an efficient implementation of every arm remains the budget of choice. For identical machines the
+active ingredient remains the destruction--reconstruction cycle ($0.59$ of the $0.72$ points over the ILS), with the descent a real but smaller complement ($0.1$ point at equal CPU).
 
 \input{f25_igls_p.tex}
-\input{f28_igls_eq.tex}
+\input{f38_igls_impl.tex}
 
 \paragraph{Why the policy adds so little}
 Four explanations were tested with analyses specified beforehand (details in Supplementary Section~\ref{S-sec:m-robust}). \emph{Nothing to learn:} the best fixed destruction strategy per class is no better than random

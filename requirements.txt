@@ -12,3 +12,4 @@ matplotlib==3.11.1
 seaborn==0.13.2
 openpyxl==3.1.5        # leitura de Results_iAF.xlsx (referencia exata do benchmark externo)
 pytest==9.1.1
+numba==0.68.0          # nucleo compilado do IG de P||Cmax (pmsp/ig_numba.py, Ciclo 14); llvmlite 0.50.0 vem junto

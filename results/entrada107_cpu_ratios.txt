@@ -1,19 +1,19 @@
 RAZOES DE CPU (mediana por classe, mesma sessao, sequencial; 5 reps)
 classe        ILS-QL/IG-QL  ILS-Rand/IG-Rand  BCO(I=100)/IG-QL  MultiFit/IG-QL  IG-QL+/IG-QL
-rand_20j_4m           1.28              0.98              3.28          0.0020         1.00
-rand_20j_6m           1.29              0.97              3.20          0.0021         0.99
-rand_30j_8m           1.74              1.16              4.61          0.0029         1.03
-rand_40j_5m           2.24              1.29              5.81          0.0038         1.00
-rand_50j_10m          2.60              1.62              8.92          0.0044         1.00
-rand_60j_20m          3.38              1.78              7.49          0.0073         1.03
-rand_75j_15m          4.77              2.26              8.52          0.0084         1.02
-rand_100j_20m         6.20              2.54             11.36          0.0121         1.02
-rand_150j_15m        10.37              3.84             11.91          0.0125         0.97
-rand_150j_30m        11.21              5.31             11.99          0.0199         1.02
-rand_250j_25m        19.46              8.08             15.90          0.0209         1.03
-rand_300j_20m        24.77              8.84             16.15          0.0181         1.06
+rand_20j_4m           1.01              0.99              3.28          0.0020         1.00
+rand_20j_6m           1.01              0.98              3.20          0.0021         0.99
+rand_30j_8m           1.04              0.87              4.61          0.0029         1.03
+rand_40j_5m           0.86              0.79              5.81          0.0038         1.00
+rand_50j_10m          1.02              0.76              8.92          0.0044         1.00
+rand_60j_20m          1.08              0.85              7.49          0.0073         1.03
+rand_75j_15m          0.94              0.68              8.52          0.0084         1.02
+rand_100j_20m         0.89              0.55             11.36          0.0121         1.02
+rand_150j_15m         0.68              0.46             11.91          0.0125         0.97
+rand_150j_30m         0.80              0.57             11.99          0.0199         1.02
+rand_250j_25m         0.57              0.40             15.90          0.0209         1.03
+rand_300j_20m         0.45              0.34             16.15          0.0181         1.06
 
-ILS-QL/IG-QL: min 1.28x (n=20), max 24.77x (n=300); mediana 4.08x
-ILS-Random/IG-Random: min 0.97x, max 8.84x
+ILS-QL/IG-QL: min 0.45x (n=20), max 1.08x (n=300); mediana 0.92x
+ILS-Random/IG-Random: min 0.34x, max 0.99x
 BCO(I=100)/IG-QL: min 3.20x, max 16.15x
 IG-QL/IG-Random (sobrecusto do QL): mediana 0.95x

@@ -81,3 +81,6 @@ external_benchmarks/rcmax_fanjul_ruiz/extracted/
 # --- Taillard flowshop: third-party download (OR-Library files) and instances regenerated from the published generator ---
 external_benchmarks/pfsp_taillard/raw/
 external_benchmarks/pfsp_taillard/instances/
+
+# --- Entregas parciais (zips para envio) ---
+entrega/

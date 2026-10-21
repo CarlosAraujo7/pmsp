@@ -1,6 +1,8 @@
 \section{Introduction}
 \label{sec:intro}
 
+\todonote{DRAFT: text and notes in red mark what is still to be improved before submission. (1) Extend the literature audit (now 23 arXiv papers, one coder) with institutional access and have 8 of them double-coded. (2) External review by an advisor or coauthor. (3) Zenodo deposit with a DOI for the pre-registration record. (4) Compile the unrelated-machines pipeline (LP start, restricted MILP) and the neural agents, to check their cost ratio (the local search and the tabular, bandit and policy-gradient agents for identical machines are compiled). (5) Test deep policy-gradient learners (PPO) and portfolios of hundreds of operators (a $2\times64$ DQN, a tabular policy gradient, spaces of up to $30$ actions and the four operators of an ILS are done). (6) Apply the template of the chosen journal, confirm title, keywords and funding, and polish the text. (7) Read the remaining supplementary sections moved verbatim from the 46-page report for statements superseded by the efficient-implementation results (the recipe, quality--time and equal-CPU sections are rewritten; see \texttt{paper/LONG\_VERSION\_SUPERSEDED.md}).}
+
 Metaheuristics that learn while they search are a prominent line of work in operations research \citep{CalvetEtal2017,KarimiMamaghanEtal2022}. A typical \emph{learnheuristic} embeds a
 reinforcement-learning agent, most often tabular Q-Learning \citep{WatkinsDayan1992,SuttonBarto2018}, as an adaptive operator or strategy selector inside a search framework such as
 Iterated Local Search (ILS) \citep{LourencaoEtal2019} or Iterated Greedy (IG) \citep{RuizStutzle2007}, and reports that it beats the search without the agent or published baselines
@@ -17,11 +19,11 @@ This article answers it with a \emph{budget-fair attribution protocol} (Section~
 operator of an ILS. The evidence is large (twelve synthetic classes, more than $13{,}000$ published identical-machine instances, the standard unrelated-machine benchmark of
 \citealt{FanjulPeyroRuiz2010} with third-party reference solutions) and every analysis was specified, with hashes of the code, before the data it uses.
 
-The main findings are the following. (a) The gain of the Q-Learning-guided IG over the ILS comes from the search structure; the learned policy adds $0.01$--$0.05$ percentage points for
+The main findings are the following (Figure~\ref{fig:thesis} summarises them). (a) The gain of the Q-Learning-guided IG over the ILS comes from the search structure; the learned policy adds $0.01$--$0.05$ percentage points for
 identical machines and about $0.1\%$ for unrelated machines, and nothing for the flowshop. (b) The \emph{active ingredient} differs by problem and is revealed only by ablations at equal CPU
 time: destruction--reconstruction for identical machines, its combination with a descent for unrelated machines, the local search for the flowshop; a local search that looked $0.15\%$ better
-at an equal number of iterations is $0.01\%$ better at equal CPU time. (c) A configuration chosen \emph{offline} on separate instances beats the online agent in all seven environments studied,
-against seven learners; the headroom of the actions predicts where a policy could help for destruction \emph{strategies} but failed prospectively for the destruction \emph{size}, so headroom is
+at an equal number of iterations is $0.10$--$0.11\%$ better at equal CPU time when it is implemented efficiently (vectorized or compiled), and $0.01\%$ better with a first, loop-based implementation, so the CPU cost ratio is itself a result to report and to check. (c) A static configuration beats the online agent in every environment studied (a destruction size or strategy chosen \emph{offline} on separate instances in seven, a uniform mixture of the four operators of an ILS in the eighth),
+against eleven learners; the headroom of the actions predicts where a policy could help for destruction \emph{strategies} but failed prospectively for the destruction \emph{size}, so headroom is
 necessary but not sufficient. (d) Learning-free solvers follow from these findings and are competitive: an IG with a validated destruction size and a start from the best constructive solution
 reaches $97.5\%$ of provably optimal solutions on synthetic identical-machine instances, and an IG started from the linear relaxation and polished by a restricted MILP is within $0.25$--$0.30\%$ of the
 best known solutions of the standard unrelated-machine benchmark.

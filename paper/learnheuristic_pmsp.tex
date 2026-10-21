@@ -32,6 +32,10 @@
 \setlength{\abovecaptionskip}{4pt}
 \setlength{\belowcaptionskip}{2pt}
 \usepackage{xcolor}
+%% Marcas de rascunho (Entrada 169): \draftmarkstrue = o que ainda sera melhorado aparece em vermelho; \draftmarksfalse = versao limpa.
+\newif\ifdraftmarks \draftmarkstrue
+\newcommand{\todo}[1]{\ifdraftmarks\textcolor{red}{#1}\else #1\fi}
+\newcommand{\todonote}[1]{\ifdraftmarks\textcolor{red}{\textbf{[#1]}}\fi}
 \usepackage{bm}
 \usepackage{xr}
 \externaldocument[S-]{supplementary_material}

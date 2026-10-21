@@ -1,6 +1,6 @@
 \begin{highlights}
 \item Equal-CPU attribution shows the gains of learning-guided search are mostly structure and budget.
-\item An offline-validated configuration beats online learning in every environment tested.
+\item A static configuration, validated offline or a uniform mixture, beats online learning in every environment tested.
 \item Headroom is necessary but not sufficient for an online policy to help.
 \item The active ingredient differs by problem; only an equal-CPU ablation reveals it.
 \item Learning-free solvers: 97.5\% provably optimal (P$||C_{\max}$), about 0.3\% from best known (R$||C_{\max}$).
@@ -13,8 +13,8 @@ equivalence margins and hypotheses pre-registered with code hashes) and apply it
 Iterated Local Search (ILS), for three problems: identical and unrelated parallel machines and the permutation flowshop. The evidence covers twelve synthetic classes, more than $13{,}000$ published
 identical-machine instances and the standard unrelated-machine benchmark. (i) The gain comes from the search structure, not from the policy ($0.01$--$0.05$ percentage points for identical machines,
 about $0.1\%$ for unrelated machines, none for the flowshop). The active ingredient differs by problem (destruction--reconstruction, its combination with a descent, the local search itself), and only an
-ablation at equal CPU time reveals it: $93\%$ of the $0.15\%$ advantage of a local search disappears when the CPU time is equalised. (ii) Choosing the configuration offline on separate instances beats
-online learning in every environment, against seven learners, including bandits designed for the short learning window, a contextual bandit and an instance-conditional selector trained offline. A headroom law holds for destruction strategies but failed prospectively for
+ablation at equal CPU time reveals it, provided every arm is implemented efficiently: the $0.15\%$ advantage of a local search for identical machines is $0.10$--$0.11\%$ at equal CPU time with a vectorized or a compiled descent, but $0.01\%$ with a first, loop-based one. (ii) A static configuration beats
+online learning in every environment (a destruction size or strategy validated offline on separate instances in seven; a uniform mixture of the four operators of an ILS in the eighth), against eleven learners, including bandits designed for the short learning window, a contextual bandit, two neural Q-learners (up to a $2\times64$ DQN with replay), a policy-gradient learner and instance-conditional selectors trained offline, which match the validated configuration only with $700$ training instances. A headroom law holds for destruction strategies but failed prospectively for
 the destruction size: headroom is necessary, not sufficient. (iii) Learning-free solvers follow. An IG with a validated destruction size and a strong start is provably optimal on $97.5\%$ of the
 synthetic identical-machine instances at $64{,}000$ iterations, and an IG started from the linear relaxation and polished by a restricted MILP is within $0.25$--$0.30\%$ of the best known solutions of the
 standard unrelated-machine benchmark (CPLEX with two hours: $0.18$--$0.20\%$). All hypotheses, decision rules and non-confirmations are reported.

@@ -17,7 +17,7 @@ almost nothing: $-0.010\%$ (synthetic) and $-0.013\%$ (published) against random
 \centering
 \includegraphics[width=0.92\textwidth]{fig_pareto.pdf}
 \caption{Quality--time trade-off on the synthetic classes, in three size ranges (each marker is the mean over the four classes of the panel; GAP against the certified bound; CPU time is the geometric mean of the
-class medians, log scale, from one sequential session on an idle machine). The dashed line is the Pareto frontier. \textsc{IG-QL}$^{+}$: \texttt{ig\_ql} started from the best of LPT, MULTIFIT and LDM.}
+class medians, log scale, from one sequential session on an idle machine; the ILS uses vectorized operators and was re-timed in a second session on a shared machine, with its times expressed on the scale of the first through the IG times measured in both). The dashed line is the Pareto frontier. \textsc{IG-QL}$^{+}$: \texttt{ig\_ql} started from the best of LPT, MULTIFIT and LDM.}
 \label{fig:pareto}
 \end{figure}
 
@@ -31,13 +31,11 @@ Tuning $d$ is worth $0.034\%$ (synthetic) and $0.100\%$ (published) over the def
 
 \input{f22_igcv_seed.tex}
 
-\paragraph{A local search helps only at an equal number of iterations}
-Adding the descent of the hybrid to the recipe gives the same lesson as in Section~\ref{sec:f3f4-ablation}. At an equal number of iterations it helps ($-0.036\%$ synthetic, $-0.072\%$ published; $81.2\%$ of
-provably optimal solutions against $74.7\%$), but an iteration costs $2.3$ to $82.9$ times more. When the recipe \emph{without} local search receives the same CPU time ($T_{\mathrm{eq}}$ between
-$2{,}298$ and $82{,}855$), it is better: the local search loses by $0.034\%$ ($24$ wins against $115$ losses, $p_{\mathrm{Holm}}=3\times10^{-8}$) and the equal-CPU recipe reaches $89.0\%$ of provably
-optimal solutions against $81.2\%$ (mean GAP $0.058\%$ against $0.094\%$; Table~\ref{tab:f26_igcvls}, and Supplementary Section~\ref{S-sec:m-recipe}).
-
-\input{f26_igcvls.tex}
+\paragraph{A local search is neutral for the recipe at equal CPU}
+Adding the descent of the hybrid to the recipe gives a small gain at an equal number of iterations ($-0.036\%$ synthetic, $-0.072\%$ published; $81.2\%$ of provably optimal solutions against $74.7\%$). At equal CPU time the verdict depends on the efficiency of the
+descent (Table~\ref{tab:f38_igls_impl}). With the first, loop-based implementation (an iteration costs $2.3$ to $82.9$ times more) the recipe \emph{without} local search is better: the descent loses by $0.034\%$ ($24$ wins against $115$ losses,
+$p_{\mathrm{Holm}}=3\times10^{-8}$), and the equal-CPU recipe reaches $89.0\%$ of provably optimal solutions against $81.2\%$. With the vectorized descent (cost ratio $1.2$ to $2.4$) the difference is $-0.008\%$ (90\% interval $-0.016$ to $-0.001$; $56$ wins against $38$;
+$p_{\mathrm{Holm}}=0.063$), equivalent to zero within $\pm0.05\%$, and so is the compiled one ($-0.006\%$, interval $-0.012$ to $+0.001$; cost ratio $1.7$ to $6.3$). In all three implementations the descent does not pay for the recipe at equal CPU (Supplementary Section~\ref{S-sec:m-recipe} has the full first test).
 
 \paragraph{The budget does the rest}
 The strongest variant is the recipe with a larger iteration budget. On six classes of the synthetic benchmark it reaches $86.8\%$, $92.7\%$ and $\mathbf{97.5\%}$ of provably optimal solutions at $T=4{,}000$,

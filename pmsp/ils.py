@@ -78,6 +78,7 @@ def ils_run(
     track_history: bool = False,
     state_cfg=None,
     initial_solution=None,
+    best_fn=None,
 ) -> Dict[str, Any]:
     """
     Executa uma rodada do ILS com o seletor de operadores fornecido.
@@ -150,7 +151,7 @@ def ils_run(
 
         # 3. Aplica best-improvement sobre copia
         sol_new = sol.copy()
-        delta = apply_best(action, sol_new, rng)
+        delta = (apply_best if best_fn is None else best_fn)(action, sol_new, rng)   # Entrada 162: best_fn opcional (operadores vetorizados); None = comportamento anterior
         reward = float(delta)
 
         # 4. Proximo estado e atualizacao do seletor
