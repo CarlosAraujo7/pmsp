@@ -1,0 +1,23 @@
+==============================================================================================================
+APRENDIZES ONLINE DE OUTRAS CLASSES NOS OUTROS AMBIENTES (tamanho de destruicao) -- Entrada 167/168
+==============================================================================================================
+
+--- ambiente P: 1200 instancias | hiperparametros escolhidos no ajuste: LinUCB alpha = 0.25, Q neural lr = 0.02 ---
+  id                 comparison    n  better  worse  tie  mean_d_pct   ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada
+P-G1      P: linucb vs random d 1200     161    170  869    0.002605 -0.008396  0.01424        0.01416    0.6619    0.8245       False
+P-G2    P: neural Q vs random d 1200     163    174  863    0.006014 -0.005392  0.01737        0.04618    0.4123    0.8245       False
+P-G3   P: validated d vs linucb 1200     338     53  809    -0.09082   -0.1021 -0.07973        -0.7328 1.292e-31 3.875e-31        True
+P-G4 P: validated d vs neural Q 1200     334     44  822    -0.09422   -0.1058 -0.08312         -0.769 5.986e-34 2.394e-33        True
+Ganho sobre o aleatorio (d %): val -0.089, linucb +0.003, nq +0.006, oracle -0.127 | captura (ganho/ganho validado): linucb -0.03, nq -0.07, oracle 1.43
+
+--- ambiente F: 160 instancias | hiperparametros escolhidos no ajuste: LinUCB alpha = 0.5, Q neural lr = 0.005 ---
+  id                 comparison   n  better  worse  tie  mean_d_pct  ci90_lo   ci90_hi  rank_biserial     p_raw    p_holm  confirmada
+F-G1      F: linucb vs random d 160      58     58   44     0.02704   -0.021   0.07267        0.07781    0.4356    0.4356       False
+F-G2    F: neural Q vs random d 160      48     72   40     0.09909  0.04599    0.1531         0.2599  0.008959   0.02688       False
+F-G3   F: validated d vs linucb 160      65     57   38    -0.06926   -0.133 -0.008588        -0.1705   0.07641    0.1528       False
+F-G4 F: validated d vs neural Q 160      79     38   43     -0.1411  -0.1983  -0.08384        -0.4143 9.665e-05 0.0003866        True
+Ganho sobre o aleatorio (d %): val -0.043, linucb +0.027, nq +0.099, oracle -0.226 | captura (ganho/ganho validado): linucb -0.63, nq -2.29, oracle 5.24
+  fonte gen (120): linucb +0.024, nq +0.133, val -0.020
+  fonte tai (40): linucb +0.037, nq -0.002, val -0.111
+
+Leitura pre-fixada: 'os aprendizes contextual e neural nao mudam a atribuicao nos outros ambientes' (G1 e G2 nao confirmadas em P e em F): SIM (P: True, F: True)

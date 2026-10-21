@@ -1,0 +1,19 @@
+7b735542a6c54e1f4e7fa7f5d55bf690 *experiment/run_online_replic_entrada167.py
+cf66898e0356906b947789e14a5eb10d *analysis/report_entrada167_online.py
+5d004164f309b79f6f02603c19d88692 *pmsp/linucb.py
+32135d3aab60a30d10ef1a33f6c03a9a *pmsp/neuralq.py
+fdf70b077b43180105a61a9fcd882065 *results/dsel_test_entrada114.csv
+ca3a4a576736c5ece0844e48a35d597b *results/dsel_tuning_entrada114.csv
+c0f5d4126d4ca2a6f90f42146ec027de *results/pfsp_test_entrada152.csv
+56aa4ebc2fe926393a24598081bce63b *results/pfsp_taillard_entrada159.csv
+43af0bd136583e0f29e6b66c1bb50011 *results/pfsp_choice_entrada152.json
+55475b8d9c3009a9d975716daac0539d *results/online_tune_P_entrada167.csv
+e91d901378cbca0483635f77c948847e *results/online_choice_P_entrada167.json
+# --- emenda 1 (ambiente P, antes do teste): hiperparametros escolhidos no ajuste ---
+896220b9e2e6bb5d65a65c1daafbc87f *results/online_tune_F_entrada167.csv
+d82845d4e4ecc12937b5a4017cfe9766 *results/online_choice_F_entrada167.json
+# --- emenda 1 (ambiente F, antes do teste): hiperparametros escolhidos no ajuste ---
+ecde8305213a61d7a8c14224413ab63d *results/online_test_P_entrada167.csv
+f77d02b4b57bfe5a0648435eb03611d9 *results/online_test_F_entrada167.csv
+bf0431a70bca7e0181e6ae56c692761c *results/entrada167_online.txt
+fbb90d5a2f5845a7a1a8484497750782 *results/entrada167_online_primary.csv

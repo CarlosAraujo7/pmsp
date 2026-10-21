@@ -1,0 +1,28 @@
+4dcb9ac53c6a1ac6b31d5e27e1c28c6f *pmsp/operators_fast.py
+7d625f288ea90394373a962d897b3ea1 *tests/test_operators_fast.py
+e147b83e67c677f581eb0196f665c3f5 *pmsp/ils.py
+32135d3aab60a30d10ef1a33f6c03a9a *pmsp/neuralq.py
+e7e380459b01c7a36e0c081653cce41c *tests/test_neuralq.py
+f0e2921e1813842af308378e964aa2c8 *experiment/run_ils_fast_entrada162.py
+cc163f2ac5fa3dc77cb3abb67c1170ee *analysis/report_entrada162_ils_fast.py
+95dfa020f60b146d37eb7eb7e1c4c213 *results/ils_fast_cpu_ratio_entrada162.json
+2343d8484ca61f045c4b7458dba1ba4c *results/ils_fast_verify_entrada162.csv
+cd59bfb17ffbb03008d2b97e241e726e *experiment/run_neural_entrada162.py
+d4af24545ea2e886831b99f929325b91 *analysis/report_entrada162_neural.py
+2f27601cb840a635b5ed7da7fe49b5ab *results/neural_choice_entrada162.json
+b9180659b013104e1b82dff41e9311bf *analysis/report_entrada162_igls_fast.py
+8510c9a43c28ee2c15fd5ef4036ef962 *results/results.csv
+08543b620a861da94b9d92275cb018ba *results/dpolicy_test_entrada145.csv
+8cc82ba485bd03c8a48b288c80ef264e *experiment/run_ils_fast_entrada162.py
+# --- emenda (antes do teste da D3): run_ils_fast_entrada162.py passou de ProcessPoolExecutor para fatias independentes (--shard/--nshards/--merge); logica de tarefas e calibracao inalteradas ---
+e476eb9dd1b4ef2edf45195c2437d05b *results/ils_eq_fast_entrada162.csv
+0844c87f469cbd00ab4574c234346f22 *results/entrada162_ils_fast.txt
+9a30d11b3b0ab3453243714c93cf5be2 *results/entrada162_ils_fast_primary.csv
+fe7c71269036d61461146aa49a988121 *experiment/run_neural_entrada162.py
+# --- emenda (antes do ajuste/teste da frente E): run_neural_entrada162.py passou de ProcessPoolExecutor para fatias independentes (--shard/--nshards/--merge-*/--choose-lr); logica de tarefas inalterada ---
+1e4f0894495d8312ca0dd251a53ed992 *results/nq_tune_entrada162.csv
+0a792989ec208b33d3047caa1b10ff34 *results/nq_choice_entrada162.json
+# --- emenda 1 da frente E (antes da fase de teste): lr da rede escolhido no ajuste; hashes acima ---
+39d726c6a406638d8e4f2a98a6198d00 *results/nq_test_entrada162.csv
+140c04529560770e4a86bb182d5789cc *results/entrada162_neural.txt
+0ea70322b30ae657191ce4418a0fbb2a *results/entrada162_neural_primary.csv

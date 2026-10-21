@@ -1,0 +1,15 @@
+74c626b9826cd0be5bd172425b3d4980 *pmsp/operators_fast.py
+ccf86ecfb4bd2e55cdb2d780a479c4cc *tests/test_operators_fast.py
+1b67c4bbe6d7227486807ee7ece2f98d *experiment/run_igls_fast_entrada162.py
+ab97604dc3436855cc8154cf554025bf *analysis/report_entrada162_igls_fast.py
+d33ab1f6f01a0c612fbad3fe10cef133 *results/igls_fast_cpu_ratio_entrada162.json
+d566ce6ab1111eee4c7179476a034f95 *results/igls_fast_verify_entrada162.csv
+0ffe61469486ad9ad9c2e0053000856b *results/igls_p_entrada124.csv
+dcbc863a9afa59188d26a1e207c32992 *results/igcvls_seed_entrada127.csv
+db5a8c078e13abd6947018a03f3b0a84 *results/igls_eq_cpu_ratio_entrada129.json
+f1c181f611349c97fb338bc306dd273a *results/igcvls_cpu_ratio_entrada127.json
+ec0a1946b51517254c215efe09ef7c61 *results/igls_eq_fast_entrada162.csv
+f078f4cb56021c686fc3b3162658f1b8 *results/igcv_eq_fast_entrada162.csv
+acff78e04ac86edae4cde22e3441a0e4 *results/entrada162_igls_fast.txt
+83cbfdda3e0f98bee0e43b8598549f16 *results/entrada162_igls_fast_primary.csv
+# --- saidas das frentes D1/D2 (hasheadas depois de rodar; execucao em 6 fatias independentes apos tres quedas de ProcessPool com WinError 6 em maquina compartilhada) ---

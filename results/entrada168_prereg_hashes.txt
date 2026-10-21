@@ -1,0 +1,12 @@
+6f18d46f0850a354e3ea76b3566b8123 *experiment/run_reserve_arms_entrada168.py
+0ee2a5b521b69548c092bf68f70e72cb *analysis/report_entrada168_bigtrain.py
+b5dff3847438d73da6fa7e995e361eaa *results/ctx_features_entrada159.csv
+229d5fc66a418887ce28756e818cbcd8 *results/lpig_tune_d_entrada141.csv
+08543b620a861da94b9d92275cb018ba *results/dpolicy_test_entrada145.csv
+e9973834dec552f55456fd96862c793a *results/ctx_choice_entrada159.json
+2f27601cb840a635b5ed7da7fe49b5ab *results/neural_choice_entrada162.json
+06b362fe3a2f1a706cb97bba7ee80a39 *results/reserve_arms_entrada168.csv
+4308ab58d28b4ea1233d001596a5fde2 *results/bigtrain_choice_entrada168.json
+# --- emenda 1: bracos da reserva e treino (so' dados de treino) hasheados antes do relatorio de teste ---
+1c2bd65770c00d2d722b83292d904f60 *results/entrada168_bigtrain.txt
+46e86f80bbd94fc799be5cc06156ff3e *results/entrada168_bigtrain_primary.csv

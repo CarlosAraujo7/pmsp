@@ -1,0 +1,23 @@
+problem,component,gain_pp,source
+Identical machines (P||Cmax),"Search mechanism
+(IG vs ILS, equal CPU)",0.4624464285225743,entrada162_ils_fast_primary.csv:E1
+Identical machines (P||Cmax),"Local search
+(equal CPU)",0.1048410865520456,entrada162_igls_fast_primary.csv:D1
+Identical machines (P||Cmax),"Online policy
+vs random size",-0.0146555894697292,entrada114_dsel_primary.csv:A2
+Identical machines (P||Cmax),"Validated size
+vs random size",0.0885154424361107,entrada114_dsel_primary.csv:A1
+Unrelated machines (R||Cmax),"Search mechanism
+(IG vs ILS, equal CPU)",2.134953343863702,entrada137_rcmax_benchmark_primary.csv:B1
+Unrelated machines (R||Cmax),"Online policy
+vs random size",-0.1521064923882282,entrada145_dpolicy_primary.csv:D2
+Unrelated machines (R||Cmax),"Validated size
+vs random size",0.201,entrada145_dpolicy.txt:val_tn
+Permutation flowshop (Taillard),"Search mechanism
+(IG vs ILS, equal CPU)",0.0064659278153233,entrada159_taillard_primary.csv:P1
+Permutation flowshop (Taillard),"Local search
+(equal CPU)",0.2799639702273006,entrada159_taillard_primary.csv:P2
+Permutation flowshop (Taillard),"Online policy
+vs random size",-0.0645605385485168,entrada159_taillard_primary.csv:P3
+Permutation flowshop (Taillard),"Validated size
+vs random size",0.1112444308712095,entrada159_taillard_primary.csv:P5

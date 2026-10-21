@@ -1,0 +1,20 @@
+==============================================================================================================
+MAIS DADOS DE TREINO OFFLINE (280 -> 700): SELETOR INSTANCIA-CONDICIONAL vs VALIDACAO POR CELULA -- Entrada 168/169
+==============================================================================================================
+instancias de teste: 700 | treino: 700
+
+--- PRIMARIA (Holm sobre 4) ---
+id                comparison   n  better  worse  tie  mean_d_pct   ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada
+H1   val_knn700 vs val_tn700 700      32     51  617     0.02542  -0.01511  0.06793         0.2413    0.1216    0.2431       False
+H2   val_mlp700 vs val_tn700 700      36    160  504    -0.01112  -0.04569  0.01911         0.7619 3.674e-09 1.102e-08        True
+H3 val_tn700 vs val_tn (280) 700      46     22  632     0.01446 -0.004178  0.03538        -0.4923     0.427     0.427       False
+H4       val_tn700 vs rand_d 700     249     90  361     -0.1875   -0.2483  -0.1308         -0.505 3.373e-17 1.349e-16        True
+
+Leitura pre-fixada: 'mais dados de treino fazem a selecao instancia-condicional superar a validacao por celula' (H1 ou H2 confirmada): SIM
+
+Curva de aprendizado (d % contra a validacao por celula com o MESMO treino):
+  kNN 280: d = +0.105% [IC90 +0.056, +0.158] (38/116/546)
+  kNN 700: d = +0.025% [IC90 -0.015, +0.068] (32/51/617)
+  MLP 280: d = +0.104% [IC90 +0.065, +0.145] (49/192/459)
+  MLP 700: d = -0.011% [IC90 -0.046, +0.019] (36/160/504)
+Ganho sobre rand_d (d %): val_tn -0.201, val_tn700 -0.187, val_knn280 -0.100, val_knn700 -0.162, val_mlp280 -0.099, val_mlp700 -0.198, oracle -0.325

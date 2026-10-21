@@ -1,0 +1,3 @@
+n,better,worse,tie,mean_d_pct,ci90_lo,ci90_hi,rank_biserial,p_raw,id,comparison,p_holm,reject,confirmada,equivalente_0.05
+1200,330,18,852,-0.10484108655204566,-0.11463945911405787,-0.09490832766903276,-0.901590751901986,6.496515479129071e-46,D1,H: igls_random vs ig_random_eq_fast (CPU igual),1.2993030958258142e-45,True,True,False
+1200,56,38,1106,-0.008246701696705978,-0.01557573992967973,-0.001271460181698047,-0.2,0.06327705710460639,D2,R: igcvls_seed vs igcv_seed_eq_fast (CPU igual),0.06327705710460639,False,False,True

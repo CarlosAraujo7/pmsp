@@ -1,0 +1,44 @@
+==============================================================================================================
+SENSIBILIDADE DA CONCLUSAO 'A CPU IGUAL' A IMPLEMENTACAO DA BUSCA LOCAL -- Entrada 162/164
+==============================================================================================================
+equivalencia a nivel de execucao (--verify): 120/120 makespans identicos aos armazenados
+
+--- PRIMARIA (Holm sobre 2; confirmada = a busca local ganha a CPU igual) ---
+id                                      comparison    n  better  worse  tie  mean_d_pct  ci90_lo   ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05
+D1 H: igls_random vs ig_random_eq_fast (CPU igual) 1200     330     18  852     -0.1048  -0.1146  -0.09491        -0.9016 6.497e-46 1.299e-45        True             False
+D2 R: igcvls_seed vs igcv_seed_eq_fast (CPU igual) 1200      56     38 1106   -0.008247 -0.01558 -0.001271           -0.2   0.06328   0.06328       False              True
+
+Ganho da busca local a iteracoes iguais (T = 1000): d = -0.1502% (436/16/748)
+Fracao de orcamento B = 1 - |d_CPU igual| / |d_iteracoes iguais| = 0.30 (Entrada 131, busca local lenta: 0,93)
+Leituras pre-fixadas: 'o achado a CPU igual e' robusto a implementacao' (B >= 0,5): NAO | 'a busca local passa a pagar a CPU igual' (D1 confirmada): SIM
+
+--- razoes de CPU (com/sem busca local), antes (lacos Python) e depois (vetorizada) ---
+classe  K_H_antes  K_H_rapida  K_R_antes  K_R_rapida
+  20x4      2.237       1.779      2.381       1.923
+  20x6      2.064       1.781      2.298       1.861
+  30x8      3.345       1.862      3.377       1.888
+  40x5      4.816       1.748      4.855       1.789
+ 50x10      6.092       1.854      6.635       1.954
+ 60x20      6.984       2.101      7.907       1.873
+ 75x15      9.829       1.879      14.28       1.978
+100x20      14.25       1.877      23.67       2.326
+150x15      24.65       1.691      48.74       2.307
+150x30      24.87       1.847      37.71        2.15
+250x25      41.78       1.583      82.86       2.436
+300x20      52.42       1.534      38.29       1.237
+K medio geometrico: H antes 9.58, H rapida 1.79; R antes 12.04, R rapida 1.95
+
+--- por classe (d %) ---
+       classe  d_H_CPU_igual  d_H_iter_igual  d_R_CPU_igual
+rand_100j_20m         -0.234         -0.3145        0.01454
+rand_150j_15m       -0.04848        -0.06799              0
+rand_150j_30m        -0.1991         -0.2811       0.003891
+  rand_20j_4m      -0.007307        -0.01496              0
+  rand_20j_6m         -0.043        -0.08722       -0.07637
+rand_250j_25m       -0.03746        -0.04967              0
+rand_300j_20m        -0.0208        -0.02475              0
+  rand_30j_8m        -0.1229         -0.1869       -0.04063
+  rand_40j_5m       -0.00923        -0.01605      -0.004721
+ rand_50j_10m        -0.1313         -0.2006      -0.004468
+ rand_60j_20m        -0.1888         -0.2794        0.01326
+ rand_75j_15m        -0.2157         -0.2787      -0.004469

@@ -1,0 +1,20 @@
+==============================================================================================================
+APRENDIZES NEURAIS: tamanho de destruicao do LP-IG em R||Cmax -- Entrada 163/165
+==============================================================================================================
+instancias de teste: 700 | lr da rede online escolhido no ajuste: 0.005 (razao media {'0.005': 1.0114419922147968, '0.02': 1.0115268234850192, '0.05': 1.0116557734888294}) | MLP offline: razao no ajuste dentro da amostra 1.00972, validacao cruzada 1.01070
+
+--- PRIMARIA (Holm sobre 4) ---
+id                                              comparison   n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05
+N1                     nq_d vs rand_d (rede neural online) 700     142    190  368   -0.005088 -0.06127  0.04615         0.1424   0.08641    0.1728       False             False
+N2        val_tn vs nq_d (validacao vs rede neural online) 700     271     98  331     -0.1924  -0.2518  -0.1337        -0.4714 1.622e-18 6.487e-18        True             False
+N3 val_mlp vs val_tn (MLP offline vs validacao por celula) 700      49    192  459       0.104  0.06499   0.1449         0.6505 2.557e-15  7.67e-15       False             False
+N4                val_mlp vs rand_d (MLP offline, captura) 700     169    197  334    -0.09892  -0.1623 -0.03558         0.1845    0.1061    0.1728       False             False
+
+Leituras pre-fixadas: 'um aprendiz neural muda a conclusao' (N3, ou N1 com captura >= 0,5): NAO | 'a falha nao e' de classe de aprendiz' (N1 nao e N2 sim): SIM
+
+Ganho sobre rand_d (d %): val_tn -0.201, val_mlp -0.099, nq_d -0.005, ql_d +0.152, ucb_d -0.018, ql_d_pre +0.040, oracle -0.325
+Razao de captura (ganho / ganho de val_tn): val_mlp 0.49, nq_d 0.03, ql_d -0.76, ucb_d 0.09, ql_d_pre -0.20, oracle 1.61
+Spearman(folga da celula, ganho de val_mlp) em 28 celulas: rho = 0.506 (p bicaudal 0.00598); ganho negativo = melhor que o sorteio
+Spearman(folga da celula, ganho de nq_d) em 28 celulas: rho = -0.093 (p bicaudal 0.64); ganho negativo = melhor que o sorteio
+CPU medio (s): rand_d 5.11, nq_d 7.68 | razao nq_d/rand_d 1.50
+bracos previstos pelo MLP offline no teste (d/n 0,01 ... 0,20): 0.01: 216, 0.02: 193, 0.05: 101, 0.1: 122, 0.2: 68

@@ -1,0 +1,42 @@
+==============================================================================================================
+O IG VENCE O ILS QUANDO O ILS USA OPERADORES EFICIENTES? -- Entrada 163/164
+==============================================================================================================
+equivalencia (--verify): 36/36 makespans identicos (T = 150); razao de CPU padrao/rapido 6.2
+
+--- PRIMARIA (Holm sobre 2; confirmada = o IG vence) ---
+id                                   comparison    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada
+E1      ig_random vs ils_fast_eqCPU (CPU igual) 1200     557     87  556     -0.4624  -0.5088  -0.4175        -0.8437 6.067e-81 6.067e-81        True
+E2 ig_random vs ils_fast_eqT (iteracoes iguais) 1200     576     74  550     -0.4953  -0.5412  -0.4487        -0.8724 4.399e-87 8.799e-87        True
+
+Leitura pre-fixada: 'o achado do mecanismo (IG > ILS) e' robusto a implementacao do ILS' (E1 confirmada): SIM
+
+--- calibracao ---
+classe  K_ils  T_ils
+  20x4  1.927    519
+  20x6 0.8361   1196
+  30x8 0.8186   1222
+  40x5  0.895   1117
+ 50x10 0.8033   1245
+ 60x20  0.751   1332
+ 75x15 0.7007   1427
+100x20 0.5697   1755
+150x15 0.4662   2145
+150x30 0.6328   1580
+250x25 0.4729   2115
+300x20 0.4101   2438
+razao de CPU realizada ils_fast_eqCPU / ig_random: 12.10; ils_fast_eqT / ig_random: 8.20
+
+--- por classe (d %; negativo: IG melhor) ---
+       classe  d_CPU_igual  d_iter_igual
+rand_100j_20m      -0.4129       -0.4398
+rand_150j_15m     -0.06749      -0.08513
+rand_150j_30m      -0.8199       -0.8352
+  rand_20j_4m     -0.06177      -0.03463
+  rand_20j_6m      -0.3243       -0.3604
+rand_250j_25m     -0.08385       -0.0957
+rand_300j_20m     -0.02868      -0.02999
+  rand_30j_8m      -0.2956       -0.3275
+  rand_40j_5m    -0.003768     -0.003768
+ rand_50j_10m      -0.2682       -0.3476
+ rand_60j_20m       -2.841        -2.981
+ rand_75j_15m      -0.3422       -0.4035
