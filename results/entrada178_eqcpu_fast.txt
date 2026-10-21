@@ -1,0 +1,11 @@
+==============================================================================================================
+IG VERSUS ILS A CPU IGUAL COM O ILS VETORIZADO (tempos finos e grossos) -- Entrada 178/179
+==============================================================================================================
+id     dist                     comparison   n  better  worse  tie  mean_d_pct  d_entrada110_lacos  rank_biserial     p_raw    p_holm  reject  T_ils_min  T_ils_max
+E1 u1_10000         ig_ql vs ils_ql_eqfast 150      14    114   22      0.2098              0.0863         0.9324  2.05e-15 6.151e-15    True        926       1562
+E2 u1_10000 ig_random vs ils_random_eqfast 150      11    117   22      0.2214              0.1377         0.9033 6.426e-16  2.57e-15    True       1075       2222
+E3   u1_100         ig_ql vs ils_ql_eqfast 150      72     11   67     -0.6515             -0.7028        -0.8738 6.194e-13 1.239e-12    True        926       1562
+E4   u1_100 ig_random vs ils_random_eqfast 150      64     15   71     -0.5941             -0.6762        -0.7813 5.088e-10 5.088e-10    True       1075       2222
+
+Leitura pre-fixada 'a vantagem do ILS em tempos finos persiste e nao diminui': SIM
+Leitura pre-fixada 'a vantagem do IG em tempos grossos persiste, mas diminui': SIM

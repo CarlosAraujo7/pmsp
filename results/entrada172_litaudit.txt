@@ -1,0 +1,45 @@
+====================================================================================================
+AUDITORIA DE LITERATURA, RODADA 2 E AMOSTRA AGRUPADA (Entrada 172)
+====================================================================================================
+incluidos: rodada 1 = 12, rodada 2 = 11, agrupada = 23; excluidos na rodada 2: 10 (lista em results/litaudit_round2_entrada172.csv)
+
+--- RODADA 2 (11 novos) ---
+random_control = Y                         5/11 (45%)
+budget_basis = CPU                         4/11 (36%)
+learner_overhead_reported = Y              4/11 (36%)
+offline_tuned_static = Y                    1/11 (9%)
+tune_test_split = Y                        3/11 (27%)
+stat_test = Y                              4/11 (36%)
+multiplicity = Y (entre os que testam)      1/4 (25%)
+ablation_policy = Y                        7/11 (64%)
+code_or_data = Y                           6/11 (55%)
+budget_basis: CPU 4, ITER 1, MIXED 0, U 6
+claim_policy_helps: Y 7, MIXED 3, N 1
+
+--- AGRUPADA ---
+random_control = Y                         10/23 (43%)
+budget_basis = CPU                         6/23 (26%)
+learner_overhead_reported = Y              10/23 (43%)
+offline_tuned_static = Y                   3/23 (13%)
+tune_test_split = Y                        6/23 (26%)
+stat_test = Y                              10/23 (43%)
+multiplicity = Y (entre os que testam)     2/10 (20%)
+ablation_policy = Y                        15/23 (65%)
+code_or_data = Y                           10/23 (43%)
+budget_basis: CPU 6, ITER 5, MIXED 3, U 9
+claim_policy_helps: Y 17, MIXED 5, N 1
+
+--- previsoes registradas antes de ler (emenda da Entrada 172) ---
+random_control = Y em 25% a 55%                          ACERTOU
+budget_basis = CPU em menos de 25%                       ERROU
+offline_tuned_static = Y em menos de 25%                 ACERTOU
+tune_test_split = Y em menos de 40%                      ACERTOU
+multiplicity = Y em menos de 20% dos que testam          ERROU
+ablation_policy = Y em 40% a 75%                         ACERTOU
+claim_policy_helps = Y ou MIXED em pelo menos 90%        ACERTOU
+acertos: 5 de 7
+
+Leitura pre-fixada: 'os controles que tornam a comparacao justa ao orcamento sao raros' CONFIRMADA se budget_basis = CPU e offline_tuned_static = Y ficam ambos abaixo de 33%: CPU 26%, offline 13% -> CONFIRMADA
+
+Artigos sorteados (semente 0, sobre a amostra agrupada de 23) para dupla codificacao por Carlos: 2206.03185, 2206.05694, 2304.04022, 2305.02805, 2312.16767, 2408.14864, 2505.23098, 2607.02315  (substitui a lista de 8 da rodada 1, que foi sorteada sobre 12)
+Limites: so' arXiv (texto aberto); um codificador (assistente de IA) com leitura por recuperacao de texto; os artigos de 2506.08608 (parte suplementar nao lida) e 2501.10243 (parte do texto) tem celulas 'U' por leitura incompleta; sem inter-codificacao ate' Carlos revisar a amostra.

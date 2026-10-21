@@ -1,0 +1,83 @@
+==============================================================================================================
+ORCAMENTO 'A CPU IGUAL' COM IMPLEMENTACAO COMPILADA E UNIDADE INDEPENDENTE DE IMPLEMENTACAO -- Entrada 170/171
+==============================================================================================================
+
+--- VERIFICACAO: compilado vs referencia Python a iteracoes iguais (T = 1000; diferenca media pareada em %) ---
+id                      comparison    n  mean_d_pct   ci90_lo  ci90_hi  p_raw  equivalente_0.05
+V1     H: igls compilado vs Python 1200  -0.0006721 -0.008264 0.007265 0.9345              True
+V2 H: ig_T1000 compilado vs Python 1200    0.008538 -0.002036  0.01903 0.3647              True
+V3     R: igls compilado vs Python 1200     0.00296 -0.002964 0.009078 0.2595              True
+V4 R: ig_T1000 compilado vs Python 1200   -0.002384  -0.01002 0.005557 0.5465              True
+Todas equivalentes (+-0,05): SIM
+
+--- PRIMARIA (Holm sobre 4; confirmada = a busca local ganha com orcamento igual) ---
+id                                comparison    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05              leitura
+C1           H: igls vs ig_eqcpu (CPU igual) 1200     348     13  839      -0.115  -0.1259  -0.1043        -0.9316 1.104e-52 4.414e-52        True             False  a busca local ganha
+C2 H: igls vs ig_eqev_w1 (avaliacoes iguais) 1200     267     27  906    -0.07971 -0.08871 -0.07004        -0.8213 1.613e-31 4.839e-31        True             False  a busca local ganha
+C3           R: igls vs ig_eqcpu (CPU igual) 1200      49     40 1111   -0.005613 -0.01221 0.001319        -0.1011   0.09147   0.09147       False              True sem ganho confirmado
+C4 R: igls vs ig_eqev_w1 (avaliacoes iguais) 1200      21     71 1108      0.0185  0.01224  0.02512         0.5435 0.0004006 0.0008013       False              True sem ganho confirmado
+
+Iteracoes iguais (T = 1000): H d = -0.1592% (IC90 -0.171; -0.147; 457/11/732); R d = -0.0307% (IC90 -0.038; -0.024; 90/18/1092)
+Fracao de orcamento do ganho da busca local no IG (H): B_cpu = 0.28; B_ev = 0.50
+
+--- sensibilidade ao peso w da avaliacao da reconstrucao (igls vs ig a avaliacoes iguais; d %) ---
+cenario        metodo  mean_d_pct  ci90_lo   ci90_hi  melhor_igls  pior_igls     p_raw
+      H ig_eqev_w0.25    -0.02585 -0.03414  -0.01707          142         66 1.695e-05
+      R ig_eqev_w0.25     0.05124   0.0435    0.0591            5        131 4.404e-20
+      H    ig_eqev_w1    -0.07971 -0.08871  -0.07004          267         27 1.613e-31
+      R    ig_eqev_w1      0.0185  0.01224   0.02512           21         71 0.0004006
+      H    ig_eqev_w4     -0.1236  -0.1349   -0.1119          365         17 5.809e-52
+      R    ig_eqev_w4    -0.01624 -0.02298 -0.009645           58         27 3.526e-05
+
+--- razoes de custo da busca local por classe: K_cpu (calibrado), K_ev (contagem de avaliacoes, media por instancia) e razao realizada de tempo de parede (ig_eqcpu/igls, deve ficar perto de 1) ---
+cenario classe  K_cpu  T_eq  K_ev  razao_parede_eqcpu_igls  K_ev/K_cpu
+      H 100x20  1.894  1894 2.529                    1.017       1.335
+      H 150x15  2.263  2263 4.748                    1.036       2.098
+      H 150x30  1.871  1871 2.022                    1.053       1.081
+      H   20x4  1.919  1919 6.175                    1.014       3.218
+      H   20x6  1.807  1807 3.675                   0.9884       2.034
+      H 250x25  2.178  2178 3.186                    1.066       1.463
+      H 300x20  2.413  2413 5.034                   0.9921       2.086
+      H   30x8  1.734  1734  3.66                    0.898       2.111
+      H   40x5   2.34  2340  9.08                     1.07        3.88
+      H  50x10  2.041  2041 3.967                   0.9641       1.944
+      H  60x20  1.776  1776  1.94                    1.052       1.093
+      H  75x15  2.024  2024 3.089                    1.051       1.526
+      R 100x20  2.769  2769 5.444                    1.039       1.966
+      R 150x15  4.679  4679 20.37                    1.031       4.352
+      R 150x30  2.897  2897 5.459                   0.9897       1.885
+      R   20x4  1.905  1905  5.49                        1       2.882
+      R   20x6  1.919  1919 3.733                    1.051       1.945
+      R 250x25  6.258  6258 16.41                    1.033       2.622
+      R 300x20  1.672  1672 3.584                   0.9275       2.144
+      R   30x8  1.915  1915 4.474                   0.9597       2.337
+      R   40x5  2.557  2557 18.22                    1.049       7.125
+      R  50x10   2.33  2330 7.467                    1.015       3.204
+      R  60x20   2.11  2110 3.157                    1.013       1.496
+      R  75x15  2.629  2629 6.045                    1.038       2.299
+Medias geometricas: K_cpu H 2.01, R 2.59; K_ev H 3.72, R 6.72; K_ev/K_cpu H 1.85. Spearman(K_cpu, K_ev) nas 24 classes-cenarios = 0.71 (p = 9.47e-05)
+
+--- a mesma pergunta (IG com busca local vs IG sem, a CPU igual, cenario H) em tres implementacoes ---
+          implementacao  K_geo  d_CPU_igual  ci90_lo   ci90_hi      B
+lacos Python (Ent. 129)  9.577     -0.01018 -0.01828 -0.001945 0.9361
+  vetorizada (Ent. 162)  1.789      -0.1048   -0.115  -0.09489 0.3415
+       compilada (esta)   2.01       -0.115  -0.1259   -0.1043 0.2776
+
+--- por classe (d %; negativo: a busca local ganha) ---
+       classe   H_iter     H_CPU    H_aval    R_iter     R_CPU    R_aval
+rand_100j_20m  -0.3174   -0.2361   -0.2088  0.004004   0.03044   0.05003
+rand_150j_15m -0.08184  -0.05231  -0.03276         0  0.001873  0.005913
+rand_150j_30m  -0.2888   -0.2156   -0.1842  0.003704   0.01137   0.01507
+  rand_20j_4m -0.01769 -0.008299         0 -0.006443 -0.006721         0
+  rand_20j_6m  -0.1215  -0.07686  -0.01808  -0.08607  -0.06983   -0.0212
+rand_250j_25m -0.05964  -0.04921   -0.0392         0         0         0
+rand_300j_20m -0.02636  -0.01597 -0.004123         0         0         0
+  rand_30j_8m  -0.1072  -0.07539   -0.0246   -0.1119  -0.05329 -0.004625
+  rand_40j_5m -0.02974 -0.009566 -0.002096 -0.004902         0         0
+ rand_50j_10m  -0.1952   -0.1488   -0.1023  -0.06306  -0.02808   0.02389
+ rand_60j_20m  -0.3716   -0.2721   -0.1761  -0.07837   0.02342   0.09705
+ rand_75j_15m  -0.2933   -0.2199   -0.1643  -0.02581   0.02347   0.05581
+
+--- LEITURAS PRE-FIXADAS ---
+L1 (a conclusao da implementacao vetorizada e' robusta a uma implementacao compilada): SIM
+L2 (a contagem de avaliacoes e' uma unidade de orcamento utilizavel: C1 e C2 com o mesmo veredito e |d1 - d2| < 0,05; |d1 - d2| = 0.035): SIM

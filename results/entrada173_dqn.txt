@@ -1,0 +1,53 @@
+==============================================================================================================
+APRENDIZ NEURAL MAIOR E ESPACO DE ACAO CONJUNTO -- Entrada 173/175
+==============================================================================================================
+lr escolhido no ajuste: R 0.003 ({'0.001': 1.0125359347842178, '0.003': 1.0119000884799532, '0.01': 1.0123218539196814}); P5 0.01 ({'0.001': 0.27066432954958813, '0.003': 0.2689434844283735, '0.01': 0.2600268987787309}); P15 0.001 ({'0.001': 0.26453258074932623, '0.003': 0.26686550654515334, '0.01': 0.2705107612518184})
+
+--- PRIMARIA (Holm sobre 6; I1: dqn melhor que o aleatorio; I2: validado melhor que o dqn) ---
+   id            comparison    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+  I1R   R: dqn vs aleatorio  700     162    193  345    -0.02486  -0.1002  0.04706        0.05599    0.2664    0.5328       False             False nao confirmada
+  I2R    R: validado vs dqn  700     266    108  326     -0.1692  -0.2342  -0.1087        -0.4076 2.865e-17 1.146e-16        True             False     confirmada
+ I1P5  P5: dqn vs aleatorio 1200     171    180  849    0.006238 -0.00615  0.01831        0.03904     0.424    0.5328       False              True nao confirmada
+ I2P5   P5: validado vs dqn 1200     351     59  790    -0.09442  -0.1055 -0.08264        -0.7206 4.283e-31 2.142e-30        True             False     confirmada
+I1P15 P15: dqn vs aleatorio 1200     130    184  886     0.02294   0.0122  0.03352         0.1882  0.002085  0.006254       False              True nao confirmada
+I2P15  P15: validado vs dqn 1200     302     61  837     -0.0936  -0.1046 -0.08222        -0.6851 2.249e-34 1.349e-33        True             False     confirmada
+
+--- captura: ganho sobre o aleatorio (d %; negativo = melhor) e razao ao ganho do braco validado ---
+ambiente   aprendiz  ganho_sobre_aleatorio  captura
+       R       nq_d              -0.005088  0.02528
+       R       ql_d                 0.1521  -0.7558
+       R      ucb_d               -0.01811  0.08999
+       R        dqn               -0.02486   0.1235
+       R   validado                -0.2012        1
+       R    oraculo                -0.3247    1.613
+      P5 igd_ql_def               0.008717 -0.09848
+      P5    igd_ucb               0.006881 -0.07773
+      P5        dqn               0.006238 -0.07048
+      P5   validado               -0.08852        1
+      P5    oraculo                -0.1268    1.432
+     P15       ql15                0.01261  -0.1776
+     P15   linucb15                0.00399 -0.05619
+     P15        dqn                0.02294   -0.323
+     P15   validado                 -0.071        1
+     P15    oraculo                -0.1123    1.581
+
+--- folga (oraculo por instancia vs aleatorio, %), lei da folga (Spearman por celula) e custo ---
+ambiente  folga_media  n_celulas  spearman_folga_ganho_dqn       p  razao_cpu_dqn_aleatorio
+       R      -0.3247         28                    0.1576  0.4231                   0.8153
+      P5      -0.1268         12                   -0.4266  0.1667                    1.816
+     P15      -0.1123         12                   -0.5175 0.08487                    2.648
+
+Tamanho da rede importa? (R) dqn_big vs nq_d pequeno: d = -0.0181% (IC90 -0.075; +0.046; 183/173/344; p = 0.54)
+
+--- P15: outros aprendizes (descritivo) ---
+           comparacao  mean_d_pct    ci90_lo  ci90_hi  melhor  pior     p_raw
+    P15: ql15 vs rand     0.01261 -0.0006338  0.02552     197   179   0.03735
+P15: linucb15 vs rand     0.00399  -0.007134  0.01515     159   166    0.6355
+     P15: val vs ql15    -0.08309   -0.09586 -0.07023     268    99 3.875e-25
+ P15: val vs linucb15    -0.07471   -0.08493 -0.06399     269    69 9.155e-25
+     P15: val vs rand      -0.071   -0.08142 -0.06036     269    75 2.354e-24
+bracos validados por classe em P15 (0..14 = estrategia*5 + fracao; fracoes 0,05 ... 0,40): 100x20: 0, 150x15: 0, 150x30: 0, 20x4: 4, 20x6: 13, 250x25: 0, 300x20: 4, 30x8: 2, 40x5: 13, 50x10: 1, 60x20: 2, 75x15: 1
+
+--- LEITURAS PRE-FIXADAS ---
+L1 (um aprendiz neural maior ou um espaco de acao maior muda a conclusao): NAO
+L2 (a falha do aprendizado online nao depende do tamanho do aprendiz nem do espaco de acao): SIM

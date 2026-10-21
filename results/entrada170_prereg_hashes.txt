@@ -1,0 +1,6 @@
+3d260d135fe9ce1145ed853c28a06802 *pmsp/ig_numba.py
+6e097c1c8b66500c811ee6ce86263cb5 *tests/test_ig_numba.py
+68bcbd5c30582380af640e72a60ea5bf *experiment/run_numba_entrada170.py
+# hash do relatorio no congelamento (antes de rodar): 5a952e0e15455914dacb8d2a2508b0f3 *analysis/report_entrada170_numba.py
+93d9ec5600ab5c0e0a16f438fcb1f960 *analysis/report_entrada170_numba.py
+# o relatorio foi alterado depois da execucao so' para corrigir um erro de sintaxe (aspas aninhadas numa f-string); texto de pre-registro e logica de analise inalterados
