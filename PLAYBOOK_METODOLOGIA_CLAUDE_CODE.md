@@ -155,6 +155,8 @@ Tabela: **Fragilidade** · **Evidência (arquivo/linha/número)** · **Classe** 
 
 **II.29 — Um aprendiz pode "ganhar a CPU igual" sem decidir melhor: separe o efeito de custo do efeito de decisão.** *Caso:* com agentes compilados em espaços de 5 a 30 ações, o Q-Learning ganha 0,05–0,06% do aleatório a CPU igual mas nada a iterações iguais; ele aprendeu a evitar as ações caras (0,38–0,50 das avaliações do aleatório), então o aleatório, calibrado para a mesma CPU, ficou com menos iterações; e a ação fixa barata validada por classe ainda o vence por 0,08–0,10% (E180–E181). *Como aplicar:* reporte sempre a CPU igual E as iterações iguais, o custo do agente por unidade de trabalho e a razão de avaliações, e confronte o aprendiz com o competidor estático barato.
 
+**II.30 — Ao derivar um artigo curto de um manuscrito longo auditado, audite a versão curta do zero.** *Caso:* o artigo do CEC herdou números do periódico e a auditoria própria (recalculando do dado) achou nove problemas que a auditoria da versão longa não achou: uma contagem de testes que tinha crescido (188 → 357), uma faixa do resumo arredondada para o lado errado, uma ressalva de exceções perdida (10 de 12 classes), um "22 concluem" que incluía 5 casos parciais, "72 de 96" virando "todas", uma contagem de instâncias que omitia o held-out e um argumento de outro problema (E182). *Como aplicar:* escreva um script de auditoria específico do artigo curto, que recalcule da fonte cada número da prosa e confira que o literal está no texto; números herdados só por presença nas fontes já auditadas.
+
 ---
 
 ## 7. Mapa de código reutilizável

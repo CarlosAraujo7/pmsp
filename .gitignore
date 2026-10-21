@@ -84,3 +84,13 @@ external_benchmarks/pfsp_taillard/instances/
 
 # --- Entregas parciais (zips para envio) ---
 entrega/
+
+# --- IEEE CEC 2027 draft: generated artifacts (rebuilt by cec/build.sh and analysis/make_*_cec.py) ---
+cec/*.aux
+cec/*.bbl
+cec/*.blg
+cec/*.out
+cec/cec2027_paper.pdf
+cec/fig_cec*.pdf
+cec/refs_cec.bib
+*.bak_182
