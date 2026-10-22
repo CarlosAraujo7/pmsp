@@ -67,7 +67,8 @@ preambles; set `\draftmarksfalse` to remove it).
 - `results/` -- `results.csv` (synthetic battery, 23 methods x 12 classes), the
   CSV/TXT outputs of every later experiment, and `entradaNNN_prereg_hashes.txt`
   (md5 hashes of the code and data frozen **before** each pre-specified analysis).
-- `tests/` -- 1,145 unit and regression tests (`pytest`, ~15 s).
+- `tests/` -- 1,209 unit and regression tests (`pytest`, ~15 s).
+- `pmsp/budgetfair.py` -- the budget-fair attribution protocol as a small problem-independent library (paired test with equivalence reading, Holm, sequential cost-ratio calibration, equal-CPU iterations, budget share, decision/cost split, minimum detectable effect, planted-effect power); tests in `tests/test_budgetfair.py`.
 - `cec/` -- the IEEE CEC 2027 version (IEEEtran, 7 pages, identical machines only): `cec2027_paper.tex`, generated tables and figures
   (`analysis/make_table_cec.py`, `analysis/make_fig_cec.py`), `build.sh`; its numbers are audited by `analysis/audit_cec_claims.py` (130 checks).
 - `paper/` -- the manuscript and its supplement (`elsarticle`), figures, tables

@@ -1,0 +1,43 @@
+==============================================================================================================
+HORIZONTE LONGO (S5) -- Ciclo 16, frente C
+==============================================================================================================
+T = 5000: lr do PG ajustado 0.03
+T = 20000: lr do PG ajustado 0.1
+T = 100000: lr do PG ajustado 0.1
+
+--- Aiter: aprendiz vs aleatorio a iteracoes iguais, por T (Holm sobre 9) ---
+               id    n  better  worse  tie  mean_d_pct   ci90_lo   ci90_hi  rank_biserial   p_raw  p_holm  confirmada  equivalente_0.05        leitura
+   Aiter-T5000-ql 1200     281    227  692    0.004521 -0.001094   0.01052        -0.1735   0.935       1       False              True nao confirmada
+  Aiter-T5000-ucb 1200     183    177  840   -0.001071  -0.00434  0.002398       -0.07415  0.8267       1       False              True nao confirmada
+   Aiter-T5000-pg 1200     169    178  853    0.001131 -0.002098  0.004351        0.01393  0.8067       1       False              True nao confirmada
+  Aiter-T20000-ql 1200     172    117  911   -0.003629  -0.00739 0.0002461        -0.3018 0.03686  0.2949       False              True nao confirmada
+ Aiter-T20000-ucb 1200     113    111  976  -0.0008845 -0.003591   0.00187       -0.07151  0.7127       1       False              True nao confirmada
+  Aiter-T20000-pg 1200     103    109  988   4.929e-05 -0.002632  0.002916        0.01231  0.7764       1       False              True nao confirmada
+ Aiter-T100000-ql 1200      82     34 1084   -0.005153 -0.008178 -0.002131        -0.4962 0.00208 0.01872        True              True       paridade
+Aiter-T100000-ucb 1200      48     48 1104    5.47e-05 -0.002151  0.002186      -0.005584  0.9679       1       False              True nao confirmada
+ Aiter-T100000-pg 1200      52     48 1100   -0.000589 -0.002785  0.001621        -0.1273  0.9138       1       False              True nao confirmada
+
+--- Bval: validada (ajustada em T) vs aprendiz (Holm sobre 9; negativo: a validada vence) ---
+              id    n  better  worse  tie  mean_d_pct  ci90_lo   ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05    leitura
+   Bval-T5000-ql 1200     365     57  778    -0.04934 -0.05568  -0.04347        -0.8126 2.392e-50 1.674e-49        True             False confirmada
+  Bval-T5000-ucb 1200     390     27  783    -0.04383  -0.0483  -0.03967        -0.9085 1.781e-53 1.425e-52        True              True   paridade
+   Bval-T5000-pg 1200     392     23  785    -0.04604 -0.05038  -0.04189        -0.9393 9.906e-58 8.915e-57        True             False confirmada
+  Bval-T20000-ql 1200     197     34  969    -0.02278 -0.02648  -0.01906        -0.7454 9.215e-24 3.686e-23        True              True   paridade
+ Bval-T20000-ucb 1200     242     20  938    -0.02555  -0.0291  -0.02187        -0.8963 3.087e-33 1.852e-32        True              True   paridade
+  Bval-T20000-pg 1200     243     29  928    -0.02647 -0.03035  -0.02263        -0.8519 1.993e-30 9.963e-30        True              True   paridade
+ Bval-T100000-ql 1200      80     11 1109    -0.01163 -0.01453 -0.008996        -0.8655 5.382e-13 5.382e-13        True              True   paridade
+Bval-T100000-ucb 1200     115      3 1082    -0.01685 -0.01988  -0.01392        -0.9714 6.095e-20 1.828e-19        True              True   paridade
+ Bval-T100000-pg 1200     111      5 1084     -0.0162 -0.01923  -0.01345        -0.9331 2.868e-18 5.736e-18        True              True   paridade
+
+--- folga do oraculo (todas as acoes fixas, 1 semente) contra o aleatorio e fracao de instancias que atingem o limite inferior classico ---
+     T  folga_oraculo_pct  frac_validada_no_lb  frac_aleatorio_no_lb
+  1000            -0.1246               0.4242                0.2492
+  5000           -0.06003               0.6967                0.5333
+ 20000            -0.0356               0.8258                0.7175
+100000           -0.01487               0.9183                0.8558
+
+--- LEITURAS PRE-FIXADAS ---
+L1 (a politica ganha >= 0,05% em algum T): NAO; max |d| de Aiter = 0.0052
+razao da folga T = 20000 / T = 1000: 0.29 (previsto < 0,6); T = 100000 / T = 1000: 0.12 (previsto < 0,4)
+L2 (fracao da validada no limite inferior cresce com T; [0.424, 0.697, 0.826, 0.918]): SIM
+L3 (a vantagem da validada some em T = 100000, |d| < 0,03 nos tres; [0.0116, 0.0168, 0.0162]): SIM

@@ -1,0 +1,50 @@
+==============================================================================================================
+TEMPOS FINOS U[1, 10^4] (S5 e S15) -- Ciclo 16, frente D
+==============================================================================================================
+
+--- Aiter (Holm sobre 6) ---
+           id    n  better  worse  tie  mean_d_pct   ci90_lo   ci90_hi  rank_biserial   p_raw   p_holm  confirmada  equivalente_0.05        leitura
+  Aiter-S5-ql 1200     632    557   11    0.009339  0.001999   0.01622         -0.151  0.4431        1       False              True nao confirmada
+ Aiter-S5-ucb 1200     625    554   21   -0.003475 -0.007207 0.0001373       -0.07229 0.03719    0.186       False              True nao confirmada
+  Aiter-S5-pg 1200     588    588   24  -0.0003825  -0.00432  0.003541        0.00862  0.9395        1       False              True nao confirmada
+ Aiter-S15-ql 1200     688    501   11    -0.01544  -0.02403 -0.007346        -0.2831 2.9e-06 1.74e-05        True              True       paridade
+Aiter-S15-ucb 1200     600    580   20   0.0007773 -0.003556  0.005238       0.008031  0.7422        1       False              True nao confirmada
+ Aiter-S15-pg 1200     568    605   27    0.002731 -0.001422  0.007013         0.0375  0.1806   0.7223       False              True nao confirmada
+
+--- Acpu (Holm sobre 6) ---
+          id    n  better  worse  tie  mean_d_pct   ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+  Acpu-S5-ql 1200     772    413   15    -0.05872  -0.06755 -0.05002         -0.502  1.67e-31  8.35e-31        True             False     confirmada
+ Acpu-S5-ucb 1200     617    566   17   0.0007175 -0.003211 0.004409       -0.02233    0.7101    0.7101       False              True nao confirmada
+  Acpu-S5-pg 1200     559    614   27      0.0038 -0.000165 0.007613        0.06392   0.06748    0.1414       False              True nao confirmada
+ Acpu-S15-ql 1200     810    382    8    -0.07563  -0.08523 -0.06618        -0.5438 8.458e-39 5.075e-38        True             False     confirmada
+Acpu-S15-ucb 1200     558    619   23     0.00566  0.001317 0.009872         0.0654   0.04713    0.1414       False              True nao confirmada
+ Acpu-S15-pg 1200     527    650   23    0.009772  0.005659  0.01404         0.1374 4.005e-05 0.0001602       False              True nao confirmada
+
+--- Bval (validada vs aprendiz; Holm sobre 6) ---
+          id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+  Bval-S5-ql 1200    1053    137   10     -0.1173  -0.1243  -0.1101         -0.919 1.153e-167 3.459e-167        True             False confirmada
+ Bval-S5-ucb 1200    1083    104   13     -0.1046  -0.1097 -0.09965        -0.9372  1.68e-166  3.36e-166        True             False confirmada
+  Bval-S5-pg 1200    1088     98   14     -0.1077  -0.1127  -0.1027        -0.9474 4.676e-170 2.338e-169        True             False confirmada
+ Bval-S15-ql 1200     904    284   12     -0.1173   -0.125  -0.1093        -0.7372 1.064e-123 1.064e-123        True             False confirmada
+Bval-S15-ucb 1200    1079    106   15     -0.1336  -0.1401  -0.1273        -0.9276 3.058e-171 1.835e-170        True             False confirmada
+ Bval-S15-pg 1200    1077    111   12     -0.1356   -0.142  -0.1292        -0.9225 2.631e-168 1.052e-167        True             False confirmada
+
+--- custo (K_CPU nos tempos finos) ---
+space learner  K_cpu  K_avaliacoes  sobrecusto_por_avaliacao
+   S5      ql 0.6252        0.5254                      1.19
+   S5     ucb  1.002         1.002                    0.9997
+   S5      pg  1.031         1.001                      1.03
+  S15      ql 0.6187         0.512                     1.208
+  S15     ucb  1.039        0.9996                     1.039
+  S15      pg  1.071        0.9997                     1.071
+
+--- folga e otimalidade provada: tempos finos vs grossos ---
+space  folga_fina_pct  folga_grossa_pct  frac_validada_no_lb_fina  frac_validada_no_lb_grossa
+   S5         -0.1416           -0.1246                         0                      0.4242
+  S15         -0.1753           -0.1224                         0                      0.4092
+
+--- LEITURAS PRE-FIXADAS ---
+D1 (o regime com mais folga resgata o aprendiz a iteracoes iguais): NAO
+D2 (a validada vence em >= 5 dos 6 pares; 6/6): SIM
+queda da fracao da validada no limite inferior em S5: 42.4 pontos (previsto >= 20)
+folga do oraculo em S5: -0.142% (previsto em [-0,60; -0,05])

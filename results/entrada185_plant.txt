@@ -1,0 +1,52 @@
+==============================================================================================================
+CONTROLE POSITIVO: recompensa plantada -- Ciclo 16, frente A2
+==============================================================================================================
+fracao de escolhas da acao plantada na segunda metade de T = 1000, em multiplos do uniforme (1/A); 12 classes x 10 instancias x 3 sementes por celula
+
+--- S15, modo 1 (mesma acao em todo estado) ---
+bonus     0.5   1     2     5  
+learner                        
+alns    4.554 4.604 4.589  4.55
+ap      13.58  13.6  13.6  13.6
+pg      6.588 9.475 11.37  12.4
+pm      13.56 13.57 13.58 13.58
+ql      7.423 7.444  7.57 7.638
+ucb     6.506 9.517 12.08 13.67
+
+--- S15, modo 2 (acao plantada = estado mod A) ---
+bonus     0.5   1     2     5  
+learner                        
+alns    1.722 1.677 1.736 1.698
+ap      12.98 12.95 12.96 12.97
+pg       6.72  9.69 11.64 12.52
+pm      12.93 12.91 12.85 12.91
+ql      7.774  7.84 7.807 7.722
+ucb      6.25  9.37 12.07 13.47
+
+--- S5, modo 1 (mesma acao em todo estado) ---
+bonus     0.5   1     2     5  
+learner                        
+alns     3.07 3.069 3.066 3.078
+ap      4.596 4.596 4.601 4.596
+pg      1.537 1.958 2.225 2.492
+pm      4.399 4.415 4.439 4.438
+ql      3.865  3.81 3.784  3.86
+ucb     3.748 4.377 4.714  4.86
+
+--- S5, modo 2 (acao plantada = estado mod A) ---
+bonus     0.5   1     2     5  
+learner                        
+alns    1.223 1.211 1.223 1.221
+ap      4.284 4.301 4.289 4.278
+pg       1.54 1.913 2.222 2.478
+pm      3.977 3.979 3.994 3.984
+ql      3.854 3.862 3.815 3.821
+ucb     3.105  3.91 4.394 4.606
+
+--- LEITURAS PRE-FIXADAS ---
+modo 1, bonus 5: todo aprendiz >= 2,0 vezes o uniforme nos dois espacos: SIM (minimo 2.49)
+modo 1, bonus 2: todo aprendiz >= 1,5 vez: SIM (minimo 2.22)
+modo 1, bonus 0,5: aprendizes com >= 1,0 vez: S5 6/6, S15 6/6 (previsto >= 4/6)
+P1 (os seis capturam a estrutura plantada, modo 1, bonus 5): SIM
+P2 (Q-Learning e PG capturam a estrutura que depende do estado, S5, bonus 5; ql 3.82, pg 2.48): SIM
+aprendizes sem estado no modo 2 (descritivo, sem previsao): ucb 4.61, pm 3.98, ap 4.28, alns 1.22

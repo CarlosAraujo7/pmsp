@@ -1,0 +1,60 @@
+==============================================================================================================
+AOS CLASSICOS (PM, AP, ROLETA TIPO ALNS) -- Ciclo 16, frente B
+==============================================================================================================
+
+S5: hiperparametros escolhidos no ajuste: pm [0.1, 0.0], ap [0.8, 0.3], alns [0.1, 0.0]
+
+S15: hiperparametros escolhidos no ajuste: pm [0.8, 0.0], ap [0.3, 0.8], alns [0.1, 0.0]
+
+--- Aiter: AOS classico vs aleatorio a iteracoes iguais (Holm sobre 6) ---
+            id    n  better  worse  tie  mean_d_pct   ci90_lo    ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+   Aiter-S5-pm 1200     337    285  578   -0.005387  -0.01037 -0.0002884       -0.09849   0.06312    0.2525       False              True nao confirmada
+   Aiter-S5-ap 1200     342    288  570   -0.009451  -0.01441  -0.004462        -0.1109  0.008776   0.04388        True              True       paridade
+ Aiter-S5-alns 1200     499    189  512     -0.0393  -0.04521   -0.03345        -0.5403 9.018e-30 5.411e-29        True              True       paridade
+  Aiter-S15-pm 1200     331    272  597   -0.006001  -0.01073  -0.001178        -0.1039    0.0641    0.2525       False              True nao confirmada
+  Aiter-S15-ap 1200     327    304  569   -0.002766 -0.007372   0.001932       -0.04849    0.4635     0.927       False              True nao confirmada
+Aiter-S15-alns 1200     341    328  531    0.002463 -0.002733   0.007718       -0.04009    0.6736     0.927       False              True nao confirmada
+
+--- Acpu: vs aleatorio a CPU igual (Holm sobre 6) ---
+           id    n  better  worse  tie  mean_d_pct   ci90_lo    ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+   Acpu-S5-pm 1200     307    320  573    0.002291  -0.00258   0.007193       0.005318    0.5799         1       False              True nao confirmada
+   Acpu-S5-ap 1200     334    297  569   -0.008578  -0.01344   -0.00373        -0.1203   0.01208   0.04834        True              True       paridade
+ Acpu-S5-alns 1200     578    135  487    -0.06848  -0.07516   -0.06175        -0.7209 1.469e-55 8.814e-55        True             False     confirmada
+  Acpu-S15-pm 1200     328    284  588   -0.005477  -0.01038 -0.0006253       -0.07364   0.05175    0.1553       False              True nao confirmada
+  Acpu-S15-ap 1200     318    297  585   -0.002565 -0.007541   0.002233       -0.04732    0.6942         1       False              True nao confirmada
+Acpu-S15-alns 1200     430    254  516    -0.01985  -0.02532   -0.01423        -0.3033 1.154e-09 5.771e-09        True              True       paridade
+
+--- Bval: acao validada vs AOS classico (Holm sobre 6; negativo: a validada vence) ---
+           id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05    leitura
+   Bval-S5-pm 1200     672     66  462    -0.08654 -0.09277 -0.08048        -0.8961 1.527e-91  9.16e-91        True             False confirmada
+   Bval-S5-ap 1200     677     63  460    -0.08249 -0.08818 -0.07679         -0.898 1.029e-90 5.144e-90        True             False confirmada
+ Bval-S5-alns 1200     544     94  562    -0.05264 -0.05787 -0.04776        -0.7746 3.939e-58 3.939e-58        True             False confirmada
+  Bval-S15-pm 1200     555    119  526    -0.07388 -0.07997 -0.06781        -0.7375 1.838e-73 3.677e-73        True             False confirmada
+  Bval-S15-ap 1200     576    118  506    -0.07711 -0.08339 -0.07126        -0.7491 9.457e-76 2.837e-75        True             False confirmada
+Bval-S15-alns 1200     601    115  484    -0.08232 -0.08888 -0.07593        -0.7691 4.046e-83 1.618e-82        True             False confirmada
+
+--- custo: K_CPU, razao de avaliacoes e sobrecusto por avaliacao (media geometrica por classe) ---
+space learner  K_cpu  K_avaliacoes  sobrecusto_por_avaliacao
+   S5      pm  1.002        0.9958                     1.007
+   S5      ap  1.005        0.9943                     1.011
+   S5    alns 0.8118        0.7397                     1.098
+  S15      pm  1.035         0.999                     1.036
+  S15      ap  1.029        0.9983                      1.03
+  S15    alns 0.7827         0.709                     1.104
+
+--- descritiva: d medio de cada metodo contra o aleatorio a iteracoes iguais (%; os seis aprendizes e a validada) ---
+space        S15         S5
+method                     
+alns    0.002463    -0.0393
+ap     -0.002766  -0.009451
+pg     -0.000134  0.0003221
+pm     -0.006001  -0.005387
+ql      0.004275   0.002763
+ucb    -0.004292 -0.0008184
+val     -0.07992   -0.09198
+
+--- LEITURAS PRE-FIXADAS ---
+N1 (um AOS classico bate o aleatorio por >= 0,05% a iteracoes iguais): NAO
+N2 (o mesmo a CPU igual): SIM
+N3 (a validada vence em >= 5 dos 6 pares; 6/6): SIM
+media dos seis d de Aiter: -0.0101

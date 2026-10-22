@@ -94,3 +94,5 @@ cec/cec2027_paper.pdf
 cec/fig_cec*.pdf
 cec/refs_cec.bib
 *.bak_182
+cec/cec2027_anon.*
+cec/cec.build.log

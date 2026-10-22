@@ -1,0 +1,1 @@
+4a6b0aee17d664dd895afa44f61f63ca *analysis/power_entrada184.py
