@@ -1,0 +1,70 @@
+====================================================================================================
+PRE-TESTE VNR: calibracao nas celulas sinteticas e de descoberta (Entrada 198)
+====================================================================================================
+      set space          cell  noise  v_hat    vnr  n_inst     gq
+synthetic    S5 rand_100j_20m  0.098  0.118  1.212      30  0.125
+synthetic    S5 rand_150j_15m  0.035  0.047  1.372      30  0.059
+synthetic    S5 rand_150j_30m  0.090  0.166  1.849      30  0.213
+synthetic    S5   rand_20j_4m  0.040  0.028  0.692      30 -0.060
+synthetic    S5   rand_20j_6m  0.131  0.057  0.433      30 -0.147
+synthetic    S5 rand_250j_25m  0.049  0.064  1.294      30  0.048
+synthetic    S5 rand_300j_20m  0.010  0.022  2.136      30 -0.014
+synthetic    S5   rand_30j_8m  0.076  0.053  0.698      30 -0.129
+synthetic    S5   rand_40j_5m  0.045  0.028  0.624      30 -0.022
+synthetic    S5  rand_50j_10m  0.117  0.096  0.822      30 -0.074
+synthetic    S5  rand_60j_20m  0.312  0.238  0.764      30 -0.123
+synthetic    S5  rand_75j_15m  0.136  0.179  1.317      30  0.091
+discovery    S5           B|0  0.052  0.017  0.329      56 -0.068
+discovery    S5           B|1  0.047  0.014  0.290      56  0.022
+discovery    S5           B|2  0.027  0.051  1.920      56  0.046
+discovery    S5           C|0  0.068 -0.041 -0.598      75 -0.031
+discovery    S5           C|1  0.103  0.134  1.302      75  0.107
+discovery    S5           C|2  0.112  0.236  2.108      75  0.210
+discovery    S5           E|0  0.066 -0.021 -0.312      44 -0.062
+discovery    S5           E|1  0.014  0.002  0.118      48 -0.065
+discovery    S5           E|2  0.082  0.045  0.545      40 -0.081
+  heldout    S5           B|0  0.052  0.017  0.329      56 -0.065
+  heldout    S5           B|1  0.047  0.014  0.290      56  0.022
+  heldout    S5           B|2  0.027  0.051  1.920      56  0.045
+  heldout    S5           C|0  0.068 -0.041 -0.598      75 -0.057
+  heldout    S5           C|1  0.103  0.134  1.302      75  0.052
+  heldout    S5           C|2  0.112  0.236  2.108      75  0.235
+  heldout    S5           E|0  0.066 -0.021 -0.312      44 -0.064
+  heldout    S5           E|1  0.014  0.002  0.118      48 -0.069
+  heldout    S5           E|2  0.082  0.045  0.545      40 -0.047
+synthetic   S15 rand_100j_20m  0.135  0.162  1.201      30  0.134
+synthetic   S15 rand_150j_15m  0.042  0.008  0.195      30  0.024
+synthetic   S15 rand_150j_30m  0.099  0.218  2.203      30  0.253
+synthetic   S15   rand_20j_4m  0.036  0.028  0.773      30 -0.061
+synthetic   S15   rand_20j_6m  0.163  0.064  0.390      30 -0.191
+synthetic   S15 rand_250j_25m  0.034 -0.032 -0.944      30  0.026
+synthetic   S15 rand_300j_20m  0.028 -0.002 -0.088      30 -0.009
+synthetic   S15   rand_30j_8m  0.156  0.076  0.488      30 -0.170
+synthetic   S15   rand_40j_5m  0.023  0.007  0.285      30 -0.014
+synthetic   S15  rand_50j_10m  0.095  0.119  1.259      30 -0.054
+synthetic   S15  rand_60j_20m  0.248  0.142  0.573      30 -0.090
+synthetic   S15  rand_75j_15m  0.141  0.183  1.300      30  0.100
+discovery   S15           B|0  0.050  0.025  0.499      56 -0.050
+discovery   S15           B|1  0.061  0.057  0.932      56  0.045
+discovery   S15           B|2  0.030  0.061  1.986      56  0.059
+discovery   S15           C|0  0.091  0.021  0.233      75  0.003
+discovery   S15           C|1  0.138  0.150  1.090      75  0.188
+discovery   S15           C|2  0.157  0.313  1.990      75  0.299
+discovery   S15           E|0  0.057  0.006  0.099      44 -0.069
+discovery   S15           E|1  0.049  0.036  0.737      48 -0.060
+discovery   S15           E|2  0.109  0.111  1.016      40 -0.042
+  heldout   S15           B|0  0.050  0.025  0.499      56 -0.047
+  heldout   S15           B|1  0.061  0.057  0.932      56  0.048
+  heldout   S15           B|2  0.030  0.061  1.986      56  0.060
+  heldout   S15           C|0  0.091  0.021  0.233      75 -0.032
+  heldout   S15           C|1  0.138  0.150  1.090      75  0.140
+  heldout   S15           C|2  0.157  0.313  1.990      75  0.337
+  heldout   S15           E|0  0.057  0.006  0.099      44 -0.070
+  heldout   S15           E|1  0.049  0.036  0.737      48 -0.060
+  heldout   S15           E|2  0.109  0.111  1.016      40 -0.031
+
+tau (acuracia balanceada maxima em 42 celulas de calibracao): 0.877
+calibracao (sinteticas + descoberta)       n= 42 frac(Q ganha)=0.45  AUC=0.783  acc=0.833  acc.balanc.=0.830  Spearman(VNR, g_Q)=+0.589
+sinteticas                                 n= 24 frac(Q ganha)=0.42  AUC=0.743  acc=0.833  acc.balanc.=0.829  Spearman(VNR, g_Q)=+0.530
+descoberta                                 n= 18 frac(Q ganha)=0.50  AUC=0.864  acc=0.833  acc.balanc.=0.833  Spearman(VNR, g_Q)=+0.734
+held-out (descritivo, nao cego)            n= 18 frac(Q ganha)=0.44  AUC=0.925  acc=0.889  acc.balanc.=0.887  Spearman(VNR, g_Q)=+0.843

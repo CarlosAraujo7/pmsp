@@ -1,0 +1,84 @@
+==============================================================================================================
+VALIDADA vs APRENDIZ A CPU IGUAL -- Ciclo 18, frente A
+==============================================================================================================
+
+--- syn: validada a CPU igual vs aprendiz (Holm sobre 18; negativo: a validada vence) ---
+              id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+   Veq-syn-S5-ql 1200     663     86  451    -0.09721   -0.105 -0.08986        -0.8583  2.773e-93  1.941e-92        True             False confirmada
+  Veq-syn-S5-ucb 1200     747     49  404     -0.1281  -0.1357  -0.1209        -0.9565 4.084e-116 6.126e-115        True             False confirmada
+   Veq-syn-S5-pg 1200     748     51  401      -0.128  -0.1358  -0.1206        -0.9537 6.824e-116 9.554e-115        True             False confirmada
+   Veq-syn-S5-pm 1200     732     37  431     -0.1242  -0.1321  -0.1169        -0.9591 1.676e-115 2.178e-114        True             False confirmada
+   Veq-syn-S5-ap 1200     745     43  412     -0.1182  -0.1252   -0.111        -0.9528 2.701e-112 2.971e-111        True             False confirmada
+ Veq-syn-S5-alns 1200     618     64  518     -0.0733 -0.07925 -0.06786        -0.8771  8.444e-84  2.533e-83        True             False confirmada
+   Veq-syn-S5-ts 1200     745     27  428     -0.1275  -0.1349    -0.12        -0.9714 2.978e-116 4.765e-115        True             False confirmada
+ Veq-syn-S5-dmab 1200     739     44  417     -0.1252  -0.1329  -0.1176        -0.9445 4.811e-112 4.811e-111        True             False confirmada
+ Veq-syn-S5-race 1200     768     44  388     -0.1454  -0.1541  -0.1369        -0.9502 5.528e-118 9.398e-117        True             False confirmada
+  Veq-syn-S15-ql 1200     541    164  495    -0.07059 -0.07777 -0.06318        -0.6003   2.43e-59   2.43e-59        True             False confirmada
+ Veq-syn-S15-ucb 1200     638     67  495     -0.1026  -0.1099 -0.09573        -0.8813  3.418e-95  2.844e-94        True             False confirmada
+  Veq-syn-S15-pg 1200     657     84  459     -0.1035  -0.1108 -0.09619        -0.8561   3.16e-95  2.844e-94        True             False confirmada
+  Veq-syn-S15-pm 1200     638     80  482    -0.09836  -0.1049 -0.09182        -0.8474  1.403e-90  8.419e-90        True             False confirmada
+  Veq-syn-S15-ap 1200     637     80  483    -0.09934  -0.1065 -0.09181        -0.8435  5.015e-90  2.508e-89        True             False confirmada
+Veq-syn-S15-alns 1200     618    117  465    -0.08605 -0.09287 -0.07948        -0.7642  2.846e-80  5.692e-80        True             False confirmada
+  Veq-syn-S15-ts 1200     696     49  455     -0.1273  -0.1349  -0.1195        -0.9255  6.88e-115 8.256e-114        True             False confirmada
+Veq-syn-S15-dmab 1200     606     82  512    -0.09483  -0.1019  -0.0877        -0.8504  7.532e-88  3.013e-87        True             False confirmada
+Veq-syn-S15-race 1200     772     58  370     -0.1649  -0.1746  -0.1549        -0.9214  3.65e-120  6.57e-119        True             False confirmada
+
+K_val (syn): S5 min 0.26, geomean 0.64, max 1.79; S15 min 0.29, geomean 0.73, max 2.12
+
+--- discovery: validada a CPU igual vs aprendiz (Holm sobre 18; negativo: a validada vence) ---
+                    id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+   Veq-discovery-S5-ql 2550    1462    394  694    -0.05057 -0.05545 -0.04586        -0.6782 9.418e-101 1.884e-100        True             False confirmada
+  Veq-discovery-S5-ucb 2550    1580    279  691     -0.1031  -0.1096 -0.09679        -0.8174 7.899e-193  7.11e-192        True             False confirmada
+   Veq-discovery-S5-pg 2550    1581    283  686     -0.1025  -0.1092  -0.0961        -0.8198 1.057e-185 7.401e-185        True             False confirmada
+   Veq-discovery-S5-pm 2550    1568    302  680    -0.08213 -0.08751 -0.07674        -0.7993 4.214e-172 2.107e-171        True             False confirmada
+   Veq-discovery-S5-ap 2550    1543    318  689      -0.083 -0.08871 -0.07749        -0.7925 5.837e-170 2.335e-169        True             False confirmada
+ Veq-discovery-S5-alns 2550    1294    507  749    -0.02278 -0.02655 -0.01891        -0.5579  6.538e-46  6.538e-46        True              True   paridade
+   Veq-discovery-S5-ts 2550    1611    238  701    -0.09137 -0.09747  -0.0852        -0.8496 1.743e-199 1.743e-198        True             False confirmada
+ Veq-discovery-S5-dmab 2550    1576    290  684     -0.1047  -0.1112 -0.09795        -0.8133 2.518e-188 2.015e-187        True             False confirmada
+ Veq-discovery-S5-race 2550    1574    289  687     -0.1295  -0.1396  -0.1197        -0.8339 1.693e-185 1.016e-184        True             False confirmada
+  Veq-discovery-S15-ql 2550    1481    373  696     -0.0584 -0.06523 -0.05155        -0.6658 1.352e-125 4.055e-125        True             False confirmada
+ Veq-discovery-S15-ucb 2550    1723    192  635     -0.1402  -0.1506  -0.1302        -0.9027 4.044e-220 4.448e-219        True             False confirmada
+  Veq-discovery-S15-pg 2550    1764    166  620     -0.1484  -0.1589  -0.1384        -0.9081 1.148e-236 1.836e-235        True             False confirmada
+  Veq-discovery-S15-pm 2550    1728    197  625     -0.1291  -0.1381  -0.1199        -0.8947 6.139e-222 7.981e-221        True             False confirmada
+  Veq-discovery-S15-ap 2550    1729    192  629     -0.1254  -0.1344  -0.1164        -0.8965 5.429e-225   7.6e-224        True             False confirmada
+Veq-discovery-S15-alns 2550    1760    189  601     -0.1108  -0.1191  -0.1022        -0.8972 3.336e-221 4.003e-220        True             False confirmada
+  Veq-discovery-S15-ts 2550    1802    124  624     -0.1428  -0.1519   -0.134        -0.9352 4.076e-252 6.929e-251        True             False confirmada
+Veq-discovery-S15-dmab 2550    1747    178  625      -0.144  -0.1542  -0.1342         -0.905 1.756e-230 2.635e-229        True             False confirmada
+Veq-discovery-S15-race 2550    1809    180  561     -0.2072  -0.2208  -0.1941        -0.9074 4.187e-254 7.536e-253        True             False confirmada
+
+K_val (discovery): S5 min 0.27, geomean 0.69, max 1.41; S15 min 0.34, geomean 0.65, max 1.06
+
+--- heldout: validada a CPU igual vs aprendiz (Holm sobre 18; negativo: a validada vence) ---
+                  id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+   Veq-heldout-S5-ql 3950    2268    686  996    -0.05811 -0.06354 -0.05265        -0.6301 3.277e-155 6.554e-155        True             False confirmada
+  Veq-heldout-S5-ucb 3950    2418    511 1021     -0.1057  -0.1128 -0.09831        -0.7797 6.345e-262 4.442e-261        True             False confirmada
+   Veq-heldout-S5-pg 3950    2403    507 1040     -0.1062  -0.1132 -0.09881        -0.7888 6.277e-265 5.022e-264        True             False confirmada
+   Veq-heldout-S5-pm 3950    2349    545 1056    -0.08244 -0.08865 -0.07564        -0.7432 3.027e-229 1.513e-228        True             False confirmada
+   Veq-heldout-S5-ap 3950    2333    565 1052    -0.08236 -0.08867 -0.07559          -0.74 1.399e-224 5.596e-224        True             False confirmada
+ Veq-heldout-S5-alns 3950    2018    799 1133    -0.02425  -0.0291 -0.01863        -0.5509  3.933e-73  3.933e-73        True              True   paridade
+   Veq-heldout-S5-ts 3950    2475    408 1067    -0.09617  -0.1029 -0.08915        -0.8208 5.013e-289 5.013e-288        True             False confirmada
+ Veq-heldout-S5-dmab 3950    2394    536 1020     -0.1053  -0.1125 -0.09806        -0.7663 9.692e-249 5.815e-248        True             False confirmada
+ Veq-heldout-S5-race 3950    2454    492 1004     -0.1421  -0.1514  -0.1334        -0.7987 1.203e-278 1.083e-277        True             False confirmada
+  Veq-heldout-S15-ql 3950    2318    622 1010      -0.059 -0.06601 -0.05145        -0.6426 1.885e-185 5.656e-185        True             False confirmada
+ Veq-heldout-S15-ucb 3950    2627    374  949     -0.1332   -0.143   -0.124        -0.8522          0          0        True             False confirmada
+  Veq-heldout-S15-pg 3950    2714    321  915      -0.143  -0.1523  -0.1332        -0.8748          0          0        True             False confirmada
+  Veq-heldout-S15-pm 3950    2619    375  956     -0.1185  -0.1272    -0.11        -0.8416          0          0        True             False confirmada
+  Veq-heldout-S15-ap 3950    2657    330  963     -0.1219  -0.1309  -0.1128        -0.8606          0          0        True             False confirmada
+Veq-heldout-S15-alns 3950    2673    357  920     -0.1106  -0.1194  -0.1014        -0.8574 3.781e-310 4.159e-309        True             False confirmada
+  Veq-heldout-S15-ts 3950    2774    237  939     -0.1379   -0.147  -0.1289        -0.9026          0          0        True             False confirmada
+Veq-heldout-S15-dmab 3950    2674    336  940     -0.1373   -0.147  -0.1276        -0.8668          0          0        True             False confirmada
+Veq-heldout-S15-race 3950    2790    315  845      -0.203  -0.2146  -0.1922        -0.8747          0          0        True             False confirmada
+
+K_val (heldout): S5 min 0.27, geomean 0.69, max 1.41; S15 min 0.34, geomean 0.65, max 1.06
+
+--- PREVISOES E LEITURAS PRE-FIXADAS ---
+(1) K_val em [0,2; 1,8] em todas as celulas: NAO (min 0.26, max 2.12)
+(2) contra o Q-Learning a CPU igual a validada vence nos seis casos: SIM
+(3) held-out: a validada vence em >= 15 dos 18 pares (18/18): SIM
+(4) descoberta: >= 15 dos 18 (18/18): SIM
+(5) sintetica: >= 12 dos 18 (18/18): SIM
+(6) nenhum aprendiz vence a validada a CPU igual por mais que a margem: SIM
+(7) held-out, Q-Learning S15: d em [-0,12; -0,02]: SIM (-0.0590)
+(8) held-out, roleta ALNS S5: d em [-0,08; 0,0]: SIM (-0.0242)
+(9) held-out, familia C grupos 1-2: d da validada vs Q-Learning em [-0,12; 0,0] em S5 e S15: SIM ([-0.1166, -0.1121])
+L (a validada nunca foi pior que um aprendiz a CPU igual): SIM

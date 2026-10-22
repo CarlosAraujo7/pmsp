@@ -118,3 +118,22 @@ def planted_power(d, unit, deltas: Sequence[float], alpha: float = 0.05, n_boot:
             hit += int(len(nz) >= 6 and stats.wilcoxon(nz).pvalue < alpha and dp.mean() < 0)
         out[float(delta)] = hit / n_boot
     return out
+
+
+def validated_to_noise(rand_runs, arm_runs) -> dict:
+    """PRE-TESTE de folga: razao entre o ganho da acao validada (sem vies de selecao, por validacao cruzada) e o ruido da execucao aleatoria, estimada so' em instancias de AJUSTE.
+    rand_runs: (I, S) makespans do controle aleatorio (S >= 2 sementes por instancia); arm_runs: (I, K, S) makespans de cada acao fixa (K acoes, as mesmas S sementes).
+    ruido = media sobre as instancias do desvio padrao relativo (%) entre sementes do aleatorio; ganho validado = ganho (%) sobre o aleatorio da acao que e' a melhor numa metade das instancias, medido na outra metade (media das duas direcoes; metades = indices pares e impares).
+    Retorna dict(noise, v_hat, vnr): vnr = v_hat / noise (nan se noise = 0)."""
+    r = np.asarray(rand_runs, float)
+    a = np.asarray(arm_runs, float)
+    mr = r.mean(axis=1)
+    noise = float(np.mean(100.0 * r.std(axis=1, ddof=1) / mr))
+    ma = a.mean(axis=2)                                           # (I, K)
+    idx = np.arange(len(mr))
+    gains = []
+    for sel, ev in ((idx % 2 == 0, idx % 2 == 1), (idx % 2 == 1, idx % 2 == 0)):
+        k = int(np.argmin(ma[sel].mean(axis=0)))
+        gains.append(-100.0 * float(np.mean((ma[ev, k] - mr[ev]) / mr[ev])))
+    v = float(np.mean(gains))
+    return dict(noise=noise, v_hat=v, vnr=(v / noise if noise > 0 else float("nan")))

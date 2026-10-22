@@ -1,0 +1,16 @@
+{
+ "F5": {
+  "n": 540,
+  "cv_selector": -0.0623884509155996,
+  "cv_class_best_in_sample": -0.07082083546705388,
+  "cv_global_best": -0.06220039572808746,
+  "cv_oracle_biased": -0.1079390443199028
+ },
+ "F15": {
+  "n": 540,
+  "cv_selector": -0.09175109534455667,
+  "cv_class_best_in_sample": -0.09334798507615624,
+  "cv_global_best": -0.08131764627978347,
+  "cv_oracle_biased": -0.1379895727628455
+ }
+}

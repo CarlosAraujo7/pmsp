@@ -1,0 +1,60 @@
+==============================================================================================================
+SELETOR OFFLINE CONDICIONADO A INSTANCIA (Entrada 200)
+==============================================================================================================
+
+--- Cval: seletor contra val (Holm sobre 4) ---
+                id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05    leitura
+ Cval-S5-discovery 2550    1090    607  853    -0.02435 -0.02825 -0.02065 3.576e-40 7.152e-40        True              True   paridade
+   Cval-S5-heldout 3950    1678    963 1309     -0.0263 -0.03156 -0.02206 1.303e-59 4.157e-59        True              True   paridade
+Cval-S15-discovery 2550    1067    614  869    -0.02739 -0.03142 -0.02355 2.763e-39 2.763e-39        True              True   paridade
+  Cval-S15-heldout 3950    1671    990 1289     -0.0441 -0.05153 -0.03768 1.039e-59 4.157e-59        True             False confirmada
+
+--- Cql: seletor contra ql (Holm sobre 4) ---
+               id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ Cql-S5-discovery 2550    1580    241  729    -0.07782 -0.08293 -0.07286 1.106e-211 2.212e-211        True             False confirmada
+   Cql-S5-heldout 3950    2542    345 1063     -0.0901 -0.09499 -0.08577          0          0        True             False confirmada
+Cql-S15-discovery 2550    1510    313  727    -0.08073 -0.08768 -0.07391 1.795e-189 1.795e-189        True             False confirmada
+  Cql-S15-heldout 3950    2423    465 1062    -0.09508  -0.1008 -0.08967          0          0        True             False confirmada
+
+--- Calns: seletor contra alns (Holm sobre 4) ---
+                 id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ Calns-S5-discovery 2550    1403    290  857    -0.04246 -0.04561 -0.03929  2.86e-156  2.86e-156        True              True   paridade
+   Calns-S5-heldout 3950    2228    469 1253    -0.04805 -0.05111 -0.04504 1.076e-238 2.152e-238        True             False confirmada
+Calns-S15-discovery 2550    1867     66  617      -0.125  -0.1332  -0.1171 5.943e-285 1.783e-284        True             False confirmada
+  Calns-S15-heldout 3950    2926     86  938       -0.14  -0.1459  -0.1345          0          0        True             False confirmada
+
+--- Crand: seletor contra rand (Holm sobre 4) ---
+                 id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ Crand-S5-discovery 2550    1738    100  712    -0.09943  -0.1052 -0.09432 2.947e-263 2.947e-263        True             False confirmada
+   Crand-S5-heldout 3950    2715    179 1056     -0.1042  -0.1091 -0.09967          0          0        True             False confirmada
+Crand-S15-discovery 2550    1805     94  651     -0.1392  -0.1485  -0.1301 1.395e-268  2.79e-268        True             False confirmada
+  Crand-S15-heldout 3950    2856    123  971     -0.1456  -0.1522  -0.1397          0          0        True             False confirmada
+
+--- ganho sobre o aleatorio (%, positivo: melhor), por familia ---
+space       set fam    n     sel     val         ql      alns  oracle  sel_minus_val  cap_sel  cap_val  evals_ratio
+   S5 discovery   B  840 0.05122 0.03824 -0.0001084   0.01969 0.05988       -0.01296   0.8554   0.6385        1.006
+   S5 discovery   C 1050   0.178  0.1348    0.09533    0.1287  0.2013       -0.04307    0.884   0.6696        1.162
+   S5 discovery   E  660 0.03581 0.02672   -0.06848 -0.009686 0.06736      -0.009067   0.5316   0.3967       0.8478
+   S5 discovery all 2550 0.09943 0.07502    0.02149   0.05698  0.1201       -0.02435   0.8281   0.6249        1.118
+   S5   heldout   B 1290 0.04967 0.03189 -0.0007905   0.02118  0.0601       -0.01705   0.8265   0.5307         1.01
+   S5   heldout   C 1500  0.2023  0.1603    0.08302    0.1374  0.2431       -0.04192   0.8323   0.6594        1.273
+   S5   heldout   E 1160 0.03807 0.02168   -0.05886 -0.009827 0.06815       -0.01637   0.5587   0.3181       0.7599
+   S5   heldout all 3950  0.1042 0.07766    0.01398   0.05619   0.132        -0.0263   0.7899   0.5885        1.191
+  S15 discovery   B  840 0.06872 0.05564    0.01802 -0.007509  0.0818       -0.01307   0.8402   0.6802       0.9316
+  S15 discovery   C 1050  0.2462   0.203     0.1636   0.05064  0.2789        -0.0431   0.8825   0.7277        1.207
+  S15 discovery   E  660 0.05869 0.03805   -0.05751  -0.01624   0.107       -0.02063   0.5486   0.3556       0.9161
+  S15 discovery all 2550  0.1392  0.1118    0.05843   0.01417  0.1695       -0.02739   0.8212   0.6594        1.146
+  S15   heldout   B 1290  0.0698 0.05075    0.01893 -0.003031 0.08179       -0.01849   0.8535   0.6205       0.9282
+  S15   heldout   C 1500  0.2699  0.1944     0.1561   0.03124  0.3058       -0.07487   0.8826   0.6356        1.279
+  S15   heldout   E 1160 0.06898 0.03601   -0.05167  -0.01815  0.1052        -0.0328   0.6556   0.3422       0.8089
+  S15   heldout all 3950  0.1456   0.101    0.05029  0.005542  0.1737        -0.0441   0.8378   0.5811        1.188
+
+--- PREVISOES E LEITURAS PRE-FIXADAS ---
+(H1) Cval confirmada nos quatro pares e d medio <= -0,02 nos quatro: SIM (d medio: -0.024, -0.026, -0.027, -0.044)
+(P2) d medio de Cval em [-0,12; -0,02] nos quatro: SIM
+(P3) Cql confirmada nos quatro pares: SIM
+(P4) Calns confirmada nos quatro pares: SIM
+(P5) familia C, held-out, S15: captura do seletor 0.883 (>= 0,85) e da validada 0.636: SIM
+(P6) seletor melhor que o aleatorio nas 12 celulas (familia x espaco x conjunto): SIM (minimo ganho +0.036)
+(P7) razao de avaliacoes seletor/validada em [0,8; 1,25] nos quatro: SIM (1.12, 1.19, 1.15, 1.19)
+S (o seletor offline supera a validada e os aprendizes online): SIM   |   S- (H1 confirmada sem d <= -0,02 em algum): NAO

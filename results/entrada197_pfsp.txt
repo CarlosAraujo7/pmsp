@@ -1,0 +1,152 @@
+==============================================================================================================
+FLOWSHOP DE PERMUTACAO (IG de Ruiz e Stutzle) -- Ciclo 18, frente D
+==============================================================================================================
+tau congelado = 0.8770
+
+--- syn: Aiter (Holm sobre 10) ---
+                id   n  better  worse  tie  mean_d_pct   ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+   Aiter-syn-F5-ql 360      45    136  179     0.04992   0.03651  0.06327         0.5302 1.352e-10 1.217e-09       False             False nao confirmada
+  Aiter-syn-F5-ucb 360      90     78  192    0.003828 -0.008117  0.01528       -0.01986    0.7951         1       False              True nao confirmada
+   Aiter-syn-F5-pg 360      89     88  183   -0.003985  -0.01638 0.007927       -0.04393    0.5102         1       False              True nao confirmada
+ Aiter-syn-F5-alns 360      78    100  182     0.01333  0.001798  0.02528         0.1395   0.04076    0.3261       False              True nao confirmada
+   Aiter-syn-F5-ts 360      90     85  185   -0.007924   -0.0199 0.003974       -0.04805    0.5472         1       False              True nao confirmada
+  Aiter-syn-F15-ql 360      45    136  179     0.06132   0.04702  0.07685         0.5794 6.525e-13 6.525e-12       False             False nao confirmada
+ Aiter-syn-F15-ucb 360      80     81  199   -0.004816  -0.01473 0.005707       -0.06825    0.5932         1       False              True nao confirmada
+  Aiter-syn-F15-pg 360      97     81  182   -0.003938  -0.01651 0.009947       -0.05285    0.5715         1       False              True nao confirmada
+Aiter-syn-F15-alns 360      80     96  184    0.003584 -0.008505  0.01615        0.07332    0.4199         1       False              True nao confirmada
+  Aiter-syn-F15-ts 360      96     76  188   -0.009359   -0.0206 0.001966         -0.116    0.2178         1       False              True nao confirmada
+
+--- syn: Bit (Holm sobre 10) ---
+              id   n  better  worse  tie  mean_d_pct  ci90_lo   ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05    leitura
+   Bit-syn-F5-ql 360     158     33  169     -0.0775 -0.09338  -0.06156        -0.6585 4.616e-17 4.154e-16        True             False confirmada
+  Bit-syn-F5-ucb 360     108     60  192    -0.03154 -0.04317     -0.02        -0.3814 3.397e-06 1.359e-05        True              True   paridade
+   Bit-syn-F5-pg 360     115     58  187     -0.0237 -0.03665  -0.01039        -0.3044 0.0001283 0.0002566        True              True   paridade
+ Bit-syn-F5-alns 360     123     58  179      -0.041 -0.05448  -0.02775        -0.3778 9.138e-08 5.483e-07        True             False confirmada
+   Bit-syn-F5-ts 360     105     70  185    -0.01974 -0.03398 -0.004956        -0.2294  0.001883  0.001883        True              True   paridade
+  Bit-syn-F15-ql 360     155     27  178     -0.1042   -0.122  -0.08612        -0.8227 1.491e-22 1.491e-21        True             False confirmada
+ Bit-syn-F15-ucb 360     116     50  194     -0.0383 -0.05003  -0.02641         -0.494 1.153e-07 5.767e-07        True             False confirmada
+  Bit-syn-F15-pg 360     121     53  186    -0.03911 -0.05243  -0.02564        -0.5054 1.091e-08  7.64e-08        True             False confirmada
+Bit-syn-F15-alns 360     134     43  183    -0.04667 -0.05822  -0.03444        -0.6294 2.123e-12 1.698e-11        True             False confirmada
+  Bit-syn-F15-ts 360     104     64  192    -0.03372 -0.04679  -0.02045        -0.3512 3.473e-05 0.0001042        True              True   paridade
+
+--- syn: Beq (Holm sobre 10) ---
+              id   n  better  worse  tie  mean_d_pct   ci90_lo   ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+   Beq-syn-F5-ql 360     113     69  178    -0.01939  -0.03216 -0.007126        -0.1887  0.002835   0.01985        True              True       paridade
+  Beq-syn-F5-ucb 360      91     80  189    0.004238 -0.007515   0.01594       -0.01204    0.8003         1       False              True nao confirmada
+   Beq-syn-F5-pg 360      85     82  193    0.001433  -0.01108   0.01352        0.01939    0.9002         1       False              True nao confirmada
+ Beq-syn-F5-alns 360      88     89  183    0.003785 -0.008006   0.01543        0.09217     0.805         1       False              True nao confirmada
+   Beq-syn-F5-ts 360      90     88  182    0.004582 -0.008747   0.01787         0.0167    0.9751         1       False              True nao confirmada
+  Beq-syn-F15-ql 360     134     43  183    -0.06387  -0.07951  -0.04939        -0.6552 2.274e-14 2.274e-13        True             False     confirmada
+ Beq-syn-F15-ucb 360     100     66  194    -0.02753  -0.03874   -0.0167        -0.2975 0.0001888    0.0017        True              True       paridade
+  Beq-syn-F15-pg 360     103     75  182    -0.02394   -0.0375 -0.009622        -0.2698 0.0009939  0.007952        True              True       paridade
+Beq-syn-F15-alns 360      97     71  192    -0.01998  -0.03034 -0.009305        -0.2639  0.003926   0.02356        True              True       paridade
+  Beq-syn-F15-ts 360      99     69  192    -0.01575  -0.02762 -0.002703        -0.2301   0.01512    0.0756       False              True nao confirmada
+
+--- syn: Acpu (Holm sobre 6) ---
+               id   n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+   Acpu-syn-F5-ql 360      60    132  168     0.03573  0.02371  0.04787         0.3841 9.704e-07 4.852e-06       False              True nao confirmada
+ Acpu-syn-F5-alns 360      86     98  176   -0.002077 -0.01524  0.01187       0.007756    0.8466         1       False              True nao confirmada
+   Acpu-syn-F5-ts 360      84     89  187   -0.003983 -0.01713 0.008992      -0.004252    0.8741         1       False              True nao confirmada
+  Acpu-syn-F15-ql 360      60    124  176     0.04713  0.03231  0.06213         0.4355 6.541e-08 3.924e-07       False             False nao confirmada
+Acpu-syn-F15-alns 360      85     90  185   0.0002814 -0.01101  0.01141       0.009481    0.8266         1       False              True nao confirmada
+  Acpu-syn-F15-ts 360      98     78  184   -0.002122  -0.0143  0.01011       -0.07319    0.3989         1       False              True nao confirmada
+
+--- ta: Aiter (Holm sobre 10) ---
+               id  n  better  worse  tie  mean_d_pct   ci90_lo  ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+   Aiter-ta-F5-ql 90      18     42   30     0.05871   0.03445  0.08434         0.5579 0.0001737  0.001564       False             False nao confirmada
+  Aiter-ta-F5-ucb 90      24     31   35    0.006309  -0.01922  0.03179        0.02727    0.7124         1       False              True nao confirmada
+   Aiter-ta-F5-pg 90      20     35   35     0.02487 0.0004135  0.04858         0.3039   0.09216    0.6452       False              True nao confirmada
+ Aiter-ta-F5-alns 90      17     41   32     0.04585   0.02634  0.06713         0.3986 0.0008123  0.006498       False             False nao confirmada
+   Aiter-ta-F5-ts 90      24     26   40   -0.005866  -0.03258  0.01933      -0.003137    0.6322         1       False              True nao confirmada
+  Aiter-ta-F15-ql 90      15     46   29     0.08043   0.04822   0.1122         0.6124 7.775e-06 7.775e-05       False             False nao confirmada
+ Aiter-ta-F15-ucb 90      27     25   38   -0.005416  -0.02804  0.01554        -0.1422    0.6101         1       False              True nao confirmada
+  Aiter-ta-F15-pg 90      29     27   34   0.0009213  -0.02619  0.02666       -0.04073    0.9545         1       False              True nao confirmada
+Aiter-ta-F15-alns 90      21     37   32     0.02032 -0.002417   0.0434          0.111      0.16    0.9597       False              True nao confirmada
+  Aiter-ta-F15-ts 90      24     31   35     0.01057 -0.008941  0.03053         0.1435    0.4609         1       False              True nao confirmada
+
+--- ta: Bit (Holm sobre 10) ---
+             id  n  better  worse  tie  mean_d_pct  ci90_lo    ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+   Bit-ta-F5-ql 90      44     16   30    -0.07063 -0.09612   -0.04593        -0.6546 5.972e-06 5.375e-05        True             False     confirmada
+  Bit-ta-F5-ucb 90      32     25   33    -0.01828 -0.04323    0.00501       -0.08409     0.393    0.7861       False              True nao confirmada
+   Bit-ta-F5-pg 90      35     19   36     -0.0368 -0.06611  -0.006578        -0.2936   0.06111    0.3055       False             False nao confirmada
+ Bit-ta-F5-alns 90      43     15   32    -0.05783 -0.08161   -0.03462        -0.5716 6.158e-05 0.0004927        True             False     confirmada
+   Bit-ta-F5-ts 90      31     28   31   -0.006097 -0.02996    0.01882       0.002825    0.5713    0.7861       False              True nao confirmada
+  Bit-ta-F15-ql 90      46     12   32     -0.1114  -0.1465    -0.0766        -0.7259  3.03e-07  3.03e-06        True             False     confirmada
+ Bit-ta-F15-ucb 90      31     21   38    -0.02585 -0.05165 -0.0002062        -0.2612   0.09203    0.3681       False             False nao confirmada
+  Bit-ta-F15-pg 90      31     26   33    -0.03213 -0.06037   -0.00487        -0.1664    0.1885    0.5656       False             False nao confirmada
+Bit-ta-F15-alns 90      39     17   34    -0.05153  -0.0802   -0.02332        -0.4223  0.002103   0.01472        True             False     confirmada
+  Bit-ta-F15-ts 90      37     15   38    -0.04185 -0.06876   -0.01795        -0.5232  0.003266    0.0196        True             False     confirmada
+
+--- ta: Beq (Holm sobre 10) ---
+             id  n  better  worse  tie  mean_d_pct  ci90_lo   ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+   Beq-ta-F5-ql 90      31     28   31    -0.01279 -0.03838   0.01243       -0.01864    0.4969         1       False              True nao confirmada
+  Beq-ta-F5-ucb 90      30     28   32   -0.002749 -0.03357   0.02503        0.06721    0.6285         1       False              True nao confirmada
+   Beq-ta-F5-pg 90      35     20   35     -0.0148 -0.04194   0.01371        -0.2688   0.08741    0.5075       False              True nao confirmada
+ Beq-ta-F5-alns 90      32     25   33    -0.02452 -0.05224 0.0003488        -0.1827    0.2051    0.8202       False             False nao confirmada
+   Beq-ta-F5-ts 90      19     32   39     0.03252 0.003304   0.06227          0.356   0.08458    0.5075       False             False nao confirmada
+  Beq-ta-F15-ql 90      45     17   28    -0.07962  -0.1081  -0.04919        -0.6098 6.224e-06 6.224e-05        True             False     confirmada
+ Beq-ta-F15-ucb 90      31     26   33    -0.01459 -0.03869  0.009143       -0.06352    0.4624         1       False              True nao confirmada
+  Beq-ta-F15-pg 90      33     26   31     -0.0311 -0.05388 -0.007545        -0.1983   0.05916    0.4141       False             False nao confirmada
+Beq-ta-F15-alns 90      40     23   27    -0.04063 -0.06694  -0.01531        -0.2614   0.01398    0.1258       False             False nao confirmada
+  Beq-ta-F15-ts 90      33     22   35    -0.02551 -0.04671 -0.006024        -0.2968   0.04896    0.3917       False              True nao confirmada
+
+--- ta: Acpu (Holm sobre 6) ---
+              id  n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial    p_raw  p_holm  confirmada  equivalente_0.05        leitura
+   Acpu-ta-F5-ql 90      24     33   33     0.02964 0.004091  0.05563         0.1627  0.07843  0.2756       False             False nao confirmada
+ Acpu-ta-F5-alns 90      20     39   31     0.04396  0.01809  0.07324         0.3621 0.006434  0.0386       False             False nao confirmada
+   Acpu-ta-F5-ts 90      32     22   36      -0.024 -0.05288 0.005101        -0.2438   0.1921  0.3842       False             False nao confirmada
+  Acpu-ta-F15-ql 90      19     40   31     0.03748  0.01228  0.06176         0.3282  0.01121 0.05604       False             False nao confirmada
+Acpu-ta-F15-alns 90      27     30   33    0.006483 -0.01806   0.0319        0.07623   0.5173  0.5173       False              True nao confirmada
+  Acpu-ta-F15-ts 90      23     33   34     0.02541 0.003341  0.04893         0.3189  0.06891  0.2756       False              True nao confirmada
+
+--- celulas (classe x espaco): VNR do ajuste (ruido e ganho validado em %), folga do oraculo e ganho sobre o aleatorio no teste (%; positivo: melhor) ---
+set space   cell  n     folga        val        ql       alns        ts    noise     v_hat     vnr  n_inst        gq
+syn   F15 100x10 40   0.06605    0.01948  -0.02538  -0.006518   0.01271  0.01634   0.01269  0.7769      20  -0.02538
+syn   F15 100x20 40    0.4864     0.1886  -0.06697    0.07642   0.06194   0.2055    0.1646   0.801      20  -0.06697
+syn   F15  100x5 40        -0  -0.001901 -0.001128 -0.0001574        -0        0         0     NaN      20 -0.001128
+syn   F15  20x10 40   0.07169   -0.02502  -0.07397   -0.01138  0.005416  0.07308  0.003792 0.05189      20  -0.07397
+syn   F15  20x20 40   0.06486    0.03285  -0.06703   -0.02068  -0.02596  0.07546    0.0767   1.016      20  -0.06703
+syn   F15   20x5 40   0.02657    0.01389 -0.007956    0.01127  0.009056        0  -0.04032     NaN      20 -0.007956
+syn   F15  50x10 40    0.1902    0.01281  -0.08904   -0.02285  0.007244  0.06405   0.03482  0.5436      20  -0.08904
+syn   F15  50x20 40     0.459     0.1491   -0.2207   -0.05868   0.01578   0.2528   0.05078  0.2009      20   -0.2207
+syn   F15   50x5 40  0.006362  -0.001387 0.0003059  0.0003059 -0.001958        0         0     NaN      20 0.0003059
+syn    F5 100x10 40   0.03796    0.01674  -0.04213   -0.02722 -0.008479  0.01673  0.007947  0.4749      20  -0.04213
+syn    F5 100x20 40    0.3297    0.02711  -0.08577   0.007894   0.03157   0.3148   0.06071  0.1928      20  -0.08577
+syn    F5  100x5 40 0.0001574  -0.001453 -0.000328 -0.0004723 0.0001574        0         0     NaN      20 -0.000328
+syn    F5  20x10 40   0.05776     0.0169  -0.06087   -0.05367  -0.02359  0.07974    0.0523  0.6559      20  -0.06087
+syn    F5  20x20 40   0.09902    0.07268  -0.02751    0.00504    0.0361  0.05579    0.0292  0.5234      20  -0.02751
+syn    F5   20x5 40    0.0307    0.01026  -0.01141    0.01324  0.008323  0.02365  -0.03938  -1.665      20  -0.01141
+syn    F5  50x10 40    0.1065   -0.04361  -0.06712   -0.05449   0.01586  0.07589   0.02234  0.2944      20  -0.06712
+syn    F5  50x20 40    0.4057     0.1443   -0.1541   -0.01343   0.01138   0.1974    0.1589  0.8052      20   -0.1541
+syn    F5   50x5 40  0.006974   0.006974        -0   0.003181        -0 0.004506 -0.002601 -0.5774      20        -0
+ ta   F15 100x10 10    0.2061    0.07538    -0.074    0.01115  0.002169  0.01634   0.01269  0.7769      20    -0.074
+ ta   F15 100x20 10    0.5257    0.06835  -0.01534    0.09597   0.01602   0.2055    0.1646   0.801      20  -0.01534
+ ta   F15  100x5 10  0.005316   -0.01092 -0.002658  -0.003928  -0.00391        0         0     NaN      20 -0.002658
+ ta   F15  20x10 10    0.1077   -0.04032  -0.09932   -0.05443  0.004813  0.07308  0.003792 0.05189      20  -0.09932
+ ta   F15  20x20 10    0.1186    0.05389   -0.1135   -0.02905   0.01228  0.07546    0.0767   1.016      20   -0.1135
+ ta   F15   20x5 10        -0    0.01345  -0.04237    -0.0269        -0        0  -0.04032     NaN      20  -0.04237
+ ta   F15  50x10 10    0.2952 -0.0006286   -0.1935   -0.02131  -0.07692  0.06405   0.03482  0.5436      20   -0.1935
+ ta   F15  50x20 10     0.405     0.1323   -0.1832    -0.1497  -0.05718   0.2528   0.05078  0.2009      20   -0.1832
+ ta   F15   50x5 10  0.007574  -0.009138 7.135e-05  -0.004704  0.007574        0         0     NaN      20 7.135e-05
+ ta    F5 100x10 10    0.1177   -0.02327  -0.08505   -0.05451   0.02813  0.01673  0.007947  0.4749      20  -0.08505
+ ta    F5 100x20 10    0.2276    0.06682  0.009401    0.01918     0.103   0.3148   0.06071  0.1928      20  0.009401
+ ta    F5  100x5 10  0.006585  -0.009715 -0.002658    0.00127   0.00127        0         0     NaN      20 -0.002658
+ ta    F5  20x10 10   0.07208    0.01019   -0.1144    -0.1106   -0.0671  0.07974    0.0523  0.6559      20   -0.1144
+ ta    F5  20x20 10   0.09627    0.02805  -0.07437   -0.03021  -0.04203  0.05579    0.0292  0.5234      20  -0.07437
+ ta    F5   20x5 10        -0         -0  -0.03228    -0.0269  -0.03228  0.02365  -0.03938  -1.665      20  -0.03228
+ ta    F5  50x10 10    0.1627   -0.01826  -0.05808    -0.1361 -0.001453  0.07589   0.02234  0.2944      20  -0.05808
+ ta    F5  50x20 10    0.5004    0.05269   -0.1659   -0.07947   0.05861   0.1974    0.1589  0.8052      20   -0.1659
+ ta    F5   50x5 10  0.007314   0.002612 -0.004963   0.004703  0.004703 0.004506 -0.002601 -0.5774      20 -0.004963
+
+--- PREVISOES E LEITURAS PRE-FIXADAS ---
+(1) K_CPU do Q-Learning em [0,6; 1,1] nas 18 celulas: SIM (min 0.71, max 0.92)
+(2) K_val em [0,5; 1,45]: NAO (min 0.81, max 1.54)
+(3) 'syn': a validada vence o aleatorio a iteracoes iguais em >= 75% das celulas avaliaveis (12/14): SIM
+(4) 'syn': a validada a CPU igual vence o aprendiz (confirmada) em >= 8 dos 10 pares (5/10): NAO
+(5) 'syn': algum aprendiz confirmado melhor que o aleatorio a iteracoes iguais em algum espaco: NAO
+(6) pre-teste, acuracia 'VNR >= tau' para 'g_Q > 0' >= 0,70: SIM (0.929)
+(7) AUC >= 0,70: NAO (nan)
+(8) Spearman(VNR, g_Q) >= +0,35: NAO (-0.209)
+(9) celulas com VNR >= 2 tau: 0; o Q-Learning ganha em 0: nao avaliavel
+(10) 'ta' concorda em sinal de g_Q com 'syn' em >= 75% das celulas avaliaveis (13/14): SIM
+L (o pre-teste VNR generaliza para o flowshop): NAO

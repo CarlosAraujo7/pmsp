@@ -7,7 +7,7 @@
 numpy==2.5.2
 scipy==1.18.0          # inclui o HiGHS usado por pmsp/exact.py (linprog, method="highs-ipm")
 pandas==3.0.5
-scikit-learn==1.9.0    # Random Forest selector (ils_rf)
+scikit-learn==1.9.0    # Random Forest selector (ils_rf) e ExtraTrees do seletor offline do Ciclo 18 (joblib vem junto)
 matplotlib==3.11.1
 seaborn==0.13.2
 openpyxl==3.1.5        # leitura de Results_iAF.xlsx (referencia exata do benchmark externo)

@@ -8,19 +8,19 @@
 \toprule
 Actions & Comparison & $K$ & $\bar d$ [90\% interval] & W/L/T & Reading \\
 \midrule
-4 ILS operators & DQN vs uniform mixture & 3.3 & +0.041 [+0.023, +0.060] & 98/152/950 & learner worse \\
- & LinUCB vs uniform mixture & 1.6 & +0.066 [+0.046, +0.086] & 100/165/935 & learner worse \\
- & Validated operator vs mixture$^\dagger$ & -- & +0.062 [+0.042, +0.084] & 107/165/928 & validated worse \\
+4 ILS operators & DQN vs uniform mixture & 3.3 & -0.041 [-0.060, -0.023] & 98/152/950 & learner worse \\
+ & LinUCB vs uniform mixture & 1.6 & -0.066 [-0.086, -0.046] & 100/165/935 & learner worse \\
+ & Validated operator vs mixture$^\dagger$ & -- & -0.062 [-0.084, -0.042] & 107/165/928 & validated worse \\
 \midrule
-5 sizes (IG) & DQN vs random size & 1.8 & +0.006 [-0.006, +0.018] & 171/180/849 & no difference \\
- & LinUCB vs random size & -- & +0.003 [-0.008, +0.014] & 161/170/869 & no difference \\
- & Neural Q vs random size & -- & +0.006 [-0.005, +0.017] & 163/174/863 & no difference \\
- & Validated size vs DQN & -- & -0.094 [-0.106, -0.083] & 351/59/790 & validated better \\
- & Validated size vs LinUCB & -- & -0.091 [-0.102, -0.080] & 338/53/809 & validated better \\
- & Validated size vs neural Q & -- & -0.094 [-0.106, -0.083] & 334/44/822 & validated better \\
+5 sizes (IG) & DQN vs random size & 1.8 & -0.006 [-0.018, +0.006] & 171/180/849 & no difference \\
+ & LinUCB vs random size & -- & -0.003 [-0.014, +0.008] & 161/170/869 & no difference \\
+ & Neural Q vs random size & -- & -0.006 [-0.017, +0.005] & 163/174/863 & no difference \\
+ & Validated size vs DQN & -- & +0.094 [+0.083, +0.106] & 351/59/790 & validated better \\
+ & Validated size vs LinUCB & -- & +0.091 [+0.080, +0.102] & 338/53/809 & validated better \\
+ & Validated size vs neural Q & -- & +0.094 [+0.083, +0.106] & 334/44/822 & validated better \\
 \midrule
-15 strat.$\times$size (IG) & DQN vs random choice & 2.6 & +0.023 [+0.012, +0.034] & 130/184/886 & parity \\
- & Validated action vs DQN & -- & -0.094 [-0.105, -0.082] & 302/61/837 & validated better \\
+15 strat.$\times$size (IG) & DQN vs random choice & 2.6 & -0.023 [-0.034, -0.012] & 130/184/886 & parity \\
+ & Validated action vs DQN & -- & +0.094 [+0.082, +0.105] & 302/61/837 & validated better \\
 \bottomrule
 \end{tabular}}
 \end{table*}

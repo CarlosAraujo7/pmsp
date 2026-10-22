@@ -96,6 +96,11 @@ for fam, (col, mk) in FAMC.items():
     for st_, fill in (("discovery", False), ("replication", True)):
         x = PC[(PC.fam == fam) & (PC.set == st_)]
         ax[1].scatter(-x.folga, -x.ql, s=17, marker=mk, facecolors=col if fill else "none", edgecolors=col, linewidths=0.9, zorder=3)
+FC = pd.read_csv(R / "entrada197_pfsp_cells.csv")
+FC = FC[FC.set == "syn"]
+ax[1].scatter(FC.folga, FC.gq, s=14, marker="x", color="#7d3c98", linewidths=0.9, zorder=3)
+rho_f = [_st.spearmanr(FC[FC.space == s_].folga, FC[FC.space == s_].gq).statistic for s_ in ("F5", "F15")]
+ax[1].scatter([], [], s=14, marker="x", color="#7d3c98", label=f"flowshop ($\\rho={rho_f[0]:.2f}$, ${rho_f[1]:.2f}$)")
 rep = PC[PC.set == "replication"]
 rho_rep = _st.spearmanr(-rep.folga, -rep.ql)
 ax[1].scatter([], [], s=17, marker="o", facecolors="#c0392b", edgecolors="#c0392b", label=f"published, held-out ($\\rho={rho_rep.statistic:.2f}$)")

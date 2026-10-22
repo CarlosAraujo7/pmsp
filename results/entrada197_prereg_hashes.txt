@@ -1,0 +1,8 @@
+1c5fb37e9bb3cb0eb6f9a41e9be5228b *experiment/run_cycle18_pfsp_entrada197.py
+fa479a6dad9def99e0b46ad40be24c89 *experiment/pipeline_cycle18_pfsp_entrada197.sh
+8b64590ad799141fa22355ffc8e740fa *analysis/report_entrada197_pfsp.py
+762130cc4aec45d6873d8cc244c5e02e *pmsp/pfsp_numba.py
+feda10e7060c2fb86d04e46525f2a19b *pmsp/pfsp.py
+03bfd07a1ed347b5ad36c90b303767fd *analysis/pretest_vnr_entrada198.py
+c2aecdb658dedcea4e821d09ab39d4d0 *pmsp/budgetfair.py
+f1fbd48f0ebf56b02a347640017f6017 *results/pretest_tau_entrada198.json

@@ -1,0 +1,13 @@
+{
+ "tau": 0.876988948832996,
+ "n_calibration_cells": 42,
+ "calibration_summary": {
+  "n": 42,
+  "frac_pays": 0.4523809523809524,
+  "auc": 0.7826086956521738,
+  "bacc": 0.8295194508009154,
+  "acc": 0.8333333333333334,
+  "spearman": 0.5888501742160279
+ },
+ "rule": "o seletor online (Q-Learning) paga na celula se VNR >= tau; VNR = ganho validado em validacao cruzada / ruido do aleatorio, estimado so' em instancias de ajuste"
+}

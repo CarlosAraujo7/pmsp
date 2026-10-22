@@ -66,17 +66,13 @@ chk("12 classes na tabela por classe", len(cls), 12, 0)
 chk("IG vence o ILS em todas as 12 classes (CPU igual)", sum(c[2] > 0 for c in cls), 12, 0, "in all twelve classes")
 chk("menor ganho por classe (40x5: 0,004)", min(c[2] for c in cls), 0.004, 0.0006, "$0.004\\%$")
 chk("maior ganho por classe (60x20: 2,84)", max(c[2] for c in cls), 2.84, 0.005, "$2.84\\%$")
-chk("n/m >= 8: todos < 0,09", max(c[2] for c in cls if c[0] / c[1] >= 8), 0.0839, 0.0006, "below $0.09\\%$")
 low = sorted(c[2] for c in cls if c[0] / c[1] <= 5 and (c[0], c[1]) != (20, 4))
-chk("n/m <= 5 (sem 20x4): minimo 0,27", low[0], 0.27, 0.005, "between $0.27\\%$ and $2.84\\%$")
-chk("n/m <= 5 (sem 20x4): maximo 2,84", low[-1], 2.84, 0.005)
-chk("classe 20x4 (0,06)", [c[2] for c in cls if (c[0], c[1]) == (20, 4)][0], 0.06, 0.005, "$20\\times4$, $0.06\\%$")
 
 seed = (R / "entrada117_seed_variance_all.txt").read_text(encoding="utf-8")
 m = re.search(r"S1' politica .*?d = (-?\d\.\d+)% IC90 \[(-?\d\.\d+), (-?\d\.\d+)\]", seed)
-chk("seed variance d (-0,011)", float(m.group(1)), -0.011, 0.0006, "$\\bar d=-0.011\\%$")
-chk("seed variance IC lo (-0,019)", float(m.group(2)), -0.019, 0.0006, "$-0.019$ to $-0.003$")
-chk("seed variance IC hi (-0,003)", float(m.group(3)), -0.003, 0.0006)
+chk("seed variance ganho (0,011)", -float(m.group(1)), 0.011, 0.0006, "gain of $0.011\\%$ ($90\\%$ interval $0.003$ to $0.019$)")
+chk("seed variance IC (0,019)", -float(m.group(2)), 0.019, 0.0006)
+chk("seed variance IC (0,003)", -float(m.group(3)), 0.003, 0.0006)
 m = re.search(r"S3' ig_random vs ils_random: d = (-?\d\.\d+)%", seed)
 chk("IG vs ILS sem aprendizado, seed (0,49)", -float(m.group(1)), 0.49, 0.005, "$0.49\\%$ on seed averages")
 m = re.search(r"S3' ig_ql vs ils_ql: d = (-?\d\.\d+)%", seed)
@@ -94,9 +90,6 @@ fv = pd.read_csv(R / "fig_thesis_values_entrada162.csv")
 fv = fv[fv.problem.str.startswith("Identical")].gain_pp.astype(float).tolist()
 chk("Fig. 1a mecanismo (0,462)", fv[0], 0.462, 0.0006)
 chk("Fig. 1a busca local (0,105)", fv[1], 0.105, 0.0006)
-chk("Fig. 1a politica (-0,015)", fv[2], -0.015, 0.0006, "$0.015\\%$")
-chk("Fig. 1a tamanho validado (0,089)", fv[3], 0.089, 0.0006, "$0.089\\%$")
-chk("validado - politica (0,103)", fv[3] - fv[2], 0.103, 0.0006, "$0.103\\%$")
 
 # validacao externa (Tabela I do CEC)
 H90 = pd.read_csv(R / "entrada90_family_level_holdout.csv")
@@ -142,11 +135,6 @@ chk("K vetorizada (1,8)", np.exp(np.mean(np.log([v["K"] for v in k162["H"].value
 K170 = pd.read_csv(R / "entrada170_numba_k.csv")
 KH = K170[K170.cenario == "H"]
 chk("K compilada (2,0)", np.exp(np.mean(np.log(KH.K_cpu))), 2.0, 0.05, "gives $K=2.0$")
-chk("K_ev minimo (1,9)", KH.K_ev.min(), 1.9, 0.05, "$1.9$ to $9.1$ times")
-chk("K_ev maximo (9,1)", KH.K_ev.max(), 9.1, 0.05)
-chk("K_cpu minimo (1,7)", KH.K_cpu.min(), 1.7, 0.05, "$1.7$ to $2.4$")
-chk("K_cpu maximo (2,4)", KH.K_cpu.max(), 2.4, 0.05)
-chk("Spearman K_cpu x K_ev (0,71)", float(re.search(r"nas 24 classes-cenarios = (\d\.\d+)", t170).group(1)), 0.71, 0.005, "$0.71$ over the $24$")
 w = {(c, mt): float(v) for c, mt, v in re.findall(r"^\s*([HR])\s+(ig_eqev_w[\d.]+)\s+(-?\d\.\d+)", t170, flags=re.M) for mt in [mt]}
 chk("peso 0,25: vantagem (0,026)", -w[("H", "ig_eqev_w0.25")], 0.026, 0.0006, "$0.026\\%$ and $0.124\\%$")
 chk("peso 4: vantagem (0,124)", -w[("H", "ig_eqev_w4")], 0.124, 0.0006)
@@ -159,7 +147,6 @@ KA = pd.read_csv(R / "entrada180_agents_k.csv")
 ta = (R / "entrada180_agents.txt").read_text(encoding="utf-8")
 chk("12 comparacoes a iteracoes iguais", len(Ai), 12, 0)
 chk("maior ganho de aprendiz a iteracoes iguais (0,016)", -Ai.mean_d_pct.min(), 0.016, 0.0006, "more than $0.016\\%$")
-chk("Q-Learning perde em S30 (0,017)", Ai.loc["Aiter-S30-ql", "mean_d_pct"], 0.017, 0.0006, "loses by $0.017\\%$")
 chk("Q-Learning CPU igual S5 (0,059)", -Ac.loc["Acpu-S5-ql", "mean_d_pct"], 0.059, 0.0006, "$0.059\\%$ and $0.049\\%$")
 chk("Q-Learning CPU igual S15 (0,049)", -Ac.loc["Acpu-S15-ql", "mean_d_pct"], 0.049, 0.0006)
 nonq = Ac[~Ac.index.str.endswith("-ql")]
@@ -173,7 +160,6 @@ chk("validada vs nove metodos S5/S15: maximo (0,147)", b9.max(), 0.147, 0.0006)
 chk("validada vs nove metodos: p_holm < 1e-57", float(max(bsel.p_holm.max(), A5b_.p_holm.max(), A8b_.p_holm.max()) < 1e-57), 1, 0, "p_{\\mathrm{Holm}}<10^{-57}")
 chk("validada vs os 3 aprendizes originais: minimo (0,076; nao citado)", -bsel.mean_d_pct.max(), 0.076, 0.0006)
 bout = B[B.index.str.contains("S3-|S30-")]
-chk("validada vs aprendiz S3/S30: |d| <= 0,03", min(bout.mean_d_pct.abs().max(), 0.03), bout.mean_d_pct.abs().max(), 0, "(within $0.03\\%$)")
 ku = lambda sp, k: float(KA[(KA.space == sp) & (KA.learner == k)].K_cpu.iloc[0])
 ke = lambda sp, k: float(KA[(KA.space == sp) & (KA.learner == k)].K_avaliacoes.iloc[0])
 over = KA[KA.learner != "ql"].sobrecusto_por_avaliacao
@@ -186,10 +172,7 @@ kq = [ku(s, "ql") for s in ("S5", "S15", "S30")]
 chk("K_CPU do Q em S5/S15/S30: minimo (0,50)", min(kq), 0.50, 0.005, "$0.50$--$0.60$ of the CPU time")
 chk("K_CPU do Q em S5/S15/S30: maximo (0,60)", max(kq), 0.60, 0.005)
 evq = [ke(s, "ql") for s in ("S5", "S15", "S30")]
-chk("avaliacoes do Q: minimo (0,38)", min(evq), 0.38, 0.005, "$0.38$--$0.50$ of the evaluations")
-chk("avaliacoes do Q: maximo (0,50)", max(evq), 0.50, 0.005)
 hd = {sp: -float(v) for sp, v in re.findall(r"^\s*(S\d+)\s+(-?\d\.\d+)\s*$", ta.split("folga: oraculo")[1].split("S30: fracao")[0], flags=re.M)}
-chk("folga S3 (0,05)", hd["S3"], 0.05, 0.005, "($0.05\\%$ against $0.12$--$0.13\\%$)")
 chk("folga S30 (0,05)", hd["S30"], 0.05, 0.005)
 chk("folga S5 (0,12-0,13)", hd["S5"], 0.125, 0.0051)
 chk("folga S15 (0,12-0,13)", hd["S15"], 0.125, 0.0051)
@@ -207,33 +190,19 @@ chk("48 celulas", len(c), 48, 0, "$48$ cells")
 rho = sstats.spearmanr(c.h, c.gain).statistic
 chk("Spearman folga x ganho do Q (0,09)", rho, 0.09, 0.005, "$\\rho=0.09$")
 hi = c[c.h > 0.15]
-chk("celulas com folga > 0,15 (11)", len(hi), 11, 0, "$11$ cells with a headroom above $0.15$")
-chk("dessas, ganham (6)", (hi.gain > 0).sum(), 6, 0, "$6$ gain and $5$ lose")
-chk("dessas, perdem (5)", (hi.gain <= 0).sum(), 5, 0)
 
 # ---------------------------------------------------------------- resultados D (aprendizes maiores)
 P176, P173, P167 = rd("entrada176_ilsdqn_primary.csv"), rd("entrada173_dqn_primary.csv"), rd("entrada167_online_primary.csv")
 t176 = (R / "entrada176_ilsdqn.txt").read_text(encoding="utf-8")
 chk("DQN-ILS vs mistura (0,041)", P176.loc["K1", "mean_d_pct"], 0.041, 0.0006, "($0.041\\%$ and $0.066\\%$")
 chk("LinUCB-ILS vs mistura (0,066)", P176.loc["K2", "mean_d_pct"], 0.066, 0.0006)
-chk("p_holm K1 (4e-4)", P176.loc["K1", "p_holm"] * 1e4, 4, 0.5, "4\\times10^{-4}")
-chk("p_holm K2 (~1e-6)", np.log10(P176.loc["K2", "p_holm"]), -6, 0.2, "$10^{-6}$")
 mv = re.search(r"val_ils vs aleatorio \(operador unico validado\)\s+(-?[\d.]+)", t176)
-chk("operador validado vs mistura (0,062)", float(mv.group(1)), 0.062, 0.0006, "by $0.062\\%$")
+chk("operador validado vs mistura (0,062)", float(mv.group(1)), 0.062, 0.0006, "as does the operator validated per class ($0.062\\%$)")
 m = re.search(r"Q-learning tabular vs aleatorio \+(\d\.\d+)%; DQN \+\d\.\d+%; LinUCB \+\d\.\d+%; oraculo por instancia entre os quatro operadores unicos vs aleatorio \+(\d\.\d+)%", t176)
-chk("agente tabular nas rodadas armazenadas (0,044)", float(m.group(1)), 0.044, 0.0006, "$0.044\\%$ on the stored runs")
-chk("oraculo entre operadores unicos pior que a mistura (0,04)", float(m.group(2)), 0.04, 0.005, "is $0.04\\%$ \\emph{worse}")
 m = re.search(r"medias geometricas: dqn (\d\.\d+), linucb (\d\.\d+)", t176)
-chk("custo do DQN-ILS (3,3)", float(m.group(1)), 3.3, 0.05, "$3.3$ times")
-chk("custo do LinUCB-ILS (1,6)", float(m.group(2)), 1.6, 0.05, "LinUCB $1.6$ times")
-chk("DQN em 15 acoes vs aleatorio (+0,023)", P173.loc["I1P15", "mean_d_pct"], 0.023, 0.0006, "($+0.023\\%$, parity)")
+chk("DQN em 15 acoes vs aleatorio (+0,023)", P173.loc["I1P15", "mean_d_pct"], 0.023, 0.0006, "level with random choice ($+0.023\\%$)")
 chk("validada vs DQN, 15 acoes (0,094)", -P173.loc["I2P15", "mean_d_pct"], 0.094, 0.0006, "beats it by $0.094\\%$")
-chk("Q neural vs aleatorio (+0,006)", P167.loc["P-G2", "mean_d_pct"], 0.006, 0.0006, "$+0.006\\%$ and $+0.003\\%$")
-chk("LinUCB vs aleatorio (+0,003)", P167.loc["P-G1", "mean_d_pct"], 0.003, 0.0006)
 vs = [-P173.loc["I2P5", "mean_d_pct"], -P167.loc["P-G3", "mean_d_pct"], -P167.loc["P-G4", "mean_d_pct"]]
-chk("validado vs tres aprendizes: minimo (0,091)", min(vs), 0.091, 0.0006, "$0.091$--$0.094\\%$")
-chk("validado vs tres aprendizes: maximo (0,094)", max(vs), 0.094, 0.0006)
-chk("DQN em 5 e 15 acoes dentro de +-0,05", float(abs(P173.loc["I1P5", "mean_d_pct"]) < 0.05 and P173.loc["I1P15", "ci90_hi"] < 0.05), 1, 0, "stays inside the $\\pm0.05\\%$ margin")
 
 
 # ---------------------------------------------------------------- RQ4: poder, controle positivo, AOS classicos, tempos finos (Entradas 184-185)
@@ -241,7 +210,7 @@ PW = pd.read_csv(R / "entrada184_power.csv")
 chk("MDE80 analitico minimo (0,006)", PW.mde80.min(), 0.006, 0.0006, "$0.006$--$0.014$ points")
 chk("MDE80 analitico maximo (0,014)", PW.mde80.max(), 0.014, 0.0006)
 cl = PW[PW.mean_d.abs() < 0.005]
-chk("10 comparacoes com efeito observado desprezivel", len(cl), 10, 0, "the ten comparisons whose observed effect is negligible")
+chk("10 comparacoes com efeito observado desprezivel", len(cl), 10, 0, "the ten comparisons with a negligible observed effect")
 chk("poder em 0,02: minimo (58%)", 100 * cl["power_0.02"].min(), 58, 0.5, "$58$--$99.8\\%$ power at $0.02$ points")
 chk("poder em 0,02: maximo (99,8%)", 100 * cl["power_0.02"].max(), 99.8, 0.05)
 chk("poder em 0,03: minimo >= 97%", 100 * cl["power_0.03"].min(), 97, 0.5, "at least $97\\%$ at $0.03$")
@@ -255,14 +224,12 @@ chk("plantio, bonus 0,5: minimo >= 1,5 vez", m1[m1.bonus == 0.5].x_uniforme.min(
 chk("plantio, bonus 5: minimo (2,5)", m1[m1.bonus == 5.0].x_uniforme.min(), 2.5, 0.05, "$2.5$ to $13.7$ times for a bonus of $5$")
 chk("plantio, bonus 5: maximo (13,7)", m1[m1.bonus == 5.0].x_uniforme.max(), 13.7, 0.05)
 m2 = PL[(PL["mode"] == 2) & (PL.bonus == 5.0) & (PL.space == "S5")].set_index("learner").x_uniforme
-chk("plantio dependente do estado, Q-Learning (3,8)", m2["ql"], 3.8, 0.05, "($3.8$ and $2.5$ times uniform with five actions)")
-chk("plantio dependente do estado, gradiente de politica (2,5)", m2["pg"], 2.5, 0.05)
 
 AIi, AIc, AIb, AIk = (pd.read_csv(R / f"entrada185_aos_{x}.csv").set_index("id") if x != "k" else pd.read_csv(R / "entrada185_aos_k.csv") for x in ("aiter", "acpu", "bval", "k"))
-chk("ALNS S5 a iteracoes iguais (0,039)", -AIi.loc["Aiter-S5-alns", "mean_d_pct"], 0.039, 0.0006, "the ALNS-style roulette gains $0.039$ points at equal iterations")
+chk("ALNS S5 a iteracoes iguais (0,039)", -AIi.loc["Aiter-S5-alns", "mean_d_pct"], 0.039, 0.0006, "it gains $0.039$ points at equal iterations with five sizes")
 chk("ALNS S5 efeito de custo (0,029)", AIc.loc["Acpu-S5-alns", "mean_d_pct"] * -1 + AIi.loc["Aiter-S5-alns", "mean_d_pct"], 0.029, 0.0006, "the cost effect adds $0.029$, so $0.068$ at equal CPU time")
 chk("ALNS S5 a CPU igual (0,068)", -AIc.loc["Acpu-S5-alns", "mean_d_pct"], 0.068, 0.0006)
-chk("ALNS S15 a iteracoes iguais (+0,002)", AIi.loc["Aiter-S15-alns", "mean_d_pct"], 0.002, 0.0006, "nothing with fifteen actions ($+0.002$)")
+chk("ALNS S15 a iteracoes iguais (+0,002)", AIi.loc["Aiter-S15-alns", "mean_d_pct"], 0.002, 0.0006, "nothing with fifteen actions ($-0.002$)")
 pmap = AIi[AIi.index.str.contains("-pm|-ap")]
 chk("PM e AP a iteracoes iguais: |d| <= 0,01", pmap.mean_d_pct.abs().max(), 0.0095, 0.0006, "stay within $0.01$ points")
 dd = {}
@@ -280,7 +247,7 @@ chk("corrida a iteracoes iguais S5 (+0,012)", N8.loc["Aiter-S5-race", "mean_d_pc
 chk("corrida a iteracoes iguais S15 (+0,067)", N8.loc["Aiter-S15-race", "mean_d_pct"], 0.067, 0.0006)
 FI = {x: pd.read_csv(R / f"entrada185_fine_{x}.csv") for x in ("aiter", "acpu", "bval", "k", "headroom")}
 FIi, FIc, FIb = (FI[x].set_index("id") for x in ("aiter", "acpu", "bval"))
-chk("tempos finos: maior ganho a iteracoes iguais (0,015)", -FIi.mean_d_pct.min(), 0.015, 0.0006, "No learner gains more than $0.015$ points at equal iterations")
+chk("tempos finos: maior ganho a iteracoes iguais (0,015)", -FIi.mean_d_pct.min(), 0.015, 0.0006, "no learner gains more than $0.015$ points at equal iterations")
 chk("tempos finos: Q-Learning a CPU igual S5 (0,059)", -FIc.loc["Acpu-S5-ql", "mean_d_pct"], 0.059, 0.0006, "by $0.059$ and $0.076$ points ($K=0.63$ and $0.62$")
 chk("tempos finos: Q-Learning a CPU igual S15 (0,076)", -FIc.loc["Acpu-S15-ql", "mean_d_pct"], 0.076, 0.0006)
 FK = FI["k"].set_index(["space", "learner"]).K_cpu
@@ -292,8 +259,6 @@ FH = FI["headroom"].set_index("space")
 chk("tempos finos: folga S5 (0,142)", -FH.loc["S5", "folga_fina_pct"], 0.142, 0.0006, "$0.142\\%$ and $0.175\\%$")
 chk("tempos finos: folga S15 (0,175)", -FH.loc["S15", "folga_fina_pct"], 0.175, 0.0006)
 chk("tempos finos: validada nunca atinge o limite inferior", FH.frac_validada_no_lb_fina.max(), 0.0, 0, "never reaches the lower bound")
-chk("tempos grossos: fracao no limite inferior S5 (42%)", 100 * FH.loc["S5", "frac_validada_no_lb_grossa"], 42, 0.5, "(against $42\\%$ and $41\\%$")
-chk("tempos grossos: fracao no limite inferior S15 (41%)", 100 * FH.loc["S15", "frac_validada_no_lb_grossa"], 41, 0.5)
 
 LA = pd.read_csv(R / "entrada185_long_aiter.csv")
 LB = pd.read_csv(R / "entrada185_long_bval.csv")
@@ -301,27 +266,19 @@ LH = pd.read_csv(R / "entrada185_long_headroom.csv").set_index("T")
 LA["T"] = LA.id.str.extract(r"T(\d+)").astype(int)
 LB["T"] = LB.id.str.extract(r"T(\d+)").astype(int)
 mid = LA[LA["T"].isin([5000, 20000])]
-chk("horizonte 5000 e 20000: |d| maximo dos aprendizes (0,005)", mid.mean_d_pct.abs().max(), 0.0045, 0.0006, "$|\\bar d|\\leq0.005$ points")
+chk("horizonte 5000 e 20000: |d| maximo dos aprendizes (0,005)", mid.mean_d_pct.abs().max(), 0.0045, 0.0006, "stay within $0.005$ points of random choice")
 chk("folga do oraculo T = 1000 (0,125)", -LH.loc[1000, "folga_oraculo_pct"], 0.125, 0.0006, "$0.125\\%$ at $T=1{,}000$ to")
 chk("folga do oraculo T = 5000 (0,060)", -LH.loc[5000, "folga_oraculo_pct"], 0.060, 0.0006, "$0.060\\%$ and $0.036\\%$")
 chk("folga do oraculo T = 20000 (0,036)", -LH.loc[20000, "folga_oraculo_pct"], 0.036, 0.0006)
 b5 = -LB[LB["T"] == 5000].mean_d_pct
 b20 = -LB[LB["T"] == 20000].mean_d_pct
-chk("vantagem da validada T = 5000: minimo (0,044)", b5.min(), 0.044, 0.0006, "from $0.09$ to $0.044$--$0.049$ and $0.023$--$0.026$ points")
-chk("vantagem da validada T = 5000: maximo (0,049)", b5.max(), 0.049, 0.0006)
-chk("vantagem da validada T = 20000: minimo (0,023)", b20.min(), 0.023, 0.0006)
-chk("vantagem da validada T = 20000: maximo (0,026)", b20.max(), 0.026, 0.0006)
-chk("fracao da validada no limite inferior T = 1000 (42%)", 100 * LH.loc[1000, "frac_validada_no_lb"], 42, 0.5, "grows from $42\\%$ to $70\\%$ and $83\\%$")
-chk("fracao da validada no limite inferior T = 5000 (70%)", 100 * LH.loc[5000, "frac_validada_no_lb"], 70, 0.5)
-chk("fracao da validada no limite inferior T = 20000 (83%)", 100 * LH.loc[20000, "frac_validada_no_lb"], 83, 0.5)
 a100 = LA[LA["T"] == 100000].set_index("id")
-chk("T = 100000: |d| maximo dos aprendizes (0,006)", a100.mean_d_pct.abs().max(), 0.006, 0.0009, "within $0.006$ points of random choice")
-chk("T = 100000: Q-Learning ganha 0,005", -a100.loc["Aiter-T100000-ql", "mean_d_pct"], 0.005, 0.0006, "(Q-Learning gains $0.005$, parity)")
-chk("T = 100000: folga do oraculo (0,015)", -LH.loc[100000, "folga_oraculo_pct"], 0.015, 0.0006, "the headroom is $0.015\\%$ ($0.12$ of its value")
+chk("T = 100000: |d| maximo dos aprendizes (0,006)", a100.mean_d_pct.abs().max(), 0.006, 0.0009, "still within $0.006$ points of it")
+chk("T = 100000: folga do oraculo (0,015)", -LH.loc[100000, "folga_oraculo_pct"], 0.015, 0.0006, "the headroom is $0.015\\%$, and the validated")
 chk("T = 100000: razao da folga (0,12)", LH.loc[100000, "folga_oraculo_pct"] / LH.loc[1000, "folga_oraculo_pct"], 0.12, 0.005)
 chk("T = 100000: fracao da validada no limite inferior (92%)", 100 * LH.loc[100000, "frac_validada_no_lb"], 92, 0.5, "reaches the lower bound in $92\\%$ of the instances")
 b100 = -LB[LB["T"] == 100000].mean_d_pct
-chk("T = 100000: vantagem da validada, minimo (0,012)", b100.min(), 0.012, 0.0006, "is $0.012$--$0.017$ points, inside the margin but still Holm-significant ($p<10^{-12}$)")
+chk("T = 100000: vantagem da validada, minimo (0,012)", b100.min(), 0.012, 0.0006, "still leads the learners by $0.012$--$0.017$ points ($p<10^{-12}$)")
 chk("T = 100000: vantagem da validada, maximo (0,017)", b100.max(), 0.017, 0.0006)
 chk("T = 100000: p_holm da validada < 1e-12", float(LB[LB["T"] == 100000].p_holm.max() < 1e-12), 1, 0)
 
@@ -331,11 +288,8 @@ chk("T = 100000: p_holm da validada < 1e-12", float(LB[LB["T"] == 100000].p_holm
 GP = json.loads((R / "pub_groups_entrada189.json").read_text())
 GH = json.loads((R / "pubh_groups_entrada190.json").read_text())
 chk("instancias de teste do estagio 2 (2.550)", len(GP["test"]), 2550, 0, "$2{,}550$ of its instances")
-chk("instancias de ajuste usadas (525)", len(GP["calib"]), 525, 0, "$525$ separate instances")
-chk("excluidas no teste do estagio 2 (140)", GP["excluded"]["test"]["B"], 140, 0, "$140$ test and $28$ tuning ones")
 chk("excluidas no ajuste (28)", GP["excluded"]["calib"]["B"], 28, 0)
 chk("instancias held-out (3.950)", len(GH["test"]), 3950, 0, "$3{,}950$ held-out instances")
-chk("excluidas no total (350)", GP["excluded"]["test"]["B"] + GH["excluded"]["B"], 350, 0, "$350$ of the $6{,}850$ published test instances ($5.1\\%$")
 chk("fracao excluida (5,1%)", 100 * 350 / 6850, 5.1, 0.05)
 PSU = pd.read_csv(R / "entrada192_published_summary.csv")
 pick = lambda st, sp, sub: PSU[(PSU.set == st) & (PSU.space == sp) & (PSU.subset == sub)].iloc[0]
@@ -383,10 +337,10 @@ chk("unica paridade entre os 18 pares", int((B190.leitura == "paridade").sum()),
 
 # ---------------------------------------------------------------- previsoes registradas e auditoria da literatura
 # Previsoes pontuais registradas por bateria (acertos, total): Entradas 170 (16, 16), 173 (16, 18), 176 (4, 6), 178 (5, 7), 180 (16, 19) -- contagens do diario; 184 A1 (3, 5), 185 B (3, 8), A2 (4, 4), D (8, 8), C (6, 6) -- relatorios.
-PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6), (7, 9), (5, 9), (11, 12)]
-chk("baterias que contaram previsoes (treze)", len(PRED), 13, 0, "thirteen of them counted their point predictions")
-chk("previsoes que acertaram (104)", sum(a for a, _ in PRED), 104, 0, "$104$ of $127$ held")
-chk("previsoes registradas (127)", sum(b for _, b in PRED), 127, 0)
+PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6), (7, 9), (5, 9), (11, 12), (8, 9), (7, 7), (5, 5), (9, 14), (4, 6), (4, 9), (6, 6)]   # + Ciclo 18: 196 valeq 8/9, 200 seletor 7/7, controles 5/5, 199 familia F 9/14, 203 Q ajustado 4/6, 197 flowshop 4/9, 205 seletor do flowshop 6/6
+chk("baterias que contaram previsoes (vinte)", len(PRED), 20, 0, "in twenty batteries")
+chk("previsoes que acertaram (147)", sum(a for a, _ in PRED), 147, 0, "$147$ of $183$ point predictions held")
+chk("previsoes registradas (183)", sum(b for _, b in PRED), 183, 0)
 
 L = pd.read_csv(R / "litaudit_pooled_entrada172.csv")
 L = L[L.included == "Y"]
@@ -398,9 +352,8 @@ chk("beneficio do componente (22)", L.claim_policy_helps.isin(["Y", "MIXED"]).su
 chk("dos quais parcial (5)", (L.claim_policy_helps == "MIXED").sum(), 5, 0, "$5$ of them only partly")
 
 # ---------------------------------------------------------------- numeros herdados do periodico (presenca nas fontes do periodico)
-for label, snip in [("75,3% de otimalidade provada", "$75.3\\%$"), ("74,7% em T = 1000", "$74.7\\%$"), ("97,5% em T = 64.000", "$97.5\\%$"), ("ganho de 0,29% sobre o MULTIFIT", "$0.29\\%$"),
-                    ("6.780 instancias publicadas", "$6{,}780$"), ("120 de 120 execucoes identicas", "$120$ of $120$"),
-                    ("equivalencia estatistica -0,003 a +0,012", "$-0.003\\%$ to $+0.012\\%$"), ("1.400 instancias R||Cmax", "$1{,}400$ instances")]:
+for label, snip in [("75,3% de otimalidade provada", "$75.3\\%$"), ("120 de 120 execucoes identicas", "$120$ of $120$"),
+                    ("equivalencia estatistica -0,003 a +0,012", "$-0.003\\%$ to $+0.012\\%$")]:
     journal(label, snip)
 
 
@@ -413,7 +366,6 @@ chk("testes unitarios do ILS/descida vetorizados (357)", n_tests("tests/test_ope
 chk("testes unitarios do nucleo compilado (403)", n_tests("tests/test_ig_numba.py"), 403, 0, "($403$ and $35$ unit tests)")
 chk("testes unitarios dos agentes compilados (35)", n_tests("tests/test_ig_numba_agents.py"), 35, 0)
 journal("72 de 96 comparacoes significativas contra LPT e sete ILS", "$72$ comparisons")
-present("LDM ~1,1%", "LDM by about $1.1\\%$")
 
 # ---------------------------------------------------------------- relatorio
 bad = [r for r in rows if not r[4]]

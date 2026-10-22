@@ -92,3 +92,19 @@ def test_paired_test_matches_the_study_reports_exactly():
     mine, ref = bf.paired_test(a, base), study_test(a, base)
     for k_mine, k_ref in [("mean_d_pct", "mean_d_pct"), ("ci90_lo", "ci90_lo"), ("ci90_hi", "ci90_hi"), ("p_raw", "p_raw"), ("better", "better"), ("worse", "worse"), ("tie", "tie")]:
         assert mine[k_mine] == pytest.approx(ref[k_ref])
+
+
+def test_validated_to_noise_detects_a_real_static_gain_and_a_null():
+    rng = np.random.default_rng(5)
+    I, S, K = 60, 3, 5
+    base = rng.integers(800, 1200, size=I).astype(float)
+    noise = lambda: rng.normal(0, 2.0, size=(I, S))
+    rand = base[:, None] + noise()
+    arms = base[:, None, None] + noise()[:, None, :].repeat(K, axis=1) + rng.normal(0, 2.0, size=(I, K, S))
+    arms[:, 2, :] -= 12.0                                          # a acao 2 e' 12 unidades melhor em toda instancia
+    real = bf.validated_to_noise(rand, arms)
+    assert real["v_hat"] > 0.5 and real["vnr"] > 1.5
+    arms_null = base[:, None, None] + rng.normal(0, 2.0, size=(I, K, S))
+    null = bf.validated_to_noise(rand, arms_null)
+    assert null["vnr"] < real["vnr"] / 2 and null["noise"] > 0
+    assert np.isnan(bf.validated_to_noise(np.tile(base[:, None], (1, S)), arms)["vnr"])
