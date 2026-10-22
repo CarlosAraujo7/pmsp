@@ -356,10 +356,17 @@ chk("familia E: folga S5 (0,07)", -pick("discovery", "S5", "E").folga, 0.07, 0.0
 chk("familia E: folga S15 (0,11)", -pick("discovery", "S15", "E").folga, 0.11, 0.005)
 chk("familia E: Q-Learning perde S5 e S15 (0,06-0,07)", min(pick("discovery", "S5", "E").ql_iter, pick("discovery", "S15", "E").ql_iter), 0.058, 0.0006, "it \\emph{loses} $0.06$--$0.07$ points")
 dsc = PCE[PCE.set == "discovery"]
-chk("correlacao folga x ganho do Q-Learning, descoberta (0,53)", sstats.spearmanr(-dsc.folga, -dsc.ql).statistic, 0.53, 0.005, "is $0.53$, against $0.09$ in the synthetic cells")
+chk("correlacao folga x ganho do Q-Learning, descoberta (0,53)", sstats.spearmanr(-dsc.folga, -dsc.ql).statistic, 0.53, 0.005, "is $0.53$ ($0.37$ and $0.57$ within each space), against $0.09$ in the synthetic cells")
 rep_ = PCE[PCE.set == "replication"]
-chk("correlacao folga x ganho do Q-Learning, held-out (0,65)", sstats.spearmanr(-rep_.folga, -rep_.ql).statistic, 0.65, 0.005, "the rank correlation was $0.65$ ($p=0.003$)")
-chk("p da correlacao held-out (0,003)", sstats.spearmanr(-rep_.folga, -rep_.ql).pvalue, 0.003, 0.0005)
+chk("correlacao folga x ganho do Q-Learning, held-out (0,65)", sstats.spearmanr(-rep_.folga, -rep_.ql).statistic, 0.65, 0.005, "the rank correlation was $0.65$ ($0.67$ and $0.60$ within each space, nine cells each, $p=0.05$ and $0.09$)")
+for sp_, rho_, p_ in (("S5", 0.37, None), ("S15", 0.57, None)):
+    x_ = dsc[dsc.space == sp_]
+    chk(f"correlacao descoberta dentro de {sp_} (nove celulas)", sstats.spearmanr(-x_.folga, -x_.ql).statistic, rho_, 0.005)
+for sp_, rho_, p_ in (("S5", 0.67, 0.05), ("S15", 0.60, 0.09)):
+    x_ = rep_[rep_.space == sp_]
+    r_ = sstats.spearmanr(-x_.folga, -x_.ql)
+    chk(f"correlacao held-out dentro de {sp_} (nove celulas)", r_.statistic, rho_, 0.005)
+    chk(f"p da correlacao held-out dentro de {sp_}", r_.pvalue, p_, 0.006)
 H190 = pd.read_csv(R / "entrada190_replication_h.csv").set_index("id")
 chk("H1 Q-Learning S15 familia C 1-2 (0,245)", -H190.loc["H1", "mean_d_pct"], 0.245, 0.0006, "gains $0.245$ and $0.149$ points")
 chk("H2 Q-Learning S5 familia C 1-2 (0,149)", -H190.loc["H2", "mean_d_pct"], 0.149, 0.0006)
