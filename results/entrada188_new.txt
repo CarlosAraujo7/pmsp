@@ -1,0 +1,64 @@
+==============================================================================================================
+THOMPSON, DMAB E CORRIDA -- Ciclo 17, frente B'
+==============================================================================================================
+
+S5: hiperparametros escolhidos no ajuste: ts [1.0, 0.0], dmab [8.0, 0.0], race [0.5, 0.0]
+
+S15: hiperparametros escolhidos no ajuste: ts [0.95, 0.0], dmab [8.0, 0.0], race [0.5, 0.0]
+
+--- Aiter: metodo novo vs aleatorio a iteracoes iguais (Holm sobre 6) ---
+            id    n  better  worse  tie  mean_d_pct   ci90_lo   ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+   Aiter-S5-ts 1200     385    279  536    -0.01339  -0.01868 -0.007914        -0.1783 4.675e-05 0.0002337        True              True       paridade
+ Aiter-S5-dmab 1200     323    302  575    -0.00118 -0.006529  0.003953       -0.01286    0.6757    0.6757       False              True nao confirmada
+ Aiter-S5-race 1200     305    368  527     0.01198  0.006243   0.01769         0.1299  0.005622   0.02058       False              True nao confirmada
+  Aiter-S15-ts 1200     335    282  583   -0.004829  -0.01007 0.0002514        -0.0824    0.2362    0.4723       False              True nao confirmada
+Aiter-S15-dmab 1200     340    253  607   -0.007482  -0.01235 -0.002568        -0.1488  0.005146   0.02058        True              True       paridade
+Aiter-S15-race 1200     151    569  480     0.06731   0.06074   0.07431         0.6778 7.663e-55 4.598e-54       False             False nao confirmada
+
+--- Acpu: vs aleatorio a CPU igual (Holm sobre 6) ---
+           id    n  better  worse  tie  mean_d_pct   ci90_lo   ci90_hi  rank_biserial     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+   Acpu-S5-ts 1200     239    364  597      0.0182   0.01317   0.02317         0.2407 9.391e-10 2.817e-09       False              True nao confirmada
+ Acpu-S5-dmab 1200     301    317  582    0.003409 -0.001779  0.008243        0.03706    0.2478    0.2478       False              True nao confirmada
+ Acpu-S5-race 1200     244    430  526     0.03171   0.02565   0.03786         0.3594 8.162e-17 3.265e-16       False              True nao confirmada
+  Acpu-S15-ts 1200     164    464  572     0.04395   0.03892   0.04928         0.5454 1.438e-40 7.191e-40       False              True nao confirmada
+Acpu-S15-dmab 1200     343    265  592   -0.005391  -0.01036 -0.000578        -0.1065   0.01968   0.03936        True              True       paridade
+Acpu-S15-race 1200     173    563  464     0.06609    0.0591   0.07333         0.6325 3.214e-49 1.929e-48       False             False nao confirmada
+
+--- Bval: acao validada vs metodo novo (Holm sobre 6; negativo: a validada vence) ---
+           id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+   Bval-S5-ts 1200     642     78  480    -0.07853 -0.08444 -0.07248        -0.8682  5.489e-79  1.647e-78        True             False confirmada
+ Bval-S5-dmab 1200     685     50  465    -0.09074 -0.09691 -0.08465        -0.9331 7.877e-100  3.939e-99        True             False confirmada
+ Bval-S5-race 1200     687     57  456     -0.1038  -0.1108 -0.09683        -0.9208  2.198e-99  8.793e-99        True             False confirmada
+  Bval-S15-ts 1200     542    127  531    -0.07504 -0.08138 -0.06876        -0.7335   6.79e-71  1.358e-70        True             False confirmada
+Bval-S15-dmab 1200     551    136  513    -0.07239 -0.07854 -0.06612        -0.7155  2.022e-69  2.022e-69        True             False confirmada
+Bval-S15-race 1200     750     67  383     -0.1469  -0.1561   -0.138        -0.9011 1.481e-116 8.883e-116        True             False confirmada
+
+--- custo: K_CPU, razao de avaliacoes e sobrecusto por avaliacao ---
+space learner  K_cpu  K_avaliacoes  sobrecusto_por_avaliacao
+   S5      ts  1.265         1.044                     1.211
+   S5    dmab  1.001         1.003                    0.9981
+   S5    race  1.097         1.158                    0.9478
+  S15      ts  1.665         1.001                     1.664
+  S15    dmab  1.028             1                     1.028
+  S15    race 0.9416          1.02                    0.9229
+
+--- descritiva: d medio de cada metodo contra o aleatorio a iteracoes iguais (%; os nove aprendizes e a validada) ---
+space        S15         S5
+method                     
+alns    0.002463    -0.0393
+ap     -0.002766  -0.009451
+dmab   -0.007482   -0.00118
+pg     -0.000134  0.0003221
+pm     -0.006001  -0.005387
+ql      0.004275   0.002763
+race     0.06731    0.01198
+ts     -0.004829   -0.01339
+ucb    -0.004292 -0.0008184
+val     -0.07992   -0.09198
+
+--- LEITURAS PRE-FIXADAS ---
+R1 (um metodo novo bate o aleatorio por >= 0,05% a iteracoes iguais): NAO
+R2 (o mesmo a CPU igual): NAO
+R3 (a validada vence em >= 5 dos 6 pares; 6/6): SIM
+R4 (a roleta tipo ALNS continua o melhor aprendiz online em S5): SIM
+R5 (a corrida ganha >= 0,02% a iteracoes iguais em S5 ou S15): NAO

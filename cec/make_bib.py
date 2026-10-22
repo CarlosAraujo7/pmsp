@@ -124,7 +124,28 @@ EXTRA += r"""
   archivePrefix = {arXiv}
 }
 """
-extra_keys = {"LiEtAl2010", "MnihEtAl2015", "Williams1992", "DrakeEtal2020", "Talbi2021", "LaTorreEtal2021", "EibenSmit2011", "Lakens2017", "Goldberg1990", "SonneratEtal2021", "BartzBeielsteinEtal2020"}
+EXTRA += r"""
+@article{Russo2018,
+  author  = {Daniel J. Russo and Benjamin {Van Roy} and Abbas Kazerouni and Ian Osband and Zheng Wen},
+  title   = {A tutorial on {T}hompson sampling},
+  journal = {Foundations and Trends in Machine Learning},
+  volume  = {11},
+  number  = {1},
+  pages   = {1--96},
+  year    = {2018},
+  doi     = {10.1561/2200000070}
+}
+
+@inproceedings{DaCostaEtal2008,
+  author    = {Lu{\'\i}s {Da Costa} and {\'A}lvaro Fialho and Marc Schoenauer and Mich{\`e}le Sebag},
+  title     = {Adaptive operator selection with dynamic multi-armed bandits},
+  booktitle = {Proceedings of the Genetic and Evolutionary Computation Conference (GECCO)},
+  pages     = {913--920},
+  publisher = {ACM},
+  year      = {2008}
+}
+"""
+extra_keys = {"LiEtAl2010", "MnihEtAl2015", "Williams1992", "DrakeEtal2020", "Talbi2021", "LaTorreEtal2021", "EibenSmit2011", "Lakens2017", "Goldberg1990", "SonneratEtal2021", "BartzBeielsteinEtal2020", "Russo2018", "DaCostaEtal2008"}
 missing = sorted(k for k in cited if k not in entries and k not in extra_keys)
 assert not missing, f"chaves citadas sem entrada: {missing}"
 out = "\n\n".join(entries[k] for k in sorted(cited) if k in entries) + "\n" + EXTRA

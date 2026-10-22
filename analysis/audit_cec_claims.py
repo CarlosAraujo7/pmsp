@@ -166,11 +166,12 @@ nonq = Ac[~Ac.index.str.endswith("-ql")]
 chk("UCB1 e gradiente a CPU igual: |d| <= 0,008", nonq.mean_d_pct.abs().max(), 0.008, 0.0006, "$|\\bar d|\\leq0.008\\%$")
 bsel = B[B.index.str.contains("S5-|S15-")]
 A5b_ = pd.read_csv(R / "entrada185_aos_bval.csv")
-b6 = np.concatenate([-bsel.mean_d_pct.to_numpy(), -A5b_.mean_d_pct.to_numpy()])
-chk("validada vs seis metodos S5/S15: minimo (0,053)", b6.min(), 0.053, 0.0006, "$0.053$--$0.095\\%$")
-chk("validada vs seis metodos S5/S15: maximo (0,095)", b6.max(), 0.095, 0.0006)
+A8b_ = pd.read_csv(R / "entrada188_new_bval.csv")
+b9 = np.concatenate([-bsel.mean_d_pct.to_numpy(), -A5b_.mean_d_pct.to_numpy(), -A8b_.mean_d_pct.to_numpy()])
+chk("validada vs nove metodos S5/S15: minimo (0,053)", b9.min(), 0.053, 0.0006, "$0.053$--$0.147$ points")
+chk("validada vs nove metodos S5/S15: maximo (0,147)", b9.max(), 0.147, 0.0006)
+chk("validada vs nove metodos: p_holm < 1e-57", float(max(bsel.p_holm.max(), A5b_.p_holm.max(), A8b_.p_holm.max()) < 1e-57), 1, 0, "p_{\\mathrm{Holm}}<10^{-57}")
 chk("validada vs os 3 aprendizes originais: minimo (0,076; nao citado)", -bsel.mean_d_pct.max(), 0.076, 0.0006)
-chk("validada vs aprendiz S5/S15: p_holm < 1e-58", float(bsel.p_holm.max() < 1e-58), 1, 0, "p_{\\mathrm{Holm}}<10^{-58}")
 bout = B[B.index.str.contains("S3-|S30-")]
 chk("validada vs aprendiz S3/S30: |d| <= 0,03", min(bout.mean_d_pct.abs().max(), 0.03), bout.mean_d_pct.abs().max(), 0, "(within $0.03\\%$)")
 ku = lambda sp, k: float(KA[(KA.space == sp) & (KA.learner == k)].K_cpu.iloc[0])
@@ -205,11 +206,6 @@ c = pd.concat(cells)
 chk("48 celulas", len(c), 48, 0, "$48$ cells")
 rho = sstats.spearmanr(c.h, c.gain).statistic
 chk("Spearman folga x ganho do Q (0,09)", rho, 0.09, 0.005, "$\\rho=0.09$")
-chk("ganho minimo das celulas (-0,19)", c.gain.min(), -0.19, 0.005, "from $-0.19$ to $+0.25$")
-chk("ganho maximo das celulas (+0,25)", c.gain.max(), 0.25, 0.005)
-chk("celulas com ganho positivo (25)", (c.gain > 0).sum(), 25, 0, "$25$ cells are positive")
-chk("celulas com ganho > +0,05 (10)", (c.gain > 0.05).sum(), 10, 0, "only $10$ exceed $+0.05$")
-chk("celulas com ganho < -0,05 (14)", (c.gain < -0.05).sum(), 14, 0, "$14$ are below $-0.05$")
 hi = c[c.h > 0.15]
 chk("celulas com folga > 0,15 (11)", len(hi), 11, 0, "$11$ cells with a headroom above $0.15$")
 chk("dessas, ganham (6)", (hi.gain > 0).sum(), 6, 0, "$6$ gain and $5$ lose")
@@ -278,6 +274,10 @@ chk("decisao do Q-Learning S15 (-0,004)", dd["S15"][0], -0.004, 0.0006)
 chk("custo do Q-Learning S5 (0,062)", dd["S5"][1], 0.062, 0.0006, "its cost effect is $0.062$ and $0.053$")
 chk("custo do Q-Learning S15 (0,053)", dd["S15"][1], 0.053, 0.0006)
 
+N8 = pd.read_csv(R / "entrada188_new_aiter.csv").set_index("id")
+chk("Thompson e DMAB a iteracoes iguais: |d| maximo (0,013)", N8[N8.index.str.contains("-ts|-dmab")].mean_d_pct.abs().max(), 0.0134, 0.0006, "Thompson sampling and DMAB within $0.013$")
+chk("corrida a iteracoes iguais S5 (+0,012)", N8.loc["Aiter-S5-race", "mean_d_pct"], 0.012, 0.0006, "($+0.012$ and $+0.067$ points)")
+chk("corrida a iteracoes iguais S15 (+0,067)", N8.loc["Aiter-S15-race", "mean_d_pct"], 0.067, 0.0006)
 FI = {x: pd.read_csv(R / f"entrada185_fine_{x}.csv") for x in ("aiter", "acpu", "bval", "k", "headroom")}
 FIi, FIc, FIb = (FI[x].set_index("id") for x in ("aiter", "acpu", "bval"))
 chk("tempos finos: maior ganho a iteracoes iguais (0,015)", -FIi.mean_d_pct.min(), 0.015, 0.0006, "No learner gains more than $0.015$ points at equal iterations")
@@ -324,15 +324,62 @@ b100 = -LB[LB["T"] == 100000].mean_d_pct
 chk("T = 100000: vantagem da validada, minimo (0,012)", b100.min(), 0.012, 0.0006, "is $0.012$--$0.017$ points, inside the margin but still Holm-significant ($p<10^{-12}$)")
 chk("T = 100000: vantagem da validada, maximo (0,017)", b100.max(), 0.017, 0.0006)
 chk("T = 100000: p_holm da validada < 1e-12", float(LB[LB["T"] == 100000].p_holm.max() < 1e-12), 1, 0)
-chk("resumo: vantagem em 10^5 (0,012-0,017)", b100.min(), 0.012, 0.0006, "by $0.012$--$0.017$ points (inside the margin) at $10^5$")
 
+
+
+# ---------------------------------------------------------------- RQ5: instancias publicadas (Entradas 189-192)
+GP = json.loads((R / "pub_groups_entrada189.json").read_text())
+GH = json.loads((R / "pubh_groups_entrada190.json").read_text())
+chk("instancias de teste do estagio 2 (2.550)", len(GP["test"]), 2550, 0, "$2{,}550$ of its instances")
+chk("instancias de ajuste usadas (525)", len(GP["calib"]), 525, 0, "$525$ separate instances")
+chk("excluidas no teste do estagio 2 (140)", GP["excluded"]["test"]["B"], 140, 0, "$140$ test and $28$ tuning ones")
+chk("excluidas no ajuste (28)", GP["excluded"]["calib"]["B"], 28, 0)
+chk("instancias held-out (3.950)", len(GH["test"]), 3950, 0, "$3{,}950$ held-out instances")
+chk("excluidas no total (350)", GP["excluded"]["test"]["B"] + GH["excluded"]["B"], 350, 0, "$350$ of the $6{,}850$ published test instances ($5.1\\%$")
+chk("fracao excluida (5,1%)", 100 * 350 / 6850, 5.1, 0.05)
+PSU = pd.read_csv(R / "entrada192_published_summary.csv")
+pick = lambda st, sp, sub: PSU[(PSU.set == st) & (PSU.space == sp) & (PSU.subset == sub)].iloc[0]
+PCE = pd.read_csv(R / "entrada192_published_cells.csv")
+chk("folga sintetica maxima <= 0,13", min(max(hd.values()), 0.13), max(hd.values()), 0, "at most $0.13\\%$ over random choice")
+chk("publicadas: Q-Learning a iteracoes iguais S15 (0,058)", -pick("discovery", "S15", "all").ql_iter, 0.058, 0.0006, "Q-Learning gains $0.058$ points at equal iterations with fifteen actions")
+chk("publicadas: roleta a iteracoes iguais S5 (0,057)", -pick("discovery", "S5", "all").alns_iter, 0.057, 0.0006, "the ALNS roulette $0.057$ with five sizes")
+chk("publicadas: Q-Learning a CPU igual S5 (0,121)", -pick("discovery", "S5", "all").ql_cpu, 0.121, 0.0006, "Q-Learning gains $0.121$ and $0.137$ points")
+chk("publicadas: Q-Learning a CPU igual S15 (0,137)", -pick("discovery", "S15", "all").ql_cpu, 0.137, 0.0006)
+chk("familia C 1-2: folga S5 (0,24)", -pick("discovery", "S5", "C12").folga, 0.24, 0.005, "headroom $0.24$--$0.34\\%$")
+chk("familia C 1-2: folga S15 (0,34)", -pick("discovery", "S15", "C12").folga, 0.34, 0.005)
+chk("familia C 1-2: Q-Learning S5 (0,16)", -pick("discovery", "S5", "C12").ql_iter, 0.16, 0.005, "Q-Learning gains $0.16$ and $0.24$ points")
+chk("familia C 1-2: Q-Learning S15 (0,24)", -pick("discovery", "S15", "C12").ql_iter, 0.24, 0.005)
+rr = [pick("discovery", sp, "C12").ql_iter / pick("discovery", sp, "C12").val_iter for sp in ("S5", "S15")]
+chk("Q-Learning recupera de 4/5 a 9/10 do ganho da validada (minimo 0,80)", min(rr), 0.80, 0.02, "four fifths to nine tenths")
+chk("Q-Learning recupera de 4/5 a 9/10 do ganho da validada (maximo 0,90)", max(rr), 0.90, 0.02)
+chk("familia E: folga S5 (0,07)", -pick("discovery", "S5", "E").folga, 0.07, 0.005, "headroom $0.07$--$0.11\\%$")
+chk("familia E: folga S15 (0,11)", -pick("discovery", "S15", "E").folga, 0.11, 0.005)
+chk("familia E: Q-Learning perde S5 e S15 (0,06-0,07)", min(pick("discovery", "S5", "E").ql_iter, pick("discovery", "S15", "E").ql_iter), 0.058, 0.0006, "it \\emph{loses} $0.06$--$0.07$ points")
+dsc = PCE[PCE.set == "discovery"]
+chk("correlacao folga x ganho do Q-Learning, descoberta (0,53)", sstats.spearmanr(-dsc.folga, -dsc.ql).statistic, 0.53, 0.005, "is $0.53$, against $0.09$ in the synthetic cells")
+rep_ = PCE[PCE.set == "replication"]
+chk("correlacao folga x ganho do Q-Learning, held-out (0,65)", sstats.spearmanr(-rep_.folga, -rep_.ql).statistic, 0.65, 0.005, "the rank correlation was $0.65$ ($p=0.003$)")
+chk("p da correlacao held-out (0,003)", sstats.spearmanr(-rep_.folga, -rep_.ql).pvalue, 0.003, 0.0005)
+H190 = pd.read_csv(R / "entrada190_replication_h.csv").set_index("id")
+chk("H1 Q-Learning S15 familia C 1-2 (0,245)", -H190.loc["H1", "mean_d_pct"], 0.245, 0.0006, "gains $0.245$ and $0.149$ points")
+chk("H2 Q-Learning S5 familia C 1-2 (0,149)", -H190.loc["H2", "mean_d_pct"], 0.149, 0.0006)
+chk("H3b Q-Learning perde em E, S15 (0,052)", H190.loc["H3b", "mean_d_pct"], 0.052, 0.0006, "loses $0.052$ and $0.059$ in family E")
+chk("H3a Q-Learning perde em E, S5 (0,059)", H190.loc["H3a", "mean_d_pct"], 0.059, 0.0006)
+chk("H4 roleta S5 (0,056)", -H190.loc["H4", "mean_d_pct"], 0.056, 0.0006, "the ALNS roulette gains $0.056$ with five sizes")
+chk("as cinco hipoteses confirmatorias confirmadas (5)", int(H190.confirmada.sum()), 5, 0, "All five confirmatory tests held")
+chk("validada vs Q-Learning, familia C 1-2, S5 (0,082)", -pick("replication", "S5", "C12").val_vs_ql, 0.082, 0.0006, "by $0.064$--$0.082$ points")
+chk("validada vs Q-Learning, familia C 1-2, S15 (0,064)", -pick("replication", "S15", "C12").val_vs_ql, 0.064, 0.0006)
+B190 = pd.read_csv(R / "entrada190_replication_bval.csv").set_index("id")
+chk("a validada vence os 18 pares nas held-out", int(B190.confirmada.sum()), 18, 0, "the validated action beats Q-Learning in all comparisons")
+chk("so' a roleta em S5 fica em paridade (0,021)", -B190.loc["Bval-S5-alns", "mean_d_pct"], 0.021, 0.0006, "($0.021$ points, inside the margin)")
+chk("unica paridade entre os 18 pares", int((B190.leitura == "paridade").sum()), 1, 0)
 
 # ---------------------------------------------------------------- previsoes registradas e auditoria da literatura
 # Previsoes pontuais registradas por bateria (acertos, total): Entradas 170 (16, 16), 173 (16, 18), 176 (4, 6), 178 (5, 7), 180 (16, 19) -- contagens do diario; 184 A1 (3, 5), 185 B (3, 8), A2 (4, 4), D (8, 8), C (6, 6) -- relatorios.
-PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6)]
-chk("baterias que contaram previsoes (dez)", len(PRED), 10, 0, "ten of them counted their point predictions")
-chk("previsoes que acertaram (81)", sum(a for a, _ in PRED), 81, 0, "$81$ of $97$ held")
-chk("previsoes registradas (97)", sum(b for _, b in PRED), 97, 0)
+PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6), (7, 9), (5, 9), (11, 12)]
+chk("baterias que contaram previsoes (treze)", len(PRED), 13, 0, "thirteen of them counted their point predictions")
+chk("previsoes que acertaram (104)", sum(a for a, _ in PRED), 104, 0, "$104$ of $127$ held")
+chk("previsoes registradas (127)", sum(b for _, b in PRED), 127, 0)
 
 L = pd.read_csv(R / "litaudit_pooled_entrada172.csv")
 L = L[L.included == "Y"]

@@ -13,9 +13,11 @@ python -m analysis.verify_prereg_hashes   # code frozen before each battery stil
 ## 1. From the results to the paper (minutes)
 ```bash
 python -m analysis.make_table_cec      # Tables of the paper -> cec/tab_*.tex
-python -m analysis.make_fig_cec        # Figures 1 and 2 -> cec/fig_cec.pdf, cec/fig_cec2.pdf
+python -m analysis.published_cells     # cells and subsets of the published-instance batches -> results/entrada192_published_*.csv
+python -m analysis.make_fig_cec        # Figure 1 -> cec/fig_cec2.pdf
 python -m analysis.report_entrada185_cycle16 long    # (also: aos, plant, fine) -> results/entrada185_*.txt/csv
-python -m analysis.make_fig_cec3       # Figure 3 -> cec/fig_cec3.pdf
+python -m analysis.report_entrada188_new; python -m analysis.report_entrada189_published; python -m analysis.report_entrada190_replication
+python -m analysis.make_fig_cec3       # Figure 2 -> cec/fig_cec3.pdf
 python -m analysis.audit_cec_claims    # every number of the prose recomputed and matched (exits 1 on any mismatch)
 bash cec/build.sh                      # draft with names and red notes
 bash cec/build.sh anon                 # double-anonymous version for submission (no names, e-mail, repository link)
@@ -29,6 +31,9 @@ bash cec/build.sh anon                 # double-anonymous version for submission
 | Compiled agents, 3 to 30 actions | 180 | `bash experiment/pipeline_agents_entrada180.sh` |
 | Power and minimum detectable effect | 184 | `python -m analysis.power_entrada184` |
 | Classic AOS, planted reward, long horizon, finer times | 185 | `bash experiment/pipeline_cycle16_entrada185.sh` (the longest step is `--long-run 100000`, about 2 h) |
+| Thompson, DMAB, online racing | 188 | `bash experiment/pipeline_cycle17_new_entrada188.sh` (about 1 h) |
+| Published instances, discovery batch (compiled agents) | 189 | `bash experiment/pipeline_cycle17_published_entrada189.sh` (about 11 min); needs the benchmark zips in `external_benchmarks/pcmax_symmetry2025/` |
+| Published instances, held-out replication (nothing retuned) | 190 | `bash experiment/pipeline_cycle17_replication_entrada190.sh` (about 5 min) |
 | DQN, ILS operators, LinUCB, neural Q | 167, 173, 176 | `experiment/run_online_*`, `run_dqn_entrada173.py`, `run_ils_dqn_entrada176.py` |
 | Literature audit | 159, 172 | `analysis/litaudit_*` |
 

@@ -78,26 +78,39 @@ ax[0].set_xlabel("class $(n,m)$")
 ax[0].set_ylabel("Gain of IG over ILS (pp)")
 ax[0].set_title("(a) Search mechanism, by class", fontsize=8.5)
 ax[0].legend(fontsize=6.5, frameon=False, loc="upper left")
-SP = {"S3": ("#7f8c8d", "o", "3 actions"), "S5": ("#1f6fb2", "s", "5"), "S15": ("#3a9a92", "^", "15"), "S30": ("#c0392b", "D", "30")}
+from scipy import stats as _st
 allx, ally = [], []
-for sp, (col, mk, lab) in SP.items():
+for sp in ("S3", "S5", "S15", "S30"):
     d = pd.read_csv(R / f"agents_{sp}_entrada180.csv")
     ms = d[~d.method.str.startswith("arm")].groupby(["cls", "rep", "method"]).makespan.mean().unstack("method").reset_index()
     orc = d[d.method.str.startswith("arm")].groupby(["cls", "rep"]).makespan.min().rename("oracle").reset_index()
     w = ms.merge(orc, on=["cls", "rep"])
     g = pd.DataFrame({"h": -100 * (w.oracle - w.rand) / w.rand, "gain": -100 * (w.ql - w.rand) / w.rand, "cls": w.cls}).groupby("cls").mean()
-    ax[1].scatter(g.h, g.gain, s=14, color=col, marker=mk, label=lab, alpha=0.85)
     allx += list(g.h)
     ally += list(g.gain)
-from scipy import stats as _st
-rho = _st.spearmanr(allx, ally)
+rho_syn = _st.spearmanr(allx, ally)
+ax[1].scatter(allx, ally, s=9, color="#b0b0b0", marker="o", label=f"synthetic ($\\rho={rho_syn.statistic:.2f}$)", zorder=1)
+PC = pd.read_csv(R / "entrada192_published_cells.csv")
+FAMC = {"B": ("#1f6fb2", "s"), "C": ("#c0392b", "o"), "E": ("#3a9a92", "^")}
+for fam, (col, mk) in FAMC.items():
+    for st_, fill in (("discovery", False), ("replication", True)):
+        x = PC[(PC.fam == fam) & (PC.set == st_)]
+        ax[1].scatter(-x.folga, -x.ql, s=17, marker=mk, facecolors=col if fill else "none", edgecolors=col, linewidths=0.9, zorder=3)
+rep = PC[PC.set == "replication"]
+rho_rep = _st.spearmanr(-rep.folga, -rep.ql)
+ax[1].scatter([], [], s=17, marker="o", facecolors="#c0392b", edgecolors="#c0392b", label=f"published, held-out ($\\rho={rho_rep.statistic:.2f}$)")
+ax[1].scatter([], [], s=17, marker="o", facecolors="none", edgecolors="#c0392b", label="published, discovery")
+for fam, (col, mk) in FAMC.items():
+    ax[1].scatter([], [], s=17, marker=mk, color=col, label=f"family {fam}")
+ax[1].plot([0, 0.43], [0, 0.43], color="k", lw=0.5, ls="--")
 ax[1].axhline(0, color="k", lw=0.5)
 ax[1].set_xlabel("Headroom of the oracle over random choice (pp)")
 ax[1].set_ylabel("Gain of Q-Learning at equal iterations (pp)")
-ax[1].set_title(rf"(b) Headroom vs gain, 48 cells ($\rho={rho.statistic:.2f}$)", fontsize=8.5)
-ax[1].legend(fontsize=6.5, frameon=False, title="actions", title_fontsize=6.5)
+ax[1].set_title("(b) Headroom vs gain", fontsize=8.5)
+ax[1].legend(fontsize=5.6, frameon=False, loc="upper left", handletextpad=0.2, borderaxespad=0.2)
+print("rho sintetico", round(rho_syn.statistic, 3), "rho held-out", round(rho_rep.statistic, 3))
 for a in ax:
     a.spines[["top", "right"]].set_visible(False)
 fig.tight_layout()
 fig.savefig(ROOT / "cec" / "fig_cec2.pdf")
-print("ok -> cec/fig_cec2.pdf", len(cls), "classes;", len(allx), "celulas; rho", round(rho.statistic, 3))
+print("ok -> cec/fig_cec2.pdf", len(cls), "classes;", len(allx), "celulas; rho", round(rho_syn.statistic, 3))

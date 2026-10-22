@@ -35,11 +35,12 @@
 \begin{abstract}
 Learning-guided metaheuristics are routinely reported to beat non-learning counterparts, yet comparisons seldom separate what the learned policy adds from what the search structure,
 the CPU budget and the tuning already provide. We propose a budget-fair attribution protocol (a random control at a matched budget, equal CPU time with an efficient implementation of every arm,
-an offline-validated competitor, oracle headroom, a power check with a positive control, and pre-recorded hypotheses) and apply it to an Iterated Greedy (IG) whose destruction is chosen by Q-Learning, bandits,
+an offline-validated competitor, oracle headroom, a power check and pre-recorded hypotheses) and apply it to an Iterated Greedy (IG) whose destruction is chosen by Q-Learning, bandits,
 policy gradients, classic adaptive-operator-selection methods and neural learners, on identical parallel machines (twelve synthetic classes, more than $13{,}000$ published instances).
-The destruction--reconstruction mechanism, not the policy, explains the advantage over Iterated Local Search ($0.46\%$ at equal CPU time); the policy adds at most $0.04$ percentage points, and a learner wins at equal CPU time
-mainly by choosing cheaper actions. The share of a local search's gain that is ``only budget'' depends on the implementation: $93\%$ with loops, $30\%$ vectorized, $28\%$ compiled. The tests detect gains of $0.03$ points
-with at least $97\%$ power and the learners capture a planted reward, yet where there is headroom an action validated offline beats every learner by $0.05$--$0.14$ points at $10^3$ iterations, and by $0.012$--$0.017$ points (inside the margin) at $10^5$.
+The destruction--reconstruction mechanism, not the policy, explains the advantage over Iterated Local Search ($0.46\%$ at equal CPU time). The share of a local search's gain that is ``only budget'' depends on the implementation:
+$93\%$ with loops, $30\%$ vectorized, $28\%$ compiled. With little oracle headroom, as in the synthetic classes, no learner gains more than $0.04$ percentage points, a learner wins at equal CPU time mainly by choosing cheaper actions,
+the tests detect gains of $0.03$ points and the learners capture a planted reward. On published instances the decision effect follows the headroom: Q-Learning gains $0.15$--$0.24$ points where the headroom exceeds $0.2$ and loses $0.05$--$0.06$ where it is around $0.1$ or less,
+a rule fixed on one batch and confirmed on $3{,}950$ held-out instances, while an action validated offline is never worse.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -58,27 +59,26 @@ a parameter validated offline on separate instances is a competitor that most st
 answered with these controls: in an audit of $23$ recent open-access papers that embed a learned selector in a metaheuristic, $10$ include a random-selection control, $6$ compare at a common time limit,
 $3$ include a static configuration tuned offline and $22$ report a benefit of the learned component ($5$ of them only partly) (a small sample, one coder; details in the repository).
 
-We ask four questions. \textbf{RQ1:} what explains the advantage of a learning-guided IG over ILS? \textbf{RQ2:} how much of the gain of a local search is budget, and does the answer depend on the implementation?
-\textbf{RQ3:} do online learners (Q-Learning, bandits, policy gradients, classic adaptive-operator-selection methods, neural learners) beat random choice over the same actions, at equal iterations and at equal CPU time?
-\textbf{RQ4:} if not, is it because the test is blind, the learner broken, the horizon short or the regime poor, and does a static configuration win anyway? Our contributions are
+We ask five questions. \textbf{RQ1:} what explains the advantage of a learning-guided IG over ILS? \textbf{RQ2:} how much of the gain of a local search is budget, and does the answer depend on the implementation?
+\textbf{RQ3:} do online learners (Q-Learning, bandits, policy gradients, classic adaptive-operator-selection methods, neural learners) beat random choice over the same actions, at equal iterations and at equal CPU time, and does a static configuration win anyway?
+\textbf{RQ4:} if they do not, is it because the test is blind, the learner broken, the horizon short or the processing times too coarse? \textbf{RQ5:} where, if anywhere, does an online selector pay? Our contributions are
 (i) a \emph{budget-fair attribution protocol} (Section~\ref{sec:protocol}) with a power check, a positive control and a split of a learner's gain at equal CPU time into a decision effect and a cost effect, released with its code as a small library;
-(ii) evidence on identical parallel machines that the advantage of the learning-guided IG comes from the search structure and that the policy adds at most $0.04$ percentage points;
+(ii) evidence on identical parallel machines that the advantage of the learning-guided IG comes from the search structure;
 (iii) the finding that the share of a local search's gain that is ``only budget'' depends on how efficiently the arms are implemented ($93\%$, $30\%$ and $28\%$ for loop-based, vectorized and compiled code);
-(iv) a large-scale comparison with \emph{compiled} learners, a DQN and classic AOS methods in action spaces of $3$ to $30$ actions, at horizons of up to $10^5$ iterations and with finer processing times, showing that a learner wins at equal CPU
-time mainly by choosing cheaper actions and that a configuration fixed offline still beats it.
+(iv) a large-scale comparison with \emph{compiled} learners, a DQN and classic AOS methods in action spaces of $3$ to $30$ actions, at horizons of up to $10^5$ iterations and with finer processing times: with little oracle headroom (the synthetic classes) no learner gains more than $0.04$ points
+and a learner wins at equal CPU time mainly by choosing cheaper actions; (v) a \emph{headroom rule} for when an online selector pays, found on a first batch of published instances and confirmed on $3{,}950$ held-out ones: Q-Learning gains $0.15$--$0.24$ points
+where the oracle headroom exceeds $0.2$ and loses $0.05$--$0.06$ where it is around $0.1$ or less, while a configuration validated offline is never worse.
 
 \section{Related Work}
-The question is close to parameter control in evolutionary algorithms, where deterministic, adaptive and self-adaptive control are distinguished~\cite{EibenEtal1999} and have been surveyed
-repeatedly~\cite{KarafotiasEtal2015,AletiMoser2016}, and to selection hyper-heuristics~\cite{BurkeEtal2013,DrakeEtal2020}, which choose among low-level heuristics online; offline configurators such as irace~\cite{LopezIbanezEtal2016} and
-ParamILS~\cite{HutterEtal2009} fix the parameters before the run, and tuning and control are two ways of configuring the same algorithm~\cite{EibenSmit2011}. Machine learning inside metaheuristics has been surveyed~\cite{Talbi2021,KarimiMamaghanEtal2022};
-where learned neighbourhood selection is reported to beat strong baselines, the policy is trained offline~\cite{SonneratEtal2021}, which is close to the offline validation that this paper finds hard to beat.
-Adaptive operator selection (AOS) estimates which operator is worth applying during the run~\cite{FialhoEtal2010}, with probability matching~\cite{Goldberg1990}, adaptive pursuit~\cite{Thierens2005}, adaptive weights as in ALNS~\cite{PisingerRopke2007},
-bandits~\cite{AuerEtal2002} and supervised predictors; reinforcement learning adds a state that conditions the choice~\cite{BengioBengio2021}. Q-Learning has been used to select operators inside an IG for the permutation flowshop~\cite{KarimiMamaghanEtal2023} and, closest to this work,
-to select the destruction size of an IG for identical parallel machines with setups~\cite{MissaouiOSullivan2026}; those studies report that the learning-guided method beats its baselines. That the component responsible for a gain
-must be isolated by controlled experiments, and not by a competitive comparison of whole algorithms, is a long-standing position~\cite{Hooker1995}; similar concerns arose in deep reinforcement learning~\cite{Henderson2018}, and guidelines for comparing
-optimization algorithms~\cite{LaTorreEtal2021,BartzBeielsteinEtal2020} ask for appropriate references, benchmarks, budgets and statistics. Equivalence testing~\cite{Lakens2017} gives a margin of practical irrelevance a statistical meaning.
-The protocol below brings these principles to learnheuristics. Parallel machine scheduling has a long history of constructive heuristics (LPT~\cite{Graham1969}, MULTIFIT~\cite{CoffmanGareyJohnson1978}, LDM~\cite{KarmarkarKarp1983}) and exact
-methods~\cite{MradSouayah2018}; a recent review~\cite{OstojicEtAl2025} provides the benchmark used here for external validation.
+The question is close to parameter control in evolutionary algorithms~\cite{EibenEtal1999,KarafotiasEtal2015,AletiMoser2016} and to selection hyper-heuristics~\cite{BurkeEtal2013,DrakeEtal2020}, which choose among low-level heuristics online;
+offline configurators such as irace~\cite{LopezIbanezEtal2016} and ParamILS~\cite{HutterEtal2009} fix the parameters before the run, and tuning and control are two ways of configuring the same algorithm~\cite{EibenSmit2011}.
+Machine learning inside metaheuristics has been surveyed~\cite{Talbi2021,KarimiMamaghanEtal2022}; where learned neighbourhood selection is reported to beat strong baselines, the policy is trained offline~\cite{SonneratEtal2021}.
+Adaptive operator selection (AOS)~\cite{FialhoEtal2010} uses probability matching~\cite{Goldberg1990}, adaptive pursuit~\cite{Thierens2005}, ALNS weights~\cite{PisingerRopke2007}, bandits~\cite{AuerEtal2002,DaCostaEtal2008}
+or reinforcement learning with a state~\cite{BengioBengio2021}. Q-Learning has been used to select operators inside an IG for the permutation flowshop~\cite{KarimiMamaghanEtal2023} and, closest to this work,
+the destruction size of an IG for identical machines with setups~\cite{MissaouiOSullivan2026}; both report that the learning-guided method beats its baselines. That the component responsible for a gain
+must be isolated by controlled experiments is a long-standing position~\cite{Hooker1995}; guidelines for comparing
+optimization algorithms~\cite{LaTorreEtal2021,BartzBeielsteinEtal2020} and equivalence testing~\cite{Lakens2017} give the protocol below its footing. Parallel machine scheduling has constructive heuristics
+(LPT~\cite{Graham1969}, MULTIFIT~\cite{CoffmanGareyJohnson1978}, LDM~\cite{KarmarkarKarp1983}) and exact methods~\cite{MradSouayah2018}; a recent review~\cite{OstojicEtAl2025} provides the benchmark used here.
 
 \section{Method}
 \subsection{Problem, instances and bounds}
@@ -94,30 +94,11 @@ The \textbf{IG} starts from LPT (or from the best of LPT, MULTIFIT and LDM) and 
 acceptance $\Cmax(x')\leq\Cmax(x)$ and no separate perturbation phase. The \textbf{ILS} starts from LPT and, at each iteration, a selector chooses one of four neighbourhood operators (inter-machine swap,
 reinsertion, intra-machine swap, block move) under best improvement. The \emph{actions} are the destruction strategy (random, longest jobs, machine-concentrated; $3$ actions), the destruction size
 ($d/n\in\{0.05,0.10,0.20,0.30,0.40\}$; $5$ actions), their $15$ combinations, these $15$ with or without a descent after reconstruction ($30$ actions), or the four ILS operators.
-The reward of an iteration is the improvement of the makespan, truncated at zero. Algorithm~\ref{alg:ig} shows the loop; the selector is the only component that changes between arms.
-
-\begin{algorithm}[t]
-\caption{Iterated Greedy with a pluggable selector (the arm under study).}
-\label{alg:ig}
-\begin{algorithmic}[1]
-\REQUIRE processing times $p$, machines $m$, iteration budget $T$, selector $\pi$ (random, Q-Learning, UCB1, policy gradient, probability matching, adaptive pursuit, ALNS roulette, LinUCB, DQN, \dots)
-\STATE $x\leftarrow$ best of LPT, MULTIFIT and LDM
-\FOR{$t=1$ \TO $T$}
-\STATE $s\leftarrow$ state of $(x,t)$: $4$ features in $3$ bins (Sect.~\ref{sec:learners})
-\STATE $a\leftarrow\pi.\textsc{select}(s)$ \COMMENT{strategy, size, optional descent}
-\STATE $x'\leftarrow\textsc{Reconstruct}(\textsc{Destroy}(x,a))$; \textbf{if} $a$ includes a descent \textbf{then} $x'\leftarrow\textsc{Descent}(x')$
-\STATE $\pi.\textsc{update}\bigl(s,a,\max(\Cmax(x)-\Cmax(x'),0)\bigr)$
-\IF{$\Cmax(x')\leq\Cmax(x)$}
-\STATE $x\leftarrow x'$ \COMMENT{greedy acceptance: $x$ never worsens}
-\ENDIF
-\ENDFOR
-\RETURN $x$
-\end{algorithmic}
-\end{algorithm}
+The reward of an iteration is the improvement of the makespan, truncated at zero. At each iteration a selector $\pi$ chooses an action from the state of the current solution (the four features below), the IG destroys, reconstructs and optionally descends accordingly, $\pi$ receives the reward and the candidate is accepted if it does not worsen the makespan; the selector is the only component that changes between arms.
 
 The \emph{learners} are: tabular Q-Learning over $81$ states ($4$ features $\times$ $3$ bins: gap to the bound, load imbalance, fraction of the budget used, stagnation; $\alpha=0.1$, $\gamma=0.9$,
 $\varepsilon$-greedy from $1.0$ to $0.05$ by $0.995$ per step)~\cite{WatkinsDayan1992}; UCB1 with the reward normalised by its running maximum~\cite{AuerEtal2002}; a policy-gradient learner (softmax preferences per state,
-a running-mean baseline, learning rate chosen on tuning instances)~\cite{Williams1992,SuttonBarto2018}; three classic AOS methods without state, probability matching, adaptive pursuit and an ALNS-style roulette (hyperparameters tuned on the tuning instances); LinUCB on a continuous context~\cite{LiEtAl2010}; a one-hidden-layer neural Q-learner;
+a running-mean baseline, learning rate chosen on tuning instances)~\cite{Williams1992,SuttonBarto2018}; six methods without state, all tuned on the tuning instances: probability matching, adaptive pursuit, an ALNS-style roulette, Thompson sampling with discounting~\cite{Russo2018}, DMAB~\cite{DaCostaEtal2008} and an online racing learner (successive halving of the actions over the first half of the run); LinUCB on a continuous context~\cite{LiEtAl2010}; a one-hidden-layer neural Q-learner;
 and a DQN with two layers of $64$ units, replay and a target network~\cite{MnihEtAl2015}. Random choice among the same actions is the control. The static competitor is the best fixed action per class,
 chosen on the tuning instances.
 
@@ -140,15 +121,6 @@ search, the destruction strategies and the agents (numba), with exact equivalenc
 (mean differences from $-0.003\%$ to $+0.012\%$ in five checks against the stored Python runs, all inside $\pm0.05\%$). The compiled core also counts evaluations (a candidate move of the descent
 and a machine comparison of the reconstruction count one each).
 
-\begin{figure*}[t]
-\centering
-\includegraphics[width=\textwidth]{fig_cec.pdf}
-\caption{(a) Gain in makespan (percentage points, symmetric log scale; positive: the component helps) of four components for identical machines: the search mechanism (IG vs ILS, equal CPU time),
-a local search (equal CPU time, vectorized), the online policy over the destruction size (against a random size) and the size validated offline (against a random size). (b) The gain of a local search added to the
-IG under five budgets (bars: mean; whiskers: $90\%$ intervals): the same descent looks almost worthless at equal CPU time with a loop-based implementation.}
-\label{fig:gain}
-\end{figure*}
-
 \section{Results}
 Table~\ref{tab:answers} summarizes the answers; the subsections give the evidence.
 
@@ -163,8 +135,9 @@ Table~\ref{tab:answers} summarizes the answers; the subsections give the evidenc
 \midrule
 RQ1 & The search structure: the IG beats the ILS by $0.46\%$ at equal CPU time; the policy adds at most $0.04$ points & \ref{sec:rq1}, Fig.~\ref{fig:class} \\
 RQ2 & It depends on the implementation: the share of a local search's gain that is budget is $93\%$, $30\%$ or $28\%$ & \ref{sec:rq2}, Table~\ref{tab:budget} \\
-RQ3 & No learner beats random choice at equal iterations by more than $0.04$ points; equal-CPU wins are mostly a cost effect; a validated action wins & \ref{sec:rq3}, Table~\ref{tab:agents} \\
-RQ4 & The test sees gains of $0.03$ points, learners capture a planted reward, and the result holds from $10^3$ to $10^5$ iterations and with finer times & \ref{sec:longnote}, Fig.~\ref{fig:power} \\
+RQ3 & On the synthetic classes no learner beats random choice at equal iterations by more than $0.04$ points; equal-CPU wins are mostly a cost effect; a validated action wins & \ref{sec:rq3}, Table~\ref{tab:agents} \\
+RQ4 & Yes: the test sees gains of $0.03$ points, learners capture a planted reward, and the result holds from $10^3$ to $10^5$ iterations and with finer times & \ref{sec:longnote}, Fig.~\ref{fig:power} \\
+RQ5 & Where the headroom is large: Q-Learning gains $0.15$--$0.24$ points in family C and loses $0.05$--$0.07$ in family E of the published benchmark; confirmed on held-out instances & \ref{sec:published}, Table~\ref{tab:published} \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -172,43 +145,39 @@ RQ4 & The test sees gains of $0.03$ points, learners capture a planted reward, a
 \label{sec:rq1}
 Against LPT and seven ILS variants in the twelve classes, the Q-Learning-guided IG wins every one of the $72$ comparisons (of $96$) that remain significant after Holm correction, which is what a typical study would report as the success of the learned policy. Its advantage over the four ablation siblings
 (random selection, UCB1, UCB1 per state, Q-Learning without state), however, is small: ten algorithm seeds on $240$ instances give $\bar d=-0.011\%$ ($90\%$ interval $-0.019$ to $-0.003$), real but negligible.
-On the published instances the effect of the policy is also real, small and replicated: the Q-Learning-guided IG beats random selection of the destruction strategy by $0.009$ to $0.026$ points of gap
-on $4{,}160$ held-out instances and by $0.015$ to $0.029$ on $2{,}690$ further ones (families B, C, E; all six Holm-adjusted tests significant), and an informative state (gaps relative to the best known) adds nothing
+On the published instances the Q-Learning-guided IG beats random selection of the destruction strategy by $0.009$ to $0.026$ points of gap
+on $4{,}160$ held-out instances and by $0.015$ to $0.029$ on $2{,}690$ further ones (families B, C, E; all six Holm-adjusted tests significant), and an informative state adds nothing
 ($-0.006$ points pooled, $p=0.77$). The search mechanism, by contrast, is large: with learning removed from both sides, the IG beats the ILS in $10$ of $12$ classes (the exceptions are the near-ceiling classes $(20,4)$ and $(40,5)$) by
 $0.49\%$ on seed averages, against $0.53\%$ for the learned versions. The result does not depend on how efficiently the ILS is implemented: with vectorized operators (identical results, $6.2$ times faster; an
 iteration costing $0.4$ to $1.9$ times that of the IG), the IG still beats the ILS by $0.46\%$ at equal CPU time ($557$ wins against $87$) and by $0.50\%$ at equal iterations ($p_{\mathrm{Holm}}<10^{-80}$ in both).
-Over the destruction size, an action validated per class gains $0.089\%$ over a random size while the online policy loses $0.015\%$ (Fig.~\ref{fig:gain}a): the offline choice beats the online one by $0.103\%$.
+Over the destruction size, an action validated per class gains $0.089\%$ over a random size while the online policy loses $0.015\%$ (Table~\ref{tab:general}): the offline choice beats the online one by $0.103\%$.
 The advantage of the mechanism is not uniform (Fig.~\ref{fig:class}a): at equal CPU time it favours the IG in all twelve classes, from $0.004\%$ (class $40\times5$) to $2.84\%$ ($60\times20$),
 below $0.09\%$ in the four classes with $n/m\geq8$ and between $0.27\%$ and $2.84\%$ with $n/m\leq5$ other than the smallest one ($20\times4$, $0.06\%$); we did not test why.
 
 \subsection{RQ2: the budget attribution depends on the implementation}
 \label{sec:rq2}
 Adding a short best-improvement descent after each reconstruction improves the IG by $0.150\%$ at an equal number of iterations. The descent costs CPU time, so the verdict at equal CPU depends on the cost ratio $K$,
-and $K$ depends on the implementation (Table~\ref{tab:budget}, Fig.~\ref{fig:gain}b). With the first, loop-based descent ($K=9.6$), giving the plain IG the CPU time of the hybrid leaves an advantage of only $0.010\%$:
+and $K$ depends on the implementation (Table~\ref{tab:budget}). With the first, loop-based descent ($K=9.6$), giving the plain IG the CPU time of the hybrid leaves an advantage of only $0.010\%$:
 $93\%$ of the gain would have been budget, a headline we had written before checking the implementation. Vectorizing the same descent cuts $K$ to $1.8$ and the advantage at equal CPU is $0.105\%$
-($30\%$ budget); compiling both arms gives $K=2.0$ and $0.115\%$ ($28\%$). The corrected reading is stable across the two efficient implementations and was registered as a prediction before the compiled run (all sixteen
-predictions of that battery held; those of $K$ used a five-class timing pilot, declared). For the practical recipe (tuned $d$, start from the best constructive solution) the descent is neutral at equal CPU in the vectorized and
-compiled versions ($-0.008\%$ and $-0.006\%$, both inside the margin). An evaluation count has been proposed as an implementation-independent budget; here it agrees with CPU time in sign but not in size ($0.080\%$, $50\%$ budget), because it weighs a candidate move of the descent and a
-machine comparison of the reconstruction equally: across the twelve classes the descent costs $1.9$ to $9.1$ times the evaluations of the plain IG but only $1.7$ to $2.4$ times its CPU time (rank correlation $0.71$ over the $24$ class--scenario
-pairs of the hybrid and the recipe), and weighting a reconstruction comparison by $0.25$ or $4$ moves the advantage between $0.026\%$ and $0.124\%$. A count therefore needs a stated cost model; equal CPU time with an efficient implementation
-of every arm remains the budget of choice.
+($30\%$ budget); compiling both arms gives $K=2.0$ and $0.115\%$ ($28\%$). The corrected reading is stable across the two efficient implementations and was registered before the compiled run (sixteen of sixteen predictions held). For the practical recipe (tuned $d$, start from the best constructive solution) the descent is neutral at equal CPU in the vectorized and
+compiled versions ($-0.008\%$ and $-0.006\%$, both inside the margin). An evaluation count, proposed as an implementation-independent budget, agrees with CPU time in sign but not in size ($0.080\%$, $50\%$ budget): across the twelve classes the descent costs $1.9$ to $9.1$ times the evaluations of the plain IG but only $1.7$ to $2.4$ times its CPU time
+(rank correlation $0.71$ over the $24$ class--scenario pairs of the hybrid and the recipe), and weighting a reconstruction comparison by $0.25$ or $4$ moves the advantage between $0.026\%$ and $0.124\%$.
+A count needs a stated cost model; equal CPU time with an efficient implementation of every arm remains the budget of choice.
 
 \input{tab_budget.tex}
 
 \subsection{RQ3: learners, action spaces and the cost of the agent}
 \label{sec:rq3}
-Compilation makes a run about a hundred times faster, which allows five seeds per instance (the unit of analysis is the mean of the five, $1{,}200$ pairs per row) in four action spaces
+On the synthetic classes, compilation makes a run about a hundred times faster, which allows five seeds per instance (the unit of analysis is the mean of the five, $1{,}200$ pairs per row) in four action spaces
 (Table~\ref{tab:agents}). A compiled agent is cheap per unit of work: $1.0$--$1.09$ times random choice for UCB1 and the policy gradient and $1.07$--$1.33$ times for Q-Learning, which nevertheless needs
 only $0.50$--$0.60$ of the CPU time of random choice in the three larger spaces because it learns to pick the cheaper actions ($0.38$--$0.50$ of the evaluations). \emph{At an equal number of iterations no learner
 gains more than $0.016\%$ over random choice in any of the $12$ comparisons}, within the equivalence margin (Q-Learning loses by $0.017\%$ in the $30$-action space).
 \emph{At equal CPU time Q-Learning does win} in the two spaces of sizes, by $0.059\%$ and $0.049\%$, \emph{but only by choosing cheaper actions}: its decision effect is nil ($-0.003$ and $-0.004$ points) and its cost effect is $0.062$ and $0.053$. UCB1 and the policy gradient
 gain nothing in either convention ($|\bar d|\leq0.008\%$ at equal CPU). The classic AOS methods behave alike, with one exception that deserves to be named: the ALNS-style roulette gains $0.039$ points at equal iterations with five sizes
-(a decision effect, Holm-significant and inside the margin; the cost effect adds $0.029$, so $0.068$ at equal CPU time, outside it) and nothing with fifteen actions ($+0.002$); probability matching and adaptive pursuit stay within $0.01$ points.
-The configuration validated per class beats every one of the six methods by $0.053$--$0.095\%$ in the spaces of $5$ and $15$ actions ($p_{\mathrm{Holm}}<10^{-58}$)
-and is level with the three original learners (within $0.03\%$) in the other two, where the headroom of the per-instance oracle is smaller ($0.05\%$ against $0.12$--$0.13\%$). Across the $48$ cells (class by space) the headroom does not predict the gain
-of Q-Learning (Spearman $\rho=0.09$): that a policy gains where its actions differ most was a hypothesis that failed here, as it did prospectively for the destruction size in a second problem. Figure~\ref{fig:class}b shows why: the mean gain of
-Q-Learning at equal iterations over the $48$ cells runs from $-0.19$ to $+0.25$ points, $25$ cells are positive, only $10$ exceed $+0.05$ and $14$ are below $-0.05$; of the $11$ cells with a headroom above $0.15$ points,
-$6$ gain and $5$ lose. The learner is as likely to lose as to win exactly where there is something to learn.
+(a decision effect, Holm-significant and inside the margin; the cost effect adds $0.029$, so $0.068$ at equal CPU time, outside it) and nothing with fifteen actions ($+0.002$); probability matching and adaptive pursuit stay within $0.01$ points, Thompson sampling and DMAB within $0.013$, and online racing, the within-run analogue of a racing configurator, is \emph{worse} than random choice ($+0.012$ and $+0.067$ points): committing to an action on sparse, noisy rewards hurts.
+The configuration validated per class beats every one of the nine methods by $0.053$--$0.147$ points in the spaces of $5$ and $15$ actions ($p_{\mathrm{Holm}}<10^{-57}$)
+and is level with the three original learners (within $0.03\%$) in the other two, where the headroom of the per-instance oracle is smaller ($0.05\%$ against $0.12$--$0.13\%$). Across the $48$ cells (class by space) the headroom does not predict the gain of Q-Learning (Spearman $\rho=0.09$, Fig.~\ref{fig:class}b): of the $11$ cells with a headroom above $0.15$ points, $6$ gain and $5$ lose.
+That a policy gains where its actions differ most was a hypothesis that failed on the synthetic classes, as it did prospectively for the destruction size in a second problem; on published instances it holds (Section~\ref{sec:published}).
 
 \input{tab_agents.tex}
 
@@ -216,7 +185,7 @@ $6$ gain and $5$ lose. The learner is as likely to lose as to win exactly where 
 \centering
 \includegraphics[width=\textwidth]{fig_cec2.pdf}
 \caption{(a) Gain of the IG over the ILS in each of the twelve classes $(n,m)$ (percentage points, symmetric log scale), at equal CPU time (bars) and at equal iterations (diamonds), vectorized ILS. (b) Oracle headroom against the mean gain of
-Q-Learning over random choice at equal iterations, in the $48$ cells (class by action space); the oracle uses one seed per action, so a negative headroom is possible. Spearman $\rho=0.09$.}
+Q-Learning over random choice at equal iterations, per cell: synthetic class by action space ($48$ cells, grey), and published family by size tercile by space ($18$ cells in the discovery batch, hollow, and $18$ in the held-out batch, filled); the oracle uses one seed per action. The dashed line is gain equal to headroom.}
 \label{fig:class}
 \end{figure*}
 
@@ -241,57 +210,71 @@ Q-Learning wins at equal CPU time by $0.059$ and $0.076$ points ($K=0.63$ and $0
 \label{fig:power}
 \end{figure*}
 
+\subsection{RQ5: published instances and the headroom rule}
+\label{sec:published}
+The synthetic classes have little headroom (the per-instance oracle gains at most $0.13\%$ over random choice). The published benchmark~\cite{OstojicEtAl2025} is heterogeneous: families B, C and E with $4$ to $261$ jobs.
+We ran the nine learners (compiled, five seeds, $T=1000$, five and fifteen actions) on $2{,}550$ of its instances, with the hyperparameters and the validated action fixed per family and size tercile on $525$ separate instances
+(instances with processing times near $10^{18}$ overflow the $64$-bit compiled core and were excluded, all in family B: $140$ test and $28$ tuning ones). \emph{Here learners do beat random choice} (Table~\ref{tab:published}, discovery):
+Q-Learning gains $0.058$ points at equal iterations with fifteen actions and the ALNS roulette $0.057$ with five sizes, both outside the margin, and at equal CPU time Q-Learning gains $0.121$ and $0.137$ points. The gains follow the headroom (Fig.~\ref{fig:class}b).
+In family C, middle and upper size terciles (headroom $0.24$--$0.34\%$), Q-Learning gains $0.16$ and $0.24$ points, recovering four fifths to nine tenths of the validated action's gain; in family E (headroom $0.07$--$0.11\%$) it \emph{loses} $0.06$--$0.07$ points,
+and it loses in the smallest tercile of family B. Across the $18$ cells (family by tercile by space) the rank correlation between headroom and gain is $0.53$, against $0.09$ in the synthetic cells.
+This was an exploratory reading of the first batch, whose registered predictions had missed in four of nine cases, so we fixed it as hypotheses before running $3{,}950$ held-out instances, retuning nothing. All five confirmatory tests held (Holm over five):
+Q-Learning gains $0.245$ and $0.149$ points in family C, middle and upper terciles, with fifteen and five actions, and loses $0.052$ and $0.059$ in family E; the ALNS roulette gains $0.056$ with five sizes; the rank correlation was $0.65$ ($p=0.003$);
+eleven of the twelve registered predictions held. The static competitor remains the safe choice: the validated action beats Q-Learning in all comparisons (by $0.064$--$0.082$ points in family C, middle and upper terciles) and every other learner,
+and is level with the ALNS roulette only with five sizes ($0.021$ points, inside the margin).
+
+\input{tab_published.tex}
+
 \subsection{Richer learners, qualitatively different actions}
 Destruction strategies and sizes resemble each other, so the same question was asked where the actions differ in effect and cost: the four ILS operators ($12$ classes, $1{,}200$ instances). No single operator is a good static configuration:
 the uniform mixture of the four beats each of them per class, the per-instance oracle among the single operators is $0.04\%$ \emph{worse} than the mixture, and the operator validated per class (always the inter-machine swap)
-loses to the mixture by $0.062\%$. A DQN with two layers of $64$ units and LinUCB lose to the mixture too ($0.041\%$ and $0.066\%$; $p_{\mathrm{Holm}}=4\times10^{-4}$ and $10^{-6}$; Table~\ref{tab:richer}), as does the tabular agent ($0.044\%$ on the stored runs);
-with the efficient ILS the DQN costs $3.3$ times and LinUCB $1.6$ times the CPU time of random selection, so at equal CPU they would fare worse. Over the $15$ combinations of strategy and size the DQN is level with random choice
-($+0.023\%$, parity) and the validated action beats it by $0.094\%$; a one-hidden-layer neural Q-learner and LinUCB over the destruction size are indistinguishable from random choice too ($+0.006\%$ and $+0.003\%$), and the size
+loses to the mixture by $0.062\%$. A DQN with two layers of $64$ units and LinUCB lose to the mixture too ($0.041\%$ and $0.066\%$; $p_{\mathrm{Holm}}=4\times10^{-4}$ and $10^{-6}$), as does the tabular agent ($0.044\%$ on the stored runs);
+with the efficient ILS the DQN costs $3.3$ times and LinUCB $1.6$ times the CPU time of random selection. Over the $15$ combinations of strategy and size the DQN is level with random choice
+($+0.023\%$, parity) and the validated action beats it by $0.094\%$; a one-hidden-layer neural Q-learner and LinUCB over the destruction size are indistinguishable from random choice ($+0.006\%$ and $+0.003\%$), and the size
 validated per class beats each of the three learners by $0.091$--$0.094\%$. A larger action space does not rescue the learner either: the DQN stays inside the $\pm0.05\%$ margin of random choice with $5$ and with $15$ actions.
 The competitor that wins when actions are complementary is a static mixture rather than a validated single action.
-
-\input{tab_richer.tex}
 
 \subsection{What works, and two other problems}
 The strongest solvers of the study contain no learned component: an IG with a validated destruction size and a start from the best of LPT, MULTIFIT and LDM is provably optimal on $74.7\%$ of the synthetic instances at
 $T=1{,}000$ and on $97.5\%$ at $T=64{,}000$ (six classes), and beats MULTIFIT by $0.29\%$ and LDM by about $1.1\%$ on the synthetic instances. The same four components were measured in two other problems of the extended study (Table~\ref{tab:general}):
-in all three the mechanism helps, the online policy is worse than a random size and the size validated offline is better.
+in all three the mechanism helps, the online policy over the destruction size is worse than a random size and the size validated offline is better (the published instances with large headroom, Section~\ref{sec:published}, are the exception).
 
 \input{tab_general.tex}
 
 \section{Discussion and Limitations}
-The findings are consistent: the gains that learning-guided search reports are mostly structure (destruction--reconstruction), budget (and how efficiently it is spent) and tuning; the policy adds hundredths of a point,
-and where a learner wins at equal CPU it does so mostly by exploiting the cost of the actions rather than by deciding better per iteration. The one learner with a real decision effect, the ALNS-style roulette, gains $0.039$ points,
-less than half of what a validated action gains. For practice, the protocol is cheap: a random control, an equal-CPU comparison with an efficient
+The findings are consistent. The gains that learning-guided search reports are mostly structure (destruction--reconstruction), budget (and how efficiently it is spent) and tuning. A learner's own contribution, the decision effect, is small where the oracle headroom is small
+(on the synthetic classes the only learner with a real effect, the ALNS-style roulette, gains $0.039$ points, less than half of what a validated action gains), large where it is large (Q-Learning recovers most of a validated action's gain in family C of the published benchmark),
+and negative where headroom is small and the instances are heterogeneous (family E). Where a learner wins at equal CPU time it does so largely by exploiting the cost of the actions. The static competitor was never worse.
+\emph{A rule of use.} Estimate the oracle headroom on tuning instances (the gain of the best fixed action per instance over random choice, one run per action): below about $0.1$ points an online selector is a liability, above $0.2$ it can recover much of what a validated
+action gives without tuning, and in both cases the validated action is the baseline to beat. For practice, the protocol is cheap: a random control, an equal-CPU comparison with an efficient
 implementation of every arm, and an offline-validated (or mixed) static competitor change the conclusion in every row of Table~\ref{tab:budget} and Table~\ref{tab:agents}. The question is not specific to scheduling: any adaptive
-component of a search can be audited the same way. A study that credits a learned selector should therefore report (i) the random control over the same actions, iterations and instances; (ii) the equal-CPU comparison with the cost ratio $K$
-of every arm and a check that the arms are implemented with comparable efficiency; (iii) the competitor validated offline, and a uniform mixture when the actions are complementary; (iv) the oracle headroom of the action space;
-(v) the cost of the agent per unit of work, and the decision/cost split; (vi) a power check and a positive control; and (vii) the hypotheses and decision rules fixed before the run, with the predictions that failed.
+component of a search can be audited the same way. A study that credits a learned selector should therefore report the random control, the equal-CPU comparison with the cost ratio $K$ and a check that the arms are implemented with comparable efficiency, the competitor validated offline
+(and a uniform mixture when the actions are complementary), the oracle headroom, the cost of the agent and the decision/cost split, a power check with a positive control, and the hypotheses fixed before the run with the predictions that failed.
 
-\emph{What the registered predictions showed.} The batteries of this paper were specified before they were run; ten of them counted their point predictions, and $81$ of $97$ held.
-The misses are informative: they concern cost ratios of the agents, the headroom of an action space, the verdict on tiny effects inside the margin, the size of the IG advantage with coarse processing times and, in the last cycle, the classic AOS methods: we had predicted that none of them would gain more than
-$0.03$ points or win at equal CPU time, and the ALNS-style roulette did both with five sizes. None changed the reading of the policy. The record also contains the corrections it forced on our own text, the largest being the $93\%$ budget share
+\emph{What the registered predictions showed.} The batteries of this paper were specified before they were run; thirteen of them counted their point predictions, and $104$ of $127$ held.
+The misses are informative: they concern cost ratios of the agents, the headroom of an action space, the verdict on tiny effects inside the margin, the size of the IG advantage with coarse processing times, the classic AOS methods (we had predicted that none would gain more than
+$0.03$ points or win at equal CPU time, and the ALNS-style roulette did both with five sizes) and, above all, the published instances: we had predicted that no learner would beat random choice by more than the margin, four of the nine predictions of that battery missed,
+and they led to the headroom rule that the held-out replication then confirmed. The record also contains the corrections it forced on our own text, the largest being the $93\%$ budget share
 that we had registered with the loop-based descent and that fell to $30\%$ once the arms were implemented with comparable efficiency.
 
 \subsection{Threats to validity}
-\emph{Internal.} The equal-CPU comparison depends on $K$, measured on separate instances in sequence on a quiet machine; the $K$ of each arm is reported, the implementations were checked against each other
-(identical results for the vectorized descent, statistical equivalence for the compiled agents), and an evaluation count is shown as a contrast, not as a replacement. The iteration budget ($T=1000$) is that of the studies being audited; longer horizons are in Section~\ref{sec:longnote}.
-\emph{Construct.} The reward is the truncated improvement of the makespan; a different reward (for instance, a rank-based one) or a state that predicts the cost of the actions could favour a learner. The tabular learners use the $81$-state representation and the contextual and neural
-learners the continuous features it is computed from; an informative-state variant, reported in the extended version, added nothing. The attribution is stated in percentage points of the makespan, so a gain of $0.05\%$ may matter or not for a given application.
-\emph{Statistical.} Each battery has its own Holm family and its own pre-registration; there is no correction across batteries, and the equivalence margin of $\pm0.05\%$ is a choice that moves some verdicts between ``parity'' and ``small gain''.
-Instances within a class are not independent of the generator, so the intervals describe the synthetic distribution, not the population of all instances.
-\emph{External.} The evidence is for P$||\Cmax$ with a greedy-acceptance IG, plus the one-table check of two other problems; the audit of the literature covers $23$ open-access papers with a single coder.
+\emph{Internal.} The equal-CPU comparison depends on $K$, measured on separate instances in sequence on a quiet machine and reported for every arm; the implementations were checked against each other, and an evaluation count is shown as a contrast, not as a replacement.
+\emph{Construct.} The reward is the truncated improvement of the makespan; a different reward or a state that predicts the cost of the actions could favour a learner (an informative-state variant, in the extended version, added nothing). Gains are stated in percentage points of the makespan, so $0.05\%$ may or may not matter.
+\emph{Statistical.} Each battery has its own Holm family and registration, with no correction across batteries, and the equivalence margin of $\pm0.05\%$ is a choice. The headroom rule began as an exploratory reading of the first published batch and was confirmed on instances that took no part in it,
+but the cells are few ($18$ per batch) and instances of a class are not independent of its generator. \emph{External.} The evidence is for P$||\Cmax$ with a greedy-acceptance IG, plus a one-table check of two other problems; $350$ of the $6{,}850$ published test instances ($5.1\%$, all in family B, with processing times near $10^{18}$)
+do not fit the $64$-bit compiled core and were excluded; the audit of the literature covers $23$ open-access papers with a single coder.
 
 \emph{Limitations.} (i) The unrelated-machine benchmark ($1{,}400$ instances) and the permutation flowshop are reported in the extended version, not here.
-(ii) The learners are tabular, bandit, policy-gradient (tabular), classic AOS and small neural; deep policy-gradient methods and portfolios of hundreds of operators are outside the evidence. (iii) Instances are synthetic or from one published benchmark;
-the policy was studied up to $T=10^5$ with five sizes only. (iv) The pre-specification is a dated, hash-stamped diary, not a public registry, and the number of analyses is large;
+(ii) The learners are tabular, bandit, policy-gradient (tabular), classic AOS and small neural; deep policy-gradient methods and portfolios of hundreds of operators are outside the evidence. (iii) The policy was studied up to $T=10^5$ with five sizes only, and on published instances only at $T=1000$.
+(iv) The pre-specification is a dated, hash-stamped diary, not a public registry, and the number of analyses is large;
 all families and verdicts, including the non-confirmations and the predictions that failed, are in the repository. (v) Single author, no external review yet. \todonote{decide: advisor as coauthor; Zenodo DOI for the record}
 
 \section{Conclusion}
-A learned operator selector inside an IG for identical parallel machines adds at most a few hundredths of a percentage point; the advantage over ILS belongs to destruction--reconstruction. The share of a local search's gain that is budget
-is $93\%$, $30\%$ or $28\%$ depending on whether it is implemented with loops, vectorized or compiled, so the CPU cost ratio is itself a result to report and to check. With compiled learners and classic AOS methods in spaces of up to $30$ actions,
-at horizons of up to $10^5$ iterations and with finer processing times, no learner beats random choice at equal iterations by more than $0.04$ points, Q-Learning wins at equal CPU only by choosing cheaper actions, and a static configuration (validated offline, or a uniform mixture) beats the online agent, while the tests have the power to see
-gains of $0.03$ points and the learners capture a planted reward. Future work: deep policy-gradient learners, much larger operator portfolios, and the same protocol on other problems and on population-based metaheuristics.
+A learned operator selector is not what explains the advantage of an IG over ILS for identical parallel machines: that belongs to destruction--reconstruction. The share of a local search's gain that is budget
+is $93\%$, $30\%$ or $28\%$ depending on whether it is implemented with loops, vectorized or compiled, so the CPU cost ratio is itself a result to report and to check. The decision effect of an online selector follows the oracle headroom: it is nil to
+$0.04$ points on the synthetic classes (with compiled learners, classic AOS methods, horizons up to $10^5$ iterations and finer processing times), large where headroom is large (Q-Learning gains $0.15$--$0.24$ points in family C of the published benchmark, confirmed on $3{,}950$ held-out instances)
+and negative where it is small. Q-Learning wins at equal CPU time largely by choosing cheaper actions, and a static configuration (validated offline, or a uniform mixture) was never worse than the online agent, while the tests have the power to see
+gains of $0.03$ points and the learners capture a planted reward. Future work: deep policy-gradient learners, much larger operator portfolios, a compiled pipeline for unrelated machines, and the same protocol on population-based metaheuristics.
 
 \vspace{2mm}
 \noindent\textbf{Data and code availability.} Code, instances, results, the research diary with the pre-registered hypotheses and md5 hashes, the protocol library and the scripts that recompute every number are at

@@ -17,7 +17,7 @@ plt.rcParams.update({"font.family": "STIXGeneral", "mathtext.fontset": "stix", "
 COL = {"ql": "#c0392b", "ucb": "#1f6fb2", "pg": "#3a9a92", "pm": "#8e6bb0", "ap": "#e08e0b", "alns": "#6b6b6b"}
 NAME = {"ql": "Q-Learning", "ucb": "UCB1", "pg": "Policy grad.", "pm": "Prob. matching", "ap": "Adaptive pursuit", "alns": "ALNS roulette"}
 
-fig, ax = plt.subplots(1, 3, figsize=(7.16, 2.35), gridspec_kw={"width_ratios": [1, 1, 1.05]})
+fig, ax = plt.subplots(1, 3, figsize=(7.16, 2.15), gridspec_kw={"width_ratios": [1, 1, 1.05]})
 
 # (a) poder empirico por efeito plantado
 P = pd.read_csv(R / "entrada184_power.csv")
