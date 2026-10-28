@@ -1,0 +1,69 @@
+==============================================================================================================
+Q-LEARNING AQUECIDO (Entrada 211)
+==============================================================================================================
+
+--- Wql: wq contra ql (Holm sobre 4) ---
+               id    n  better  worse  tie  mean_d_pct   ci90_lo    ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05        leitura
+ Wql-S5-discovery 2550     838   1062  650    0.006495 0.0009284    0.01183  8.733e-05  0.0001747       False              True nao confirmada
+   Wql-S5-heldout 3950    1436   1533  981   -0.005433  -0.01052 -0.0001781      0.771      0.771       False              True nao confirmada
+Wql-S15-discovery 2550     358   1607  585       0.146    0.1356     0.1566  3.53e-164 1.059e-163       False             False nao confirmada
+  Wql-S15-heldout 3950     609   2475  866      0.1434     0.135     0.1524 8.778e-228 3.511e-227       False             False nao confirmada
+
+--- Wrand: wq contra rand (Holm sobre 4) ---
+                 id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05        leitura
+ Wrand-S5-discovery 2550     905    854  791    -0.01521 -0.01929 -0.01152   9.55e-05   9.55e-05        True              True       paridade
+   Wrand-S5-heldout 3950    1430   1316 1204    -0.01971 -0.02295 -0.01675  3.111e-11  6.223e-11        True              True       paridade
+Wrand-S15-discovery 2550     392   1530  628     0.08692  0.08029   0.0937 7.477e-161 2.243e-160       False             False nao confirmada
+  Wrand-S15-heldout 3950     577   2430  943     0.09236  0.08707   0.0977 2.663e-253 1.065e-252       False             False nao confirmada
+
+--- Wfrz: wq contra wq0 (Holm sobre 4) ---
+                id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05    leitura
+ Wfrz-S5-discovery 2550    1183    569  798    -0.02808 -0.03192 -0.02435 1.703e-52 1.703e-52        True              True   paridade
+   Wfrz-S5-heldout 3950    1863    890 1197    -0.02951 -0.03282  -0.0264 5.375e-81 1.075e-80        True              True   paridade
+Wfrz-S15-discovery 2550    2047     65  438     -0.3373  -0.3547   -0.321         0         0        True             False confirmada
+  Wfrz-S15-heldout 3950    3198    104  648     -0.3569  -0.3717  -0.3432         0         0        True             False confirmada
+
+--- Vwq: val contra wq (Holm sobre 4) ---
+               id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ Vwq-S5-discovery 2550    1462    362  726    -0.05979 -0.06439  -0.0547 5.103e-132 5.103e-132        True             False confirmada
+   Vwq-S5-heldout 3950    2206    647 1097    -0.05793 -0.06334 -0.05163 2.262e-184 4.523e-184        True             False confirmada
+Vwq-S15-discovery 2550    1857    139  554      -0.198  -0.2103  -0.1859 7.453e-263 2.236e-262        True             False confirmada
+  Vwq-S15-heldout 3950    2866    267  817     -0.1926  -0.2034  -0.1823          0          0        True             False confirmada
+
+--- Swq: sel contra wq (Holm sobre 4) ---
+               id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ Swq-S5-discovery 2550    1669    150  731     -0.0842 -0.08881 -0.07963 1.487e-238 1.487e-238        True             False confirmada
+   Swq-S5-heldout 3950    2547    270 1133    -0.08453 -0.08838 -0.08074          0          0        True             False confirmada
+Swq-S15-discovery 2550    1966     41  543     -0.2254  -0.2381  -0.2136          0          0        True             False confirmada
+  Swq-S15-heldout 3950    3095     58  797     -0.2371  -0.2469  -0.2282          0          0        True             False confirmada
+
+--- Wal: wq contra alns (Holm sobre 4) ---
+               id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05        leitura
+ Wal-S5-discovery 2550     552   1259  739     0.04191  0.03761  0.04621  1.805e-67  1.805e-67       False              True nao confirmada
+   Wal-S5-heldout 3950     922   1870 1158     0.03665  0.03295   0.0405  6.334e-77  1.267e-76       False              True nao confirmada
+Wal-S15-discovery 2550     423   1489  638      0.1013  0.09354   0.1089 3.697e-147 1.109e-146       False             False nao confirmada
+  Wal-S15-heldout 3950     691   2310  949     0.09808  0.09232   0.1044 2.006e-212 8.026e-212       False             False nao confirmada
+
+--- ganho sobre o aleatorio (%, positivo: melhor) ---
+space       set cell    n  oracle     val     sel       ql       wq        wq0      alns
+   S5 discovery  all 2550  0.1201 0.07502 0.09943  0.02149  0.01521   -0.01295   0.05698
+   S5 discovery  C12  700  0.2431  0.1944  0.2286   0.1584  0.03645   -0.05243    0.1779
+   S5 discovery    E  660 0.06736 0.02672 0.03581 -0.06848 0.001934    0.00625 -0.009686
+   S5   heldout  all 3950   0.132 0.07766  0.1042  0.01398  0.01971  -0.009904   0.05619
+   S5   heldout  C12 1020  0.3046  0.2309  0.2672   0.1489  0.05871    -0.0307    0.1973
+   S5   heldout    E 1160 0.06815 0.02168 0.03807 -0.05886 0.002477 -0.0001942 -0.009827
+  S15 discovery  all 2550  0.1695  0.1118  0.1392  0.05843 -0.08692    -0.4288   0.01417
+  S15 discovery  C12  700  0.3357   0.273  0.3092   0.2438  -0.1783    -0.7964   0.08161
+  S15 discovery    E  660   0.107 0.03805 0.05869 -0.05751 -0.05582    -0.3276  -0.01624
+  S15   heldout  all 3950  0.1737   0.101  0.1456  0.05029 -0.09236    -0.4542  0.005542
+  S15   heldout  C12 1020  0.3777  0.3085   0.347   0.2446  -0.2198    -0.9868   0.05355
+  S15   heldout    E 1160  0.1052 0.03601 0.06898 -0.05167 -0.05182    -0.3039  -0.01815
+
+--- PREVISOES E LEITURAS PRE-FIXADAS ---
+(W1) wq confirmado melhor que o Q frio nos quatro pares e ganho >= 0,03 em S15 held-out: NAO (ganho medio: -0.006, +0.005, -0.146, -0.143)
+(W2) wq confirmado melhor que o aleatorio nos quatro pares: NAO (+0.015, +0.020, -0.087, -0.092)
+(W3) |wq - wq0| <= 0,01 nos quatro: NAO (+0.0281, +0.0295, +0.3373, +0.3569)
+(W4a) wq melhor que a validada em media em >= 2 dos 4: NAO (ganho de wq sobre val: -0.060, -0.058, -0.198, -0.193)
+(W4b) o seletor vence wq em media em >= 3 dos 4: SIM (+0.084, +0.085, +0.225, +0.237)
+(W5) wq melhor que a roleta em S15 e nivelado em S5: NAO (d medio: +0.042, +0.037, +0.101, +0.098)
+K (sem o inicio frio o aprendizado online fica competitivo com a validada: no maximo um Vwq confirmado a favor da validada): NAO

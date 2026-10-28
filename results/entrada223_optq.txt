@@ -1,0 +1,46 @@
+==============================================================================================================
+Q-LEARNING OTIMISTA (Entrada 223)
+==============================================================================================================
+
+--- Or: qo contra rand (Holm sobre 4) ---
+              id    n  better  worse  tie  mean_d_pct   ci90_lo    ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05  leitura
+ Or-S5-discovery 2550     983    751  816   -0.007866   -0.0113  -0.004573 9.698e-08 3.879e-07        True              True paridade
+   Or-S5-heldout 3950    1489   1279 1182   -0.006931 -0.009761  -0.003844 2.296e-07 6.889e-07        True              True paridade
+Or-S15-discovery 2550     971    811  768    -0.00805  -0.01219  -0.003819 0.0002073 0.0004147        True              True paridade
+  Or-S15-heldout 3950    1485   1355 1110   -0.004297 -0.007962 -0.0006773  0.006502  0.006502        True              True paridade
+
+--- Oq: qo contra ql (Holm sobre 4) ---
+              id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+ Oq-S5-discovery 2550     716   1179  655     0.01386 0.008575  0.01917  2.34e-13  4.68e-13       False              True nao confirmada
+   Oq-S5-heldout 3950    1230   1768  952    0.007343 0.002434   0.0125  2.77e-09  2.77e-09       False              True nao confirmada
+Oq-S15-discovery 2550     572   1325  653     0.05077  0.04402  0.05756 6.975e-54 2.093e-53       False             False nao confirmada
+  Oq-S15-heldout 3950     997   2007  946     0.04649  0.04023  0.05268 4.463e-61 1.785e-60       False             False nao confirmada
+
+--- Ot: qo contra qt (Holm sobre 4) ---
+              id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw     p_holm  confirmada  equivalente_0.05        leitura
+ Ot-S5-discovery 2550     643   1215  692      0.0228  0.01791   0.0275 7.472e-33  7.472e-33       False              True nao confirmada
+   Ot-S5-heldout 3950    1023   1839 1088     0.02119  0.01735   0.0252 5.857e-41  1.171e-40       False              True nao confirmada
+Ot-S15-discovery 2550     492   1382  676     0.06459  0.05825  0.07069 5.134e-90   1.54e-89       False             False nao confirmada
+  Ot-S15-heldout 3950     814   2118 1018      0.0603  0.05505  0.06569 8.79e-116 3.516e-115       False             False nao confirmada
+
+--- Ov: val contra qo (Holm sobre 4) ---
+              id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ Ov-S5-discovery 2550    1501    328  721    -0.06712 -0.07239 -0.06196 4.382e-155 4.382e-155        True             False confirmada
+   Ov-S5-heldout 3950    2292    577 1081    -0.07068 -0.07667  -0.0643 4.506e-211 1.352e-210        True             False confirmada
+Ov-S15-discovery 2550    1677    227  646     -0.1037  -0.1124 -0.09467   2.2e-197 4.401e-197        True             False confirmada
+  Ov-S15-heldout 3950    2562    437  951    -0.09658  -0.1048 -0.08845 8.218e-271 3.287e-270        True             False confirmada
+
+--- Os: sel contra qo (Holm sobre 4) ---
+              id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ Os-S5-discovery 2550    1723    118  709    -0.09153 -0.09677 -0.08655 1.835e-255 1.835e-255        True             False confirmada
+   Os-S5-heldout 3950    2694    210 1046    -0.09726  -0.1021 -0.09278          0          0        True             False confirmada
+Os-S15-discovery 2550    1797     96  657     -0.1311  -0.1399  -0.1225 1.724e-267 3.448e-267        True             False confirmada
+  Os-S15-heldout 3950    2857    122  971     -0.1412  -0.1475  -0.1352          0          0        True             False confirmada
+
+--- PREVISOES E LEITURA PRE-FIXADAS ---
+(O1) qo >= aleatorio nos quatro: SIM (ganho: +0.008, +0.007, +0.008, +0.004)
+(O2) qo melhor que o Q frio nos quatro e >= 0,03 em S15 held-out: NAO (-0.014, -0.007, -0.051, -0.046)
+(O3) a validada vence qo nos quatro (confirmada): SIM (+0.067, +0.071, +0.104, +0.097)
+(O4) o seletor vence qo nos quatro: SIM (4/4)
+(O5) qo nao supera o Q frio ajustado por mais que 0,05: SIM (-0.023, -0.021, -0.065, -0.060)
+R (um Q otimista repara o aprendiz online: validada confirmadamente melhor em < 3 dos 4 pares): NAO

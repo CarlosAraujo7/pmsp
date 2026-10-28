@@ -1,0 +1,46 @@
+==============================================================================================================
+Q AQUECIDO COM DESEMPATE ALEATORIO (Entrada 212)
+==============================================================================================================
+
+--- Tr: wqn contra rand (Holm sobre 4) ---
+              id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05        leitura
+ Tr-S5-discovery 2550     912    868  770    -0.01442 -0.01809 -0.01103  0.0001375  0.0001375        True              True       paridade
+   Tr-S5-heldout 3950    1456   1321 1173    -0.01913 -0.02217 -0.01609  2.124e-12  4.249e-12        True              True       paridade
+Tr-S15-discovery 2550     389   1490  671     0.08546  0.07904  0.09208 2.224e-154 6.671e-154       False             False nao confirmada
+  Tr-S15-heldout 3950     603   2382  965     0.09486  0.08925   0.1007 1.391e-249 5.562e-249       False             False nao confirmada
+
+--- Tq: wqn contra ql (Holm sobre 4) ---
+              id    n  better  worse  tie  mean_d_pct   ci90_lo   ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05        leitura
+ Tq-S5-discovery 2550     823   1052  675    0.007301  0.002144   0.01282  3.601e-05  7.201e-05       False              True nao confirmada
+   Tq-S5-heldout 3950    1421   1533  996   -0.004854 -0.009922 6.354e-05     0.8403     0.8403       False              True nao confirmada
+Tq-S15-discovery 2550     353   1601  596      0.1446    0.1339    0.1554 6.985e-165 2.096e-164       False             False nao confirmada
+  Tq-S15-heldout 3950     636   2466  848      0.1459     0.137    0.1553  1.01e-224 4.038e-224       False             False nao confirmada
+
+--- Tv: val contra wqn (Holm sobre 4) ---
+              id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ Tv-S5-discovery 2550    1469    351  730    -0.06059  -0.0656  -0.0558 1.504e-137 1.504e-137        True             False confirmada
+   Tv-S5-heldout 3950    2238    624 1088    -0.05852 -0.06379 -0.05236 1.435e-187 2.871e-187        True             False confirmada
+Tv-S15-discovery 2550    1867    135  548     -0.1965  -0.2093  -0.1843 1.109e-264 3.326e-264        True             False confirmada
+  Tv-S15-heldout 3950    2859    276  815     -0.1951  -0.2058   -0.185          0          0        True             False confirmada
+
+--- Ts: sel contra wqn (Holm sobre 4) ---
+              id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ Ts-S5-discovery 2550    1682    136  732      -0.085 -0.08976 -0.08047 2.699e-240 2.699e-240        True             False confirmada
+   Ts-S5-heldout 3950    2557    252 1141    -0.08511 -0.08913  -0.0812          0          0        True             False confirmada
+Ts-S15-discovery 2550    1958     39  553     -0.2239  -0.2368  -0.2115          0          0        True             False confirmada
+  Ts-S15-heldout 3950    3092     60  798     -0.2395  -0.2498  -0.2305          0          0        True             False confirmada
+
+--- Tf: wqn contra wqn0 (Holm sobre 4) ---
+              id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05    leitura
+ Tf-S5-discovery 2550    1163    589  798    -0.02911 -0.03265 -0.02542 4.654e-49 4.654e-49        True              True   paridade
+   Tf-S5-heldout 3950    1822    941 1187    -0.02992 -0.03314 -0.02684 1.859e-71 3.719e-71        True              True   paridade
+Tf-S15-discovery 2550    2065     61  424      -0.343    -0.36  -0.3266         0         0        True             False confirmada
+  Tf-S15-heldout 3950    3177     87  686     -0.3583  -0.3728  -0.3448         0         0        True             False confirmada
+
+--- PREVISOES E LEITURA PRE-FIXADAS ---
+(T1) wqn >= aleatorio nos quatro: NAO (ganho: +0.014, +0.019, -0.085, -0.095)
+(T2) wqn melhor que o Q frio confirmado em <= 1 dos 4: SIM (ganho sobre o frio: -0.007, +0.005, -0.145, -0.146)
+(T3) a validada vence wqn nos quatro (confirmada): SIM
+(T4) o seletor vence wqn nos quatro: SIM
+(T5) |wqn - wqn0| <= 0,02 nos quatro: NAO (+0.0291, +0.0299, +0.3430, +0.3583)
+J (a falha era so' o desempate): NAO

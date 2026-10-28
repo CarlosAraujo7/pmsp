@@ -53,7 +53,7 @@ chk("treino bruto B, C, E (6.000)", sum(r["family"] in "BCE" for r in man), 6000
 chk("excluidas do treino (280)", 6000 - len(S.train_set()), 280, 0, "$280$ of the")
 n_raw = sum(len(list(csv.DictReader(open(f, newline="")))) for f in (P.M_CAL, P.M_TEST, RH.M_HOLD))
 n_used = len(P.load_set(P.M_CAL)) + len(P.load_set(P.M_TEST)) + len(P.load_set(RH.M_HOLD))
-chk("instancias dos tres primeiros conjuntos (7.403)", n_raw, 7403, 0, "$378$ of the $7{,}403$ instances")
+chk("instancias dos tres primeiros conjuntos (7.403)", n_raw, 7403, 0, "$378$ of the $7{,}403$ of")
 chk("excluidas dos tres primeiros conjuntos (378)", n_raw - n_used, 378, 0)
 d = rd("agents_S5_entrada180.csv")
 ms = d[~d.method.str.startswith("arm")].groupby(["cls", "rep", "method"]).makespan.mean().unstack("method").reset_index()
@@ -69,50 +69,37 @@ chk("margem de 0,05 e' ~1/8 da unidade mediana", 0.05 / unit.median(), 0.125, 0.
 
 # ---------------------------------------------------------------- pre-teste VNR
 tau = json.loads((R / "pretest_tau_entrada198.json").read_text())
-chk("tau (0,877)", tau["tau"], 0.877, 0.0005, "$\\tau=0.877$")
-chk("celulas de calibracao (42)", tau["n_calibration_cells"], 42, 0, "$42$ synthetic and discovery cells")
-chk("AUC de calibracao (0,78)", tau["calibration_summary"]["auc"], 0.78, 0.005, "AUC $0.78$")
-chk("acuracia de calibracao (0,83)", tau["calibration_summary"]["acc"], 0.83, 0.005, "accuracy $0.83$")
+chk("celulas de calibracao (42)", tau["n_calibration_cells"], 42, 0, None)
 from analysis.pretest_vnr_entrada198 import evaluate  # noqa: E402
 
 F = rd("entrada199_pretest_cells.csv")
 ev = {sp: evaluate(F[(F.space == sp)].vnr, F[(F.space == sp)].gq, tau["tau"]) for sp in ("S5", "S15")}
-chk("familia F: celulas por espaco (21)", ev["S5"]["n"], 21, 0, "$21$ cells per action space")
-chk("familia F: 26 classes", F.cell.nunique(), 26, 0, "$26$ classes")
-chk("familia F S5 AUC (0,75)", ev["S5"]["auc"], 0.75, 0.005, "The AUC is $0.75$ and $0.73$")
+chk("familia F: celulas por espaco (21)", ev["S5"]["n"], 21, 0, None)
+chk("familia F: 26 classes", F.cell.nunique(), 26, 0, "the $26$ classes")
+chk("familia F S5 AUC (0,75)", ev["S5"]["auc"], 0.75, 0.005, "AUC $0.75$ and $0.73$ for ``Q-Learning gains''")
 chk("familia F S15 AUC (0,73)", ev["S15"]["auc"], 0.73, 0.005)
-chk("familia F S5 acuracia (0,71)", ev["S5"]["acc"], 0.71, 0.005, "the accuracy $0.71$ and $0.67$")
+chk("familia F S5 acuracia (0,71)", ev["S5"]["acc"], 0.71, 0.005, None)
 chk("familia F S15 acuracia (0,67)", ev["S15"]["acc"], 0.67, 0.005)
-chk("familia F S5 Spearman (0,65)", ev["S5"]["spearman"], 0.65, 0.006, "$0.65$ and $0.348$")
+chk("familia F S5 Spearman (0,65)", ev["S5"]["spearman"], 0.65, 0.006, None)
 chk("familia F S15 Spearman (0,348)", ev["S15"]["spearman"], 0.348, 0.0005)
 FA = rd("entrada199_famF_Aiter.csv").set_index("id")
-chk("familia F: Q-Learning S5 (0,017)", -FA.loc["Aiter-S5-ql", "mean_d_pct"], 0.017, 0.0006, "Q-Learning gains $0.017$ and $0.016$ points")
-chk("familia F: Q-Learning S15 (0,016)", -FA.loc["Aiter-S15-ql", "mean_d_pct"], 0.016, 0.0006)
-chk("familia F: UCB1 S5 (0,004)", -FA.loc["Aiter-S5-ucb", "mean_d_pct"], 0.004, 0.0006, "UCB1 $0.004$")
-chk("familia F: ALNS S5 (0,026)", -FA.loc["Aiter-S5-alns", "mean_d_pct"], 0.026, 0.0006, "ALNS $0.026$ in the smaller space")
-chk("familia F: ALNS S15 (-0,003)", -FA.loc["Aiter-S15-alns", "mean_d_pct"], -0.003, 0.0006, "$-0.003$ in the larger")
 FB = rd("entrada199_famF_Bit.csv")
-chk("familia F: a validada fica nivelada ou melhor nos seis pares", float((FB.mean_d_pct < 0).all()), 1, 0, "level or better in all six comparisons")
 
 # ---------------------------------------------------------------- seletor offline
 Cv = rd("entrada200_selector_Cval.csv")
 g = -Cv.mean_d_pct
 chk("seletor vs validada, minimo (0,024)", g.min(), 0.024, 0.0006, "$0.024$--$0.044$ points")
 chk("seletor vs validada, maximo (0,044)", g.max(), 0.044, 0.0006)
-chk("seletor vs validada: p_holm < 1e-38", float(Cv.p_holm.max() < 1e-38), 1, 0, "p_{\\mathrm{Holm}}<10^{-38}")
-chk("seletor vs validada: dentro da margem exceto S15 held-out", float(list(Cv.equivalente_0_05 if "equivalente_0_05" in Cv else Cv["equivalente_0.05"]).count(False)), 1, 0, "inside the margin except in the larger space on held-out instances")
+chk("seletor vs validada: p_holm < 1e-38", float(Cv.p_holm.max() < 1e-38), 1, 0, None)
+chk("seletor vs validada: dentro da margem exceto S15 held-out", float(list(Cv.equivalente_0_05 if "equivalente_0_05" in Cv else Cv["equivalente_0.05"]).count(False)), 1, 0, "inside the margin, hence parity, except in the larger space on held-out instances")
 CE = rd("entrada200_controls_CvE.csv")
-chk("seletor vs validada a avaliacoes iguais, minimo (0,027)", -CE.mean_d_pct.max(), 0.027, 0.0006, "($0.027$--$0.039$;")
-chk("seletor vs validada a avaliacoes iguais, maximo (0,039)", -CE.mean_d_pct.min(), 0.039, 0.0006)
 BF = rd("entrada200_selector_by_family.csv")
 al = BF[BF.fam == "all"]
-chk("seletor roda mais avaliacoes, minimo (12%)", 100 * (al.evals_ratio.min() - 1), 12, 0.6, "runs $12$--$19\\%$ more")
-chk("seletor roda mais avaliacoes, maximo (19%)", 100 * (al.evals_ratio.max() - 1), 19, 0.6)
 Cq = rd("entrada200_selector_Cql.csv")
-chk("seletor vs Q-Learning, minimo (0,08)", -Cq.mean_d_pct.max(), 0.08, 0.0025, "beats Q-Learning by $0.08$--$0.095$")
+chk("seletor vs Q-Learning, minimo (0,08)", -Cq.mean_d_pct.max(), 0.08, 0.0025, "$0.08$--$0.095$ over Q-Learning")
 chk("seletor vs Q-Learning, maximo (0,095)", -Cq.mean_d_pct.min(), 0.095, 0.0006)
 Ca = rd("entrada200_selector_Calns.csv")
-chk("seletor vs ALNS, minimo (0,04)", -Ca.mean_d_pct.max(), 0.04, 0.003, "the ALNS roulette by $0.04$--$0.14$")
+chk("seletor vs ALNS, minimo (0,04)", -Ca.mean_d_pct.max(), 0.04, 0.003, "and $0.04$--$0.14$ over the ALNS roulette")
 chk("seletor vs ALNS, maximo (0,14)", -Ca.mean_d_pct.min(), 0.14, 0.0006)
 chk("captura do seletor, minimo (0,79)", al.cap_sel.min(), 0.79, 0.005, "captures $0.79$--$0.84$")
 chk("captura do seletor, maximo (0,84)", al.cap_sel.max(), 0.84, 0.005)
@@ -150,39 +137,38 @@ chk("qtp sobre o padrao em S15, minimo (0,007)", Ap.loc[["Aqp-S15-discovery", "A
 chk("qtp sobre o padrao em S15, maximo (0,009)", Ap.loc[["Aqp-S15-discovery", "Aqp-S15-heldout"], "mean_d_pct"].max(), 0.009, 0.0006)
 chk("validada vence qt e qtp nos 8 pares", float(rd("entrada203_qvariants_Vqt.csv").confirmada.all() and rd("entrada203_qvariants_Vqp.csv").confirmada.all()), 1, 0, "the validated action beats both in all eight comparisons")
 sq = pd.concat([rd("entrada203_qvariants_Sqt.csv"), rd("entrada203_qvariants_Sqp.csv")])
-chk("seletor vs qt e qtp, minimo (0,06)", -sq.mean_d_pct.max(), 0.06, 0.0035, "the selector by $0.06$--$0.10$")
+chk("seletor vs qt e qtp, minimo (0,06)", -sq.mean_d_pct.max(), 0.06, 0.0035, "and the selector beats them by $0.06$--$0.10$")
 chk("seletor vs qt e qtp, maximo (0,10)", -sq.mean_d_pct.min(), 0.10, 0.003)
 
 # ---------------------------------------------------------------- flowshop
 K = json.loads((R / "pfsp_cpu_ratio_entrada197.json").read_text())
 kq = [K[sp][c]["ql"] for sp in K for c in K[sp]]
-chk("K do Q-Learning no flowshop, minimo (0,7)", min(kq), 0.7, 0.025, "costs $0.7$--$0.9$ of random choice")
+chk("K do Q-Learning no flowshop, minimo (0,7)", min(kq), 0.7, 0.025, None)
 chk("K do Q-Learning no flowshop, maximo (0,9)", max(kq), 0.9, 0.03)
 Cells = rd("entrada197_pfsp_cells.csv")
 Fa = {s: rd(f"entrada197_pfsp_{s}_Aiter.csv").set_index("id") for s in ("syn", "ta")}
-chk("flowshop sintetico: Q-Learning F5 (-0,050)", -Fa["syn"].loc["Aiter-syn-F5-ql", "mean_d_pct"], -0.050, 0.0006, "\\emph{loses} $0.050$ and $0.061$ points")
+chk("flowshop sintetico: Q-Learning F5 (-0,050)", -Fa["syn"].loc["Aiter-syn-F5-ql", "mean_d_pct"], -0.050, 0.0006, "Q-Learning loses $0.05$--$0.08$ points")
 chk("flowshop sintetico: Q-Learning F15 (-0,061)", -Fa["syn"].loc["Aiter-syn-F15-ql", "mean_d_pct"], -0.061, 0.0006)
-chk("flowshop Taillard: Q-Learning F5 (-0,059)", -Fa["ta"].loc["Aiter-ta-F5-ql", "mean_d_pct"], -0.059, 0.0006, "$0.059$ and $0.080$ on Taillard's")
+chk("flowshop Taillard: Q-Learning F5 (-0,059)", -Fa["ta"].loc["Aiter-ta-F5-ql", "mean_d_pct"], -0.059, 0.0006, None)
 chk("flowshop Taillard: Q-Learning F15 (-0,080)", -Fa["ta"].loc["Aiter-ta-F15-ql", "mean_d_pct"], -0.080, 0.0006)
 chk("flowshop: Q-Learning perde com Holm (4)", float(sum(Fa[s].loc[f"Aiter-{s}-{sp}-ql", "mean_d_pct"] > 0 and Fa[s].loc[f"Aiter-{s}-{sp}-ql", "p_holm"] < 0.05 for s in Fa for sp in ("F5", "F15"))), 4, 0)
 Fc = rd("entrada197_pfsp_syn_Acpu.csv").set_index("id")
-chk("flowshop: Q-Learning a CPU igual F5 (-0,036)", -Fc.loc["Acpu-syn-F5-ql", "mean_d_pct"], -0.036, 0.0006, "($0.036$ and $0.047$)")
+chk("flowshop: Q-Learning a CPU igual F5 (-0,036)", -Fc.loc["Acpu-syn-F5-ql", "mean_d_pct"], -0.036, 0.0006, "and $0.03$--$0.05$ at equal CPU time")
 chk("flowshop: Q-Learning a CPU igual F15 (-0,047)", -Fc.loc["Acpu-syn-F15-ql", "mean_d_pct"], -0.047, 0.0006)
 oth = Fa["syn"].loc[[i for i in Fa["syn"].index if not i.endswith("-ql")], "mean_d_pct"]
-chk("flowshop: outros aprendizes dentro de 0,013", oth.abs().max(), 0.013, 0.0006, "stay within $0.013$ points on the synthetic instances")
+chk("flowshop: outros aprendizes dentro de 0,013", oth.abs().max(), 0.013, 0.0006, None)
 Fb = rd("entrada197_pfsp_syn_Bit.csv")
-chk("flowshop: validada vence os dez pares a iteracoes iguais", float(Fb.confirmada.all()), 1, 0, "in all ten pairs at equal iterations")
-chk("flowshop: validada vs aprendizes, minimo (0,020)", -Fb.mean_d_pct.max(), 0.020, 0.0006, "by $0.020$--$0.104$ points")
+chk("flowshop: validada vence os dez pares a iteracoes iguais", float(Fb.confirmada.all()), 1, 0, "in all ten learner--space pairs at equal iterations")
+chk("flowshop: validada vs aprendizes, minimo (0,020)", -Fb.mean_d_pct.max(), 0.020, 0.0006, "(by $0.020$--$0.104$)")
 chk("flowshop: validada vs aprendizes, maximo (0,104)", -Fb.mean_d_pct.min(), 0.104, 0.0006)
 Fq = rd("entrada197_pfsp_syn_Beq.csv").set_index("id")
-chk("flowshop: validada vs Q-Learning a CPU igual F5 (0,019)", -Fq.loc["Beq-syn-F5-ql", "mean_d_pct"], 0.019, 0.0006, "(by $0.019$ and $0.064$)")
+chk("flowshop: validada vs Q-Learning a CPU igual F5 (0,019)", -Fq.loc["Beq-syn-F5-ql", "mean_d_pct"], 0.019, 0.0006, None)
 chk("flowshop: validada vs Q-Learning a CPU igual F15 (0,064)", -Fq.loc["Beq-syn-F15-ql", "mean_d_pct"], 0.064, 0.0006)
 for sp, rho_exp, p_exp in (("F5", -0.93, 0.001), ("F15", -0.78, 0.013)):
     c = Cells[(Cells.set == "syn") & (Cells.space == sp)]
     r = sstats.spearmanr(c.folga, c.gq)
     chk(f"flowshop {sp}: Spearman folga x ganho do Q-Learning", r.statistic, rho_exp, 0.006, "$-0.93$ and $-0.78$" if sp == "F5" else None)
     chk(f"flowshop {sp}: p do Spearman", r.pvalue, p_exp, 0.0006 if sp == "F15" else 0.001)
-chk("flowshop: nove celulas por espaco", len(Cells[(Cells.set == "syn") & (Cells.space == "F5")]), 9, 0, "nine synthetic cells")
 big = Cells[(Cells.set == "syn") & Cells.cell.isin(["50x10", "50x20", "100x10", "100x20"])]
 Wf = {}
 from analysis.report_entrada197_pfsp import load_test  # noqa: E402
@@ -193,36 +179,32 @@ for sp in ("F5", "F15"):
     w = load_test(sp)
     w = w[(w.set == "syn") & w.klass.isin(["50x10", "50x20", "100x10", "100x20"])]
     heads.append(float(-rel(w.oracle, w.rand).mean()))
-chk("flowshop: folga das classes grandes, minimo (0,22)", min(heads), 0.22, 0.006, "$0.22$--$0.30\\%$")
-chk("flowshop: folga das classes grandes, maximo (0,30)", max(heads), 0.30, 0.006)
 nz = Cells[(Cells.set == "syn")].groupby("cell").noise.mean()
 chk("flowshop: ruido nas classes m = 20 e n >= 50, minimo (0,2)", Cells[(Cells.set == "syn") & Cells.cell.isin(["50x20", "100x20"])].noise.min(), 0.2, 0.01, "$0.2$--$0.3\\%$")
 chk("flowshop: ruido nas classes m = 20 e n >= 50, maximo (0,3)", Cells[(Cells.set == "syn") & Cells.cell.isin(["50x20", "100x20"])].noise.max(), 0.3, 0.02)
 nab = int(((Cells[(Cells.set == "syn")].vnr.notna()) & (Cells[(Cells.set == "syn")].vnr < tau["tau"])).sum())
-chk("flowshop: VNR abaixo de tau em 13 das celulas avaliaveis", nab, 13, 0, "$13$ of the $14$ evaluable cells")
 ev_cells = Cells[(Cells.set == "syn")].vnr.notna().sum()
-chk("flowshop: 14 celulas avaliaveis", ev_cells, 14, 0)
 
 # ---------------------------------------------------------------- seletor offline do flowshop (Entrada 205) -- preenchido quando o relatorio existir
 Cr = rd("entrada205_pfsp_selector_Crand.csv")
-chk("seletor do flowshop vs aleatorio, minimo (0,034)", -Cr.mean_d_pct.max(), 0.034, 0.0006, "gains $0.034$--$0.050$ points over random choice")
+chk("seletor do flowshop vs aleatorio, minimo (0,034)", -Cr.mean_d_pct.max(), 0.034, 0.0006, None)
 chk("seletor do flowshop vs aleatorio, maximo (0,050)", -Cr.mean_d_pct.min(), 0.050, 0.0006)
 chk("seletor do flowshop vs aleatorio: confirmado nos quatro", float(Cr.confirmada.all()), 1, 0)
 Cq5 = rd("entrada205_pfsp_selector_Cql.csv")
-chk("seletor do flowshop vs Q-Learning, minimo (0,086)", -Cq5.mean_d_pct.max(), 0.086, 0.0006, "beats Q-Learning by $0.086$--$0.127$")
+chk("seletor do flowshop vs Q-Learning, minimo (0,086)", -Cq5.mean_d_pct.max(), 0.086, 0.0006, None)
 chk("seletor do flowshop vs Q-Learning, maximo (0,127)", -Cq5.mean_d_pct.min(), 0.127, 0.0006)
 Cb5 = rd("entrada205_pfsp_selector_Cvb.csv")
-chk("seletor do flowshop vs estatica nas mesmas 540: |d| maximo (0,007)", Cb5.mean_d_pct.abs().max(), 0.007, 0.0006, "(within $0.007$ points over all instances)")
+chk("seletor do flowshop vs estatica nas mesmas 540: |d| maximo (0,007)", Cb5.mean_d_pct.abs().max(), 0.007, 0.0006, None)
 Cv5 = rd("entrada205_pfsp_selector_Cval.csv")
-chk("seletor do flowshop vs validada: nenhum confirmado", float((~Cv5.confirmada).all()), 1, 0, "not significantly, with the validated one")
+chk("seletor do flowshop vs validada: nenhum confirmado", float((~Cv5.confirmada).all()), 1, 0, None)
 # ---------------------------------------------------------------- validada a CPU igual (Entrada 195/196) e pequenos fatos citados no texto
 V = {s: rd(f"entrada195_valeq_{s}.csv").set_index("id") for s in ("syn", "discovery", "heldout")}
 chk("validada a CPU igual vence os 54 pares", float(sum(int(v.confirmada.sum()) for v in V.values())), 54, 0, "in all $54$ learner--space--set pairs")
-chk("validada a CPU igual vs Q-Learning sintetico, minimo (0,071)", min(-V["syn"].loc["Veq-syn-S5-ql", "mean_d_pct"], -V["syn"].loc["Veq-syn-S15-ql", "mean_d_pct"]), 0.071, 0.0006, "by $0.071$--$0.097$ points against Q-Learning")
+chk("validada a CPU igual vs Q-Learning sintetico, minimo (0,071)", min(-V["syn"].loc["Veq-syn-S5-ql", "mean_d_pct"], -V["syn"].loc["Veq-syn-S15-ql", "mean_d_pct"]), 0.071, 0.0006, None)
 chk("validada a CPU igual vs Q-Learning sintetico, maximo (0,097)", max(-V["syn"].loc["Veq-syn-S5-ql", "mean_d_pct"], -V["syn"].loc["Veq-syn-S15-ql", "mean_d_pct"]), 0.097, 0.0006)
-chk("validada a CPU igual vs Q-Learning descoberta S5 (0,051)", -V["discovery"].loc["Veq-discovery-S5-ql", "mean_d_pct"], 0.051, 0.0006, "$0.051$ and $0.058$ on the discovery")
+chk("validada a CPU igual vs Q-Learning descoberta S5 (0,051)", -V["discovery"].loc["Veq-discovery-S5-ql", "mean_d_pct"], 0.051, 0.0006, None)
 chk("validada a CPU igual vs Q-Learning descoberta S15 (0,058)", -V["discovery"].loc["Veq-discovery-S15-ql", "mean_d_pct"], 0.058, 0.0006)
-chk("validada a CPU igual vs Q-Learning held-out S5 (0,058)", -V["heldout"].loc["Veq-heldout-S5-ql", "mean_d_pct"], 0.058, 0.0006, "$0.058$ and $0.059$ on the held-out ones")
+chk("validada a CPU igual vs Q-Learning held-out S5 (0,058)", -V["heldout"].loc["Veq-heldout-S5-ql", "mean_d_pct"], 0.058, 0.0006, None)
 chk("validada a CPU igual vs Q-Learning held-out S15 (0,059)", -V["heldout"].loc["Veq-heldout-S15-ql", "mean_d_pct"], 0.059, 0.0006)
 chk("validada a CPU igual vs roleta S5 descoberta (0,023)", -V["discovery"].loc["Veq-discovery-S5-alns", "mean_d_pct"], 0.023, 0.0006, "($0.023$ and $0.024$)")
 chk("validada a CPU igual vs roleta S5 held-out (0,024)", -V["heldout"].loc["Veq-heldout-S5-alns", "mean_d_pct"], 0.024, 0.0006)
@@ -233,13 +215,10 @@ for sp_ in ("S3", "S5", "S15", "S30"):
     oo = dd[dd.method.str.startswith("arm")].groupby(["cls", "rep"]).makespan.min().rename("oracle").reset_index()
     ww = mm.merge(oo, on=["cls", "rep"])
     hmax.append(float((-100 * (ww.oracle - ww.rand) / ww.rand).groupby(ww.cls).mean().max()))
-chk("folga maxima por celula sintetica (0,28)", max(hmax), 0.28, 0.005, "single cells up to $0.28\\%$")
 tcell = Cells[(Cells.set == "ta") & Cells.vnr.notna() & (Cells.gq > 0)]
-chk("flowshop Taillard: uma celula em que o Q-Learning ganha (0,009)", float(len(tcell)), 1, 0, "one of the $14$ Taillard cells does, by $0.009$")
-chk("flowshop Taillard: ganho dessa celula (0,009)", float(tcell.gq.iloc[0]), 0.009, 0.0006)
 from experiment import run_cycle18_pfsp_selector_entrada205 as FS  # noqa: E402
 
-chk("treino do seletor do flowshop (540 instancias)", len(FS.train_items()), 540, 0, "trained on $540$ further synthetic instances")
+chk("treino do seletor do flowshop (540 instancias)", len(FS.train_items()), 540, 0, None)
 
 # ---------------------------------------------------------------- relatorio
 bad = [r for r in rows if not r[4]]

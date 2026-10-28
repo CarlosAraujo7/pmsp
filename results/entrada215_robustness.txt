@@ -1,0 +1,111 @@
+==============================================================================================================
+ROBUSTEZ ESTATISTICA (Entrada 215)
+==============================================================================================================
+
+--- pares de cabecalho: p brutos e significancia apos Holm sobre os pares (por modo) ---
+                        claim    n  tie   mean_d  p_wilcoxon    p_pratt  p_perm  sig_w  sig_pr  sig_pm
+ pub discovery S5: sel vs val 2550  853 -0.02435   3.576e-40    1.4e-38   5e-05   True    True    True
+  pub discovery S5: sel vs ql 2550  729 -0.07782  1.106e-211 4.009e-228   5e-05   True    True    True
+ pub discovery S5: ql vs rand 2550  649 -0.02149   2.502e-18  5.863e-23   5e-05   True    True    True
+  pub discovery S5: val vs ql 2550  707 -0.05342  4.118e-101 1.119e-106   5e-05   True    True    True
+   pub heldout S5: sel vs val 3950 1309  -0.0263   1.303e-59  1.093e-55   5e-05   True    True    True
+    pub heldout S5: sel vs ql 3950 1063  -0.0901           0          0   5e-05   True    True    True
+   pub heldout S5: ql vs rand 3950  957 -0.01398   6.444e-12  3.323e-16   5e-05   True    True    True
+    pub heldout S5: val vs ql 3950 1020 -0.06357  2.706e-175  1.42e-182   5e-05   True    True    True
+           syn S5: ql vs rand 1200  376 0.002763      0.5968     0.1559  0.5609  False   False   False
+            syn S5: val vs ql 1200  449 -0.09455   5.217e-88   1.74e-93   5e-05   True    True    True
+pub discovery S15: sel vs val 2550  869 -0.02739   2.763e-39  3.304e-36   5e-05   True    True    True
+ pub discovery S15: sel vs ql 2550  727 -0.08073  1.795e-189 4.083e-195   5e-05   True    True    True
+pub discovery S15: ql vs rand 2550  639 -0.05843   1.972e-54  9.844e-63   5e-05   True    True    True
+ pub discovery S15: val vs ql 2550  713 -0.05329   2.085e-98   1.76e-99   5e-05   True    True    True
+  pub heldout S15: sel vs val 3950 1289  -0.0441   1.039e-59  1.506e-53   5e-05   True    True    True
+   pub heldout S15: sel vs ql 3950 1062 -0.09508           0          0   5e-05   True    True    True
+  pub heldout S15: ql vs rand 3950  960 -0.05029   1.014e-63   1.29e-74   5e-05   True    True    True
+   pub heldout S15: val vs ql 3950 1027 -0.05054   3.16e-135 6.007e-140   5e-05   True    True    True
+          syn S15: ql vs rand 1200  430 0.004275      0.9039     0.6146  0.3982  False   False   False
+           syn S15: val vs ql 1200  470 -0.08398   1.281e-59  6.804e-55   5e-05   True    True    True
+  flowshop syn F5: ql vs rand  360  179  0.04992   1.352e-10  7.248e-12   5e-05   True    True    True
+   flowshop syn F5: val vs ql  360  169  -0.0775   4.616e-17  1.074e-19   5e-05   True    True    True
+   flowshop ta F5: ql vs rand   90   30  0.05871   0.0001737  0.0003576  0.0002   True    True    True
+    flowshop ta F5: val vs ql   90   30 -0.07063   5.972e-06  2.171e-05   5e-05   True    True    True
+ flowshop syn F15: ql vs rand  360  179  0.06132   6.525e-13  8.957e-13   5e-05   True    True    True
+  flowshop syn F15: val vs ql  360  178  -0.1042   1.491e-22  3.928e-23   5e-05   True    True    True
+  flowshop ta F15: ql vs rand   90   29  0.08043   7.775e-06  1.133e-05   5e-05   True    True    True
+   flowshop ta F15: val vs ql   90   32  -0.1114    3.03e-07  6.803e-07   5e-05   True    True    True
+
+concordancia dos tres modos: 1.000; pares significativos no Wilcoxon e nao na permutacao: 0
+
+controle global: 1562 testes registrados em 126 arquivos; 855 'confirmada'; sobrevivem a Holm global 763 (0.892) e a Benjamini-Yekutieli global 829 (0.970)
+testes 'confirmada' que NAO sobrevivem ao BY global:
+                              file             id    p_raw  p_by_global
+     entrada102_seeded_primary.csv             P1  0.03636       0.3883
+ entrada117_ils_seeded_primary.csv             I2 0.004569       0.0516
+  entrada118_unrelated_primary.csv             M2  0.01093       0.1206
+ entrada121_budget_law_primary.csv             B4 0.006836      0.07609
+           entrada180_agents_b.csv      B-S30-ucb 0.005273      0.05934
+           entrada185_aos_acpu.csv     Acpu-S5-ap  0.01208       0.1327
+          entrada185_aos_aiter.csv    Aiter-S5-ap 0.008776      0.09733
+           entrada188_new_acpu.csv  Acpu-S15-dmab  0.01968       0.2135
+          entrada188_new_aiter.csv Aiter-S15-dmab 0.005146      0.05801
+         entrada199_famF_Aiter.csv   Aiter-S5-ucb 0.005724      0.06412
+entrada205_pfsp_selector_Crand.csv    Crand-F5-ta  0.04438       0.4675
+  entrada215_robustness_global.csv             P1  0.03636       0.3883
+  entrada215_robustness_global.csv             I2 0.004569       0.0516
+  entrada215_robustness_global.csv             M2  0.01093       0.1206
+  entrada215_robustness_global.csv             B4 0.006836      0.07609
+  entrada215_robustness_global.csv      B-S30-ucb 0.005273      0.05934
+  entrada215_robustness_global.csv     Acpu-S5-ap  0.01208       0.1327
+  entrada215_robustness_global.csv    Aiter-S5-ap 0.008776      0.09733
+  entrada215_robustness_global.csv  Acpu-S15-dmab  0.01968       0.2135
+  entrada215_robustness_global.csv Aiter-S15-dmab 0.005146      0.05801
+  entrada215_robustness_global.csv   Aiter-S5-ucb 0.005724      0.06412
+  entrada215_robustness_global.csv    Crand-F5-ta  0.04438       0.4675
+           entrada219_ga_Aiter.csv   Aiter-G9-ucb 0.005739      0.06422
+           entrada219_ga_Aiter.csv    Aiter-G9-pg 0.005656      0.06347
+         entrada220_ga_mix_Mit.csv    Mit-G9-alns  0.01132       0.1245
+        entrada220_ga_mix_Mval.csv        Mval-G9  0.01545       0.1682
+
+--- celulas (familia x tercil de n) ---
+space       set fam  grp   n  d_sel_val     g_ql
+   S5 discovery   B    0 280   -0.03347  -0.0678
+   S5 discovery   B    1 280  -0.004803  0.02179
+   S5 discovery   B    2 280 -0.0006114  0.04568
+   S5 discovery   C    0 350   -0.06094 -0.03086
+   S5 discovery   C    1 350   -0.02325   0.1067
+   S5 discovery   C    2 350   -0.04502   0.2102
+   S5 discovery   E    0 220   0.009628 -0.06165
+   S5 discovery   E    1 240   -0.02066 -0.06456
+   S5 discovery   E    2 200   -0.01572 -0.08068
+   S5   heldout   B    0 450   -0.04821 -0.06459
+   S5   heldout   B    1 420  -0.001176  0.02181
+   S5   heldout   B    2 420  0.0004494  0.04496
+   S5   heldout   C    0 480    -0.0541 -0.05689
+   S5   heldout   C    1 480   -0.02752  0.05221
+   S5   heldout   C    2 540    -0.0439   0.2348
+   S5   heldout   E    0 340   0.004628 -0.06382
+   S5   heldout   E    1 360   -0.01643 -0.06947
+   S5   heldout   E    2 460   -0.03185  -0.0469
+  S15 discovery   B    0 280   -0.03629 -0.04951
+  S15 discovery   B    1 280  -0.003985  0.04466
+  S15 discovery   B    2 280   0.001073  0.05891
+  S15 discovery   C    0 350   -0.05671 0.003372
+  S15 discovery   C    1 350   -0.03068   0.1884
+  S15 discovery   C    2 350   -0.04191   0.2992
+  S15 discovery   E    0 220   -0.04979 -0.06896
+  S15 discovery   E    1 240   0.001665 -0.05985
+  S15 discovery   E    2 200   -0.01531 -0.04213
+  S15   heldout   B    0 450   -0.05068 -0.04671
+  S15   heldout   B    1 420  -0.002765  0.04785
+  S15   heldout   B    2 420  0.0002867  0.06035
+  S15   heldout   C    0 480    -0.1523   -0.032
+  S15   heldout   C    1 480   -0.02278   0.1403
+  S15   heldout   C    2 540   -0.05239   0.3374
+  S15   heldout   E    0 340   -0.07722 -0.07045
+  S15   heldout   E    1 360   -0.00411 -0.05973
+  S15   heldout   E    2 460   -0.02243 -0.03147
+
+--- PREVISOES PRE-FIXADAS ---
+(D1) concordancia >= 0,95 e nenhum par perde a significancia na permutacao: SIM (concordancia 1.000; perdidos 0)
+(D2) >= 95% dos 'confirmada' sobrevivem a Holm e a BY globais: NAO (0.892; 0.970)
+(D3) seletor melhor que a validada em >= 70% das celulas em cada espaco e conjunto: SIM (S15/discovery 0.78, S15/heldout 0.89, S5/discovery 0.89, S5/heldout 0.78)
+(D4) held-out: Q-Learning positivo em >= 5 das 6 celulas da familia C e negativo em >= 5 das 6 da E: NAO (C positivas 4/6; E negativas 6/6)

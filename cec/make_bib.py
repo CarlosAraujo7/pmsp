@@ -145,11 +145,44 @@ EXTRA += r"""
   year      = {2008}
 }
 """
-extra_keys = {"LiEtAl2010", "MnihEtAl2015", "Williams1992", "DrakeEtal2020", "Talbi2021", "LaTorreEtal2021", "EibenSmit2011", "Lakens2017", "Goldberg1990", "SonneratEtal2021", "BartzBeielsteinEtal2020", "Russo2018", "DaCostaEtal2008"}
+EXTRA += r"""
+@incollection{Rice1976,
+  author    = {John R. Rice},
+  title     = {The algorithm selection problem},
+  booktitle = {Advances in Computers},
+  volume    = {15},
+  pages     = {65--118},
+  publisher = {Elsevier},
+  year      = {1976},
+  doi       = {10.1016/S0065-2458(08)60520-3}
+}
+
+@article{KerschkeEtal2019,
+  author  = {Pascal Kerschke and Holger H. Hoos and Frank Neumann and Heike Trautmann},
+  title   = {Automated algorithm selection: Survey and perspectives},
+  journal = {Evolutionary Computation},
+  volume  = {27},
+  number  = {1},
+  pages   = {3--45},
+  year    = {2019},
+  doi     = {10.1162/evco_a_00242}
+}
+
+@article{BischlEtal2016,
+  author  = {Bernd Bischl and Pascal Kerschke and Lars Kotthoff and Marius Lindauer and Yuri Malitsky and Alexandre Frech{\'e}tte and Holger Hoos and Frank Hutter and Kevin Leyton-Brown and Kevin Tierney and Joaquin Vanschoren},
+  title   = {{ASlib}: A benchmark library for algorithm selection},
+  journal = {Artificial Intelligence},
+  volume  = {237},
+  pages   = {41--58},
+  year    = {2016},
+  doi     = {10.1016/j.artint.2016.04.003}
+}
+"""
+extra_keys = {"Rice1976", "KerschkeEtal2019", "BischlEtal2016", "LiEtAl2010", "MnihEtAl2015", "Williams1992", "DrakeEtal2020", "Talbi2021", "LaTorreEtal2021", "EibenSmit2011", "Lakens2017", "Goldberg1990", "SonneratEtal2021", "BartzBeielsteinEtal2020", "Russo2018", "DaCostaEtal2008"}
 missing = sorted(k for k in cited if k not in entries and k not in extra_keys)
 assert not missing, f"chaves citadas sem entrada: {missing}"
 out = "\n\n".join(entries[k] for k in sorted(cited) if k in entries) + "\n" + EXTRA
 out = out.replace("{P}||{C}max", "{P}$||${C}max")
 out = re.sub(r",\s*note\s*=\s*\{Report date.*?1982 report\}", "", out, flags=re.S)
 (HERE / "refs_cec.bib").write_text(out, encoding="utf-8")
-print(len(cited), "chaves;", len([k for k in cited if k in entries]), "de refs.bib + 3 novas")
+print(len(cited), "chaves;", len([k for k in cited if k in entries]), "de refs.bib + novas")

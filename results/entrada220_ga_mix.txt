@@ -1,0 +1,52 @@
+==============================================================================================================
+MISTURA ESTATICA VALIDADA NO HOSPEDEIRO POPULACIONAL (Entrada 220)
+==============================================================================================================
+
+--- Mrand (Holm sobre 2) ---
+       id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ Mrand-G9 1200     821    347   32    -0.05002 -0.06106 -0.03879  9.138e-31  9.138e-31        True             False confirmada
+Mrand-G18 1200    1054    133   13     -0.1435  -0.1558  -0.1319 5.293e-143 1.059e-142        True             False confirmada
+
+--- Mval (Holm sobre 2) ---
+      id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05    leitura
+ Mval-G9 1200     497    666   37     -0.1054  -0.1247  -0.0868   0.01545   0.01545        True             False confirmada
+Mval-G18 1200     544    639   17    -0.06716  -0.0763 -0.05797 6.684e-09 1.337e-08        True             False confirmada
+
+--- Mit (Holm sobre 10) ---
+          id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05        leitura
+   Mit-G9-ql 1200     944    230   26     -0.1447   -0.162  -0.1274  6.988e-73  3.494e-72        True             False     confirmada
+  Mit-G9-ucb 1200     809    360   31    -0.03718 -0.04908  -0.0251  5.433e-24   1.63e-23        True              True       paridade
+   Mit-G9-pg 1200     813    357   30    -0.03553  -0.0457 -0.02444  4.177e-25  1.671e-24        True              True       paridade
+ Mit-G9-alns 1200     537    629   34    -0.07694 -0.09349 -0.05927    0.01132    0.02263        True             False     confirmada
+   Mit-G9-ts 1200     503    669   28    0.001538 -0.00936  0.01266    0.09002    0.09002       False              True nao confirmada
+  Mit-G18-ql 1200    1093     99    8     -0.1909  -0.2116  -0.1709 2.279e-152 2.279e-151        True             False     confirmada
+ Mit-G18-ucb 1200    1070    123    7     -0.1485  -0.1614  -0.1361 5.676e-146 5.108e-145        True             False     confirmada
+  Mit-G18-pg 1200    1052    141    7     -0.1427  -0.1543  -0.1309  3.74e-141 2.992e-140        True             False     confirmada
+Mit-G18-alns 1200     878    310   12     -0.1455  -0.1648   -0.127  4.388e-78  2.633e-77        True             False     confirmada
+  Mit-G18-ts 1200     955    233   12    -0.09679  -0.1093  -0.0853  3.828e-81   2.68e-80        True             False     confirmada
+
+--- Meq (Holm sobre 10) ---
+          id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05        leitura
+   Meq-G9-ql 1200     945    231   24     -0.1365  -0.1527  -0.1212  3.004e-74  1.803e-73        True             False     confirmada
+  Meq-G9-ucb 1200     821    351   28    -0.03054 -0.04146    -0.02  1.437e-23  5.749e-23        True              True       paridade
+   Meq-G9-pg 1200     817    362   21    -0.02383 -0.03449 -0.01276  5.466e-20   1.64e-19        True              True       paridade
+ Meq-G9-alns 1200     506    665   29    -0.05895  -0.0747 -0.04441      0.176      0.176       False             False nao confirmada
+   Meq-G9-ts 1200     598    574   28    -0.03329 -0.04535 -0.02197  8.495e-05  0.0001699        True              True       paridade
+  Meq-G18-ql 1200    1077    115    8     -0.1723  -0.1921  -0.1532 5.369e-143 4.832e-142        True             False     confirmada
+ Meq-G18-ucb 1200    1065    127    8      -0.136  -0.1478  -0.1247  1.54e-146  1.54e-145        True             False     confirmada
+  Meq-G18-pg 1200    1030    158   12     -0.1262  -0.1378   -0.115 2.233e-130 1.786e-129        True             False     confirmada
+Meq-G18-alns 1200     764    421   15     -0.1294  -0.1475  -0.1124  1.622e-48   8.11e-48        True             False     confirmada
+  Meq-G18-ts 1200    1020    167   13     -0.1288  -0.1434  -0.1141 2.815e-109  1.97e-108        True             False     confirmada
+
+--- ganho sobre o aleatorio, agrupado (%, positivo: melhor) ---
+space    vmix      val       ql       ucb        pg     alns      ts
+   G9 0.05002 -0.05678  -0.0957   0.01266   0.01436 -0.02774 0.05139
+  G18  0.1435  0.07628 -0.04835 -0.005154 0.0006432 -0.00271 0.04662
+
+--- PREVISOES E LEITURA PRE-FIXADAS ---
+(V1) vmix ganha do aleatorio (confirmado) em G9 e G18: SIM (+0.050, +0.144)
+(V2) vmix vence a validada unica nos dois: SIM (+0.105, +0.067)
+(V3) vmix vence Thompson a iteracoes iguais nos dois: NAO (-0.002, +0.097)
+(V4) vmix vence os cinco aprendizes a iteracoes iguais em >= 8 dos 10: SIM (9/10)
+(V5) a CPU igual vmix vence os cinco em >= 9 dos 10: SIM (9/10)
+M (a mistura validada vence o aprendizado online) = V1, V3 e V5: NAO

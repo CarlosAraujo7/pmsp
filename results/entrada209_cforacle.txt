@@ -1,0 +1,44 @@
+==============================================================================================================
+ORACULO COM VALIDACAO CRUZADA DE SEMENTES (Entrada 209)
+==============================================================================================================
+
+--- folga enviesada x com validacao cruzada (agrupadas por instancia; em pontos percentuais) ---
+      set space   sub    n  h_biased      h_cf  bias_rel
+      syn    S5   all 1200    0.1246   0.06261    0.4973
+discovery    S5   all 2550    0.1201   0.07228     0.398
+  heldout    S5   all 3950     0.132   0.07876    0.4031
+  heldout    S5   C12 1020    0.3046    0.2437       0.2
+      syn   S15   all 1200    0.1224   0.04319    0.6471
+discovery   S15   all 2550    0.1695    0.1216    0.2826
+  heldout   S15   all 3950    0.1737    0.1165    0.3297
+  heldout   S15   C12 1020    0.3777    0.3206    0.1511
+ pfsp-syn    F5   all  360    0.1194   0.01205    0.8991
+ pfsp-syn    F5 large  160      0.22   0.02869    0.8696
+  pfsp-ta    F5   all   90    0.1323 -0.005908     1.045
+ pfsp-syn   F15   all  360    0.1523   0.02549    0.8327
+ pfsp-syn   F15 large  160    0.3004   0.06318    0.7897
+  pfsp-ta   F15   all   90    0.1857    0.0239    0.8713
+
+--- Spearman(folga, ganho do Q-Learning) por conjunto e espaco ---
+problem       set space  n_cells  rho_biased   rho_cf      p_cf
+  pcmax discovery   S15        9      0.5667   0.9333 0.0002359
+  pcmax discovery    S5        9      0.3667   0.7333   0.02455
+  pcmax   heldout   S15        9         0.6   0.9667 2.155e-05
+  pcmax   heldout    S5        9      0.6667     0.95 8.763e-05
+  pcmax       syn   S15       12    0.006993   0.6643   0.01845
+  pcmax       syn    S5       12      0.1259   0.6434     0.024
+   pfsp       syn   F15        9     -0.7833 -0.06667    0.8647
+   pfsp       syn    F5        9     -0.9333  -0.2667    0.4879
+   pfsp        ta   F15        9     -0.4833  -0.7667   0.01594
+   pfsp        ta    F5        9     -0.3333   0.5667    0.1116
+
+limiar h* escolhido na descoberta (acuracia balanceada 0.944): 0.0475 pontos; acuracia nas demais celulas (60): 0.783; por conjunto: pcmax/heldout 0.89, pcmax/syn 0.75, pfsp/syn 0.72
+
+--- PREVISOES E LEITURAS PRE-FIXADAS ---
+(A1) folga cf < enviesada nos dez pares: SIM
+(A2) vies relativo flowshop (classes grandes) >= 0,5 e familia C held-out <= 0,35: SIM (flowshop 0.87, 0.79; C12 held-out 0.20, 0.15)
+(A3) Spearman(folga cf, g_Q) >= +0,5 no held-out publicado em S5 e S15: SIM (+0.97, +0.95)
+(A4) flowshop sinteticas: Spearman(folga cf, g_Q) >= -0,3 em F5 e F15: SIM (-0.07, -0.27)
+(A5) flowshop sinteticas, classes grandes: folga cf < 0,10 em F5 e F15: SIM (0.029, 0.063)
+(A6) limiar unificado: acuracia >= 0,75 nas demais celulas: SIM (0.783)
+U (a regra vale nos dois problemas com a folga sem vies) = A3 e A4 e A6: SIM

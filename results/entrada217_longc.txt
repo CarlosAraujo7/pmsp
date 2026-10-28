@@ -1,0 +1,35 @@
+==============================================================================================================
+HORIZONTE LONGO NA FAMILIA C (Entrada 217)
+==============================================================================================================
+
+--- T = 5000: (Holm sobre 6) ---
+             id   n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+  ql-rand-T5000 340     146     38  156    -0.03326 -0.04398 -0.02235 2.994e-10 1.497e-09        True              True       paridade
+  wq-rand-T5000 340      85     89  166   -0.005264 -0.01461 0.004227    0.4675    0.9349       False              True nao confirmada
+   val-ql-T5000 340      66     74  200    0.001855 -0.01317  0.01766    0.8777    0.9349       False              True nao confirmada
+  sel-val-T5000 340      91     43  206    -0.02573 -0.03768 -0.01469 8.744e-05 0.0002623        True              True       paridade
+    wq-ql-T5000 340      38    146  156      0.0281  0.01743  0.03838 5.839e-10 2.336e-09       False              True nao confirmada
+alns-rand-T5000 340     148     34  158    -0.04136 -0.05253 -0.02992 7.291e-12 4.375e-11        True             False     confirmada
+
+--- T = 20000: (Holm sobre 6) ---
+              id   n  better  worse  tie  mean_d_pct   ci90_lo   ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+  ql-rand-T20000 340      88     24  228    -0.01672  -0.02516 -0.007714  3.26e-06  1.63e-05        True              True       paridade
+  wq-rand-T20000 340      60     53  227  -9.744e-05 -0.008736  0.009051    0.6395    0.9966       False              True nao confirmada
+   val-ql-T20000 340      59     55  226   0.0005443  -0.01451   0.01805    0.4983    0.9966       False              True nao confirmada
+  sel-val-T20000 340      66     43  231    -0.01662   -0.0301 -0.004307   0.02597   0.07792       False              True nao confirmada
+    wq-ql-T20000 340      34     92  214     0.01667  0.008525   0.02462 0.0001226 0.0004904       False              True nao confirmada
+alns-rand-T20000 340     106     28  206    -0.02187  -0.03259  -0.01103 4.493e-07 2.696e-06        True              True       paridade
+
+--- ganho sobre o aleatorio por horizonte (%, positivo: melhor; folga cf com validacao cruzada de sementes) ---
+    T   n  cf_headroom      ql        wq    alns     val     sel
+ 1000 340       0.2218  0.1284   0.05286  0.1763  0.2126  0.2532
+ 5000 340      0.04697 0.03326  0.005264 0.04136 0.03148 0.05732
+20000 340      0.02262 0.01672 9.744e-05 0.02187 0.01619 0.03302
+
+--- PREVISOES PRE-FIXADAS ---
+(E1) folga cf decrescente em 1.000 > 5.000 > 20.000: SIM (0.222, 0.047, 0.023)
+(E2) Q frio ganha com T = 5.000 (confirmado) e menos com 20.000 que com 1.000: SIM (ql: +0.128, +0.033, +0.017)
+(E3) validada vence o Q frio (confirmada) em T = 5.000 e 20.000: NAO
+(E4) seletor melhor que a validada em media em T = 5.000 e 20.000: SIM
+(E5) Q aquecido melhor que o Q frio em media em T = 5.000 e 20.000: NAO
+(E6) T = 20.000: todos os ganhos < 0,15: SIM (max 0.033)

@@ -1,0 +1,89 @@
+==============================================================================================================
+SELETOR OFFLINE E Q AQUECIDO A CPU IGUAL (Entrada 213)
+==============================================================================================================
+
+--- razoes de CPU K (acao do seletor / aleatorio; Q aquecido / aleatorio; Q frio e roleta da Entrada 189) ---
+space group  K_sel   K_wq   K_ql  K_alns
+   S5   B|0 0.9146  1.021 0.7162   0.745
+   S5   B|1 0.5783  1.017 0.5977  0.6031
+   S5   B|2  0.302  1.001 0.5288  0.5314
+   S5   C|0 0.9216 0.9893 0.5728  0.7901
+   S5   C|1 0.4089      1 0.5181  0.5322
+   S5   C|2 0.3886 0.9381 0.5182  0.5189
+   S5   E|0  1.164 0.9824 0.9338   1.033
+   S5   E|1  1.144 0.9846 0.7768  0.9207
+   S5   E|2   0.76  1.038  0.681  0.7965
+  S15   B|0 0.9113 0.9855  0.724  0.7782
+  S15   B|1  0.579 0.9093 0.6366  0.6301
+  S15   B|2 0.3221 0.8697 0.5202  0.5099
+  S15   C|0 0.9794 0.9426 0.6026  0.8416
+  S15   C|1 0.4312 0.8112 0.5389  0.5885
+  S15   C|2   0.44 0.8609 0.5581  0.6127
+  S15   E|0  1.138 0.9895 0.9317   1.032
+  S15   E|1  1.293 0.9653 0.8187  0.9543
+  S15   E|2 0.7941 0.9993  0.688  0.8313
+
+--- Cql: sel_eq_ql contra ql (Holm sobre 4) ---
+               id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ Cql-S5-discovery 2550    1679    140  731    -0.08018 -0.08508  -0.0755 3.744e-240 7.488e-240        True             False confirmada
+   Cql-S5-heldout 3950    2676    227 1047    -0.09147 -0.09643 -0.08706          0          0        True             False confirmada
+Cql-S15-discovery 2550    1625    190  735    -0.07744 -0.08431 -0.07079 3.447e-214 3.447e-214        True             False confirmada
+  Cql-S15-heldout 3950    2575    309 1066    -0.09333 -0.09896  -0.0881          0          0        True             False confirmada
+
+--- Cal: sel_eq_alns contra alns (Holm sobre 4) ---
+               id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ Cal-S5-discovery 2550    1510    194  846     -0.0485 -0.05197 -0.04508 2.119e-181 2.119e-181        True             False confirmada
+   Cal-S5-heldout 3950    2368    345 1237    -0.05574  -0.0591 -0.05239 5.028e-289 1.508e-288        True             False confirmada
+Cal-S15-discovery 2550    1859     62  629     -0.1297   -0.138  -0.1213 7.389e-288 1.478e-287        True             False confirmada
+  Cal-S15-heldout 3950    2913    101  936     -0.1468  -0.1531   -0.141          0          0        True             False confirmada
+
+--- Cwq: sel_eq_wq contra wq (Holm sobre 4) ---
+               id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ Cwq-S5-discovery 2550    1744    104  702     -0.1094  -0.1152  -0.1039 1.967e-257 1.967e-257        True             False confirmada
+   Cwq-S5-heldout 3950    2709    167 1074     -0.1142  -0.1191  -0.1096          0          0        True             False confirmada
+Cwq-S15-discovery 2550    1991     24  535     -0.2434  -0.2568  -0.2309          0          0        True             False confirmada
+  Cwq-S15-heldout 3950    3090     56  804     -0.2574   -0.268  -0.2478          0          0        True             False confirmada
+
+--- Cvl: sel_eq_val contra val (Holm sobre 4) ---
+               id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05  leitura
+ Cvl-S5-discovery 2550    1027    637  886    -0.02598 -0.02979 -0.02242 4.673e-43 1.402e-42        True              True paridade
+   Cvl-S5-heldout 3950    1655   1000 1295    -0.02821 -0.03316 -0.02406 1.424e-61 5.696e-61        True              True paridade
+Cvl-S15-discovery 2550    1000    716  834     -0.0183 -0.02215 -0.01428 1.016e-15 1.016e-15        True              True paridade
+  Cvl-S15-heldout 3950    1592   1148 1210    -0.03477 -0.04194 -0.02832 3.885e-27 7.769e-27        True              True paridade
+
+--- Dql: wq_eq_ql contra ql (Holm sobre 4) ---
+               id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05        leitura
+ Dql-S5-discovery 2550     578   1349  623     0.08925   0.0812  0.09748  7.495e-81  7.495e-81       False             False nao confirmada
+   Dql-S5-heldout 3950     941   2084  925     0.08818   0.0809  0.09549 1.189e-106 2.379e-106       False             False nao confirmada
+Dql-S15-discovery 2550     218   1773  559      0.2463   0.2313   0.2614  7.76e-241 2.328e-240       False             False nao confirmada
+  Dql-S15-heldout 3950     371   2788  791      0.2546   0.2428   0.2678          0          0       False             False nao confirmada
+
+--- Dal: wq_eq_alns contra alns (Holm sobre 4) ---
+               id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05        leitura
+ Dal-S5-discovery 2550     352   1526  672      0.1167    0.109   0.1245 2.867e-168 2.867e-168       False             False nao confirmada
+   Dal-S5-heldout 3950     601   2317 1032      0.1178   0.1115   0.1246 5.302e-233 1.591e-232       False             False nao confirmada
+Dal-S15-discovery 2550     276   1671  603      0.1659   0.1551   0.1766 4.249e-216 8.498e-216       False             False nao confirmada
+  Dal-S15-heldout 3950     432   2629  889      0.1734   0.1645   0.1832          0          0       False             False nao confirmada
+
+--- Dvl: wq_eq_val contra val (Holm sobre 4) ---
+               id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05        leitura
+ Dvl-S5-discovery 2550     306   1558  686      0.1588   0.1477     0.17 2.441e-185 2.441e-185       False             False nao confirmada
+   Dvl-S5-heldout 3950     562   2378 1010      0.1716   0.1612   0.1824  1.93e-270  3.86e-270       False             False nao confirmada
+Dvl-S15-discovery 2550     115   1933  502       0.321   0.3016   0.3418 3.284e-288 9.852e-288       False             False nao confirmada
+  Dvl-S15-heldout 3950     229   2941  780      0.3384   0.3218   0.3571          0          0       False             False nao confirmada
+
+--- iteracoes medias dos bracos de CPU igual ---
+space       set  T_sel_eq_alns  T_sel_eq_ql  T_sel_eq_val  T_sel_eq_wq  T_wq_eq_alns  T_wq_eq_ql  T_wq_eq_val
+   S5 discovery           1111         1038          1048         1755           701       633.7          746
+   S5   heldout           1107         1033          1054         1734           705       637.6        754.9
+  S15 discovery           1113         1014         943.8         1490         795.3       706.1        711.2
+  S15   heldout           1109         1008         953.2         1480         796.8       707.2          723
+
+--- PREVISOES E LEITURAS PRE-FIXADAS ---
+(C1) K_wq <= K_ql em >= 14 das 18 celulas: NAO (0/18)
+(C2) Cql confirmada nos quatro pares: SIM (ganho medio: +0.080, +0.091, +0.077, +0.093)
+(C3) Cal confirmada em >= 3 dos 4: SIM (+0.049, +0.056, +0.130, +0.147; confirmadas 4)
+(C4) Cvl confirmada em >= 3 dos 4 com ganho >= 0,01: SIM (+0.026, +0.028, +0.018, +0.035; confirmadas 4)
+(C5) seletor vence o Q aquecido a CPU igual em >= 3 dos 4: SIM (+0.109, +0.114, +0.243, +0.257)
+(C6) validada vence o Q aquecido a CPU igual em >= 3 dos 4: SIM (d medio de wq_eq_val vs val: +0.159, +0.172, +0.321, +0.338)
+E (a vantagem do seletor sobrevive a CPU igual contra todo aprendiz online) = C2 e C3 e C5: SIM

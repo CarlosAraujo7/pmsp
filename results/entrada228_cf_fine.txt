@@ -1,0 +1,48 @@
+==============================================================================================================
+FOLGA COM VALIDACAO CRUZADA NOS TEMPOS FINOS (Entrada 228)
+==============================================================================================================
+limiar h* (congelado) = 0.0475
+
+--- agregado por espaco (pontos percentuais) ---
+space    n  h_biased    h_cf  bias_rel  bias_rel_coarse   gain_ql  gain_val
+   S5 1200    0.1416 0.09759    0.3108           0.4973 -0.009339    0.1081
+  S15 1200    0.1753  0.1207    0.3111           0.6471   0.01544    0.1329
+
+--- celulas (classe x espaco) ---
+space          cell   n  h_biased     h_cf       gq      gval  pred_gain  true_gain
+   S5 rand_100j_20m 100    0.2091   0.1816  0.09855    0.1939       True       True
+   S5 rand_150j_15m 100   0.08698  0.08897  0.07874   0.08747       True       True
+   S5 rand_150j_30m 100    0.2608   0.2278   0.2035    0.2436       True       True
+   S5   rand_20j_4m 100   0.06551  0.03319 -0.06019   0.04107      False      False
+   S5   rand_20j_6m 100     0.156  0.02936  -0.1646   0.07628      False      False
+   S5 rand_250j_25m 100    0.1096   0.1078  0.09607    0.1073       True       True
+   S5 rand_300j_20m 100   0.02091  0.00986 0.008217   0.01317      False       True
+   S5   rand_30j_8m 100    0.1682  0.05788  -0.1675   0.06824       True      False
+   S5   rand_40j_5m 100   0.03718  0.02191 -0.02303   0.02324      False      False
+   S5  rand_50j_10m 100    0.1177  0.08445 -0.09485   0.06432       True      False
+   S5  rand_60j_20m 100    0.2968   0.1863  -0.1313    0.2257       True      False
+   S5  rand_75j_15m 100    0.1704   0.1421  0.04427    0.1529       True       True
+  S15 rand_100j_20m 100    0.2635   0.2358   0.1786    0.2499       True       True
+  S15 rand_150j_15m 100   0.07816  0.07317  0.07689   0.07591       True       True
+  S15 rand_150j_30m 100    0.3569    0.331   0.3131     0.334       True       True
+  S15   rand_20j_4m 100   0.08485  0.05007 -0.06308   0.05331       True      False
+  S15   rand_20j_6m 100    0.1957    0.049   -0.183   0.09233       True      False
+  S15 rand_250j_25m 100   0.06476  0.06539  0.07451   0.06012       True       True
+  S15 rand_300j_20m 100   0.01361 0.000699  0.01609 -0.002831      False       True
+  S15   rand_30j_8m 100    0.2253  0.09875   -0.149    0.1083       True      False
+  S15   rand_40j_5m 100   0.05113  0.02909 -0.01543   0.03413      False      False
+  S15  rand_50j_10m 100    0.1725   0.1132 -0.06673    0.1069       True      False
+  S15  rand_60j_20m 100    0.3833   0.2168 -0.09614    0.2698       True      False
+  S15  rand_75j_15m 100    0.2136    0.186  0.09953     0.213       True       True
+
+acuracia da regra h* nas 24 celulas: 0.583 (a fracao de celulas em que o Q ganha: 0.500)
+Spearman folga cf x ganho do Q por espaco: S15 +0.420, S5 +0.483
+
+--- PREVISOES E LEITURA PRE-FIXADAS ---
+(F1) folga cf agregada >= h* nos dois espacos: SIM (0.098, 0.121)
+(F2) parcela de ruido menor que a das sinteticas grossas nos dois espacos: SIM (0.311 vs 0.497, 0.311 vs 0.647)
+(F3) parcela de ruido >= 0,20 nos dois espacos: SIM
+(F4) acuracia da regra >= 0,75 nas 24 celulas: NAO (0.583)
+(F5) Spearman < 0,5 em pelo menos um espaco: SIM (+0.420, +0.483)
+(F6) ganho agregado da validada > folga cf em pelo menos um espaco: SIM (0.108 vs 0.098, 0.133 vs 0.121)
+C (folga sem retorno para o aprendiz online: F1 e |ganho do Q| < 0,05): SIM (ganho do Q -0.009, +0.015)
