@@ -158,7 +158,7 @@ chk("flowshop: Q-Learning a CPU igual F15 (-0,047)", -Fc.loc["Acpu-syn-F15-ql", 
 oth = Fa["syn"].loc[[i for i in Fa["syn"].index if not i.endswith("-ql")], "mean_d_pct"]
 chk("flowshop: outros aprendizes dentro de 0,013", oth.abs().max(), 0.013, 0.0006, None)
 Fb = rd("entrada197_pfsp_syn_Bit.csv")
-chk("flowshop: validada vence os dez pares a iteracoes iguais", float(Fb.confirmada.all()), 1, 0, "in all ten learner--space pairs at equal iterations")
+chk("flowshop: validada vence os dez pares a iteracoes iguais", float(Fb.confirmada.all()), 1, 0, "in all ten learner--space pairs of the synthetic instances at equal iterations")
 chk("flowshop: validada vs aprendizes, minimo (0,020)", -Fb.mean_d_pct.max(), 0.020, 0.0006, "(by $0.020$--$0.104$)")
 chk("flowshop: validada vs aprendizes, maximo (0,104)", -Fb.mean_d_pct.min(), 0.104, 0.0006)
 Fq = rd("entrada197_pfsp_syn_Beq.csv").set_index("id")

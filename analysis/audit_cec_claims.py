@@ -169,7 +169,7 @@ oq = KA[KA.learner == "ql"].sobrecusto_por_avaliacao
 chk("sobrecusto Q minimo (1,07)", oq.min(), 1.07, 0.005, None)
 chk("sobrecusto Q maximo (1,33)", oq.max(), 1.33, 0.005, "at most $1.33$ times that of random choice")
 kq = [ku(s, "ql") for s in ("S5", "S15", "S30")]
-chk("K_CPU do Q em S5/S15/S30: minimo (0,50)", min(kq), 0.50, 0.005, "$0.50$--$0.60$ for Q-Learning in the three larger spaces")
+chk("K_CPU do Q em S5/S15/S30: minimo (0,50)", min(kq), 0.50, 0.005, "$0.50$--$0.60$ in the three larger spaces")
 chk("K_CPU do Q em S5/S15/S30: maximo (0,60)", max(kq), 0.60, 0.005)
 evq = [ke(s, "ql") for s in ("S5", "S15", "S30")]
 hd = {sp: -float(v) for sp, v in re.findall(r"^\s*(S\d+)\s+(-?\d\.\d+)\s*$", ta.split("folga: oraculo")[1].split("S30: fracao")[0], flags=re.M)}
@@ -230,6 +230,7 @@ chk("ALNS S5 a iteracoes iguais (0,039)", -AIi.loc["Aiter-S5-alns", "mean_d_pct"
 chk("ALNS S5 efeito de custo (0,029)", AIc.loc["Acpu-S5-alns", "mean_d_pct"] * -1 + AIi.loc["Aiter-S5-alns", "mean_d_pct"], 0.029, 0.0006, None)
 chk("ALNS S5 a CPU igual (0,068)", -AIc.loc["Acpu-S5-alns", "mean_d_pct"], 0.068, 0.0006)
 chk("ALNS S15 a iteracoes iguais (+0,002)", AIi.loc["Aiter-S15-alns", "mean_d_pct"], 0.002, 0.0006, None)
+chk("ALNS S15 a CPU igual (0,020)", -AIc.loc["Acpu-S15-alns", "mean_d_pct"], 0.020, 0.0006, "($0.020$ at equal CPU time)")
 pmap = AIi[AIi.index.str.contains("-pm|-ap")]
 chk("PM e AP a iteracoes iguais: |d| <= 0,01", pmap.mean_d_pct.abs().max(), 0.0095, 0.0006, None)
 dd = {}
@@ -270,11 +271,11 @@ b5 = -LB[LB["T"] == 5000].mean_d_pct
 b20 = -LB[LB["T"] == 20000].mean_d_pct
 a100 = LA[LA["T"] == 100000].set_index("id")
 chk("T = 100000: |d| maximo dos aprendizes (0,006)", a100.mean_d_pct.abs().max(), 0.006, 0.0009, "the learners stay within $0.006$ points of random choice")
-chk("T = 100000: folga do oraculo (0,015)", -LH.loc[100000, "folga_oraculo_pct"], 0.015, 0.0006, "to $0.015\\%$, and the validated action still leads them")
+chk("T = 100000: folga do oraculo (0,015)", -LH.loc[100000, "folga_oraculo_pct"], 0.015, 0.0006, "to $0.015\\%$ at $T=100{,}000$, where the validated action still leads them")
 chk("T = 100000: razao da folga (0,12)", LH.loc[100000, "folga_oraculo_pct"] / LH.loc[1000, "folga_oraculo_pct"], 0.12, 0.005)
 chk("T = 100000: fracao da validada no limite inferior (92%)", 100 * LH.loc[100000, "frac_validada_no_lb"], 92, 0.5, None)
 b100 = -LB[LB["T"] == 100000].mean_d_pct
-chk("T = 100000: vantagem da validada, minimo (0,012)", b100.min(), 0.012, 0.0006, "by $0.012$--$0.017$ points at $T=100{,}000$ ($p<10^{-12}$)")
+chk("T = 100000: vantagem da validada, minimo (0,012)", b100.min(), 0.012, 0.0006, "$0.012$--$0.017$ points")
 chk("T = 100000: vantagem da validada, maximo (0,017)", b100.max(), 0.017, 0.0006)
 chk("T = 100000: p_holm da validada < 1e-12", float(LB[LB["T"] == 100000].p_holm.max() < 1e-12), 1, 0)
 
@@ -322,10 +323,10 @@ chk("a validada vence os 18 pares nas held-out", int(B190.confirmada.sum()), 18,
 
 # ---------------------------------------------------------------- previsoes registradas e auditoria da literatura
 # Previsoes pontuais registradas por bateria (acertos, total): Entradas 170 (16, 16), 173 (16, 18), 176 (4, 6), 178 (5, 7), 180 (16, 19) -- contagens do diario; 184 A1 (3, 5), 185 B (3, 8), A2 (4, 4), D (8, 8), C (6, 6) -- relatorios.
-PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6), (7, 9), (5, 9), (11, 12), (8, 9), (7, 7), (5, 5), (9, 14), (4, 6), (4, 9), (6, 6), (1, 6), (3, 5), (2, 4), (4, 6), (6, 6), (4, 7), (4, 5), (5, 6), (4, 5), (5, 6)]   # + Ciclo 18: 196; (4, 5) = Entrada 223 (Q otimista); (5, 6) = Entrada 228 (cf nos tempos finos) valeq 8/9, 200 seletor 7/7, controles 5/5, 199 familia F 9/14, 203 Q ajustado 4/6, 197 flowshop 4/9, 205 seletor do flowshop 6/6
-chk("baterias que contaram previsoes (30)", len(PRED), 30, 0, "in $30$ batteries")
-chk("previsoes que acertaram (185)", sum(a for a, _ in PRED), 185, 0, "$185$ of $239$ point predictions held")
-chk("previsoes registradas (239)", sum(b for _, b in PRED), 239, 0)
+PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6), (7, 9), (5, 9), (11, 12), (8, 9), (7, 7), (5, 5), (9, 14), (4, 6), (4, 9), (6, 6), (1, 6), (3, 5), (2, 4), (4, 6), (6, 6), (4, 7), (4, 5), (5, 6), (4, 5), (5, 6), (13, 14)]   # + Ciclo 18: 196; (4, 5) = Entrada 223 (Q otimista); (5, 6) = Entrada 228 (cf nos tempos finos); (13, 14) = Entrada 234 (R||Cmax) valeq 8/9, 200 seletor 7/7, controles 5/5, 199 familia F 9/14, 203 Q ajustado 4/6, 197 flowshop 4/9, 205 seletor do flowshop 6/6
+chk("baterias que contaram previsoes (31)", len(PRED), 31, 0, "in $31$ batteries")
+chk("previsoes que acertaram (198)", sum(a for a, _ in PRED), 198, 0, "$198$ of $253$ point predictions held")
+chk("previsoes registradas (253)", sum(b for _, b in PRED), 253, 0)
 
 L = pd.read_csv(R / "litaudit_pooled_entrada172.csv")
 L = L[L.included == "Y"]
@@ -349,7 +350,7 @@ def n_tests(f):
 chk("testes unitarios do ILS/descida vetorizados (357)", n_tests("tests/test_operators_fast.py"), 357, 0, None)
 chk("testes unitarios do nucleo compilado (403)", n_tests("tests/test_ig_numba.py"), 403, 0, None)
 chk("testes unitarios dos agentes compilados (35)", n_tests("tests/test_ig_numba_agents.py"), 35, 0)
-journal("72 de 96 comparacoes significativas contra LPT e sete ILS", "$72$ comparisons")
+rows.append(("72 de 96 comparacoes significativas contra LPT e sete ILS (texto do CEC)", float("nan"), float("nan"), 0, "$72$ of $96$ comparisons" in TEX))
 
 # ---------------------------------------------------------------- relatorio
 bad = [r for r in rows if not r[4]]

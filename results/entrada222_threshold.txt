@@ -19,16 +19,17 @@ LOHO (treina o limiar em dois hospedeiros, testa no terceiro; hospedeiros: P||Cm
 
 tempos finos (Entrada 228, 24 celulas classe x espaco): acuracia 0.583, balanceada 0.583, base 0.500, fracao em que o Q ganha 0.500
 
-condicao necessaria, TODAS as 144 celulas (P||Cmax sinteticas, descoberta, held-out, flowshop sintetico e Taillard, AG, tempos finos); margem de equivalencia 0,05:
-  todas: 144 celulas | abaixo de h*: 74, ganho do Q > 0: 7, ganho > 0,05: 0, maior ganho +0.026 | acima de h*: 70, ganho > 0: 46, ganho > 0,05: 29
+condicao necessaria, TODAS as 168 celulas (P||Cmax sinteticas, descoberta, held-out, flowshop sintetico e Taillard, AG, tempos finos, maquinas nao relacionadas); margem de equivalencia 0,05:
+  todas: 168 celulas | abaixo de h*: 79, ganho do Q > 0: 7, ganho > 0,05: 0, maior ganho +0.026 | acima de h*: 89, ganho > 0: 51, ganho > 0,05: 34
   discovery: 18 celulas | abaixo de h*: 8, ganho do Q > 0: 0, ganho > 0,05: 0, maior ganho -0.031 | acima de h*: 10, ganho > 0: 9, ganho > 0,05: 5
   fine: 24 celulas | abaixo de h*: 6, ganho do Q > 0: 2, ganho > 0,05: 0, maior ganho +0.016 | acima de h*: 18, ganho > 0: 10, ganho > 0,05: 9
   ga: 24 celulas | abaixo de h*: 12, ganho do Q > 0: 1, ganho > 0,05: 0, maior ganho +0.004 | acima de h*: 12, ganho > 0: 10, ganho > 0,05: 3
   heldout: 18 celulas | abaixo de h*: 8, ganho do Q > 0: 0, ganho > 0,05: 0, maior ganho -0.047 | acima de h*: 10, ganho > 0: 8, ganho > 0,05: 5
   syn: 42 celulas | abaixo de h*: 26, ganho do Q > 0: 3, ganho > 0,05: 0, maior ganho +0.026 | acima de h*: 16, ganho > 0: 8, ganho > 0,05: 7
   ta: 18 celulas | abaixo de h*: 14, ganho do Q > 0: 1, ganho > 0,05: 0, maior ganho +0.000 | acima de h*: 4, ganho > 0: 1, ganho > 0,05: 0
-  acima de h* (70 celulas): razao ganho do Q / folga cf: mediana 0.37, quartis [-0.63, 0.86]; ganho do Q negativo em 24
+  ur: 24 celulas | abaixo de h*: 5, ganho do Q > 0: 0, ganho > 0,05: 0, maior ganho -0.551 | acima de h*: 19, ganho > 0: 5, ganho > 0,05: 5
+  acima de h* (89 celulas): razao ganho do Q / folga cf: mediana 0.23, quartis [-1.26, 0.77]; ganho do Q negativo em 38
 
-fora da descoberta, 126 celulas | abaixo de h*: 66, ganho do Q > 0: 7, ganho > 0,05: 0, maior ganho +0.026 | acima de h*: 60, ganho > 0: 37, ganho > 0,05: 24, ganho negativo: 23, razao ganho/folga cf mediana 0.28
-margem 0.02: abaixo de h* 2 de 66 | acima de h* 32 de 60
-margem 0.10: abaixo de h* 0 de 66 | acima de h* 10 de 60
+fora da descoberta, 150 celulas | abaixo de h*: 71, ganho do Q > 0: 7, ganho > 0,05: 0, maior ganho +0.026 | acima de h*: 79, ganho > 0: 42, ganho > 0,05: 29, ganho negativo: 37, razao ganho/folga cf mediana 0.20
+margem 0.02: abaixo de h* 2 de 71 | acima de h* 37 de 79
+margem 0.10: abaixo de h* 0 de 71 | acima de h* 15 de 79

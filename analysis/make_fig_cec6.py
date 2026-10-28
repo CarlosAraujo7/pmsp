@@ -24,7 +24,7 @@ STYLE = [
     ("flowshop, synthetic", (C.problem == "pfsp") & (C.set == "syn"), "#7d3c98", "x", True),
     ("flowshop, Taillard", (C.problem == "pfsp") & (C.set == "ta"), "#7d3c98", "+", True),
 ]
-fig, a = plt.subplots(1, 1, figsize=(3.5, 2.25))
+fig, a = plt.subplots(1, 1, figsize=(3.5, 2.1))
 for lab, msk, col, mk, fill in STYLE:
     x = C[msk]
     if mk in ("x", "+"):
@@ -37,7 +37,7 @@ a.axhline(0, color="k", lw=0.5)
 a.axvline(hstar, color="k", lw=0.5, ls=":")
 a.text(hstar + 0.005, 0.455, f"$h^*={hstar:.3f}$", fontsize=6.2, va="top")
 a.set_xlabel("Cross-fitted oracle headroom over random choice (pp)")
-a.set_ylabel("Q-Learning gain, equal iterations (pp)")
+a.set_ylabel("Q-Learning gain (pp)")
 a.legend(fontsize=5.4, frameon=False, loc="upper left", handletextpad=0.2, borderaxespad=0.2, bbox_to_anchor=(0.0, 0.93))
 a.spines[["top", "right"]].set_visible(False)
 a.set_xlim(-0.32, 0.45)

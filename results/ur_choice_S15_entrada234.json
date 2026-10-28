@@ -1,0 +1,16 @@
+{
+ "val": {
+  "rand_100j_20m": 3,
+  "rand_150j_15m": 2,
+  "rand_150j_30m": 2,
+  "rand_20j_4m": 4,
+  "rand_20j_6m": 14,
+  "rand_250j_25m": 1,
+  "rand_300j_20m": 1,
+  "rand_30j_8m": 4,
+  "rand_40j_5m": 4,
+  "rand_50j_10m": 14,
+  "rand_60j_20m": 13,
+  "rand_75j_15m": 4
+ }
+}

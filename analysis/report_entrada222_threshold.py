@@ -75,11 +75,12 @@ def main():
         L.append(f"  testa {out} ({k} celulas): limiar de treino {t:.4f} (balanceada no treino {bt:.3f}); teste: acuracia {a:.3f}, balanceada {b:.3f}, base {bs:.3f}")
     # ---- Ciclo 21 (Entrada 229, tambem pos hoc): os tempos finos (bateria E, Entrada 228) e a leitura de CONDICAO NECESSARIA em todas as celulas
     F = pd.read_csv(R / "entrada228_cf_fine_cells.csv")
+    U = pd.read_csv(R / "entrada234_ur_cells.csv")
     F["win"] = F.gq > 0
     a, b, bs, k = score(F.h_cf, F.win.to_numpy(), hs)
     L.append(f"\ntempos finos (Entrada 228, {k} celulas classe x espaco): acuracia {a:.3f}, balanceada {b:.3f}, base {bs:.3f}, fracao em que o Q ganha {F.win.mean():.3f}")
-    A = pd.concat([C[["problem", "set", "space", "cell", "h_cf", "gq"]], G.assign(problem="ga", set="ga")[["problem", "set", "space", "cell", "h_cf"]].assign(gq=G.ql), F.assign(problem="pcmax", set="fine")[["problem", "set", "space", "cell", "h_cf", "gq"]]], ignore_index=True)
-    L.append(f"\ncondicao necessaria, TODAS as {len(A)} celulas (P||Cmax sinteticas, descoberta, held-out, flowshop sintetico e Taillard, AG, tempos finos); margem de equivalencia 0,05:")
+    A = pd.concat([C[["problem", "set", "space", "cell", "h_cf", "gq"]], G.assign(problem="ga", set="ga")[["problem", "set", "space", "cell", "h_cf"]].assign(gq=G.ql), F.assign(problem="pcmax", set="fine")[["problem", "set", "space", "cell", "h_cf", "gq"]], U.assign(problem="ur", set="ur")[["problem", "set", "space", "cell", "h_cf", "gq"]]], ignore_index=True)
+    L.append(f"\ncondicao necessaria, TODAS as {len(A)} celulas (P||Cmax sinteticas, descoberta, held-out, flowshop sintetico e Taillard, AG, tempos finos, maquinas nao relacionadas); margem de equivalencia 0,05:")
     for nm, x in [("todas", A)] + list(A.groupby("set")):
         lo, hi = x[x.h_cf < hs], x[x.h_cf >= hs]
         L.append(f"  {nm}: {len(x)} celulas | abaixo de h*: {len(lo)}, ganho do Q > 0: {int((lo.gq > 0).sum())}, ganho > 0,05: {int((lo.gq > 0.05).sum())}, maior ganho {lo.gq.max() if len(lo) else float('nan'):+.3f} | acima de h*: {len(hi)}, ganho > 0: {int((hi.gq > 0).sum())}, ganho > 0,05: {int((hi.gq > 0.05).sum())}")

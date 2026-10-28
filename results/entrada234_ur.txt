@@ -1,0 +1,84 @@
+==============================================================================================================
+HOSPEDEIRO NOVO: IG DE MAQUINAS NAO RELACIONADAS (Entrada 234)
+==============================================================================================================
+limiar h* (congelado) = 0.0475
+
+--- agregado por espaco (pontos percentuais; gap do aleatorio ao limite inferior em %; fracao das execucoes do aleatorio no limite) ---
+space    n  gap_rand_pct  frac_rand_at_lb  h_biased   h_cf    g_ql   g_ucb    g_pg   g_alns    g_qo  g_val
+   S5 1200         18.35          0.03017     1.498 0.4282  -1.059 0.02486 -0.0369 -0.08729  0.1741  0.947
+  S15 1200         19.78            0.028     2.806  1.603 -0.4844 0.01365  0.0372   0.1478 0.04458  2.078
+
+--- A: aprendiz contra o aleatorio, iteracoes iguais (negativo: o aprendiz e' melhor; Holm sobre 10) ---
+        id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+   A-S5-ql 1200     246    758  196       1.059    0.968    1.159 7.881e-68 7.881e-67       False             False nao confirmada
+  A-S5-ucb 1200     425    424  351    -0.02486 -0.08041  0.03112    0.3644         1       False             False nao confirmada
+   A-S5-pg 1200     409    452  339      0.0369 -0.01995  0.09194    0.2191    0.8763       False             False nao confirmada
+ A-S5-alns 1200     428    468  304     0.08729  0.02368   0.1542    0.1262    0.6312       False             False nao confirmada
+   A-S5-qo 1200     517    356  327     -0.1741  -0.2312  -0.1159 8.715e-09 6.972e-08        True             False     confirmada
+  A-S15-ql 1200     359    657  184      0.4844    0.372   0.5999 3.769e-12 3.392e-11       False             False nao confirmada
+ A-S15-ucb 1200     471    450  279    -0.01365  -0.0717   0.0447     0.553         1       False             False nao confirmada
+  A-S15-pg 1200     448    447  305     -0.0372 -0.09378  0.01968    0.5426         1       False             False nao confirmada
+A-S15-alns 1200     509    400  291     -0.1478  -0.2152  -0.0848 4.753e-05 0.0003327        True             False     confirmada
+  A-S15-qo 1200     480    426  294    -0.04458  -0.1092   0.0133    0.0605     0.363       False             False nao confirmada
+
+--- B: acao validada contra o aprendiz (negativo: a validada e' melhor; Holm sobre 10) ---
+        id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+   B-S5-ql 1200     995     44  161      -1.958   -2.051   -1.868 3.181e-162 2.863e-161        True             False confirmada
+  B-S5-ucb 1200     775    126  299     -0.9171  -0.9783  -0.8576 3.276e-101 6.552e-101        True             False confirmada
+   B-S5-pg 1200     766    115  319     -0.9775    -1.04  -0.9134 6.606e-106 1.982e-105        True             False confirmada
+ B-S5-alns 1200     817     99  284      -1.026   -1.089  -0.9648 6.163e-118 2.465e-117        True             False confirmada
+   B-S5-qo 1200     686    160  354     -0.7686  -0.8287  -0.7097  3.314e-83  3.314e-83        True             False confirmada
+  B-S15-ql 1200    1042     24  134      -2.524    -2.62   -2.428 2.313e-171 2.313e-170        True             False confirmada
+ B-S15-ucb 1200     908     65  227      -2.057   -2.153   -1.964 4.182e-145 2.509e-144        True             False confirmada
+  B-S15-pg 1200     908     62  230      -2.035   -2.135   -1.937 5.051e-145 2.525e-144        True             False confirmada
+B-S15-alns 1200     933     47  220       -1.93   -2.015   -1.844 2.564e-148 1.795e-147        True             False confirmada
+  B-S15-qo 1200     925     52  223      -2.028   -2.122   -1.935 1.393e-148 1.114e-147        True             False confirmada
+
+--- celulas (classe x espaco) ---
+space          cell   n  h_biased     h_cf      gq   gval  pred_gain  true_gain
+   S5 rand_100j_20m 100     1.689   0.2286  -1.985 0.7018       True      False
+   S5 rand_150j_15m 100     1.701   0.4303  -1.054 0.9395       True      False
+   S5 rand_150j_30m 100     1.662   0.2211  -1.145 0.6749       True      False
+   S5   rand_20j_4m 100    0.4672 -0.04404 -0.5515 0.4274      False      False
+   S5   rand_20j_6m 100    0.8325  -0.4026   -1.42 0.5755      False      False
+   S5 rand_250j_25m 100     2.671    1.969  0.5139  2.067       True       True
+   S5 rand_300j_20m 100      2.53    2.147   1.362  2.256       True       True
+   S5   rand_30j_8m 100    0.9163    0.129  -1.151  0.878       True      False
+   S5   rand_40j_5m 100    0.8878  0.06426  -1.186 0.4481       True      False
+   S5  rand_50j_10m 100     1.271   0.2246  -1.919 0.8021       True      False
+   S5  rand_60j_20m 100     1.336 -0.02357  -2.179  0.753      False      False
+   S5  rand_75j_15m 100     2.012    0.195  -1.995 0.8402       True      False
+  S15 rand_100j_20m 100      3.05    1.079  -1.907  1.613       True      False
+  S15 rand_150j_15m 100     4.105    3.129  0.6262  3.636       True       True
+  S15 rand_150j_30m 100     3.301    1.818 -0.7076  1.874       True      False
+  S15   rand_20j_4m 100    0.6687   0.2467 -0.7452 0.4235       True      False
+  S15   rand_20j_6m 100     1.022  -0.7201  -1.537 0.5706      False      False
+  S15 rand_250j_25m 100     5.581    4.951   2.527  5.117       True       True
+  S15 rand_300j_20m 100     5.514        5   3.728  5.371       True       True
+  S15   rand_30j_8m 100     1.692   0.5288  -1.404  1.021       True      False
+  S15   rand_40j_5m 100     1.648   0.8281 -0.9728  1.086       True      False
+  S15  rand_50j_10m 100     2.367    1.038  -1.644  1.407       True      False
+  S15  rand_60j_20m 100     1.625 -0.08627  -1.809 0.9218      False      False
+  S15  rand_75j_15m 100     3.097    1.424  -1.967  1.896       True      False
+
+regra congelada: acuracia 0.417, balanceada 0.632 (fracao de celulas em que o Q ganha 0.208); Spearman folga cf x ganho do Q: S15 +0.552, S5 +0.434
+leitura unilateral: abaixo de h* 5 celulas (ganho do Q > 0,05 em 0; maior ganho -0.551); acima 19 celulas (ganho > 0,05 em 5, > 0 em 5, negativo em 14)
+
+--- PREVISOES E LEITURAS PRE-FIXADAS ---
+(U1) folga cf agregada >= h* nos dois espacos: SIM (0.428, 1.603)
+(U2) acuracia da regra congelada >= 0,75 nas 24 celulas: NAO (0.417)
+(U3) acuracia balanceada >= 0,65: NAO (0.632)
+(U4) nenhuma celula abaixo de h* com ganho do Q > 0,05: SIM
+(U5) o Q bate o aleatorio por mais que a margem em algum espaco: NAO (ganho agregado -1.059, -0.484)
+(U6) a validada vence o Q (confirmada) nos dois espacos: SIM
+(U7) o aleatorio chega ao limite inferior em < 40% das execucoes nos dois espacos: SIM (0.030, 0.028)
+(U8) folga cf agregada maior que a do P||Cmax sintetico (0,063; 0,043): SIM
+(U9) Spearman >= 0,5 nos dois espacos: NAO (+0.552, +0.434)
+(U10) o Q otimista bate o aleatorio por mais que a margem em algum espaco: SIM (ganho agregado +0.174, +0.045)
+(U11) ganho agregado de qo > o do Q padrao nos dois espacos: SIM
+(U12) a validada vence qo (confirmada) nos dois espacos: SIM
+(U13) ganho agregado da validada > 0,5 nos dois espacos: SIM (+0.947, +2.078)
+(U14) algum aprendiz bate o aleatorio por mais que a margem em algum espaco: SIM
+R1 (a regra congelada se transfere: U2 e U4): NAO
+R2 (folga real: U1, U8 e U13): SIM
+R3 (aqui o aprendizado online paga: U14): SIM
