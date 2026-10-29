@@ -132,3 +132,6 @@ results/longc_T*_entrada217.csv
 results/ga_test_*_s*of*_entrada219.csv
 results/ga_tune_*_s*of*_entrada219.csv
 results/gamix_test_*_s*of*_entrada220.csv
+
+# Ciclo 24: logs e CSV de elites de cada job do irace (as escolhas ficam em results/irace_tune_*_entrada244.jsonl)
+results/_irace_work/

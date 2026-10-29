@@ -30,6 +30,7 @@ python -m analysis.report_entrada234_ur             # unrelated-machines host (a
 python -m analysis.report_entrada238_sched         # time-varying schedule competitor (after the pipeline below)
 python -m analysis.report_entrada240_urselector     # offline selector on unrelated machines (after the commands below)
 python -m analysis.report_entrada242_pubaos         # two published AOS designs (after the commands below)
+python -m analysis.report_entrada244_irace          # irace as configurator (after the commands below; needs R 4.6 + irace 4.5)
 python -m analysis.audit_cec_claims; python -m analysis.audit_cec_claims2; python -m analysis.audit_cec_claims3    # every number of the prose recomputed and matched (exit 1 on any mismatch)
 bash cec/build.sh                      # draft with names and red notes
 bash cec/build.sh anon                 # double-anonymous version for submission (no names, e-mail, repository link)
@@ -63,6 +64,7 @@ bash cec/build.sh anon                 # double-anonymous version for submission
 | Time-varying schedule competitor (125 three-phase schedules per class; P||Cmax and R||Cmax) | 238 | `python -m experiment.run_cycle22_sched_entrada238 --tune pc; ... --tune ur`, then `bash experiment/pipeline_cycle22_sched_entrada238.sh` (about 15 s) |
 | Offline selector on unrelated machines (1,200 training instances) | 240 | `python -m experiment.run_cycle22_urselector_entrada240 --label S5; ... --label S15; ... --fit; ... --run S5; ... --run S15` (about 10 min) |
 | Two published AOS designs (tune on tuning instances, then test) | 242 | `for h in pc ur; do for sp in S5 S15; do python -m experiment.run_cycle23_pubaos_entrada242 --tune $h $sp; done; done; bash experiment/pipeline_cycle23_pubaos_entrada242.sh` (about 5 min) |
+| irace as configurator of the static action and of Q-Learning (R 4.6.1 + irace 4.5 from CRAN; set `IRACE_RSCRIPT` and `R_LIBS_USER`) | 244 | `bash experiment/pipeline_cycle24_irace_entrada244.sh` (tuning, about 11 min), record the md5 of `results/irace_tune_*_entrada244.jsonl`, then `bash experiment/pipeline_cycle24_irace_test_entrada244.sh` (about 3 min) |
 | Statistical robustness (Pratt, permutation, global BY) | 215 | `python -m analysis.report_entrada215_robustness` (run after the other batteries) |
 | DQN, ILS operators, LinUCB, neural Q | 167, 173, 176 | `experiment/run_online_*`, `run_dqn_entrada173.py`, `run_ils_dqn_entrada176.py` |
 | Literature audit | 159, 172 | `analysis/litaudit_*` |

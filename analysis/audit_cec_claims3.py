@@ -198,7 +198,7 @@ chk("ganho do seletor sobre o aleatorio, minimo (0,099)", min(sg), 0.099, 0.0006
 chk("ganho do seletor sobre o aleatorio, maximo (0,146)", max(sg), 0.146, 0.0006)
 chk("ganho do seletor entre a folga cf e a de uma semente nos 4 pares", float(all(between)), 1, 0)
 nt = int(re.search(r"(\d+) tests? collected", subprocess.run([sys.executable, "-m", "pytest", "--collect-only", "-q"], cwd=ROOT, capture_output=True, text=True).stdout).group(1))
-chk("testes unitarios no total (1.520)", nt, 1520, 0, "$1{,}520$ unit tests in all")
+chk("testes unitarios no total (1.526)", nt, 1526, 0, "$1{,}526$ unit tests in all")
 
 # ---------------------------------------------------------------- Ciclo 21: o estimador, a regra com IC por conglomerado, os tempos finos e a leitura de condicao necessaria
 t227 = (R / "entrada227_cfvariants.txt").read_text(encoding="utf-8")
@@ -343,6 +343,33 @@ chk("AOS publicados: no maximo 14% do ganho da validada (S5 abaixo disso)", floa
 chk("AOS publicados: a validada vence os dois nas 8 comparacoes", float(PaB.confirmada.sum()), 8, 0, "beats both in all eight comparisons")
 chk("AOS publicados: diferenca minima para a validada (0,06)", float(-PaB.mean_d_pct.max()), 0.06, 0.005, "($0.06$--$1.82$ points)")
 chk("AOS publicados: diferenca maxima para a validada (1,82)", float(-PaB.mean_d_pct.min()), 1.82, 0.005)
+# ---------------------------------------------------------------- Ciclo 24: o irace como configurador (Entrada 244/245)
+Ip = rd("entrada244_irace_pooled.csv")
+Ib = rd("entrada244_irace_FB.csv")
+Irv = rd("entrada244_irace_FBrev.csv")
+Id = rd("entrada244_irace_FD.csv")
+Ie = rd("entrada244_irace_FE.csv")
+ib1 = lambda D: D[D.id.str.endswith("-b1")].set_index("id")
+Ib1, Id1, Ie1 = ib1(Ib), ib1(Id), ib1(Ie)
+Ip1 = Ip[Ip.bm == 1].set_index(["host", "space"])
+chk("irace cfg: paridade com a validada no P||Cmax (dentro de 0,012)", float(Ib1.loc[["B-pc-S5-b1", "B-pc-S15-b1"], "mean_d_pct"].abs().max()), 0.012, 0.0006, "(within $0.012$ points)")
+chk("irace cfg: atras da validada no R||Cmax, S5 (0,15)", float(-Ib1.loc["B-ur-S5-b1", "mean_d_pct"]), 0.15, 0.005, "$0.15$ and $0.19$ points behind on R$||\\Cmax$")
+chk("irace cfg: atras da validada no R||Cmax, S15 (0,19)", float(-Ib1.loc["B-ur-S15-b1", "mean_d_pct"]), 0.19, 0.005)
+w10 = Irv[Irv.id.str.endswith("-b10")]
+chk("irace cfg: com 10 vezes o orcamento nunca supera a validada alem da margem", float(not ((w10.confirmada) & (~w10["equivalente_0.05"]) & (w10.mean_d_pct < 0)).any()), 1, 0, "still never ahead with ten times the budget")
+qf_pc = [json.loads(x)["best"]["floor"] for x in (R / "irace_tune_pc_entrada244.jsonl").read_text().splitlines() if json.loads(x)["kind"].startswith("q") and json.loads(x)["bm"] == 1]
+qf_ur = [json.loads(x)["best"]["floor"] for x in (R / "irace_tune_ur_entrada244.jsonl").read_text().splitlines() if json.loads(x)["kind"].startswith("q") and json.loads(x)["bm"] == 1]
+chk("irace Q: piso do epsilon mediano, P||Cmax (0,26)", float(np.median(qf_pc)), 0.26, 0.005, "(median $0.26$--$0.37$)")
+chk("irace Q: piso do epsilon mediano, R||Cmax (0,37)", float(np.median(qf_ur)), 0.37, 0.005)
+chk("irace Q: melhor que o Q padrao no R||Cmax, S5 (0,58)", float(-Ie1.loc["E-ur-S5-b1", "mean_d_pct"]), 0.58, 0.005, "by $0.58$ and $0.63$ points")
+chk("irace Q: melhor que o Q padrao no R||Cmax, S15 (0,63)", float(-Ie1.loc["E-ur-S15-b1", "mean_d_pct"]), 0.63, 0.005)
+chk("irace Q: ganho sobre o aleatorio no P||Cmax, S5 (0,01)", float(Ip1.loc[("pc", "S5"), "g_q"]), 0.01, 0.005, "gains $0.01$ and $0.02$ over random choice on P$||\\Cmax$")
+chk("irace Q: ganho sobre o aleatorio no P||Cmax, S15 (0,02)", float(Ip1.loc[("pc", "S15"), "g_q"]), 0.02, 0.005)
+chk("irace Q: ganho sobre o aleatorio no R||Cmax, S5 (-0,45)", float(Ip1.loc[("ur", "S5"), "g_q"]), -0.45, 0.005, "$-0.45$ and $+0.17$ on R$||\\Cmax$")
+chk("irace Q: ganho sobre o aleatorio no R||Cmax, S15 (+0,17)", float(Ip1.loc[("ur", "S15"), "g_q"]), 0.17, 0.005)
+chk("irace Q: a validada vence nos quatro pares", float(Id1.confirmada.sum()), 4, 0, "the validated action beats it in all four host--space pairs ($0.06$--$1.90$ points)")
+chk("irace Q: diferenca minima para a validada (0,06)", float(-Id1.mean_d_pct.max()), 0.06, 0.005)
+chk("irace Q: diferenca maxima para a validada (1,90)", float(-Id1.mean_d_pct.min()), 1.90, 0.005)
 bad = [r for r in rows if not r[4]]
 for lab, v, e, tol, ok in rows:
     print(f"{'OK ' if ok else 'ERRO'} {lab}" + ("" if np.isnan(v) else f"  recalculado {v:.5g} vs texto {e:.5g} (tol {tol})"))

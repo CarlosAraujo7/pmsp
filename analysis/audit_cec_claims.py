@@ -323,10 +323,10 @@ chk("a validada vence os 18 pares nas held-out", int(B190.confirmada.sum()), 18,
 
 # ---------------------------------------------------------------- previsoes registradas e auditoria da literatura
 # Previsoes pontuais registradas por bateria (acertos, total): Entradas 170 (16, 16), 173 (16, 18), 176 (4, 6), 178 (5, 7), 180 (16, 19) -- contagens do diario; 184 A1 (3, 5), 185 B (3, 8), A2 (4, 4), D (8, 8), C (6, 6) -- relatorios.
-PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6), (7, 9), (5, 9), (11, 12), (8, 9), (7, 7), (5, 5), (9, 14), (4, 6), (4, 9), (6, 6), (1, 6), (3, 5), (2, 4), (4, 6), (6, 6), (4, 7), (4, 5), (5, 6), (4, 5), (5, 6), (13, 14), (4, 5), (5, 6), (6, 6)]   # + Ciclo 18: 196; (6, 6) = Entrada 242 (AOS publicados); (4, 5) = Entrada 223 (Q otimista); (5, 6) = Entrada 228 (cf nos tempos finos); (13, 14) = Entrada 234 (R||Cmax); (4, 5) = Entrada 238 (cronograma de acoes); (5, 6) = Entrada 240 (seletor no R||Cmax) valeq 8/9, 200 seletor 7/7, controles 5/5, 199 familia F 9/14, 203 Q ajustado 4/6, 197 flowshop 4/9, 205 seletor do flowshop 6/6
-chk("baterias que contaram previsoes (34)", len(PRED), 34, 0, "in $34$ batteries")
-chk("previsoes que acertaram (213)", sum(a for a, _ in PRED), 213, 0, "$213$ of $270$ point predictions held")
-chk("previsoes registradas (270)", sum(b for _, b in PRED), 270, 0)
+PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6), (7, 9), (5, 9), (11, 12), (8, 9), (7, 7), (5, 5), (9, 14), (4, 6), (4, 9), (6, 6), (1, 6), (3, 5), (2, 4), (4, 6), (6, 6), (4, 7), (4, 5), (5, 6), (4, 5), (5, 6), (13, 14), (4, 5), (5, 6), (6, 6), (8, 8)]   # + Ciclo 18: 196; (6, 6) = Entrada 242 (AOS publicados); (8, 8) = Entrada 244 (irace); (4, 5) = Entrada 223 (Q otimista); (5, 6) = Entrada 228 (cf nos tempos finos); (13, 14) = Entrada 234 (R||Cmax); (4, 5) = Entrada 238 (cronograma de acoes); (5, 6) = Entrada 240 (seletor no R||Cmax) valeq 8/9, 200 seletor 7/7, controles 5/5, 199 familia F 9/14, 203 Q ajustado 4/6, 197 flowshop 4/9, 205 seletor do flowshop 6/6
+chk("baterias que contaram previsoes (35)", len(PRED), 35, 0, "in $35$ batteries")
+chk("previsoes que acertaram (221)", sum(a for a, _ in PRED), 221, 0, "$221$ of $278$ point predictions held")
+chk("previsoes registradas (278)", sum(b for _, b in PRED), 278, 0)
 
 L = pd.read_csv(R / "litaudit_pooled_entrada172.csv")
 L = L[L.included == "Y"]

@@ -24,7 +24,7 @@ STYLE = [
     ("flowshop, synthetic", (C.problem == "pfsp") & (C.set == "syn"), "#7d3c98", "x", True),
     ("flowshop, Taillard", (C.problem == "pfsp") & (C.set == "ta"), "#7d3c98", "+", True),
 ]
-fig, a = plt.subplots(1, 1, figsize=(3.5, 1.95))
+fig, a = plt.subplots(1, 1, figsize=(3.5, 1.82))
 for lab, msk, col, mk, fill in STYLE:
     x = C[msk]
     if mk in ("x", "+"):
