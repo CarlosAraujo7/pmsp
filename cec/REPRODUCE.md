@@ -27,6 +27,9 @@ python -m analysis.report_entrada223_optq        # optimistic Q-Learning (after 
 python -m analysis.report_entrada227_cfvariants     # post hoc: estimator variants, cluster-bootstrap intervals of the rule
 python -m analysis.report_entrada228_cf_fine       # cross-fitted headroom at finer times (after the pipeline below)
 python -m analysis.report_entrada234_ur             # unrelated-machines host (after the pipeline below)
+python -m analysis.report_entrada238_sched         # time-varying schedule competitor (after the pipeline below)
+python -m analysis.report_entrada240_urselector     # offline selector on unrelated machines (after the commands below)
+python -m analysis.report_entrada242_pubaos         # two published AOS designs (after the commands below)
 python -m analysis.audit_cec_claims; python -m analysis.audit_cec_claims2; python -m analysis.audit_cec_claims3    # every number of the prose recomputed and matched (exit 1 on any mismatch)
 bash cec/build.sh                      # draft with names and red notes
 bash cec/build.sh anon                 # double-anonymous version for submission (no names, e-mail, repository link)
@@ -54,9 +57,12 @@ bash cec/build.sh anon                 # double-anonymous version for submission
 | Selector and warm Q at equal CPU (own K) | 213 | `bash experiment/pipeline_cycle19_equalcpu_entrada213.sh` (the cost-ratio calibration must run alone; about 15 min) |
 | Long horizon in family C (T = 5,000 and 20,000) | 217 | `bash experiment/pipeline_cycle19_longc_entrada217.sh` (about 10 min) |
 | Genetic-algorithm host and its validated mixture | 219, 220 | `bash experiment/pipeline_cycle19_ga_stage1_entrada219.sh`, `bash experiment/pipeline_cycle19_ga_stage2_entrada219.sh` (calibration alone), `bash experiment/pipeline_cycle19_ga_mix_entrada220.sh` (about 25 min in all) |
-| Optimistic Q-Learning, tuned per family (Q0 x alpha grid, constant exploration, scale-free reward) | 223 | `bash experiment/pipeline_cycle20_optq_entrada223.sh` (about 2 min) |
+| Optimistic Q-Learning, tuned per family (Q0 x alpha grid, constant exploration, scale-free reward) | 223 | `bash experiment/pipeline_cycle20_optq_entrada223.sh` (about 5 min) |
 | Cross-fitted oracle at finer times (3 new seeds per fixed action, S5 and S15) | 228 | `bash experiment/pipeline_cycle21_cffine_entrada228.sh` (about 4 min) |
 | Unrelated-machines host (R||Cmax): tuning, optimistic-Q tuning, test | 234 | `python -m experiment.run_cycle22_ur_entrada234 --tune S5; ... --tune S15; ... --tuneqo S5; ... --tuneqo S15`, then `bash experiment/pipeline_cycle22_ur_entrada234.sh` (about 5 min) |
+| Time-varying schedule competitor (125 three-phase schedules per class; P||Cmax and R||Cmax) | 238 | `python -m experiment.run_cycle22_sched_entrada238 --tune pc; ... --tune ur`, then `bash experiment/pipeline_cycle22_sched_entrada238.sh` (about 15 s) |
+| Offline selector on unrelated machines (1,200 training instances) | 240 | `python -m experiment.run_cycle22_urselector_entrada240 --label S5; ... --label S15; ... --fit; ... --run S5; ... --run S15` (about 10 min) |
+| Two published AOS designs (tune on tuning instances, then test) | 242 | `for h in pc ur; do for sp in S5 S15; do python -m experiment.run_cycle23_pubaos_entrada242 --tune $h $sp; done; done; bash experiment/pipeline_cycle23_pubaos_entrada242.sh` (about 5 min) |
 | Statistical robustness (Pratt, permutation, global BY) | 215 | `python -m analysis.report_entrada215_robustness` (run after the other batteries) |
 | DQN, ILS operators, LinUCB, neural Q | 167, 173, 176 | `experiment/run_online_*`, `run_dqn_entrada173.py`, `run_ils_dqn_entrada176.py` |
 | Literature audit | 159, 172 | `analysis/litaudit_*` |

@@ -1,0 +1,134 @@
+{
+ "rand_20j_4m": {
+  "sched": [
+   1,
+   4,
+   3
+  ],
+  "mean": 261.81666666666666,
+  "static_best": 3,
+  "static_mean": 261.8333333333333,
+  "rel_gain_vs_static_pct": 0.006365372374278107
+ },
+ "rand_20j_6m": {
+  "sched": [
+   3,
+   3,
+   4
+  ],
+  "mean": 175.26666666666668,
+  "static_best": 4,
+  "static_mean": 175.26666666666668,
+  "rel_gain_vs_static_pct": 0.0
+ },
+ "rand_30j_8m": {
+  "sched": [
+   2,
+   2,
+   2
+  ],
+  "mean": 193.88333333333333,
+  "static_best": 2,
+  "static_mean": 193.88333333333333,
+  "rel_gain_vs_static_pct": 0.0
+ },
+ "rand_40j_5m": {
+  "sched": [
+   1,
+   1,
+   2
+  ],
+  "mean": 411.95,
+  "static_best": 2,
+  "static_mean": 411.95,
+  "rel_gain_vs_static_pct": 0.0
+ },
+ "rand_50j_10m": {
+  "sched": [
+   1,
+   1,
+   1
+  ],
+  "mean": 256.55,
+  "static_best": 1,
+  "static_mean": 256.55,
+  "rel_gain_vs_static_pct": 0.0
+ },
+ "rand_60j_20m": {
+  "sched": [
+   2,
+   2,
+   1
+  ],
+  "mean": 153.61666666666667,
+  "static_best": 2,
+  "static_mean": 153.73333333333332,
+  "rel_gain_vs_static_pct": 0.07588898525584074
+ },
+ "rand_75j_15m": {
+  "sched": [
+   1,
+   1,
+   1
+  ],
+  "mean": 254.98333333333332,
+  "static_best": 1,
+  "static_mean": 254.98333333333332,
+  "rel_gain_vs_static_pct": 0.0
+ },
+ "rand_100j_20m": {
+  "sched": [
+   1,
+   1,
+   0
+  ],
+  "mean": 253.88333333333333,
+  "static_best": 1,
+  "static_mean": 253.93333333333334,
+  "rel_gain_vs_static_pct": 0.01969020740352246
+ },
+ "rand_150j_15m": {
+  "sched": [
+   0,
+   2,
+   0
+  ],
+  "mean": 507.85,
+  "static_best": 0,
+  "static_mean": 507.9,
+  "rel_gain_vs_static_pct": 0.009844457570378919
+ },
+ "rand_150j_30m": {
+  "sched": [
+   0,
+   0,
+   0
+  ],
+  "mean": 254.71666666666667,
+  "static_best": 0,
+  "static_mean": 254.71666666666667,
+  "rel_gain_vs_static_pct": 0.0
+ },
+ "rand_250j_25m": {
+  "sched": [
+   4,
+   0,
+   0
+  ],
+  "mean": 507.46666666666664,
+  "static_best": 0,
+  "static_mean": 507.53333333333336,
+  "rel_gain_vs_static_pct": 0.01313542624459209
+ },
+ "rand_300j_20m": {
+  "sched": [
+   4,
+   4,
+   4
+  ],
+  "mean": 759.5333333333333,
+  "static_best": 4,
+  "static_mean": 759.5333333333333,
+  "rel_gain_vs_static_pct": 0.0
+ }
+}

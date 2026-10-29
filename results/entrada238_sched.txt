@@ -1,0 +1,37 @@
+==============================================================================================================
+CRONOGRAMA DE ACOES (ORACULO DINAMICO NO TEMPO) CONTRA A ACAO ESTATICA VALIDADA (Entrada 238)
+==============================================================================================================
+
+--- pc: cronogramas escolhidos por classe (fases 1-3; indices das acoes) ---
+20jx4:143, 20jx6:334, 30jx8:222, 40jx5:112, 50jx10:111, 60jx20:221, 75jx15:111, 100jx20:110, 150jx15:020, 150jx30:000, 250jx25:400, 300jx20:444
+
+--- ur: cronogramas escolhidos por classe (fases 1-3; indices das acoes) ---
+20jx4:440, 20jx6:424, 30jx8:444, 40jx5:342, 50jx10:442, 60jx20:034, 75jx15:333, 100jx20:434, 150jx15:222, 150jx30:332, 250jx25:111, 300jx20:110
+
+--- agregado (pontos percentuais; vantagens em % do makespan) ---
+host    n   g_sch   g_val best_learner    g_best  tune_adv_pct  test_adv_pct  classes_nonconstant
+  pc 1200 0.09485 0.09198          ucb 0.0008184       0.01041       0.00285                    7
+  ur 1200  0.7887   0.947           qo    0.1741         0.178       -0.1655                    8
+
+--- SV: cronograma contra a acao validada (negativo: o cronograma e' melhor; Holm sobre 2) ---
+id    n  better  worse  tie  mean_d_pct   ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+pc 1200     230    248  722    -0.00285 -0.007179 0.001381    0.2402    0.2402       False              True nao confirmada
+ur 1200     344    451  405      0.1655    0.1141   0.2154 9.927e-08 1.985e-07       False             False nao confirmada
+
+--- SR: cronograma contra o aleatorio ---
+id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05    leitura
+pc 1200     693     61  446    -0.09485  -0.1014 -0.08827 3.707e-99 7.414e-99        True             False confirmada
+ur 1200     674    203  323     -0.7887  -0.8539   -0.724  1.99e-70  1.99e-70        True             False confirmada
+
+--- SQ (descritiva): cronograma contra o melhor aprendiz online ---
+id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05    leitura
+pc 1200     673     56  471    -0.09398  -0.1003 -0.08773 5.521e-97 1.104e-96        True             False confirmada
+ur 1200     609    242  349     -0.6086  -0.6742  -0.5451 5.454e-46 5.454e-46        True             False confirmada
+
+--- PREVISOES E LEITURA PRE-FIXADAS ---
+(S1) P||Cmax: o cronograma nao supera a validada alem da margem: SIM (diferenca +0.0029)
+(S2) R||Cmax: idem: SIM (diferenca -0.1655)
+(S3) vantagem maior no ajuste que no teste nos dois: SIM (ajuste 0.010, 0.178; teste +0.003, -0.165)
+(S4) ganho do cronograma > o do melhor aprendiz nos dois: SIM
+(S5) ganho do cronograma > o da validada nos dois: NAO (+0.095 vs +0.092, +0.789 vs +0.947)
+T1 (adaptar-se no tempo nao acrescenta nada: S1 e S2): SIM

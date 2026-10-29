@@ -106,7 +106,7 @@ chk("captura do seletor, maximo (0,84)", al.cap_sel.max(), 0.84, 0.005)
 chk("captura da validada, minimo (0,58)", al.cap_val.min(), 0.58, 0.005, "against $0.58$--$0.66$")
 chk("captura da validada, maximo (0,66)", al.cap_val.max(), 0.66, 0.005)
 Sv = rd("entrada200_controls_Svb.csv")
-chk("estatica nas mesmas 5.720 vs validada, minimo (0,001)", -Sv.mean_d_pct.max(), 0.001, 0.0006, "only $0.001$--$0.019$ points better")
+chk("estatica nas mesmas 5.720 vs validada, minimo (0,001)", -Sv.mean_d_pct.max(), 0.001, 0.0006, None)
 chk("estatica nas mesmas 5.720 vs validada, maximo (0,019)", -Sv.mean_d_pct.min(), 0.019, 0.0006)
 Cc = rd("entrada200_controls_Ccl.csv").set_index("id")
 chk("tabela por classe vs seletor, held-out S5 (0,004)", -Cc.loc["Ccl-S5-heldout", "mean_d_pct"], 0.004, 0.0006, "($0.004$ and $0.006$ points, not significant)")
@@ -125,7 +125,7 @@ for nm, mpath in (("discovery", P.M_TEST), ("heldout", RH.M_HOLD)):
     recs = P.load_set(mpath)
     cov[nm] = 100 * np.mean(["|".join(map(str, cof[r["member"]])) in tabs for r in recs])
 chk("cobertura de classes no held-out (100%)", cov["heldout"], 100, 0.5, "where every class was seen in training")
-chk("cobertura de classes na descoberta (59%)", cov["discovery"], 59, 0.5, "where $59\\%$ of them were")
+chk("cobertura de classes na descoberta (59%)", cov["discovery"], 59, 0.5, "($59\\%$ of whose classes were seen)")
 
 # ---------------------------------------------------------------- Q-Learning ajustado e com recompensa de plato
 Aq = rd("entrada203_qvariants_Aqt.csv")
@@ -180,7 +180,7 @@ for sp in ("F5", "F15"):
     w = w[(w.set == "syn") & w.klass.isin(["50x10", "50x20", "100x10", "100x20"])]
     heads.append(float(-rel(w.oracle, w.rand).mean()))
 nz = Cells[(Cells.set == "syn")].groupby("cell").noise.mean()
-chk("flowshop: ruido nas classes m = 20 e n >= 50, minimo (0,2)", Cells[(Cells.set == "syn") & Cells.cell.isin(["50x20", "100x20"])].noise.min(), 0.2, 0.01, "$0.2$--$0.3\\%$")
+chk("flowshop: ruido nas classes m = 20 e n >= 50, minimo (0,2)", Cells[(Cells.set == "syn") & Cells.cell.isin(["50x20", "100x20"])].noise.min(), 0.2, 0.01, None)
 chk("flowshop: ruido nas classes m = 20 e n >= 50, maximo (0,3)", Cells[(Cells.set == "syn") & Cells.cell.isin(["50x20", "100x20"])].noise.max(), 0.3, 0.02)
 nab = int(((Cells[(Cells.set == "syn")].vnr.notna()) & (Cells[(Cells.set == "syn")].vnr < tau["tau"])).sum())
 ev_cells = Cells[(Cells.set == "syn")].vnr.notna().sum()

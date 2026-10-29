@@ -1,0 +1,42 @@
+==============================================================================================================
+SELETOR OFFLINE NO R||Cmax (Entrada 240)
+==============================================================================================================
+
+--- agregado por espaco (ganhos sobre o aleatorio, pontos percentuais; captura = ganho / folga de uma semente; treino = execucoes do IG) ---
+space    n  g_sel  g_cls  g_val best_learner  g_best  h_biased  captured_sel  captured_val  train_runs
+   S5 1200 0.8954 0.9344  0.947           qo  0.1741     1.498        0.5977        0.6321       18000
+  S15 1200  2.059  2.083  2.078         alns  0.1478     2.806         0.734        0.7406       54000
+
+--- SV: seletor contra a acao validada (negativo: o primeiro e' melhor; Holm sobre 2) ---
+    id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  p_raw  p_holm  confirmada  equivalente_0.05        leitura
+ SV-S5 1200     370    395  435     0.05636   0.0125  0.09779 0.1047  0.2093       False             False nao confirmada
+SV-S15 1200     373    395  432     0.02346 -0.02243  0.06798 0.3416  0.3416       False             False nao confirmada
+
+--- SC: seletor contra a tabela de classe (negativo: o primeiro e' melhor; Holm sobre 2) ---
+    id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  p_raw  p_holm  confirmada  equivalente_0.05        leitura
+ SC-S5 1200     367    383  450     0.04425 0.001146   0.0857 0.2656  0.3772       False             False nao confirmada
+SC-S15 1200     365    401  434     0.02881 -0.01789  0.07504 0.1886  0.3772       False             False nao confirmada
+
+--- CV: tabela de classe contra a validada (negativo: o primeiro e' melhor; Holm sobre 2) ---
+    id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  p_raw  p_holm  confirmada  equivalente_0.05        leitura
+ CV-S5 1200     370    384  446     0.01642 -0.02603  0.05927 0.5622       1       False             False nao confirmada
+CV-S15 1200     405    378  417   8.674e-05 -0.04728  0.04565 0.7913       1       False              True nao confirmada
+
+--- SB: seletor contra o melhor aprendiz online (negativo: o primeiro e' melhor; Holm sobre 2) ---
+    id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ SB-S5 1200     666    193  341     -0.7166  -0.7782  -0.6591  1.627e-71  1.627e-71        True             False confirmada
+SB-S15 1200     929     54  217      -1.912   -1.999   -1.829 1.955e-149 3.909e-149        True             False confirmada
+
+--- SR: seletor contra o aleatorio (negativo: o primeiro e' melhor; Holm sobre 2) ---
+    id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ SR-S5 1200     730    137  333     -0.8954  -0.9612  -0.8329  1.909e-92  1.909e-92        True             False confirmada
+SR-S15 1200     897     62  241      -2.059    -2.16   -1.961 1.707e-143 3.414e-143        True             False confirmada
+
+--- PREVISOES E LEITURA PRE-FIXADAS ---
+(V1) o seletor supera a validada alem da margem em algum espaco: NAO (diferencas -0.056, -0.023)
+(V2) o seletor nao e' pior que a validada alem da margem nos dois: NAO
+(V3) o seletor vence o melhor aprendiz online (confirmada, alem da margem) nos dois: SIM
+(V4) a tabela de classe e' nivelada com o seletor nos dois: SIM (-0.044, -0.029)
+(V5) o seletor captura >= 0,80 da folga de uma semente nos dois: NAO (0.598, 0.734)
+(V6) o ganho do seletor sobre a validada e' maior em S15 que em S5: SIM
+R4 (o seletor acrescenta pouco ao conhecimento de classe: V4 e nao V1): SIM
