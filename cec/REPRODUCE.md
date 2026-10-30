@@ -19,7 +19,7 @@ python -m analysis.report_entrada185_cycle16 long    # (also: aos, plant, fine) 
 python -m analysis.report_entrada188_new; python -m analysis.report_entrada189_published; python -m analysis.report_entrada190_replication
 python -m analysis.report_entrada195_valeq; python -m analysis.report_entrada197_pfsp; python -m analysis.report_entrada199_pretest_outofsample
 python -m analysis.report_entrada200_selector; python -m analysis.report_entrada200_controls; python -m analysis.report_entrada203_qvariants; python -m analysis.report_entrada205_pfsp_selector
-python -m analysis.make_table_cec; python -m analysis.make_table_cec2   # Tables I-VII
+python -m analysis.make_table_cec; python -m analysis.make_table_cec2; python analysis/make_table_cec5.py   # the tables (cec5: competitors beyond the main battery; run after every report)
 python -m analysis.make_fig_cec6       # Figure 1 -> cec/fig_cec6.pdf
 python -m analysis.report_entrada211_warmq; python -m analysis.report_entrada212_warmq_tb; python -m analysis.report_entrada213_equalcpu; python -m analysis.report_entrada215_robustness; python -m analysis.report_entrada217_longc; python -m analysis.report_entrada219_ga; python -m analysis.report_entrada220_ga_mix
 python -m analysis.report_entrada222_threshold   # post hoc: base rate, balanced accuracy and leave-one-host-out of the threshold

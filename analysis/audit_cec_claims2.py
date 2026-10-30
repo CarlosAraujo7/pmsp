@@ -75,7 +75,7 @@ from analysis.pretest_vnr_entrada198 import evaluate  # noqa: E402
 F = rd("entrada199_pretest_cells.csv")
 ev = {sp: evaluate(F[(F.space == sp)].vnr, F[(F.space == sp)].gq, tau["tau"]) for sp in ("S5", "S15")}
 chk("familia F: celulas por espaco (21)", ev["S5"]["n"], 21, 0, None)
-chk("familia F: 26 classes", F.cell.nunique(), 26, 0, "the $26$ classes")
+chk("familia F: 26 classes", F.cell.nunique(), 26, 0)
 chk("familia F S5 AUC (0,75)", ev["S5"]["auc"], 0.75, 0.005, "AUC $0.75$ and $0.73$ for ``Q-Learning gains''")
 chk("familia F S15 AUC (0,73)", ev["S15"]["auc"], 0.73, 0.005)
 chk("familia F S5 acuracia (0,71)", ev["S5"]["acc"], 0.71, 0.005, None)
