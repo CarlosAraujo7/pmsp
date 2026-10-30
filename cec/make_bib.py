@@ -177,8 +177,28 @@ EXTRA += r"""
   year    = {2016},
   doi     = {10.1016/j.artint.2016.04.003}
 }
+
+@article{LiFialhoEtal2014,
+  author  = {Ke Li and {\'A}lvaro Fialho and Sam Kwong and Qingfu Zhang},
+  title   = {Adaptive operator selection with bandits for a multiobjective evolutionary algorithm based on decomposition},
+  journal = {IEEE Transactions on Evolutionary Computation},
+  volume  = {18},
+  number  = {1},
+  pages   = {114--130},
+  year    = {2014},
+  doi     = {10.1109/TEVC.2013.2239648}
+}
+
+@inproceedings{BiedenkappEtal2020,
+  author    = {Andr{\'e} Biedenkapp and H. Furkan Bozkurt and Theresa Eimer and Frank Hutter and Marius Lindauer},
+  title     = {Dynamic algorithm configuration: foundation of a new meta-algorithmic framework},
+  booktitle = {Proceedings of the 24th European Conference on Artificial Intelligence (ECAI 2020)},
+  publisher = {IOS Press},
+  year      = {2020},
+  doi       = {10.3233/FAIA200122}
+}
 """
-extra_keys = {"Rice1976", "KerschkeEtal2019", "BischlEtal2016", "LiEtAl2010", "MnihEtAl2015", "Williams1992", "DrakeEtal2020", "Talbi2021", "LaTorreEtal2021", "EibenSmit2011", "Lakens2017", "Goldberg1990", "SonneratEtal2021", "BartzBeielsteinEtal2020", "Russo2018", "DaCostaEtal2008"}
+extra_keys = {"LiFialhoEtal2014", "BiedenkappEtal2020", "Rice1976", "KerschkeEtal2019", "BischlEtal2016", "LiEtAl2010", "MnihEtAl2015", "Williams1992", "DrakeEtal2020", "Talbi2021", "LaTorreEtal2021", "EibenSmit2011", "Lakens2017", "Goldberg1990", "SonneratEtal2021", "BartzBeielsteinEtal2020", "Russo2018", "DaCostaEtal2008"}
 missing = sorted(k for k in cited if k not in entries and k not in extra_keys)
 assert not missing, f"chaves citadas sem entrada: {missing}"
 out = "\n\n".join(entries[k] for k in sorted(cited) if k in entries) + "\n" + EXTRA

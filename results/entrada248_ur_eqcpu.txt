@@ -1,0 +1,65 @@
+==============================================================================================================
+CPU IGUAL NO R||Cmax (Entrada 248)
+==============================================================================================================
+Custo K de uma execucao (mediana [min-max] sobre as 12 classes), em relacao ao controle aleatorio; acao validada: S5 1.396 [0.244-2.050]; S15 1.592 [0.326-2.037]
+
+--- ganho de CPU igual (g_cpu), efeito de decisao (g_dec = ganho a iteracoes iguais) e de custo (g_cost); ganho da validada sobre o aprendiz a CPU igual; ganho da validada sobre o aleatorio a iteracoes iguais ---
+space learner    n  K_med  K_min  K_max    g_cpu    g_dec   g_cost  g_val_over_learner  g_val_iter
+   S5      ql 1200  0.561  0.422 0.8108   0.1004   -1.059    1.159               1.273       0.947
+   S5     ucb 1200  1.026 0.9955  1.162 -0.03572  0.02486 -0.06057               1.207       0.947
+   S5      pg 1200  1.052 0.9693  1.206  -0.1127  -0.0369 -0.07584               1.294       0.947
+   S5    alns 1200 0.8676 0.6169   1.02   0.3917 -0.08729    0.479              0.9383       0.947
+   S5      qo 1200   1.23 0.8749  1.919 -0.08253   0.1741  -0.2566               1.267       0.947
+  S15      ql 1200 0.5989 0.3748 0.8984   0.5838  -0.4844    1.068               1.637       2.078
+  S15     ucb 1200  1.058 0.9096  1.179 -0.04584  0.01365 -0.05949               2.164       2.078
+  S15      pg 1200  1.123 0.8857  1.243 -0.08371   0.0372  -0.1209               2.169       2.078
+  S15    alns 1200 0.9362 0.6421  1.042   0.4514   0.1478   0.3036               1.699       2.078
+  S15      qo 1200  1.128  0.737  1.178  0.03109  0.04458 -0.01349               2.147       2.078
+
+--- Familia A: aprendiz contra o aleatorio a CPU igual (Holm sobre 10) ---
+        id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+   A-S5-ql 1200     466    506  228     -0.1004  -0.2099  0.01189     0.261    0.8991       False             False nao confirmada
+  A-S5-ucb 1200     398    452  350     0.03572 -0.01674  0.08776    0.1798    0.8991       False             False nao confirmada
+   A-S5-pg 1200     380    483  337      0.1127  0.05587    0.167 0.0003356  0.002349       False             False nao confirmada
+ A-S5-alns 1200     557    354  289     -0.3917   -0.463  -0.3223 3.985e-20 3.586e-19        True             False     confirmada
+   A-S5-qo 1200     430    400  370     0.08253   0.0223   0.1445    0.2715    0.8991       False             False nao confirmada
+  A-S15-ql 1200     505    491  204     -0.5838  -0.7194  -0.4547 2.381e-07 1.905e-06        True             False     confirmada
+ A-S15-ucb 1200     428    483  289     0.04584 -0.01409   0.1098    0.2045    0.8991       False             False nao confirmada
+  A-S15-pg 1200     422    463  315     0.08371  0.02895   0.1387   0.04873    0.2924       False             False nao confirmada
+A-S15-alns 1200     560    372  268     -0.4514  -0.5324  -0.3695 4.705e-21 4.705e-20        True             False     confirmada
+  A-S15-qo 1200     464    440  296    -0.03109  -0.0992  0.03639    0.2926    0.8991       False             False nao confirmada
+
+--- Familia B: validada contra o aprendiz a CPU igual (Holm sobre 10) ---
+        id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+   B-S5-ql 1200     835    162  203      -1.273   -1.364   -1.186 1.698e-102 8.491e-102        True             False confirmada
+  B-S5-ucb 1200     690    203  307      -1.207   -1.311   -1.109  7.971e-67  7.971e-67        True             False confirmada
+   B-S5-pg 1200     714    192  294      -1.294   -1.396   -1.193   4.97e-80  1.988e-79        True             False confirmada
+ B-S5-alns 1200     686    216  298     -0.9383   -1.014  -0.8614  6.222e-69  1.244e-68        True             False confirmada
+   B-S5-qo 1200     652    193  355      -1.267   -1.365   -1.174  1.924e-75  5.771e-75        True             False confirmada
+  B-S15-ql 1200     924    103  173      -1.637   -1.718   -1.555 6.183e-139 6.183e-138        True             False confirmada
+ B-S15-ucb 1200     815    124  261      -2.164   -2.312   -2.028 2.611e-117 1.828e-116        True             False confirmada
+  B-S15-pg 1200     851    106  243      -2.169   -2.303   -2.041 3.066e-124 2.453e-123        True             False confirmada
+B-S15-alns 1200     813    136  251      -1.699   -1.813   -1.598 6.897e-113 4.138e-112        True             False confirmada
+  B-S15-qo 1200     864    100  236      -2.147   -2.281   -2.028  7.78e-129 7.002e-128        True             False confirmada
+
+--- Familia B': o aprendiz contra a validada a CPU igual (Holm sobre 10) ---
+         id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05        leitura
+   B'-S5-ql 1200     162    835  203       1.327    1.234    1.422 1.169e-103 5.845e-103       False             False nao confirmada
+  B'-S5-ucb 1200     203    690  307       1.271    1.168    1.379  1.049e-67  1.049e-67       False             False nao confirmada
+   B'-S5-pg 1200     192    714  294       1.359    1.253    1.466  6.812e-81  2.725e-80       False             False nao confirmada
+ B'-S5-alns 1200     216    686  298      0.9765   0.8977    1.055  5.631e-70  1.126e-69       False             False nao confirmada
+   B'-S5-qo 1200     193    652  355       1.329    1.233    1.433   4.38e-76  1.314e-75       False             False nao confirmada
+  B'-S15-ql 1200     103    924  173       1.696    1.611    1.781 1.023e-139 1.023e-138       False             False nao confirmada
+ B'-S15-ucb 1200     124    815  261       2.306     2.16    2.464 5.378e-118 3.765e-117       False             False nao confirmada
+  B'-S15-pg 1200     106    851  243       2.303    2.167    2.449 6.616e-125 5.293e-124       False             False nao confirmada
+B'-S15-alns 1200     136    813  251       1.782    1.676    1.901 7.282e-114 4.369e-113       False             False nao confirmada
+  B'-S15-qo 1200     100    864  236        2.27    2.142    2.411 1.831e-129 1.648e-128       False             False nao confirmada
+
+--- previsoes ---
+(E1) ql nao ganha alem da margem a CPU igual em nenhum espaco: NAO
+(E2) pares que ganham alem da margem sobre o aleatorio a CPU igual: 3 de 10 (previsto <= 4): SIM
+(E3) aprendizes que batem a validada alem da margem (B'): 0 de 10 (previsto 0): SIM
+(E4) a validada bate o aprendiz (B, confirmada): 10 de 10 (previsto >= 8): SIM
+(E5) melhor ganho de CPU igual / ganho da validada a iteracoes iguais: S5 0.414, S15 0.281 (previsto <= 0,25): NAO
+(E6) efeito de custo do ql no S15 positivo (1.068): SIM
+previsoes acertadas: 4 de 6

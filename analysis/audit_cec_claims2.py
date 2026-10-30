@@ -112,7 +112,7 @@ Cc = rd("entrada200_controls_Ccl.csv").set_index("id")
 chk("tabela por classe vs seletor, held-out S5 (0,004)", -Cc.loc["Ccl-S5-heldout", "mean_d_pct"], 0.004, 0.0006, "($0.004$ and $0.006$ points, not significant)")
 chk("tabela por classe vs seletor, held-out S15 (0,006)", -Cc.loc["Ccl-S15-heldout", "mean_d_pct"], 0.006, 0.0006)
 chk("tabela por classe: held-out nao confirmadas", float((~Cc.loc[["Ccl-S5-heldout", "Ccl-S15-heldout"], "confirmada"]).all()), 1, 0)
-chk("seletor vs tabela, descoberta S5 (0,017)", -Cc.loc["Ccl-S5-discovery", "mean_d_pct"], 0.017, 0.0006, "$0.014$ and $0.017$")
+chk("seletor vs tabela, descoberta S5 (0,017)", -Cc.loc["Ccl-S5-discovery", "mean_d_pct"], 0.017, 0.0006, "$0.017$ and $0.014$")
 chk("seletor vs tabela, descoberta S15 (0,014)", -Cc.loc["Ccl-S15-discovery", "mean_d_pct"], 0.014, 0.0006)
 import json as _j  # noqa: E402
 

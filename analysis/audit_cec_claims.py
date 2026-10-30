@@ -123,6 +123,7 @@ chk("Q1 parcela de orcamento (93%)", 100 * (1 - (-Q129.loc["Q1", "mean_d_pct"]) 
 chk("D1 CPU igual, vetorizada (0,105)", -PD162.loc["D1", "mean_d_pct"], 0.105, 0.0006, "$0.105\\%$")
 chk("D1 parcela (30%)", 100 * (1 - (-PD162.loc["D1", "mean_d_pct"]) / d_it_py), 30, 0.5, "($30\\%$ budget)")
 chk("C1 CPU igual, compilada (0,115)", -P170.loc["C1", "mean_d_pct"], 0.115, 0.0006, "$0.115\\%$")
+chk("C1 ganho a iteracoes iguais, compilada (0,159)", d_it_c, 0.159, 0.0006, "of the $0.159\\%$ at equal iterations")
 chk("C1 parcela (28%)", 100 * (1 - (-P170.loc["C1", "mean_d_pct"]) / d_it_c), 28, 0.5, "($28\\%$)")
 chk("C2 contagem de avaliacoes (0,080)", -P170.loc["C2", "mean_d_pct"], 0.080, 0.0006, "$0.080\\%$")
 chk("C2 parcela (50%)", 100 * (1 - (-P170.loc["C2", "mean_d_pct"]) / d_it_c), 50, 0.5, "$50\\%$ budget")
@@ -167,7 +168,7 @@ chk("sobrecusto UCB1/PG minimo (1,0)", over.min(), 1.0, 0.05, None)
 chk("sobrecusto UCB1/PG maximo (1,09)", over.max(), 1.09, 0.005)
 oq = KA[KA.learner == "ql"].sobrecusto_por_avaliacao
 chk("sobrecusto Q minimo (1,07)", oq.min(), 1.07, 0.005, None)
-chk("sobrecusto Q maximo (1,33)", oq.max(), 1.33, 0.005, "at most $1.33$ times that of random choice")
+chk("sobrecusto Q maximo (1,33)", oq.max(), 1.33, 0.005)
 kq = [ku(s, "ql") for s in ("S5", "S15", "S30")]
 chk("K_CPU do Q em S5/S15/S30: minimo (0,50)", min(kq), 0.50, 0.005, "$0.50$--$0.60$ in the three larger spaces")
 chk("K_CPU do Q em S5/S15/S30: maximo (0,60)", max(kq), 0.60, 0.005)
@@ -323,10 +324,10 @@ chk("a validada vence os 18 pares nas held-out", int(B190.confirmada.sum()), 18,
 
 # ---------------------------------------------------------------- previsoes registradas e auditoria da literatura
 # Previsoes pontuais registradas por bateria (acertos, total): Entradas 170 (16, 16), 173 (16, 18), 176 (4, 6), 178 (5, 7), 180 (16, 19) -- contagens do diario; 184 A1 (3, 5), 185 B (3, 8), A2 (4, 4), D (8, 8), C (6, 6) -- relatorios.
-PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6), (7, 9), (5, 9), (11, 12), (8, 9), (7, 7), (5, 5), (9, 14), (4, 6), (4, 9), (6, 6), (1, 6), (3, 5), (2, 4), (4, 6), (6, 6), (4, 7), (4, 5), (5, 6), (4, 5), (5, 6), (13, 14), (4, 5), (5, 6), (6, 6), (8, 8)]   # + Ciclo 18: 196; (6, 6) = Entrada 242 (AOS publicados); (8, 8) = Entrada 244 (irace); (4, 5) = Entrada 223 (Q otimista); (5, 6) = Entrada 228 (cf nos tempos finos); (13, 14) = Entrada 234 (R||Cmax); (4, 5) = Entrada 238 (cronograma de acoes); (5, 6) = Entrada 240 (seletor no R||Cmax) valeq 8/9, 200 seletor 7/7, controles 5/5, 199 familia F 9/14, 203 Q ajustado 4/6, 197 flowshop 4/9, 205 seletor do flowshop 6/6
-chk("baterias que contaram previsoes (35)", len(PRED), 35, 0, "in $35$ batteries")
-chk("previsoes que acertaram (221)", sum(a for a, _ in PRED), 221, 0, "$221$ of $278$ point predictions held")
-chk("previsoes registradas (278)", sum(b for _, b in PRED), 278, 0)
+PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6), (7, 9), (5, 9), (11, 12), (8, 9), (7, 7), (5, 5), (9, 14), (4, 6), (4, 9), (6, 6), (1, 6), (3, 5), (2, 4), (4, 6), (6, 6), (4, 7), (4, 5), (5, 6), (4, 5), (5, 6), (13, 14), (4, 5), (5, 6), (6, 6), (8, 8), (4, 6)]   # + Ciclo 18: 196; (6, 6) = Entrada 242 (AOS publicados); (8, 8) = Entrada 244 (irace); (4, 5) = Entrada 223 (Q otimista); (5, 6) = Entrada 228 (cf nos tempos finos); (13, 14) = Entrada 234 (R||Cmax); (4, 5) = Entrada 238 (cronograma de acoes); (5, 6) = Entrada 240 (seletor no R||Cmax) valeq 8/9, 200 seletor 7/7, controles 5/5, 199 familia F 9/14, 203 Q ajustado 4/6, 197 flowshop 4/9, 205 seletor do flowshop 6/6
+chk("baterias que contaram previsoes (36)", len(PRED), 36, 0, "in $36$ batteries")
+chk("previsoes que acertaram (225)", sum(a for a, _ in PRED), 225, 0, "$225$ of $284$ point predictions held")
+chk("previsoes registradas (284)", sum(b for _, b in PRED), 284, 0)
 
 L = pd.read_csv(R / "litaudit_pooled_entrada172.csv")
 L = L[L.included == "Y"]
