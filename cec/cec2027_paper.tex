@@ -70,7 +70,7 @@ Where learned neighbourhood selection is reported to beat strong baselines, the 
 
 Adaptive operator selection (AOS)~\cite{FialhoEtal2010} uses probability matching~\cite{Goldberg1990}, adaptive pursuit~\cite{Thierens2005}, ALNS weights~\cite{PisingerRopke2007}, bandits~\cite{AuerEtal2002,DaCostaEtal2008}
 or reinforcement learning with a state~\cite{BengioBengio2021}; the credit-assignment and selection rules of selection hyper-heuristics are the same family. Q-Learning has been used to select operators inside an IG for the permutation flowshop~\cite{KarimiMamaghanEtal2023} and, closest to this work,
-the destruction size of an IG for identical machines with setups~\cite{MissaouiOSullivan2026}; both report that the learning-guided method beats its baselines. Dynamic algorithm configuration~\cite{BiedenkappEtal2020} learns such policies across instances; the offline selector below is its static counterpart.
+the destruction size of an IG for identical machines with setups~\cite{MissaouiOSullivan2026}; both report that the learning-guided method beats its baselines. Dynamic algorithm configuration~\cite{BiedenkappEtal2020} learns such policies across instances; the pre-trained Q table below is its tabular form and the offline selector its static counterpart.
 
 \section{Method}
 \subsection{Problem, instances and bounds}

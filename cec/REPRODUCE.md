@@ -34,6 +34,7 @@ python -m analysis.report_entrada244_irace          # irace as configurator (aft
 python -m analysis.report_entrada248_ur_eqcpu       # equal CPU time on unrelated machines (after the commands below)
 python -m analysis.report_entrada249_closedloop     # closed-loop (state-dependent) oracles (after the commands below)
 python -m analysis.report_entrada250_ur_horizon     # long horizons on unrelated machines (after the commands below)
+python analysis/make_osf_registry.py            # entrega/OSF_REGISTRO_PREVISOES.md: every pre-registration block and hash file, for a public registry deposit
 python -m analysis.report_entrada247_global         # global Benjamini-Yekutieli control over every registered test (run last; replaces the global part of report_entrada215_robustness, which re-reads its own output)
 python -m analysis.audit_cec_claims; python -m analysis.audit_cec_claims2; python -m analysis.audit_cec_claims3    # every number of the prose recomputed and matched (exit 1 on any mismatch)
 bash cec/build.sh                      # draft with names and red notes
