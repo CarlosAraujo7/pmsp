@@ -32,6 +32,7 @@ python -m analysis.report_entrada240_urselector     # offline selector on unrela
 python -m analysis.report_entrada242_pubaos         # two published AOS designs (after the commands below)
 python -m analysis.report_entrada244_irace          # irace as configurator (after the commands below; needs R 4.6 + irace 4.5)
 python -m analysis.report_entrada248_ur_eqcpu       # equal CPU time on unrelated machines (after the commands below)
+python -m analysis.report_entrada249_closedloop     # closed-loop (state-dependent) oracles (after the commands below)
 python -m analysis.report_entrada247_global         # global Benjamini-Yekutieli control over every registered test (run last; replaces the global part of report_entrada215_robustness, which re-reads its own output)
 python -m analysis.audit_cec_claims; python -m analysis.audit_cec_claims2; python -m analysis.audit_cec_claims3    # every number of the prose recomputed and matched (exit 1 on any mismatch)
 bash cec/build.sh                      # draft with names and red notes
@@ -68,6 +69,7 @@ bash cec/build.sh anon                 # double-anonymous version for submission
 | Two published AOS designs (tune on tuning instances, then test) | 242 | `for h in pc ur; do for sp in S5 S15; do python -m experiment.run_cycle23_pubaos_entrada242 --tune $h $sp; done; done; bash experiment/pipeline_cycle23_pubaos_entrada242.sh` (about 5 min) |
 | irace as configurator of the static action and of Q-Learning (R 4.6.1 + irace 4.5 from CRAN; set `IRACE_RSCRIPT` and `R_LIBS_USER`) | 244 | `bash experiment/pipeline_cycle24_irace_entrada244.sh` (tuning, about 11 min), record the md5 of `results/irace_tune_*_entrada244.jsonl`, then `bash experiment/pipeline_cycle24_irace_test_entrada244.sh` (about 3 min) |
 | Equal CPU time on unrelated machines (cost ratios K calibrated alone on the machine, then the test) | 248 | `python -m experiment.run_cycle26_eqcpu_ur_entrada248 --calibrate` (about 6 min, nothing else running), record the md5 of `results/ur_eqcpu_k_entrada248.json`, then `bash experiment/pipeline_cycle26_eqcpu_ur_entrada248.sh` (about 3 min) |
+| Closed-loop oracles: myopic lookahead and rollout over the validated action (P||Cmax and R||Cmax; not budget-fair) | 249 | `python -m pytest tests/test_closedloop_entrada249.py`, record the md5 of the code, then `bash experiment/pipeline_cycle27_closedloop_entrada249.sh` (about 40 min on 6 processes) |
 | Statistical robustness (Pratt, permutation, global BY) | 215 | `python -m analysis.report_entrada215_robustness` (run after the other batteries) |
 | DQN, ILS operators, LinUCB, neural Q | 167, 173, 176 | `experiment/run_online_*`, `run_dqn_entrada173.py`, `run_ils_dqn_entrada176.py` |
 | Literature audit | 159, 172 | `analysis/litaudit_*` |

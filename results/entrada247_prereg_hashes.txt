@@ -2,3 +2,5 @@
 b28681c18e3927edc3a832604a0ab244 *analysis/report_entrada215_robustness.py
 # label do relatorio 247 trocado de 'ate a Entrada 244' para 'ate a Entrada 248' apos o CPU igual no R||Cmax (so o texto do rotulo e a docstring); hash novo:
 54815741ddb7fc169e417f82b197c70f *analysis/report_entrada247_global.py
+# rotulo trocado para 'ate a Entrada 249' apos os oraculos de malha fechada (so o texto do rotulo); hash novo:
+a43a1fc03980e3476a6b610c64065675 *analysis/report_entrada247_global.py

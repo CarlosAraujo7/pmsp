@@ -1,0 +1,67 @@
+==============================================================================================================
+ORACULOS DE MALHA FECHADA (Entrada 249)
+==============================================================================================================
+--- ganhos sobre o aleatorio (pontos): validada, la8 (100 instancias por classe), controle la0, e na subamostra de 20 instancias por classe: validada e ro ---
+host space    n  n_ro   g_val   g_la8     g_la0  g_val_sub     g_ro
+  pc    S5 1200   240 0.09198  0.0194  0.006328    0.08855  0.04082
+  pc   S15 1200   240 0.07992 0.03501 0.0004217    0.07972 0.009239
+  ur    S5 1200   240   0.947 0.05758  -0.01926      1.001   0.6574
+  ur   S15 1200   240   2.078   0.497  -0.02397       2.18    1.037
+
+--- Familia A: la8 contra o aleatorio (Holm sobre 4) ---
+      id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+ A-pc-S5 1200     430    285  485     -0.0194 -0.02598 -0.01257 1.808e-08 3.616e-08        True              True       paridade
+A-pc-S15 1200     472    229  499    -0.03501 -0.04156 -0.02841 8.383e-19 2.515e-18        True              True       paridade
+ A-ur-S5 1200     477    453  270    -0.05758  -0.1319   0.0202    0.1825    0.1825       False             False nao confirmada
+A-ur-S15 1200     636    316  248      -0.497  -0.5762   -0.417  2.95e-29  1.18e-28        True             False     confirmada
+
+--- Familia B: validada contra la8 (Holm sobre 4) ---
+      id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw     p_holm  confirmada  equivalente_0.05    leitura
+ B-pc-S5 1200     522    121  557    -0.07245 -0.07953   -0.065  6.531e-56  1.306e-55        True             False confirmada
+B-pc-S15 1200     396    219  585    -0.04482 -0.05164 -0.03797   2.68e-26   2.68e-26        True             False confirmada
+ B-ur-S5 1200     680    210  310      -0.873  -0.9539  -0.7971  4.655e-68  1.397e-67        True             False confirmada
+B-ur-S15 1200     777    139  284      -1.577   -1.673    -1.48 1.195e-105 4.782e-105        True             False confirmada
+
+--- Familia B': la8 contra a validada (Holm sobre 4) ---
+       id    n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi      p_raw    p_holm  confirmada  equivalente_0.05        leitura
+ B'-pc-S5 1200     121    522  557     0.07274  0.06524  0.07983  5.103e-56 1.021e-55       False             False nao confirmada
+B'-pc-S15 1200     219    396  585     0.04505  0.03819  0.05186   2.18e-26  2.18e-26       False             False nao confirmada
+ B'-ur-S5 1200     210    680  310      0.9102   0.8324   0.9932  4.171e-69 1.251e-68       False             False nao confirmada
+B'-ur-S15 1200     139    777  284       1.648    1.546    1.748 1.147e-106 4.59e-106       False             False nao confirmada
+
+--- Familia C: ro contra o aleatorio (20 instancias por classe) (Holm sobre 4) ---
+      id   n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+ C-pc-S5 240      97     53   90    -0.04082 -0.06281 -0.01801 0.0007448   0.00149        True             False     confirmada
+C-pc-S15 240      79     63   98   -0.009239 -0.02835  0.01028    0.6711    0.6711       False              True nao confirmada
+ C-ur-S5 240     118     56   66     -0.6574  -0.8928  -0.4339 2.393e-07  7.18e-07        True             False     confirmada
+C-ur-S15 240     137     44   59      -1.037   -1.281   -0.795 1.235e-11 4.939e-11        True             False     confirmada
+
+--- Familia D: validada contra ro (Holm sobre 4) ---
+      id   n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05    leitura
+ D-pc-S5 240      79     38  123    -0.04742 -0.06747 -0.02709 2.115e-05 4.229e-05        True             False confirmada
+D-pc-S15 240      80     41  119    -0.07021 -0.09054 -0.04937 6.777e-08 2.033e-07        True             False confirmada
+ D-ur-S5 240     101     68   71     -0.3106  -0.5298 -0.07296  0.008773  0.008773        True             False confirmada
+D-ur-S15 240     129     40   71       -1.13   -1.349  -0.9009 9.834e-15 3.934e-14        True             False confirmada
+
+--- Familia D': ro contra a validada (Holm sobre 4) ---
+       id   n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+ D'-pc-S5 240      38     79  123     0.04782  0.02742  0.06788 2.002e-05 4.004e-05       False             False nao confirmada
+D'-pc-S15 240      41     80  119     0.07065  0.04974    0.091 6.215e-08 1.865e-07       False             False nao confirmada
+ D'-ur-S5 240      68    101   71       0.359   0.1231   0.5786  0.006261  0.006261       False             False nao confirmada
+D'-ur-S15 240      40    129   71        1.19   0.9568    1.418 5.255e-15 2.102e-14       False             False nao confirmada
+
+--- Familia E: controle la0 contra o aleatorio (Holm sobre 4) ---
+      id    n  better  worse  tie  mean_d_pct  ci90_lo   ci90_hi  p_raw  p_holm  confirmada  equivalente_0.05        leitura
+ E-pc-S5 1200     376    337  487   -0.006328  -0.0135 0.0002567 0.1336  0.5343       False              True nao confirmada
+E-pc-S15 1200     367    344  489  -0.0004217 -0.00669  0.006475 0.6866       1       False              True nao confirmada
+ E-ur-S5 1200     477    450  273     0.01926 -0.05401   0.09458 0.8324       1       False             False nao confirmada
+E-ur-S15 1200     491    461  248     0.02397 -0.05088   0.09721  0.944       1       False             False nao confirmada
+
+--- previsoes ---
+(M1) a validada bate la8 nos dois espacos do R||Cmax: SIM
+(M2) R||Cmax S15: ganho de la8 / ganho da validada = 0.239 (previsto <= 0,5): SIM
+(M3) P||Cmax: ganho de la8 = [0.019, 0.035] (previsto <= 0,15): SIM
+(M4) ro bate a validada alem da margem (D'): 0 de 4 (previsto 0): SIM
+(M5) R||Cmax S15: ganho de ro 1.037 contra a validada 2.180 na subamostra (previsto menor): SIM
+(M6) o controle la0 e' equivalente ao aleatorio nos quatro: NAO
+previsoes acertadas: 5 de 6

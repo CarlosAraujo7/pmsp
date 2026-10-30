@@ -254,7 +254,7 @@ FK = FI["k"].set_index(["space", "learner"]).K_cpu
 chk("tempos finos: validada vs aprendiz, minimo (0,105)", -FIb.mean_d_pct.max(), 0.105, 0.0006, "$0.105$--$0.136$ points")
 chk("tempos finos: validada vs aprendiz, maximo (0,136)", -FIb.mean_d_pct.min(), 0.136, 0.0006)
 FH = FI["headroom"].set_index("space")
-chk("tempos finos: folga S5 (0,142)", -FH.loc["S5", "folga_fina_pct"], 0.142, 0.0006, "($0.142$ and $0.175$ for one seed)")
+chk("tempos finos: folga S5 (0,142)", -FH.loc["S5", "folga_fina_pct"], 0.142, 0.0006)
 chk("tempos finos: folga S15 (0,175)", -FH.loc["S15", "folga_fina_pct"], 0.175, 0.0006)
 chk("tempos finos: validada nunca atinge o limite inferior", FH.frac_validada_no_lb_fina.max(), 0.0, 0, None)
 
@@ -324,10 +324,10 @@ chk("a validada vence os 18 pares nas held-out", int(B190.confirmada.sum()), 18,
 
 # ---------------------------------------------------------------- previsoes registradas e auditoria da literatura
 # Previsoes pontuais registradas por bateria (acertos, total): Entradas 170 (16, 16), 173 (16, 18), 176 (4, 6), 178 (5, 7), 180 (16, 19) -- contagens do diario; 184 A1 (3, 5), 185 B (3, 8), A2 (4, 4), D (8, 8), C (6, 6) -- relatorios.
-PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6), (7, 9), (5, 9), (11, 12), (8, 9), (7, 7), (5, 5), (9, 14), (4, 6), (4, 9), (6, 6), (1, 6), (3, 5), (2, 4), (4, 6), (6, 6), (4, 7), (4, 5), (5, 6), (4, 5), (5, 6), (13, 14), (4, 5), (5, 6), (6, 6), (8, 8), (4, 6)]   # + Ciclo 18: 196; (6, 6) = Entrada 242 (AOS publicados); (8, 8) = Entrada 244 (irace); (4, 5) = Entrada 223 (Q otimista); (5, 6) = Entrada 228 (cf nos tempos finos); (13, 14) = Entrada 234 (R||Cmax); (4, 5) = Entrada 238 (cronograma de acoes); (5, 6) = Entrada 240 (seletor no R||Cmax) valeq 8/9, 200 seletor 7/7, controles 5/5, 199 familia F 9/14, 203 Q ajustado 4/6, 197 flowshop 4/9, 205 seletor do flowshop 6/6
-chk("baterias que contaram previsoes (36)", len(PRED), 36, 0, "in $36$ batteries")
-chk("previsoes que acertaram (225)", sum(a for a, _ in PRED), 225, 0, "$225$ of $284$ point predictions held")
-chk("previsoes registradas (284)", sum(b for _, b in PRED), 284, 0)
+PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6), (7, 9), (5, 9), (11, 12), (8, 9), (7, 7), (5, 5), (9, 14), (4, 6), (4, 9), (6, 6), (1, 6), (3, 5), (2, 4), (4, 6), (6, 6), (4, 7), (4, 5), (5, 6), (4, 5), (5, 6), (13, 14), (4, 5), (5, 6), (6, 6), (8, 8), (4, 6), (5, 6)]   # + Ciclo 18: 196; (6, 6) = Entrada 242 (AOS publicados); (8, 8) = Entrada 244 (irace); (4, 5) = Entrada 223 (Q otimista); (5, 6) = Entrada 228 (cf nos tempos finos); (13, 14) = Entrada 234 (R||Cmax); (4, 5) = Entrada 238 (cronograma de acoes); (5, 6) = Entrada 240 (seletor no R||Cmax) valeq 8/9, 200 seletor 7/7, controles 5/5, 199 familia F 9/14, 203 Q ajustado 4/6, 197 flowshop 4/9, 205 seletor do flowshop 6/6
+chk("baterias que contaram previsoes (37)", len(PRED), 37, 0, "in $37$ batteries")
+chk("previsoes que acertaram (230)", sum(a for a, _ in PRED), 230, 0, "$230$ of $290$ point predictions held")
+chk("previsoes registradas (290)", sum(b for _, b in PRED), 290, 0)
 
 L = pd.read_csv(R / "litaudit_pooled_entrada172.csv")
 L = L[L.included == "Y"]
