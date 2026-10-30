@@ -1,7 +1,7 @@
 """
 analysis/report_entrada247_global.py
 =====================================
-Ciclo 25: CONTROLE GLOBAL de falsas descobertas sobre TODAS as baterias registradas (Entradas 180-249), corrigindo a contagem do controle global da Entrada 215.
+Ciclo 25: CONTROLE GLOBAL de falsas descobertas sobre TODAS as baterias registradas (Entradas 180-250), corrigindo a contagem do controle global da Entrada 215.
 
 Por que corrigir: `analysis/report_entrada215_robustness.py` grava `results/entrada215_robustness_global.csv` no mesmo diretorio e no mesmo padrao `entrada*_*.csv` que ele proprio le; ao ser reexecutado, o proprio arquivo de saida entrou de novo no conjunto (731 linhas), e a contagem do artigo ('1.562 testes, 855 confirmados, 829 sobrevivem') ficou DUPLICADA. A contagem correta dos testes registrados ate a bateria do algoritmo genetico (Entrada 220) e' 1.562 - 731 = 831. Este relatorio exclui todo arquivo de saida de controle global e confere a identidade (arquivo, id) de cada teste.
 
@@ -72,7 +72,7 @@ def main():
     base = G[G.entrada <= 220].reset_index(drop=True)
     new = G[G.entrada >= 223]
     t0, _, _ = summarize("ate a Entrada 220 (algoritmo genetico), corrigido", base)
-    t1, holm, by = summarize("todas (ate a Entrada 249)", G)
+    t1, holm, by = summarize("todas (ate a Entrada 250)", G)
     G["p_holm_global"], G["p_by_global"] = holm, by
     nn = G[G.entrada >= 223]
     nconf = int(nn.confirmada.sum())

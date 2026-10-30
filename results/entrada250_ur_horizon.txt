@@ -1,0 +1,103 @@
+==============================================================================================================
+HORIZONTE LONGO NO R||Cmax (Entrada 250)
+==============================================================================================================
+--- ganhos sobre o aleatorio ao mesmo T (pontos); T = 1.000: as mesmas instancias na bateria da Entrada 234 ---
+space      T   n  g_val    g_ql    g_qo   g_alns   g_qls
+   S5   1000 240  1.001  -1.009   0.195  0.06805     NaN
+   S5   5000 240 0.6702 -0.9497 0.05415 -0.02287 -0.6439
+   S5  20000 240 0.2637  -0.655 -0.1672  -0.1924 -0.3815
+   S5 100000 240 0.3135 -0.3243 -0.1463 -0.07974 -0.1674
+  S15   1000 240   2.18 -0.5465   0.209   0.1969     NaN
+  S15   5000 240  1.114 -0.6227  -1.289  -0.1592 -0.2527
+  S15  20000 240 0.8454  -0.374   -1.57   0.1161 -0.2246
+  S15 100000 240 0.4483 -0.3921  -1.419  0.07416 -0.1304
+
+--- Familia A: aprendiz contra o aleatorio (Holm sobre os 6 horizonte-espacos, por aprendiz) ---
+                id   n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+     A-S5-T5000-ql 240      38    106   96      0.9497    0.698      1.2 1.478e-09 7.389e-09       False             False nao confirmada
+    A-S5-T20000-ql 240      26     93  121       0.655   0.4855   0.8373 2.648e-10 1.589e-09       False             False nao confirmada
+   A-S5-T100000-ql 240      27     60  153      0.3243   0.1751   0.4964 0.0001076 0.0003263       False             False nao confirmada
+    A-S15-T5000-ql 240      62    106   72      0.6227   0.3599   0.8894  0.001823  0.003646       False             False nao confirmada
+   A-S15-T20000-ql 240      56     75  109       0.374   0.1517   0.6218   0.03505   0.03505       False             False nao confirmada
+  A-S15-T100000-ql 240      34     69  137      0.3921   0.2379   0.5596 8.158e-05 0.0003263       False             False nao confirmada
+    A-S5-T5000-qls 240      38    106   96      0.6439   0.4432   0.8418 2.786e-07 1.672e-06       False             False nao confirmada
+   A-S5-T20000-qls 240      33     74  133      0.3815   0.2191   0.5437 2.105e-05 0.0001053       False             False nao confirmada
+  A-S5-T100000-qls 240      33     54  153      0.1674  0.03715   0.2979   0.01728   0.06911       False             False nao confirmada
+   A-S15-T5000-qls 240      66     82   92      0.2527  0.01188   0.4857    0.1586    0.3529       False             False nao confirmada
+  A-S15-T20000-qls 240      54     74  112      0.2246  0.04684   0.4202    0.1176    0.3529       False             False nao confirmada
+ A-S15-T100000-qls 240      42     41  157      0.1304 0.002368   0.2766    0.2719    0.3529       False             False nao confirmada
+     A-S5-T5000-qo 240      57     52  131    -0.05415  -0.1957  0.08529     0.823     0.823       False             False nao confirmada
+    A-S5-T20000-qo 240      42     57  141      0.1672   0.0363   0.2942   0.04221   0.08443       False             False nao confirmada
+   A-S5-T100000-qo 240      26     51  163      0.1463  0.04589     0.24  0.009823   0.02947       False             False nao confirmada
+    A-S15-T5000-qo 240      31    124   85       1.289    1.054     1.53 2.648e-16 1.059e-15       False             False nao confirmada
+   A-S15-T20000-qo 240      19    130   91        1.57    1.311     1.84 7.758e-19 3.879e-18       False             False nao confirmada
+  A-S15-T100000-qo 240       5    121  114       1.419    1.215    1.627 2.301e-20 1.381e-19       False             False nao confirmada
+   A-S5-T5000-alns 240      60     66  114     0.02287  -0.1556   0.2042    0.7442    0.8273       False             False nao confirmada
+  A-S5-T20000-alns 240      38     63  139      0.1924  0.04684   0.3276   0.04175    0.2505       False             False nao confirmada
+ A-S5-T100000-alns 240      32     43  165     0.07974 -0.04082   0.1983    0.1113    0.5567       False             False nao confirmada
+  A-S15-T5000-alns 240      68     75   97      0.1592 -0.04795   0.3541    0.4002    0.8273       False             False nao confirmada
+ A-S15-T20000-alns 240      56     47  137     -0.1161  -0.2746  0.03711    0.2029    0.8118       False             False nao confirmada
+A-S15-T100000-alns 240      49     38  153    -0.07416  -0.1872  0.03372    0.2758    0.8273       False             False nao confirmada
+
+--- Familia B: validada contra o aprendiz (Holm sobre os 6 horizonte-espacos, por aprendiz) ---
+                id   n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05    leitura
+     B-S5-T5000-ql 240     146     14   80      -1.564   -1.807   -1.325  1.22e-22 6.101e-22        True             False confirmada
+    B-S5-T20000-ql 240     105     15  120      -0.892   -1.072  -0.7282 5.892e-17 1.178e-16        True             False confirmada
+   B-S5-T100000-ql 240      88     11  141     -0.6176  -0.7906  -0.4653  2.15e-12  2.15e-12        True             False confirmada
+    B-S15-T5000-ql 240     155     11   74      -1.691   -1.918   -1.461 8.937e-26 5.362e-25        True             False confirmada
+   B-S15-T20000-ql 240     132      8  100      -1.187   -1.393   -1.005 1.511e-21 6.044e-21        True             False confirmada
+  B-S15-T100000-ql 240     113     14  113     -0.8203   -0.983  -0.6665 3.381e-17 1.014e-16        True             False confirmada
+    B-S5-T5000-qls 240     131     14   95      -1.281   -1.498   -1.069 8.501e-22 5.101e-21        True             False confirmada
+   B-S5-T20000-qls 240      96     22  122     -0.6255  -0.7786  -0.4775 1.506e-11 3.012e-11        True             False confirmada
+  B-S5-T100000-qls 240      78     12  150     -0.4702  -0.5961  -0.3518 3.922e-11 3.922e-11        True             False confirmada
+   B-S15-T5000-qls 240     141     14   85      -1.342   -1.539   -1.146 1.246e-21 6.228e-21        True             False confirmada
+  B-S15-T20000-qls 240     127     14   99      -1.051   -1.235  -0.8732 1.522e-18 6.088e-18        True             False confirmada
+ B-S15-T100000-qls 240      82     13  145     -0.5661   -0.706  -0.4389 4.073e-13 1.222e-12        True             False confirmada
+     B-S5-T5000-qo 240      90     23  127       -0.61  -0.7667  -0.4557 7.499e-10  2.25e-09        True             False confirmada
+    B-S5-T20000-qo 240      69     27  144     -0.4198  -0.5621   -0.278 8.402e-06 8.402e-06        True             False confirmada
+   B-S5-T100000-qo 240      67     12  161     -0.4529  -0.5669   -0.335 4.371e-09 8.742e-09        True             False confirmada
+    B-S15-T5000-qo 240     153      9   78      -2.333   -2.607   -2.059 8.322e-27 4.993e-26        True             False confirmada
+   B-S15-T20000-qo 240     146      8   86      -2.324   -2.604   -2.027 4.042e-25 2.021e-24        True             False confirmada
+  B-S15-T100000-qo 240     133      4  103      -1.803   -2.038   -1.579 2.055e-23 8.219e-23        True             False confirmada
+   B-S5-T5000-alns 240     105     29  106     -0.6796  -0.8503  -0.5163 3.164e-10 1.266e-09        True             False confirmada
+  B-S5-T20000-alns 240      82     23  135     -0.4429  -0.5793  -0.3066 4.179e-07 4.179e-07        True             False confirmada
+ B-S5-T100000-alns 240      72     14  154     -0.3851   -0.498  -0.2771 2.809e-09 8.426e-09        True             False confirmada
+  B-S15-T5000-alns 240     135     11   94      -1.255   -1.454   -1.062 2.687e-19 1.612e-18        True             False confirmada
+ B-S15-T20000-alns 240     108     12  120     -0.7232   -0.854  -0.5841 6.351e-14 3.176e-13        True             False confirmada
+B-S15-T100000-alns 240      76     14  150     -0.3684  -0.4743  -0.2629 2.338e-08 4.675e-08        True             False confirmada
+
+--- Familia B': aprendiz contra a validada (Holm sobre os 6 horizonte-espacos, por aprendiz) ---
+                 id   n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+     B'-S5-T5000-ql 240      14    146   80       1.646    1.387    1.914 7.802e-23 3.901e-22       False             False nao confirmada
+    B'-S5-T20000-ql 240      15    105  120      0.9276   0.7521    1.119 4.665e-17  9.33e-17       False             False nao confirmada
+   B'-S5-T100000-ql 240      11     88  141      0.6457    0.481   0.8362 1.386e-12 1.386e-12       False             False nao confirmada
+    B'-S15-T5000-ql 240      11    155   74       1.771    1.523    2.012 7.157e-26 4.294e-25       False             False nao confirmada
+   B'-S15-T20000-ql 240       8    132  100        1.24    1.045    1.464 1.176e-21 4.704e-21       False             False nao confirmada
+  B'-S15-T100000-ql 240      14    113  113      0.8492   0.6867    1.025  2.06e-17 6.181e-17       False             False nao confirmada
+    B'-S5-T5000-qls 240      14    131   95        1.34    1.114    1.577 5.063e-22 3.038e-21       False             False nao confirmada
+   B'-S5-T20000-qls 240      22     96  122      0.6523   0.4959   0.8162 9.287e-12 1.857e-11       False             False nao confirmada
+  B'-S5-T100000-qls 240      12     78  150      0.4857   0.3639   0.6143 2.946e-11 2.946e-11       False             False nao confirmada
+   B'-S15-T5000-qls 240      14    141   85       1.395     1.19      1.6 7.349e-22 3.675e-21       False             False nao confirmada
+  B'-S15-T20000-qls 240      14    127   99       1.093   0.9067    1.285 9.354e-19 3.742e-18       False             False nao confirmada
+ B'-S15-T100000-qls 240      13     82  145      0.5867   0.4507   0.7374 2.733e-13 8.198e-13       False             False nao confirmada
+     B'-S5-T5000-qo 240      23     90  127      0.6354   0.4772   0.7975 4.983e-10 1.495e-09       False             False nao confirmada
+    B'-S5-T20000-qo 240      27     69  144        0.44   0.2934   0.5868 5.467e-06 5.467e-06       False             False nao confirmada
+   B'-S5-T100000-qo 240      12     67  161      0.4672   0.3471    0.583 2.761e-09 5.523e-09       False             False nao confirmada
+    B'-S15-T5000-qo 240       9    153   78       2.464     2.17    2.761 6.944e-27 4.166e-26       False             False nao confirmada
+   B'-S15-T20000-qo 240       8    146   86       2.462    2.143    2.764 3.609e-25 1.805e-24       False             False nao confirmada
+  B'-S15-T100000-qo 240       4    133  103       1.887    1.648    2.136 1.989e-23 7.956e-23       False             False nao confirmada
+   B'-S5-T5000-alns 240      29    105  106      0.7089   0.5391   0.8857 1.885e-10 7.539e-10       False             False nao confirmada
+  B'-S5-T20000-alns 240      23     82  135      0.4625   0.3212   0.6031  2.31e-07  2.31e-07       False             False nao confirmada
+ B'-S5-T100000-alns 240      14     72  154      0.3978   0.2879   0.5141 1.993e-09 5.979e-09       False             False nao confirmada
+  B'-S15-T5000-alns 240      11    135   94       1.308    1.102    1.521 1.376e-19 8.258e-19       False             False nao confirmada
+ B'-S15-T20000-alns 240      12    108  120      0.7454   0.6027   0.8802  2.87e-14 1.435e-13       False             False nao confirmada
+B'-S15-T100000-alns 240      14     76  150      0.3801   0.2738   0.4882 1.449e-08 2.899e-08       False             False nao confirmada
+
+--- previsoes ---
+(H1) o ganho da validada cai de T = 1.000 para T = 100.000 nos dois espacos: SIM (S5 1.001 -> 0.313; S15 2.180 -> 0.448)
+(H2) a validada bate ql e qls (confirmada): 12 de 12 (previsto 12): SIM
+(H3) ganho do ql no S15, T = 100.000 contra T = 1.000: -0.392 contra -0.546: SIM
+(H4) melhor entre ql e qls / ganho da validada em T = 100.000: S5 -0.534, S15 -0.291 (previsto <= 0,5): SIM
+(H5) qls supera ql alem da margem: {'S5-T5000': 0.276, 'S5-T20000': 0.258, 'S5-T100000': 0.147, 'S15-T5000': 0.343, 'S15-T20000': 0.124, 'S15-T100000': 0.251} (previsto nenhum > 0,05): NAO
+(H6) aprendizes que batem a validada alem da margem: 0 de 24 (previsto 0): SIM
+previsoes acertadas: 5 de 6

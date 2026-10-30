@@ -1,35 +1,35 @@
 ==============================================================================================================
 CONTROLE GLOBAL SOBRE TODAS AS BATERIAS REGISTRADAS (Entrada 247)
 ==============================================================================================================
-arquivos com testes registrados: 150; testes: 1013; linhas repetidas (arquivo, id): 85
+arquivos com testes registrados: 151; testes: 1061; linhas repetidas (arquivo, id): 85
 
 ate a Entrada 220 (algoritmo genetico), corrigido: 831 testes em 125 arquivos; 459 'confirmada'; sobrevivem a Holm global 418 (0.911) e a Benjamini-Yekutieli global 445 (0.969)
-todas (ate a Entrada 249): 1013 testes em 150 arquivos; 580 'confirmada'; sobrevivem a Holm global 527 (0.909) e a Benjamini-Yekutieli global 561 (0.967)
-entradas 223-244: 182 testes em 25 arquivos; 121 'confirmada'; sobrevivem ao BY global (calculado sobre todos) 116 (0.959)
+todas (ate a Entrada 250): 1061 testes em 151 arquivos; 604 'confirmada'; sobrevivem a Holm global 549 (0.909) e a Benjamini-Yekutieli global 585 (0.969)
+entradas 223-244: 230 testes em 26 arquivos; 145 'confirmada'; sobrevivem ao BY global (calculado sobre todos) 140 (0.966)
 
 K1 (>= 0,95, conjunto corrigido ate 220): 0.969 -> SIM
-K2 (>= 0,95, conjunto completo): 0.967 -> SIM
-K3 (>= 0,90, entradas 223-244): 0.959 -> SIM
+K2 (>= 0,95, conjunto completo): 0.969 -> SIM
+K3 (>= 0,90, entradas 223-244): 0.966 -> SIM
 K4 (831 testes ate a Entrada 220): 831 -> SIM
 
 testes 'confirmada' que NAO sobrevivem ao BY global (conjunto completo):
                               file             id  mean_d_pct    p_raw  p_by_global
-     entrada102_seeded_primary.csv             P1    -0.01038  0.03636       0.3591
-  entrada118_unrelated_primary.csv             M2     -0.1449  0.01093       0.1115
- entrada121_budget_law_primary.csv             B4         NaN 0.006836      0.07026
-           entrada180_agents_b.csv      B-S30-ucb   -0.008024 0.005273      0.05479
-           entrada185_aos_acpu.csv     Acpu-S5-ap   -0.008578  0.01208       0.1227
-          entrada185_aos_aiter.csv    Aiter-S5-ap   -0.009451 0.008776      0.08984
-           entrada188_new_acpu.csv  Acpu-S15-dmab   -0.005391  0.01968       0.1977
-          entrada188_new_aiter.csv Aiter-S15-dmab   -0.007482 0.005146      0.05354
-         entrada199_famF_Aiter.csv   Aiter-S5-ucb   -0.004204 0.005724      0.05924
-entrada205_pfsp_selector_Crand.csv    Crand-F5-ta    -0.03363  0.04438       0.4327
-           entrada219_ga_Aiter.csv   Aiter-G9-ucb    -0.01266 0.005739      0.05931
-           entrada219_ga_Aiter.csv    Aiter-G9-pg    -0.01436 0.005656      0.05861
-         entrada220_ga_mix_Mit.csv    Mit-G9-alns    -0.07694  0.01132       0.1151
-        entrada220_ga_mix_Mval.csv        Mval-G9     -0.1054  0.01545       0.1556
-            entrada223_optq_Or.csv Or-S15-heldout   -0.004297 0.006502      0.06692
-        entrada244_irace_FBrev.csv    B'-pc-S5-b1   -0.006722  0.04722       0.4581
-           entrada244_irace_FC.csv    C-ur-S15-b1     -0.1694  0.04359       0.4261
-           entrada244_irace_FC.csv   C-ur-S15-b10     -0.1582  0.04706       0.4577
-   entrada249_closedloop_tests.csv        D-ur-S5     -0.3106 0.008773      0.08984
+     entrada102_seeded_primary.csv             P1    -0.01038  0.03636       0.3611
+  entrada118_unrelated_primary.csv             M2     -0.1449  0.01093       0.1122
+ entrada121_budget_law_primary.csv             B4         NaN 0.006836      0.07079
+           entrada180_agents_b.csv      B-S30-ucb   -0.008024 0.005273      0.05518
+           entrada185_aos_acpu.csv     Acpu-S5-ap   -0.008578  0.01208       0.1235
+          entrada185_aos_aiter.csv    Aiter-S5-ap   -0.009451 0.008776      0.09053
+           entrada188_new_acpu.csv  Acpu-S15-dmab   -0.005391  0.01968       0.1989
+          entrada188_new_aiter.csv Aiter-S15-dmab   -0.007482 0.005146      0.05392
+         entrada199_famF_Aiter.csv   Aiter-S5-ucb   -0.004204 0.005724      0.05966
+entrada205_pfsp_selector_Crand.csv    Crand-F5-ta    -0.03363  0.04438       0.4343
+           entrada219_ga_Aiter.csv   Aiter-G9-ucb    -0.01266 0.005739      0.05974
+           entrada219_ga_Aiter.csv    Aiter-G9-pg    -0.01436 0.005656      0.05903
+         entrada220_ga_mix_Mit.csv    Mit-G9-alns    -0.07694  0.01132       0.1158
+        entrada220_ga_mix_Mval.csv        Mval-G9     -0.1054  0.01545       0.1568
+            entrada223_optq_Or.csv Or-S15-heldout   -0.004297 0.006502      0.06742
+        entrada244_irace_FBrev.csv    B'-pc-S5-b1   -0.006722  0.04722       0.4599
+           entrada244_irace_FC.csv    C-ur-S15-b1     -0.1694  0.04359       0.4276
+           entrada244_irace_FC.csv   C-ur-S15-b10     -0.1582  0.04706       0.4594
+   entrada249_closedloop_tests.csv        D-ur-S5     -0.3106 0.008773      0.09053

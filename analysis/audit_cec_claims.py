@@ -244,7 +244,7 @@ chk("custo do Q-Learning S5 (0,062)", dd["S5"][1], 0.062, 0.0006, "its cost effe
 chk("custo do Q-Learning S15 (0,053)", dd["S15"][1], 0.053, 0.0006)
 
 N8 = pd.read_csv(R / "entrada188_new_aiter.csv").set_index("id")
-chk("Thompson e DMAB a iteracoes iguais: |d| maximo (0,013)", N8[N8.index.str.contains("-ts|-dmab")].mean_d_pct.abs().max(), 0.0134, 0.0006, "the others stay within $0.013$ points")
+chk("Thompson e DMAB a iteracoes iguais: |d| maximo (0,013)", N8[N8.index.str.contains("-ts|-dmab")].mean_d_pct.abs().max(), 0.0134, 0.0006, "the others, racing aside, stay within $0.013$ points")
 chk("corrida a iteracoes iguais S5 (+0,012)", N8.loc["Aiter-S5-race", "mean_d_pct"], 0.012, 0.0006, "($-0.012$ and $-0.067$ points)")
 chk("corrida a iteracoes iguais S15 (+0,067)", N8.loc["Aiter-S15-race", "mean_d_pct"], 0.067, 0.0006)
 FI = {x: pd.read_csv(R / f"entrada185_fine_{x}.csv") for x in ("aiter", "acpu", "bval", "k", "headroom")}
@@ -324,10 +324,10 @@ chk("a validada vence os 18 pares nas held-out", int(B190.confirmada.sum()), 18,
 
 # ---------------------------------------------------------------- previsoes registradas e auditoria da literatura
 # Previsoes pontuais registradas por bateria (acertos, total): Entradas 170 (16, 16), 173 (16, 18), 176 (4, 6), 178 (5, 7), 180 (16, 19) -- contagens do diario; 184 A1 (3, 5), 185 B (3, 8), A2 (4, 4), D (8, 8), C (6, 6) -- relatorios.
-PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6), (7, 9), (5, 9), (11, 12), (8, 9), (7, 7), (5, 5), (9, 14), (4, 6), (4, 9), (6, 6), (1, 6), (3, 5), (2, 4), (4, 6), (6, 6), (4, 7), (4, 5), (5, 6), (4, 5), (5, 6), (13, 14), (4, 5), (5, 6), (6, 6), (8, 8), (4, 6), (5, 6)]   # + Ciclo 18: 196; (6, 6) = Entrada 242 (AOS publicados); (8, 8) = Entrada 244 (irace); (4, 5) = Entrada 223 (Q otimista); (5, 6) = Entrada 228 (cf nos tempos finos); (13, 14) = Entrada 234 (R||Cmax); (4, 5) = Entrada 238 (cronograma de acoes); (5, 6) = Entrada 240 (seletor no R||Cmax) valeq 8/9, 200 seletor 7/7, controles 5/5, 199 familia F 9/14, 203 Q ajustado 4/6, 197 flowshop 4/9, 205 seletor do flowshop 6/6
-chk("baterias que contaram previsoes (37)", len(PRED), 37, 0, "in $37$ batteries")
-chk("previsoes que acertaram (230)", sum(a for a, _ in PRED), 230, 0, "$230$ of $290$ point predictions held")
-chk("previsoes registradas (290)", sum(b for _, b in PRED), 290, 0)
+PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6), (7, 9), (5, 9), (11, 12), (8, 9), (7, 7), (5, 5), (9, 14), (4, 6), (4, 9), (6, 6), (1, 6), (3, 5), (2, 4), (4, 6), (6, 6), (4, 7), (4, 5), (5, 6), (4, 5), (5, 6), (13, 14), (4, 5), (5, 6), (6, 6), (8, 8), (4, 6), (5, 6), (5, 6)]   # + Ciclo 18: 196; (6, 6) = Entrada 242 (AOS publicados); (8, 8) = Entrada 244 (irace); (4, 5) = Entrada 223 (Q otimista); (5, 6) = Entrada 228 (cf nos tempos finos); (13, 14) = Entrada 234 (R||Cmax); (4, 5) = Entrada 238 (cronograma de acoes); (5, 6) = Entrada 240 (seletor no R||Cmax) valeq 8/9, 200 seletor 7/7, controles 5/5, 199 familia F 9/14, 203 Q ajustado 4/6, 197 flowshop 4/9, 205 seletor do flowshop 6/6
+chk("baterias que contaram previsoes (38)", len(PRED), 38, 0, "in $38$ batteries")
+chk("previsoes que acertaram (235)", sum(a for a, _ in PRED), 235, 0, "$235$ of $296$ point predictions held")
+chk("previsoes registradas (296)", sum(b for _, b in PRED), 296, 0)
 
 L = pd.read_csv(R / "litaudit_pooled_entrada172.csv")
 L = L[L.included == "Y"]

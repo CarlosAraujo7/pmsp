@@ -153,11 +153,11 @@ chk("mistura nivelada com Thompson em G9 a iteracoes iguais", float(not Mi.loc["
 # ---------------------------------------------------------------- robustez estatistica
 t215 = (R / "entrada215_robustness.txt").read_text(encoding="utf-8")
 t247 = (R / "entrada247_global.txt").read_text(encoding="utf-8")
-m = re.search(r"todas \(ate a Entrada 249\): (\d+) testes em \d+ arquivos; (\d+) 'confirmada'; sobrevivem a Holm global (\d+) \([\d.]+\) e a Benjamini-Yekutieli global (\d+)", t247)
-chk("testes registrados, todas as baterias (1013)", int(m.group(1)), 1013, 0, "over the $1{,}013$ tests of all registered batteries")
-chk("testes confirmados (580)", int(m.group(2)), 580, 0, "$561$ of the $580$ confirmed tests")
-chk("sobrevivem a BY global (561)", int(m.group(4)), 561, 0)
-chk("sobrevivem a Holm global (527)", int(m.group(3)), 527, 0, None)
+m = re.search(r"todas \(ate a Entrada 250\): (\d+) testes em \d+ arquivos; (\d+) 'confirmada'; sobrevivem a Holm global (\d+) \([\d.]+\) e a Benjamini-Yekutieli global (\d+)", t247)
+chk("testes registrados, todas as baterias (1061)", int(m.group(1)), 1061, 0, "over the $1{,}061$ tests of all registered batteries")
+chk("testes confirmados (604)", int(m.group(2)), 604, 0, "$585$ of the $604$ confirmed tests")
+chk("sobrevivem a BY global (585)", int(m.group(4)), 585, 0)
+chk("sobrevivem a Holm global (549)", int(m.group(3)), 549, 0, None)
 m0 = re.search(r"ate a Entrada 220 \(algoritmo genetico\), corrigido: (\d+) testes", t247)
 chk("conjunto ate o GA, corrigido (831; o relatorio da Entrada 215 contava 1.562 por reler a propria saida)", int(m0.group(1)), 831, 0, None)
 t215 = (R / "entrada215_robustness.txt").read_text(encoding="utf-8")
@@ -202,7 +202,7 @@ chk("ganho do seletor sobre o aleatorio, minimo (0,099)", min(sg), 0.099, 0.0006
 chk("ganho do seletor sobre o aleatorio, maximo (0,146)", max(sg), 0.146, 0.0006)
 chk("ganho do seletor entre a folga cf e a de uma semente nos 4 pares", float(all(between)), 1, 0)
 nt = int(re.search(r"(\d+) tests? collected", subprocess.run([sys.executable, "-m", "pytest", "--collect-only", "-q"], cwd=ROOT, capture_output=True, text=True).stdout).group(1))
-chk("testes unitarios no total (1.536)", nt, 1536, 0, "$1{,}536$ unit tests in all")
+chk("testes unitarios no total (1.539)", nt, 1539, 0, "$1{,}539$ unit tests in all")
 
 # ---------------------------------------------------------------- Ciclo 21: o estimador, a regra com IC por conglomerado, os tempos finos e a leitura de condicao necessaria
 t227 = (R / "entrada227_cfvariants.txt").read_text(encoding="utf-8")
@@ -386,7 +386,7 @@ chk("CPU igual R||Cmax: efeito de decisao da roleta S15 (+0,15)", float(Sq.loc[(
 chk("CPU igual R||Cmax: a validada bate os cinco aprendizes nos dez pares", float(Fb.confirmada.sum()), 10, 0, "still beats all five learners in all ten pairs ($0.94$--$2.17$)")
 chk("CPU igual R||Cmax: diferenca minima da validada (0,94)", float(-Fb.mean_d_pct.max()), 0.94, 0.005)
 chk("CPU igual R||Cmax: diferenca maxima da validada (2,17)", float(-Fb.mean_d_pct.min()), 2.17, 0.005)
-chk("CPU igual R||Cmax: Q-Learning S5 ganha 0,100 (Tabela IV)", float(Sq.loc[("S5", "ql"), "g_cpu"]), 0.100, 0.0006)
+chk("CPU igual R||Cmax: Q-Learning S5 ganha 0,100 (Tabela IV)", float(Sq.loc[("S5", "ql"), "g_cpu"]), 0.100, 0.0006, "not significantly, with five: $0.10$")
 chk("CPU igual R||Cmax: Q-Learning S15 ganha 0,584 (Tabela IV)", float(Sq.loc[("S15", "ql"), "g_cpu"]), 0.584, 0.0006)
 # ---------------------------------------------------------------- Ciclo 27: oraculos de malha fechada (Entrada 249)
 Sc = rd("entrada249_closedloop_split.csv").set_index(["host", "space"])
@@ -402,6 +402,20 @@ chk("malha fechada: ro no R||Cmax S15 (1,04)", float(Sc.loc[("ur", "S15"), "g_ro
 chk("malha fechada: a validada bate la8 e ro nas oito celulas", float(Tc[Tc.index.str.startswith(("B-", "D-"))].confirmada.sum()), 8, 0, "the validated action beats both in all eight cells ($0.04$--$1.58$ points)")
 chk("malha fechada: diferenca minima para a validada (0,04)", float(-Tc[Tc.index.str.startswith(("B-", "D-"))].mean_d_pct.max()), 0.04, 0.006)
 chk("malha fechada: diferenca maxima para a validada (1,58)", float(-Tc[Tc.index.str.startswith(("B-", "D-"))].mean_d_pct.min()), 1.58, 0.006)
+# ---------------------------------------------------------------- Ciclo 28: horizonte longo no R||Cmax (Entrada 250)
+Gh = rd("entrada250_ur_horizon_gains.csv").set_index(["space", "T"])
+Th = rd("entrada250_ur_horizon_tests.csv")
+chk("horizonte R||Cmax: validada S5 em T = 1.000 (1,00)", float(Gh.loc[("S5", 1000), "g_val"]), 1.00, 0.005, "falls from $1.00$ and $2.18$ to $0.31$ and $0.45$ points")
+chk("horizonte R||Cmax: validada S15 em T = 1.000 (2,18)", float(Gh.loc[("S15", 1000), "g_val"]), 2.18, 0.005)
+chk("horizonte R||Cmax: validada S5 em T = 100.000 (0,31)", float(Gh.loc[("S5", 100000), "g_val"]), 0.31, 0.005)
+chk("horizonte R||Cmax: validada S15 em T = 100.000 (0,45)", float(Gh.loc[("S15", 100000), "g_val"]), 0.45, 0.005)
+ql_g = [float(Gh.loc[(sp, t), k]) for sp in ("S5", "S15") for t in (5000, 20000, 100000) for k in ("g_ql", "g_qls")]
+chk("horizonte R||Cmax: o Q-Learning nunca ganha do aleatorio (maior ganho -0,13)", max(ql_g), -0.13, 0.005, "Q-Learning never beats random choice ($-0.13$ to $-0.95$)")
+chk("horizonte R||Cmax: pior ganho do Q-Learning (-0,95)", min(ql_g), -0.95, 0.005)
+Bh = Th[Th.id.str.startswith("B-")]
+chk("horizonte R||Cmax: a validada bate os 24 pares aprendiz-horizonte-espaco", float(Bh.confirmada.sum()), 24, 0, "the validated action beats every learner at every horizon ($0.37$--$2.33$)")
+chk("horizonte R||Cmax: menor diferenca da validada (0,37)", float(-Bh.mean_d_pct.max()), 0.37, 0.005)
+chk("horizonte R||Cmax: maior diferenca da validada (2,33)", float(-Bh.mean_d_pct.min()), 2.33, 0.005)
 bad = [r for r in rows if not r[4]]
 for lab, v, e, tol, ok in rows:
     print(f"{'OK ' if ok else 'ERRO'} {lab}" + ("" if np.isnan(v) else f"  recalculado {v:.5g} vs texto {e:.5g} (tol {tol})"))
