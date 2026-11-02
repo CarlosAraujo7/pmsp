@@ -95,18 +95,18 @@ chk("Fig. 1a busca local (0,105)", fv[1], 0.105, 0.0006)
 H90 = pd.read_csv(R / "entrada90_family_level_holdout.csv")
 H90 = H90[(H90.comparator == "ig_random") & (H90.holm_family.str.startswith("P"))].set_index("family")
 C115 = rd("entrada115_external_confirm2_primary.csv")
-chk("held-out |d| minimo (0,009)", -H90.mean_diff_pp.max(), 0.009, 0.0006, "by only $0.009$ to $0.029$ points")
+chk("held-out |d| minimo (0,009)", -H90.mean_diff_pp.max(), 0.009, 0.0006)
 chk("held-out |d| maximo (0,026)", -H90.mean_diff_pp.min(), 0.026, 0.0006)
-chk("held-out 4.160 instancias", H90.n.sum(), 4160, 0, "two other sets of $4{,}160$ and $2{,}690$ published instances")
+chk("held-out 4.160 instancias", H90.n.sum(), 4160, 0)
 O = C115.loc[["O_B", "O_C", "O_E"]]
 chk("confirmatorio |d| minimo (0,015)", -O.mean_diff_pp.max(), 0.015, 0.0006, None)
 chk("confirmatorio |d| maximo (0,029)", -O.mean_diff_pp.min(), 0.029, 0.0006)
-chk("confirmatorio 2.690 instancias", O.n.sum(), 2690, 0, "$2{,}690$")
-chk("seis testes Holm significativos", int((H90.p_holm < 0.05).sum() + (O.p_holm < 0.05).sum()), 6, 0, "all six Holm-adjusted tests significant")
+chk("confirmatorio 2.690 instancias", O.n.sum(), 2690, 0)
+chk("seis testes Holm significativos", int((H90.p_holm < 0.05).sum() + (O.p_holm < 0.05).sum()), 6, 0)
 t115 = (R / "entrada115_external_confirm2.txt").read_text(encoding="utf-8")
 m = re.search(r"^\s*ALL\s+\d+\s+\d+\s+\d+\s+\d+\s+(-?\d\.\d+)\s+(-?\d\.\d+)\s+(-?\d\.\d+)\s+(\d\.\d+)\s*$", t115, flags=re.M)
-chk("estado informativo, d pooled (-0,006)", float(m.group(1)), -0.006, 0.0006, "$-0.006$ points pooled")
-chk("estado informativo, p (0,77)", float(m.group(4)), 0.77, 0.005, "$p=0.77$")
+chk("estado informativo, d pooled (-0,006)", float(m.group(1)), -0.006, 0.0006)
+chk("estado informativo, p (0,77)", float(m.group(4)), 0.77, 0.005)
 
 # ---------------------------------------------------------------- resultados B (orcamento)
 P124 = rd("entrada124_igls_p_primary.csv")
@@ -324,10 +324,10 @@ chk("a validada vence os 18 pares nas held-out", int(B190.confirmada.sum()), 18,
 
 # ---------------------------------------------------------------- previsoes registradas e auditoria da literatura
 # Previsoes pontuais registradas por bateria (acertos, total): Entradas 170 (16, 16), 173 (16, 18), 176 (4, 6), 178 (5, 7), 180 (16, 19) -- contagens do diario; 184 A1 (3, 5), 185 B (3, 8), A2 (4, 4), D (8, 8), C (6, 6) -- relatorios.
-PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6), (7, 9), (5, 9), (11, 12), (8, 9), (7, 7), (5, 5), (9, 14), (4, 6), (4, 9), (6, 6), (1, 6), (3, 5), (2, 4), (4, 6), (6, 6), (4, 7), (4, 5), (5, 6), (4, 5), (5, 6), (13, 14), (4, 5), (5, 6), (6, 6), (8, 8), (4, 6), (5, 6), (5, 6)]   # + Ciclo 18: 196; (6, 6) = Entrada 242 (AOS publicados); (8, 8) = Entrada 244 (irace); (4, 5) = Entrada 223 (Q otimista); (5, 6) = Entrada 228 (cf nos tempos finos); (13, 14) = Entrada 234 (R||Cmax); (4, 5) = Entrada 238 (cronograma de acoes); (5, 6) = Entrada 240 (seletor no R||Cmax) valeq 8/9, 200 seletor 7/7, controles 5/5, 199 familia F 9/14, 203 Q ajustado 4/6, 197 flowshop 4/9, 205 seletor do flowshop 6/6
-chk("baterias que contaram previsoes (38)", len(PRED), 38, 0, "in $38$ batteries")
-chk("previsoes que acertaram (235)", sum(a for a, _ in PRED), 235, 0, "$235$ of $296$ point predictions held")
-chk("previsoes registradas (296)", sum(b for _, b in PRED), 296, 0)
+PRED = [(16, 16), (16, 18), (4, 6), (5, 7), (16, 19), (3, 5), (3, 8), (4, 4), (8, 8), (6, 6), (7, 9), (5, 9), (11, 12), (8, 9), (7, 7), (5, 5), (9, 14), (4, 6), (4, 9), (6, 6), (1, 6), (3, 5), (2, 4), (4, 6), (6, 6), (4, 7), (4, 5), (5, 6), (4, 5), (5, 6), (13, 14), (4, 5), (5, 6), (6, 6), (8, 8), (4, 6), (5, 6), (5, 6), (4, 6)]   # + Ciclo 18: 196; (6, 6) = Entrada 242 (AOS publicados); (8, 8) = Entrada 244 (irace); (4, 5) = Entrada 223 (Q otimista); (5, 6) = Entrada 228 (cf nos tempos finos); (13, 14) = Entrada 234 (R||Cmax); (4, 5) = Entrada 238 (cronograma de acoes); (5, 6) = Entrada 240 (seletor no R||Cmax) valeq 8/9, 200 seletor 7/7, controles 5/5, 199 familia F 9/14, 203 Q ajustado 4/6, 197 flowshop 4/9, 205 seletor do flowshop 6/6
+chk("baterias que contaram previsoes (39)", len(PRED), 39, 0, "in $39$ batteries")
+chk("previsoes que acertaram (239)", sum(a for a, _ in PRED), 239, 0, "$239$ of $302$ point predictions held")
+chk("previsoes registradas (302)", sum(b for _, b in PRED), 302, 0)
 
 L = pd.read_csv(R / "litaudit_pooled_entrada172.csv")
 L = L[L.included == "Y"]

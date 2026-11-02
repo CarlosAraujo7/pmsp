@@ -98,7 +98,7 @@ Hh = rd("entrada217_longc_by_T.csv").set_index("T")
 chk("horizonte: folga cf em T = 1000 (0,222)", Hh.loc[1000, "cf_headroom"], 0.222, 0.0006, "falls from $0.222$ points at $T=1{,}000$ to $0.047$ at $T=5{,}000$ and $0.023$ at $T=20{,}000$")
 chk("horizonte: folga cf em T = 5000 (0,047)", Hh.loc[5000, "cf_headroom"], 0.047, 0.0006)
 chk("horizonte: folga cf em T = 20000 (0,023)", Hh.loc[20000, "cf_headroom"], 0.023, 0.0006)
-chk("horizonte: Q-Learning em T = 1000 (0,128)", Hh.loc[1000, "ql"], 0.128, 0.0006, "Q-Learning's gain from $0.128$ to $0.033$ and $0.017$")
+chk("horizonte: Q-Learning em T = 1000 (0,128)", Hh.loc[1000, "ql"], 0.128, 0.0006)
 chk("horizonte: Q-Learning em T = 5000 (0,033)", Hh.loc[5000, "ql"], 0.033, 0.0006)
 chk("horizonte: Q-Learning em T = 20000 (0,017)", Hh.loc[20000, "ql"], 0.017, 0.0006)
 for T, e in ((5000, 0.002), (20000, 0.001)):
@@ -153,11 +153,11 @@ chk("mistura nivelada com Thompson em G9 a iteracoes iguais", float(not Mi.loc["
 # ---------------------------------------------------------------- robustez estatistica
 t215 = (R / "entrada215_robustness.txt").read_text(encoding="utf-8")
 t247 = (R / "entrada247_global.txt").read_text(encoding="utf-8")
-m = re.search(r"todas \(ate a Entrada 250\): (\d+) testes em \d+ arquivos; (\d+) 'confirmada'; sobrevivem a Holm global (\d+) \([\d.]+\) e a Benjamini-Yekutieli global (\d+)", t247)
-chk("testes registrados, todas as baterias (1061)", int(m.group(1)), 1061, 0, "over the $1{,}061$ tests of all registered batteries")
-chk("testes confirmados (604)", int(m.group(2)), 604, 0, "$585$ of the $604$ confirmed tests")
-chk("sobrevivem a BY global (585)", int(m.group(4)), 585, 0)
-chk("sobrevivem a Holm global (549)", int(m.group(3)), 549, 0, None)
+m = re.search(r"todas \(ate a Entrada 254\): (\d+) testes em \d+ arquivos; (\d+) 'confirmada'; sobrevivem a Holm global (\d+) \([\d.]+\) e a Benjamini-Yekutieli global (\d+)", t247)
+chk("testes registrados, todas as baterias (1121)", int(m.group(1)), 1121, 0, "over the $1{,}121$ tests of all registered batteries")
+chk("testes confirmados (647)", int(m.group(2)), 647, 0, "$626$ of the $647$ confirmed tests")
+chk("sobrevivem a BY global (626)", int(m.group(4)), 626, 0)
+chk("sobrevivem a Holm global (588)", int(m.group(3)), 588, 0, None)
 m0 = re.search(r"ate a Entrada 220 \(algoritmo genetico\), corrigido: (\d+) testes", t247)
 chk("conjunto ate o GA, corrigido (831; o relatorio da Entrada 215 contava 1.562 por reler a propria saida)", int(m0.group(1)), 831, 0, None)
 t215 = (R / "entrada215_robustness.txt").read_text(encoding="utf-8")
@@ -202,7 +202,7 @@ chk("ganho do seletor sobre o aleatorio, minimo (0,099)", min(sg), 0.099, 0.0006
 chk("ganho do seletor sobre o aleatorio, maximo (0,146)", max(sg), 0.146, 0.0006)
 chk("ganho do seletor entre a folga cf e a de uma semente nos 4 pares", float(all(between)), 1, 0)
 nt = int(re.search(r"(\d+) tests? collected", subprocess.run([sys.executable, "-m", "pytest", "--collect-only", "-q"], cwd=ROOT, capture_output=True, text=True).stdout).group(1))
-chk("testes unitarios no total (1.539)", nt, 1539, 0, "$1{,}539$ unit tests in all")
+chk("testes unitarios no total (1.544)", nt, 1544, 0, "$1{,}544$ unit tests in all")
 
 # ---------------------------------------------------------------- Ciclo 21: o estimador, a regra com IC por conglomerado, os tempos finos e a leitura de condicao necessaria
 t227 = (R / "entrada227_cfvariants.txt").read_text(encoding="utf-8")
@@ -214,7 +214,7 @@ chk("IC95 da acuracia balanceada, uma semente (0,79)", float(re.findall(r"[-\d.]
 chk("excesso sobre a taxa de base nao e' significativo (P(<=0) > 0,05)", float(float(rv["cf22"].group(11)) > 0.05), 1, 0)
 chk("escolher em tres sementes: mesma acuracia (0,78)", float(rv["cf31"].group(4)), 0.78, 0.006)
 Ff = pd.read_csv(R / "entrada228_cf_fine_pooled.csv").set_index("space")
-chk("tempos finos: folga cf S5 (0,098)", Ff.loc["S5", "h_cf"], 0.098, 0.0006, "the cross-fitted headroom is $0.098$ and $0.121$")
+chk("tempos finos: folga cf S5 (0,098)", Ff.loc["S5", "h_cf"], 0.098, 0.0006)
 chk("tempos finos: folga cf S15 (0,121)", Ff.loc["S15", "h_cf"], 0.121, 0.0006)
 t228 = (R / "entrada228_cf_fine.txt").read_text(encoding="utf-8")
 chk("tempos finos: acuracia da regra (58%)", 100 * float(re.search(r"acuracia da regra h\* nas 24 celulas: ([\d.]+)", t228).group(1)), 58, 0.6)
@@ -302,7 +302,7 @@ import glob as _glob  # noqa: E402
 cpu_s = sum(int(re.findall(r"concluido \((\d+)s\)", open(f_).read())[-1]) for f_ in _glob.glob(str(R / "_run200_label_S*_*.log")))
 chk("treino do seletor: execucoes com cinco acoes (85.800)", 5720 * 3 * 5, 85800, 0, "$85{,}800$ and $257{,}400$ IG runs")
 chk("treino do seletor: execucoes com quinze acoes (257.400)", 5720 * 3 * 15, 257400, 0)
-chk("treino do seletor: iteracoes extras por instancia held-out, cinco acoes (21.700)", 5720 * 3 * 5 * 1000 / 3950, 21700, 50, "$21{,}700$ and $65{,}200$ extra iterations")
+chk("treino do seletor: iteracoes extras por instancia held-out, cinco acoes (21.700)", 5720 * 3 * 5 * 1000 / 3950, 21700, 50)
 chk("treino do seletor: iteracoes extras por instancia held-out, quinze acoes (65.200)", 5720 * 3 * 15 * 1000 / 3950, 65200, 50)
 chk("treino do seletor: horas de CPU (0,7)", cpu_s / 3600, 0.7, 0.05, "about $0.7$ CPU-hours")
 
@@ -416,6 +416,19 @@ Bh = Th[Th.id.str.startswith("B-")]
 chk("horizonte R||Cmax: a validada bate os 24 pares aprendiz-horizonte-espaco", float(Bh.confirmada.sum()), 24, 0, "the validated action beats every learner at every horizon ($0.37$--$2.33$)")
 chk("horizonte R||Cmax: menor diferenca da validada (0,37)", float(-Bh.mean_d_pct.max()), 0.37, 0.005)
 chk("horizonte R||Cmax: maior diferenca da validada (2,33)", float(-Bh.mean_d_pct.min()), 2.33, 0.005)
+# ---------------------------------------------------------------- Ciclo 30: R||Cmax nas familias publicadas (Entrada 254)
+Ce = rd("entrada254_ur_external_cells.csv").set_index(["fam", "space"])
+Te = rd("entrada254_ur_external_tests.csv")
+Be = Te[Te.id.str.startswith("B-")]
+Ae = Te[Te.id.str.startswith("A-") & Te.id.str.endswith("-ql")]
+chk("familias publicadas: a validada bate os 30 pares aprendiz-celula", float(Be.confirmada.sum()), 30, 0, "all $30$ learner--cell pairs ($0.42$--$2.64$ points)")
+chk("familias publicadas: menor diferenca da validada (0,42)", float(-Be.mean_d_pct.max()), 0.42, 0.005)
+chk("familias publicadas: maior diferenca da validada (2,64)", float(-Be.mean_d_pct.min()), 2.64, 0.005)
+chk("familias publicadas: celulas em que o Q-Learning ganha alem da margem (4)", float((Ae.confirmada & ~Ae["equivalente_0.05"]).sum()), 4, 0, "gains beyond the margin in four of the six cells")
+chk("familias publicadas: Q-Learning em cm-S5 (0,67)", float(Ce.loc[("cm", "S5"), "g_ql"]), 0.67, 0.005, "up to $0.67$ and $0.83$ points with correlated machines")
+chk("familias publicadas: Q-Learning em cm-S15 (0,83)", float(Ce.loc[("cm", "S15"), "g_ql"]), 0.83, 0.005)
+chk("familias publicadas: Q-Learning / validada em cm-S5 (53%)", 100 * float(Ce.loc[("cm", "S5"), "g_ql"] / Ce.loc[("cm", "S5"), "g_val"]), 53, 0.7, "($53\\%$ and $65\\%$ of the validated gain)")
+chk("familias publicadas: Q-Learning / validada em cm-S15 (65%)", 100 * float(Ce.loc[("cm", "S15"), "g_ql"] / Ce.loc[("cm", "S15"), "g_val"]), 65, 0.7, "up to $65\\%$ with correlated machines")
 bad = [r for r in rows if not r[4]]
 for lab, v, e, tol, ok in rows:
     print(f"{'OK ' if ok else 'ERRO'} {lab}" + ("" if np.isnan(v) else f"  recalculado {v:.5g} vs texto {e:.5g} (tol {tol})"))

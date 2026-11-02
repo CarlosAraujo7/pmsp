@@ -34,6 +34,7 @@ python -m analysis.report_entrada244_irace          # irace as configurator (aft
 python -m analysis.report_entrada248_ur_eqcpu       # equal CPU time on unrelated machines (after the commands below)
 python -m analysis.report_entrada249_closedloop     # closed-loop (state-dependent) oracles (after the commands below)
 python -m analysis.report_entrada250_ur_horizon     # long horizons on unrelated machines (after the commands below)
+python -m analysis.report_entrada254_ur_external    # published R||Cmax instance families (after the commands below)
 python analysis/make_osf_registry.py            # entrega/OSF_REGISTRO_PREVISOES.md: every pre-registration block and hash file, for a public registry deposit
 python -m analysis.report_entrada247_global         # global Benjamini-Yekutieli control over every registered test (run last; replaces the global part of report_entrada215_robustness, which re-reads its own output)
 python -m analysis.audit_cec_claims; python -m analysis.audit_cec_claims2; python -m analysis.audit_cec_claims3    # every number of the prose recomputed and matched (exit 1 on any mismatch)
@@ -73,6 +74,7 @@ bash cec/build.sh anon                 # double-anonymous version for submission
 | Equal CPU time on unrelated machines (cost ratios K calibrated alone on the machine, then the test) | 248 | `python -m experiment.run_cycle26_eqcpu_ur_entrada248 --calibrate` (about 6 min, nothing else running), record the md5 of `results/ur_eqcpu_k_entrada248.json`, then `bash experiment/pipeline_cycle26_eqcpu_ur_entrada248.sh` (about 3 min) |
 | Closed-loop oracles: myopic lookahead and rollout over the validated action (P||Cmax and R||Cmax; not budget-fair) | 249 | `python -m pytest tests/test_closedloop_entrada249.py`, record the md5 of the code, then `bash experiment/pipeline_cycle27_closedloop_entrada249.sh` (about 40 min on 6 processes) |
 | Long horizons on unrelated machines (T = 5,000, 20,000, 100,000; Q-Learning with exploration scaled to T) | 250 | `python -m pytest tests/test_horizon_ur_entrada250.py`, record the md5 of the code, then `bash experiment/pipeline_cycle28_horizon_ur_entrada250.sh` (about 14 min on 6 processes) |
+| Published R||Cmax families (uncorrelated U{10,100}, correlated jobs, correlated machines; 25 sizes; generators of Aablad, Stromberg and Spensieri, OJMO 2021): tuning of the validated action, then test | 254 | `python -m experiment.run_cycle30_ur_external_entrada254 --tune S5; ... --tune S15` (about 13 min), record the md5 of `results/ur_ext_choice_*_entrada254.json`, then `bash experiment/pipeline_cycle30_ur_external_entrada254.sh` (about 30 min on 6 processes) |
 | Statistical robustness (Pratt, permutation, global BY) | 215 | `python -m analysis.report_entrada215_robustness` (run after the other batteries) |
 | DQN, ILS operators, LinUCB, neural Q | 167, 173, 176 | `experiment/run_online_*`, `run_dqn_entrada173.py`, `run_ils_dqn_entrada176.py` |
 | Literature audit | 159, 172 | `analysis/litaudit_*` |
