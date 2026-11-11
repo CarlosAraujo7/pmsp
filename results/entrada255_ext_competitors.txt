@@ -1,0 +1,110 @@
+==============================================================================================================
+CONCORRENTES NAS FAMILIAS PUBLICADAS DE R||Cmax (Entrada 255)
+==============================================================================================================
+--- ganhos sobre o aleatorio (pontos) ---
+fam space   n  g_val      g_ql  g_cfg      g_q    g_iq    g_fr
+unc    S5 500  1.154    -0.453  1.091 -0.04839 -0.1178 0.05375
+ cj    S5 500 0.5459 -0.009734 0.5363   0.1408 0.03908 0.04792
+ cm    S5 500  1.264     0.667  1.282   0.6977 -0.0298  0.3012
+unc   S15 500  2.587    0.4609  2.593   0.7481  0.5407  0.4064
+ cj   S15 500 0.8515    0.2001 0.8161    0.351  0.1327 0.07309
+ cm   S15 500  1.292    0.8347  1.242   0.8189 -0.3089  0.2494
+
+--- Familia A: metodo contra o aleatorio ---
+           id   n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+ A-unc-S5-cfg 500     406     54   40      -1.091   -1.172   -1.011 4.374e-61 8.747e-61        True             False     confirmada
+  A-cj-S5-cfg 500     448     24   28     -0.5363  -0.5667   -0.505 7.482e-72 2.245e-71        True             False     confirmada
+  A-cm-S5-cfg 500     457     32   11      -1.282   -1.356   -1.207 3.483e-75 1.393e-74        True             False     confirmada
+A-unc-S15-cfg 500     465     17   18      -2.593   -2.704   -2.473 1.059e-77 6.357e-77        True             False     confirmada
+ A-cj-S15-cfg 500     453     20   27     -0.8161   -0.854  -0.7789 8.622e-76 4.311e-75        True             False     confirmada
+ A-cm-S15-cfg 500     423     69    8      -1.242   -1.333   -1.154 3.166e-59 3.166e-59        True             False     confirmada
+   A-unc-S5-q 500     241    232   27     0.04839  -0.0516   0.1514    0.7572    0.7572       False             False nao confirmada
+    A-cj-S5-q 500     318    147   35     -0.1408  -0.1737  -0.1058 9.324e-15 1.865e-14        True             False     confirmada
+    A-cm-S5-q 500     372    104   24     -0.6977  -0.7744  -0.6196  9.09e-39 4.545e-38        True             False     confirmada
+  A-unc-S15-q 500     330    147   23     -0.7481  -0.8788  -0.6002  4.39e-19 1.317e-18        True             False     confirmada
+   A-cj-S15-q 500     348    112   40      -0.351  -0.3913  -0.3104 8.598e-35 3.439e-34        True             False     confirmada
+   A-cm-S15-q 500     385    105   10     -0.8189  -0.8924  -0.7369 2.192e-46 1.315e-45        True             False     confirmada
+  A-unc-S5-iq 500     204    253   43      0.1178  0.04617   0.1838  0.007516   0.01503       False             False nao confirmada
+   A-cj-S5-iq 500     263    189   48    -0.03908 -0.06571 -0.01131   0.00171  0.005131        True             False     confirmada
+   A-cm-S5-iq 500     225    248   27      0.0298 -0.02477    0.083    0.2985    0.2985       False             False nao confirmada
+ A-unc-S15-iq 500     316    158   26     -0.5407  -0.6368  -0.4393 5.967e-19  3.58e-18        True             False     confirmada
+  A-cj-S15-iq 500     308    150   42     -0.1327  -0.1731 -0.09292 4.354e-14 2.177e-13        True             False     confirmada
+  A-cm-S15-iq 500     174    302   24      0.3089   0.2406   0.3761 1.242e-12 4.969e-12       False             False nao confirmada
+  A-unc-S5-fr 500     256    196   48    -0.05375  -0.1241  0.01021   0.01167   0.01167        True             False     confirmada
+   A-cj-S5-fr 500     270    185   45    -0.04792 -0.07103 -0.02403 8.005e-06 1.601e-05        True             False     confirmada
+   A-cm-S5-fr 500     339    141   20     -0.3012  -0.3528  -0.2469 3.782e-21 2.269e-20        True             False     confirmada
+ A-unc-S15-fr 500     318    148   34     -0.4064  -0.4846  -0.3277 2.019e-18  1.01e-17        True             False     confirmada
+  A-cj-S15-fr 500     292    150   58    -0.07309     -0.1 -0.04532 1.855e-10 5.564e-10        True             False     confirmada
+  A-cm-S15-fr 500     321    152   27     -0.2494  -0.2954  -0.1997 4.003e-17 1.601e-16        True             False     confirmada
+
+--- Familia B: validada contra o metodo ---
+           id   n  better  worse  tie  mean_d_pct  ci90_lo   ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+ B-unc-S5-cfg 500     231    220   49    -0.06041   -0.117 -0.002259     0.231         1       False             False nao confirmada
+  B-cj-S5-cfg 500     233    213   54   -0.008988 -0.03409   0.01732    0.4787         1       False              True nao confirmada
+  B-cm-S5-cfg 500     246    225   29     0.01998 -0.02643    0.0692    0.7457         1       False             False nao confirmada
+B-unc-S15-cfg 500     214    225   61     0.01033 -0.04828   0.06971    0.6647         1       False             False nao confirmada
+ B-cj-S15-cfg 500     235    216   49     -0.0348 -0.06218 -0.008679    0.1417      0.85       False             False nao confirmada
+ B-cm-S15-cfg 500     219    239   42      -0.046  -0.1071   0.01735    0.6914         1       False             False nao confirmada
+   B-unc-S5-q 500     441     32   27      -1.192   -1.278    -1.114 3.002e-71 1.501e-70        True             False     confirmada
+    B-cj-S5-q 500     403     60   37     -0.4042  -0.4411   -0.3698   4.9e-60 1.508e-59        True             False     confirmada
+    B-cm-S5-q 500     366    122   12     -0.5657  -0.6354    -0.497  3.63e-36  7.26e-36        True             False     confirmada
+  B-unc-S15-q 500     455     35   10      -1.835   -1.946    -1.728  4.68e-75 2.808e-74        True             False     confirmada
+   B-cj-S15-q 500     402     61   37        -0.5  -0.5455   -0.4589  3.77e-60 1.508e-59        True             False     confirmada
+   B-cm-S15-q 500     308    175   17     -0.4705  -0.5621   -0.3815 7.303e-15 7.303e-15        True             False     confirmada
+  B-unc-S5-iq 500     441     36   23      -1.266   -1.338    -1.187 1.561e-71 1.561e-71        True             False     confirmada
+   B-cj-S5-iq 500     444     22   34     -0.5063  -0.5372   -0.4758 3.616e-74 1.808e-73        True             False     confirmada
+   B-cm-S5-iq 500     448     35   17      -1.291   -1.366    -1.212 1.491e-73 4.474e-73        True             False     confirmada
+ B-unc-S15-iq 500     467     15   18      -2.051   -2.156    -1.942 1.219e-77 7.316e-77        True             False     confirmada
+  B-cj-S15-iq 500     442     29   29     -0.7177  -0.7615    -0.675 6.821e-74 2.729e-73        True             False     confirmada
+  B-cm-S15-iq 500     448     41   11       -1.59   -1.685    -1.494 2.025e-73 4.474e-73        True             False     confirmada
+  B-unc-S5-fr 500     421     42   37      -1.097   -1.173    -1.016 1.567e-64 3.135e-64        True             False     confirmada
+   B-cj-S5-fr 500     439     27   34     -0.4977  -0.5279   -0.4678 9.934e-73 3.974e-72        True             False     confirmada
+   B-cm-S5-fr 500     435     47   18     -0.9642   -1.033   -0.8948 1.858e-68 5.574e-68        True             False     confirmada
+ B-unc-S15-fr 500     472     17   11      -2.186   -2.285    -2.079 1.165e-78 5.826e-78        True             False     confirmada
+  B-cj-S15-fr 500     469      4   27     -0.7781  -0.8168   -0.7443 6.648e-79 3.989e-78        True             False     confirmada
+  B-cm-S15-fr 500     420     67   13      -1.044   -1.126   -0.9602 2.484e-59 2.484e-59        True             False     confirmada
+
+--- Familia B': metodo contra a validada ---
+            id   n  better  worse  tie  mean_d_pct   ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+ B'-unc-S5-cfg 500     220    231   49     0.06687  0.008941   0.1239    0.2036         1       False             False nao confirmada
+  B'-cj-S5-cfg 500     213    233   54     0.01016  -0.01617  0.03519    0.4638         1       False              True nao confirmada
+  B'-cm-S5-cfg 500     225    246   29    -0.01573  -0.06479  0.03068    0.7852         1       False             False nao confirmada
+B'-unc-S15-cfg 500     225    214   61   -0.004078  -0.06283  0.05484    0.7141         1       False             False nao confirmada
+ B'-cj-S15-cfg 500     216    235   49     0.03613    0.0101  0.06351    0.1334    0.8004       False             False nao confirmada
+ B'-cm-S15-cfg 500     239    219   42     0.05316 -0.009825   0.1147    0.6467         1       False             False nao confirmada
+   B'-unc-S5-q 500      32    441   27       1.221     1.139     1.31 2.317e-71 1.158e-70       False             False nao confirmada
+    B'-cj-S5-q 500      60    403   37      0.4083    0.3734   0.4456 4.286e-60 1.345e-59       False             False nao confirmada
+    B'-cm-S5-q 500     122    366   12      0.5781    0.5078   0.6496 2.271e-36 4.542e-36       False             False nao confirmada
+  B'-unc-S15-q 500      35    455   10       1.894     1.783    2.011  3.48e-75 2.088e-74       False             False nao confirmada
+   B'-cj-S15-q 500      61    402   37       0.506    0.4644   0.5522 3.364e-60 1.345e-59       False             False nao confirmada
+   B'-cm-S15-q 500     175    308   17      0.4883    0.3971    0.582 4.451e-15 4.451e-15       False             False nao confirmada
+  B'-unc-S5-iq 500      36    441   23       1.295     1.214    1.368 1.286e-71 1.286e-71       False             False nao confirmada
+   B'-cj-S5-iq 500      22    444   34      0.5107    0.4796    0.542 3.548e-74 1.774e-73       False             False nao confirmada
+   B'-cm-S5-iq 500      35    448   17       1.319     1.238    1.396 1.156e-73 3.467e-73       False             False nao confirmada
+ B'-unc-S15-iq 500      15    467   18       2.115     2.001    2.225 1.056e-77 6.337e-77       False             False nao confirmada
+  B'-cj-S15-iq 500      29    442   29      0.7264    0.6828   0.7711 6.218e-74 2.487e-73       False             False nao confirmada
+  B'-cm-S15-iq 500      41    448   11       1.634     1.533    1.734 1.501e-73 3.467e-73       False             False nao confirmada
+  B'-unc-S5-fr 500      42    421   37       1.121     1.038    1.198  9.51e-65 1.902e-64       False             False nao confirmada
+   B'-cj-S5-fr 500      27    439   34      0.5019    0.4717   0.5324  9.22e-73 3.688e-72       False             False nao confirmada
+   B'-cm-S5-fr 500      47    435   18      0.9823    0.9114    1.052  1.46e-68 4.381e-68       False             False nao confirmada
+ B'-unc-S15-fr 500      17    472   11       2.257     2.143    2.361 8.314e-79 4.157e-78       False             False nao confirmada
+  B'-cj-S15-fr 500       4    469   27      0.7869    0.7521   0.8267 6.648e-79 3.989e-78       False             False nao confirmada
+  B'-cm-S15-fr 500      67    420   13       1.068    0.9821    1.152  1.35e-59  1.35e-59       False             False nao confirmada
+
+--- Familia E: q contra o Q-Learning padrao (Holm sobre 6) ---
+         id   n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi     p_raw    p_holm  confirmada  equivalente_0.05        leitura
+ E-unc-S5-q 500     288    186   26     -0.3895  -0.4836  -0.3035 1.205e-10 6.025e-10        True             False     confirmada
+  E-cj-S5-q 500     278    177   45     -0.1485  -0.1826  -0.1148 6.878e-10 2.751e-09        True             False     confirmada
+  E-cm-S5-q 500     245    231   24    -0.02679 -0.08726  0.02719    0.5899         1       False             False nao confirmada
+E-unc-S15-q 500     269    215   16     -0.2705  -0.3815  -0.1652 4.414e-05 0.0001324        True             False     confirmada
+ E-cj-S15-q 500     285    169   46     -0.1495  -0.1812  -0.1197 8.841e-14 5.305e-13        True             False     confirmada
+ E-cm-S15-q 500     217    248   35     0.01912 -0.03747  0.07562    0.5405         1       False             False nao confirmada
+
+--- previsoes ---
+(Y1) cfg bate a validada alem da margem: 0 de 6 (previsto 0): SIM
+(Y2) q ganha do aleatorio alem da margem: 5 de 6 (previsto <= 2): NAO
+(Y3) a validada bate o q: 6 de 6 (previsto >= 5): SIM
+(Y4) iq ou fr batem a validada alem da margem: 0 de 12 (previsto 0): SIM
+(Y5) q nao bate o Q padrao alem da margem nas celulas cm: SIM
+(Y6) fr ganha do aleatorio alem da margem nas celulas cm: 2 de 2 (previsto >= 1): SIM
+previsoes acertadas: 5 de 6

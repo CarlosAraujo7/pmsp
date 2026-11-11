@@ -33,6 +33,7 @@ Diferente do resto deste documento (normas fortes, com desvio permitido e regist
 5. **Nenhuma exclusão de dado é silenciosa.** Toda exclusão (instância, seed, outlier, período, sujeito) tem uma linha registrada explicando o motivo, com o dado bruto preservado fora do cálculo agregado, mas disponível.
 6. **Decisões de enquadramento, escopo ou direção estratégica do artigo são de quem pesquisa, não do agente.** Um agente pode e deve recomendar, com posição clara e justificada — mas a decisão final sobre o que o artigo afirma, para qual periódico mirar, ou se um resultado nulo se torna a tese central, pertence a quem assina o trabalho. Ver Parte II.5, II.8 e Parte IV.
 7. **Nada que representa esforço de pesquisa é apagado sem preservação prévia.** Nota estruturada — data, motivo, conteúdo relevante — antes de qualquer exclusão, nunca depois.
+8. **O assistente de IA nunca consta como autor, coautor ou contribuidor em nada que sobe ou é publicado:** nem em mensagens de commit (sem trailer `Co-Authored-By`), pull requests, tags, blocos de autoria, agradecimentos, `CITATION.cff`, metadados do Zenodo ou do OSF, nem em cabeçalhos de arquivos novos. A autoria é só de quem assina o trabalho. Declarar o uso de ferramentas de IA, quando o periódico exige, é decisão e redação do pesquisador na declaração da submissão, não crédito de autoria. Regra de Carlos, 11/11/2026.
 
 ---
 

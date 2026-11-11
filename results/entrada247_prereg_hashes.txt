@@ -8,3 +8,5 @@ a43a1fc03980e3476a6b610c64065675 *analysis/report_entrada247_global.py
 8e5a78dbe029b52ea8ba12a56b939c58 *analysis/report_entrada247_global.py
 # rotulo trocado para 'ate a Entrada 254' apos as familias publicadas de R||Cmax (so o texto do rotulo); hash novo:
 1a91f25be346bcea49ab1ae28d7a4890 *analysis/report_entrada247_global.py
+# rotulo trocado para 'ate a Entrada 255' apos os concorrentes nas familias publicadas (so o texto do rotulo); hash novo:
+43ead49cda59e54f33de503e7db8e2b7 *analysis/report_entrada247_global.py

@@ -135,3 +135,5 @@ results/gamix_test_*_s*of*_entrada220.csv
 
 # Ciclo 24: logs e CSV de elites de cada job do irace (as escolhas ficam em results/irace_tune_*_entrada244.jsonl)
 results/_irace_work/
+
+results/_irace_work_ext/
