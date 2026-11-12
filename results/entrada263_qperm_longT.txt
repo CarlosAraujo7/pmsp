@@ -1,0 +1,42 @@
+==============================================================================================================
+Q-LEARNING INVARIANTE A ORDEM, HORIZONTE LONGO T = 10.000, B30 (Entrada 263)
+==============================================================================================================
+--- por tipo: ganhos sobre o aleatorio (pontos) e razao de avaliacoes ao aleatorio ---
+      type  g_val   g_ql   g_qp  ev_ql  ev_qp   n
+ JobsCorre  0.536 -0.175 -0.306  0.650  1.107 100
+  MaqCorre  0.903 -0.127 -0.472  0.842  1.216 100
+U1000a1100  0.211  0.069  0.024  0.802  1.058 100
+  U100a120  0.256 -0.036 -0.092  0.702  1.097 100
+  U100a200  2.389  0.093 -0.514  0.733  1.092 100
+   U10a100  3.525  0.454 -0.380  0.717  1.090 100
+    U1a100  2.694  0.118 -0.899  0.605  1.056 100
+
+--- A: ql_perm contra o aleatorio ---
+  n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial  p_raw           id  p_holm  reject  confirmada  equivalente_0.05        leitura
+100      16     78    6      0.3064   0.2398   0.3752         0.7778 0.0000  A-JobsCorre  0.0000    True       False             False nao confirmada
+100      26     66    8      0.4724   0.3507   0.5997         0.5818 0.0000   A-MaqCorre  0.0000    True       False             False nao confirmada
+100      60     35    5     -0.0242  -0.0488  -0.0028        -0.3537 0.0353 A-U1000a1100  0.0353    True        True              True       paridade
+100      25     67    8      0.0916   0.0485   0.1315         0.4497 0.0000   A-U100a120  0.0000    True       False             False nao confirmada
+100      23     77    0      0.5137   0.3572   0.6809         0.5634 0.0000   A-U100a200  0.0000    True       False             False nao confirmada
+100      37     54    9      0.3803   0.1792   0.5722         0.1209 0.0027    A-U10a100  0.0055    True       False             False nao confirmada
+100      22     55   23      0.8995   0.6006   1.2037         0.4406 0.0000     A-U1a100  0.0000    True       False             False nao confirmada
+
+--- E: ql_perm contra o ql padrao ---
+  n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial  p_raw           id  p_holm  reject  confirmada  equivalente_0.05        leitura
+100      30     64    6      0.1325   0.0630   0.2029         0.5684 0.0005  E-JobsCorre  0.0011    True       False             False nao confirmada
+100      31     64    5      0.3475   0.2230   0.4750         0.5401 0.0000   E-MaqCorre  0.0001    True       False             False nao confirmada
+100      24     71    5      0.0453   0.0254   0.0639         0.6746 0.0000 E-U1000a1100  0.0000    True       False             False nao confirmada
+100      32     58   10      0.0560   0.0132   0.1006         0.4359 0.0078   E-U100a120  0.0078    True       False             False nao confirmada
+100      25     72    3      0.6118   0.4378   0.7908         0.6886 0.0000   E-U100a200  0.0000    True       False             False nao confirmada
+100      26     68    6      0.8527   0.6048   1.0999         0.6291 0.0000    E-U10a100  0.0000    True       False             False nao confirmada
+100      23     57   20      1.0698   0.6301   1.5205         0.5904 0.0003     E-U1a100  0.0008    True       False             False nao confirmada
+
+o ql_perm ganha do aleatorio alem da margem em 0 de 7 tipos; a validada bate o ql_perm (B, confirmada) em 7 de 7; razao media de avaliacoes do ql_perm 1.102, do ql padrao 0.722
+
+--- previsoes ---
+(Q1) tipos em que o ql_perm ganha alem da margem: 0 de 7 (previsto <= 1): SIM
+(Q2) ganho do ql_perm menor que o do ql padrao em U1000a1100 e U10a100: [['U1000a1100', 0.069, 0.024], ['U10a100', 0.454, -0.38]]: SIM
+(Q3) razao media de avaliacoes do ql_perm ao aleatorio: 1.102 (previsto 0,9-1,1): NAO
+(Q4) tipos em que a validada bate o ql_perm: 7 de 7 (previsto 7): SIM
+(Q5) ganho medio do ql_perm: -0.377 (previsto <= 0,15): SIM
+previsoes acertadas: 4 de 5

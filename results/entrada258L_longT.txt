@@ -1,0 +1,25 @@
+==============================================================================================================
+BENCHMARK DE FANJUL-PEYRO E RUIZ, HORIZONTE LONGO T = 10.000, ESPACO B30 (Entrada 258)
+==============================================================================================================
+--- por tipo: ganhos sobre o aleatorio (pontos) e lacuna da validada ao melhor conhecido (%) ---
+      type  g_val_T10000  g_val_T1000   g_ql  g_ucb   g_pg  g_alns   g_qo   g_iq   g_fr  best  gap_val_T10000  gap_val_T1000
+ JobsCorre         0.536        0.499 -0.175  0.036  0.001   0.065 -0.133 -0.150  0.063 0.065           2.255          3.311
+  MaqCorre         0.903        2.224 -0.127  0.182 -0.005   0.261  0.213 -0.114 -0.044 0.261           3.677          6.859
+U1000a1100         0.211        0.395  0.069  0.014  0.005   0.034  0.039  0.076  0.035 0.076           0.260          0.531
+  U100a120         0.256        0.507 -0.036  0.035  0.012  -0.044 -0.075  0.024  0.021 0.035           1.486          2.110
+  U100a200         2.389        2.929  0.093  0.092  0.039   0.164 -0.372  0.937  0.223 0.937           1.855          4.760
+   U10a100         3.525        4.149  0.454  0.154  0.270   1.185 -0.314  1.111  0.478 1.185           5.500          9.871
+    U1a100         2.694        5.081  0.118 -0.130 -0.052   0.953 -0.877  0.449  0.276 0.953           3.767          6.785
+
+lacuna media ao melhor conhecido nas 700 instancias: T = 10.000: validada 2.686%, aleatorio 4.310%, ql 4.230% | T = 1.000: validada 4.889%, aleatorio 7.422%, ql 7.907%
+a validada bate o aprendiz (B, confirmada): 49 de 49; aprendizes que batem a validada alem da margem (B'): 0 de 49
+celulas em que cada aprendiz ganha do aleatorio alem da margem: ql 2, ucb 1, pg 1, alns 6, qo 2, iq 4, fr 5
+
+--- previsoes ---
+(L1) lacuna da validada a T = 10.000: 2.686% (previsto <= 3,5%): SIM
+(L2) aprendizes que batem a validada alem da margem: 0 de 49 (previsto 0): SIM
+(L3) tipos em que a validada ganha do aleatorio alem da margem: 7 de 7 (previsto >= 6): SIM
+(L4) tipos em que o Q-Learning padrao ganha alem da margem: 2 de 7 (previsto <= 1): NAO
+(L5) ganho medio da validada: T = 10.000 1.502 contra T = 1.000 2.255 (previsto menor): SIM
+(L6) tipos em que o melhor aprendiz recupera no maximo 50% do ganho da validada: 7 de 7 (previsto >= 6): SIM
+previsoes acertadas: 5 de 6

@@ -199,6 +199,113 @@ H60 = (R / "entrada260_qperm.txt").read_text(encoding="utf-8")
 chk("Entrada 260: 4 de 6 previsoes", int(re.search(r"previsoes acertadas: (\d+) de", H60).group(1)), 4, 0, "sec_order.tex", "Four of the six registered predictions")
 chk("Entrada 261: 4 de 4 previsoes", int(re.search(r"previsoes acertadas: (\d+) de", H61).group(1)), 4, 0, "sec_order.tex", "all four on $P||C_{\\max}$")
 
+# ---------------------------------------------------------------- horizonte longo (Entrada 258, parte T = 10.000), Q-Learning invariante a ordem a T = 10.000 (Entrada 263) e politica neural (Entradas 259 e 262)
+CL = pd.read_csv(R / "entrada258L_longT_cells.csv")
+TL = pd.read_csv(R / "entrada258L_longT_tests.csv").set_index("id")
+HL = (R / "entrada258L_longT.txt").read_text(encoding="utf-8")
+gm = re.search(r"T = 10.000: validada ([\d.]+)%, aleatorio ([\d.]+)%, ql ([\d.]+)% \| T = 1.000: validada ([\d.]+)%, aleatorio ([\d.]+)%, ql ([\d.]+)%", HL)
+chk("T longo: lacuna da validada (2,69%)", float(gm.group(1)), 2.69, 0.006, "sec_longneural.tex", "$2.69\\%$")
+chk("T longo: lacuna do aleatorio (4,31%)", float(gm.group(2)), 4.31, 0.006, "sec_longneural.tex", "\\to4.31\\%$")
+chk("T longo: lacuna do aleatorio a T=1000 (7,42%)", float(gm.group(5)), 7.42, 0.006, "sec_longneural.tex", "$7.42\\%\\to4.31\\%$")
+chk("T longo: lacuna do ql (4,23%)", float(gm.group(3)), 4.23, 0.006, "sec_longneural.tex", "$7.91\\%\\to4.23\\%$")
+chk("T longo: ganho medio da validada a T=1000 (2,26)", CL.g_val_T1000.mean(), 2.26, 0.006, "sec_longneural.tex", "from $2.26$ to $1.50$ points")
+chk("T longo: ganho medio da validada a T=10000 (1,50)", CL.g_val_T10000.mean(), 1.50, 0.006)
+LB_ = TL[TL.index.str.startswith("B-")]
+LC_ = TL[TL.index.str.startswith("B'-")]
+chk("T longo: a validada bate os 49 pares (confirmada)", int(LB_.confirmada.sum()), 49, 0, "sec_longneural.tex", "all $49$ learner--type pairs")
+chk("T longo: nenhum aprendiz bate a validada alem da margem", int((LC_.confirmada & ~LC_["equivalente_0.05"]).sum()), 0, 0)
+LA_ = TL[TL.index.str.startswith("A-")]
+LAb = LA_.confirmada & ~LA_["equivalente_0.05"]
+for k, lit, snip in (("alns", 6, "the ALNS roulette gains beyond the margin in six of the seven types"), ("iq", 4, "the episodic published design in four"), ("fr", 5, "the FRRMAB-style design in five"), ("ql", 2, "gains in two types")):
+    chk(f"T longo: celulas alem da margem {k} ({lit})", int(LAb[LA_.index.str.endswith(f'-{k}')].sum()), lit, 0, "sec_longneural.tex", snip)
+LRN_ = ["ql", "ucb", "pg", "alns", "qo", "iq", "fr"]
+rat = CL.best / CL.g_val_T10000
+chk("T longo: melhor aprendiz recupera ao menos 12%", 100 * rat.min(), 12, 0.5, "sec_longneural.tex", "from $12\\%$ to $39\\%$")
+chk("T longo: melhor aprendiz recupera no maximo 39%", 100 * rat.max(), 39, 0.5)
+chk("T longo: maior ganho do alns (1,18 em U10a100)", CL.set_index("type").loc["U10a100", "g_alns"], 1.18, 0.005, "sec_longneural.tex", "up to $1.18$ points on $U[10,100]$")
+qlg = sorted(CL.loc[[i for i, t in zip(CL.index, CL.type) if bool(LAb.get(f"A-{t}-ql", False))], "g_ql"])
+chk("T longo: ganhos do ql alem da margem (0,07 e 0,45)", float(np.abs(np.array(qlg) - np.array([0.07, 0.45])).max()), 0, 0.006, "sec_longneural.tex", "($0.07$ and $0.45$ points)")
+chk("T longo: previsoes 5 de 6", int(re.search(r"previsoes acertadas: (\d+) de", HL).group(1)), 5, 0, "sec_longneural.tex", "five of the six predictions held")
+
+C263 = pd.read_csv(R / "entrada263_qperm_longT_cells.csv")
+T263 = pd.read_csv(R / "entrada263_qperm_longT_tests.csv").set_index("id")
+H263 = (R / "entrada263_qperm_longT.txt").read_text(encoding="utf-8")
+A263 = T263[T263.index.str.startswith("A-")]
+chk("Entrada 263: ql_perm ganha alem da margem em 0 de 7", int((A263.confirmada & ~A263["equivalente_0.05"]).sum()), 0, 0, "sec_longneural.tex", "in none of the seven types")
+neg = C263[C263.g_qp < -0.05].g_qp
+chk("Entrada 263: perde em seis tipos", len(neg), 6, 0, "sec_longneural.tex", "worse than random choice in six")
+chk("Entrada 263: perda minima (0,09)", -neg.max(), 0.09, 0.006, "sec_longneural.tex", "$0.09$ to $0.90$ points")
+chk("Entrada 263: perda maxima (0,90)", -neg.min(), 0.90, 0.006)
+chk("Entrada 263: razao de avaliacoes do ql_perm (1,10)", C263.ev_qp.mean(), 1.10, 0.006, "sec_longneural.tex", "$1.10$ times as many")
+chk("Entrada 263: razao de avaliacoes do ql padrao (0,72)", C263.ev_ql.mean(), 0.72, 0.006, "sec_longneural.tex", "$0.72$ for the standard learner")
+B263 = T263[T263.index.str.startswith("B-")]
+chk("Entrada 263: a validada bate o ql_perm em 7 de 7", int(B263.confirmada.sum()), 7, 0, "sec_longneural.tex", "beats it in all seven types")
+chk("Entrada 263: previsoes 4 de 5", int(re.search(r"previsoes acertadas: (\d+) de", H263).group(1)), 4, 0, "sec_longneural.tex", "Four of the five predictions")
+
+CN = pd.read_csv(R / "entrada262_neural_cells.csv")
+TN = pd.read_csv(R / "entrada262_neural_tests.csv").set_index("id")
+HN = (R / "entrada262_neural.txt").read_text(encoding="utf-8")
+NA = TN[TN.index.str.startswith("A-")]
+NB = TN[TN.index.str.startswith("B-")]
+NC = TN[TN.index.str.startswith("B'-")]
+ND = TN[TN.index.str.startswith("D-")]
+chk("neural: ganha do aleatorio alem da margem nas 14 celulas", int((NA.confirmada & ~NA["equivalente_0.05"]).sum()), 14, 0, "sec_longneural.tex", "in all $14$ cells")
+chk("neural: nunca bate a validada alem da margem", int((NC.confirmada & ~NC["equivalente_0.05"]).sum()), 0, 0)
+chk("neural: a validada bate a politica em 11 de 14 (confirmada)", int(NB.confirmada.sum()), 11, 0, "sec_longneural.tex", "in $11$ of the $14$ cells")
+chk("neural: ganho medio da validada (1,95)", CN.g_val.mean(), 1.95, 0.006, "sec_longneural.tex", "gains $1.95$ points")
+chk("neural: ganho medio da politica (1,31)", CN.g_nn.mean(), 1.31, 0.006, "sec_longneural.tex", "the policy $1.31$")
+chk("neural: fracao da politica (67%)", 100 * CN.g_nn.mean() / CN.g_val.mean(), 67, 0.6, "sec_longneural.tex", "$67\\%$")
+chk("neural: ganho medio da mistura constante (1,17)", CN.g_nn_const.mean(), 1.17, 0.006, "sec_longneural.tex", "the constant mixture $1.17$")
+chk("neural: fracao da mistura constante (60%)", 100 * CN.g_nn_const.mean() / CN.g_val.mean(), 60, 0.6, "sec_longneural.tex", "$60\\%$")
+chk("neural: melhor aprendiz online (0,35)", CN.best_online.mean(), 0.35, 0.006, "sec_longneural.tex", "$0.35$ ($18\\%$")
+chk("neural: fracao do melhor online (18%)", 100 * CN.best_online.mean() / CN.g_val.mean(), 18, 0.6)
+chk("neural: politica contra o melhor online (3,7 vezes)", CN.g_nn.mean() / CN.best_online.mean(), 3.7, 0.06, "sec_longneural.tex", "$3.7$ times")
+Db = ND[ND.confirmada & ~ND["equivalente_0.05"]]
+chk("neural: bate o nn_const alem da margem em 6 de 14", len(Db), 6, 0, "sec_longneural.tex", "in $6$ of the $14$ cells")
+chk("neural: as seis ficam em B30", int(Db.index.str.endswith("B30").sum()), 6, 0, "sec_longneural.tex", "all six are in B30")
+chk("neural: menor diferenca (0,04)", Db.mean_d_pct.abs().min(), 0.04, 0.006, "sec_longneural.tex", "$0.04$ to $0.50$ points")
+chk("neural: maior diferenca (0,50)", Db.mean_d_pct.abs().max(), 0.50, 0.006)
+chk("neural: previsoes 5 de 5", int(re.search(r"previsoes acertadas: (\d+) de", HN).group(1)), 5, 0, "sec_longneural.tex", "All five predictions held")
+cost = {}
+for sp in ("B15", "B30"):
+    for v in ("full", "const"):
+        d_ = pd.read_csv(R / f"nn_train_{sp}_{v}_entrada259.csv")
+        cost[(sp, v)] = int(len(d_) * d_.runs_per_gen.iloc[0])
+chk("neural: custo de treino B30 (138.240)", cost[("B30", "full")], 138240, 0, "sec_longneural.tex", "$138{,}240$ IG runs in B30")
+chk("neural: custo de treino B15 (115.200)", cost[("B15", "full")], 115200, 0, "sec_longneural.tex", "$115{,}200$ in B15")
+chk("neural: custo dos controles (69.120)", cost[("B30", "const")], 69120, 0, "sec_longneural.tex", "$69{,}120$ for each control")
+chk("neural: custo dos controles B15 (69.120)", cost[("B15", "const")], 69120, 0)
+
+# ---------------------------------------------------------------- instancias publicadas held-out de P||Cmax com o Q-Learning invariante a ordem (Entrada 264)
+C264 = pd.read_csv(R / "entrada264_qperm_pub_cells.csv")
+T264 = pd.read_csv(R / "entrada264_qperm_pub_tests.csv").set_index("id")
+H264 = pd.read_csv(R / "entrada264_qperm_pub_h.csv").set_index("id")
+H190 = pd.read_csv(R / "entrada190_replication_h.csv").set_index("id")
+T264_text = (R / "entrada264_qperm_pub.txt").read_text(encoding="utf-8")
+A264 = T264[T264.index.str.startswith("A-")]
+B264 = T264[T264.index.str.startswith("B-")]
+chk("Entrada 264: ql_perm ganha alem da margem em 0 de 18", int((A264.confirmada & ~A264["equivalente_0.05"]).sum()), 0, 0, "sec_order.tex", "none of the $18$ cells")
+chk("Entrada 264: perda do ql_perm na familia C, S15 (0,25)", H264.loc["H1p", "mean_d_pct"], 0.25, 0.006, "sec_order.tex", "$0.25$ ($15$ actions)")
+chk("Entrada 264: perda do ql_perm na familia C, S5 (0,12)", H264.loc["H2p", "mean_d_pct"], 0.12, 0.006, "sec_order.tex", "$0.12$ ($5$ actions)")
+chk("Entrada 264: perda do ql_perm na familia E, S15 (0,07)", H264.loc["H3bp", "mean_d_pct"], 0.07, 0.006, "sec_order.tex", "it loses $0.07$ and $0.03$ points")
+chk("Entrada 264: perda do ql_perm na familia E, S5 (0,03)", H264.loc["H3ap", "mean_d_pct"], 0.03, 0.006)
+chk("Entrada 190: ganho do Q padrao na familia C, S15 (0,245)", -H190.loc["H1", "mean_d_pct"], 0.245, 0.0006, "sec_order.tex", "$0.245$ and $0.149$ points")
+chk("Entrada 190: ganho do Q padrao na familia C, S5 (0,149)", -H190.loc["H2", "mean_d_pct"], 0.149, 0.0006)
+chk("Entrada 190: perda do Q padrao na familia E, S15 (0,05)", H190.loc["H3b", "mean_d_pct"], 0.05, 0.006, "sec_order.tex", "($0.05$ and $0.06$)")
+chk("Entrada 190: perda do Q padrao na familia E, S5 (0,06)", H190.loc["H3a", "mean_d_pct"], 0.06, 0.006)
+chk("Entrada 264: a validada bate o ql_perm nas 18 celulas", int(B264.confirmada.sum()), 18, 0, "sec_order.tex", "in all $18$ cells")
+from scipy import stats as _ss
+chk("Entrada 264: Spearman do Q padrao (+0,65)", float(_ss.spearmanr(C264.folga, C264.g_ql).statistic), 0.65, 0.006, "sec_order.tex", "$+0.65$ for the standard learner")
+chk("Entrada 264: Spearman do ql_perm (-0,74)", float(_ss.spearmanr(C264.folga, C264.g_qp).statistic), -0.74, 0.006, "sec_order.tex", "is $-0.74$ for the order-invariant one")
+chk("Entrada 264: 7 de 7 previsoes", int(re.search(r"previsoes acertadas: (\d+) de", T264_text).group(1)), 7, 0, "sec_order.tex", "all seven predictions held")
+ncells = len(Cz) + len(Cf) + len(Cp) + len(C264)
+chk("celulas repetidas com o ql_perm (69)", ncells, 69, 0, "sec_order.tex", "none of the $69$ cells where we repeated it")
+chk("celulas repetidas com o ql_perm no resumo (69)", ncells, 69, 0, "abstract.tex", "none of $69$ cells")
+chk("celulas repetidas com o ql_perm na introducao (69)", ncells, 69, 0, "sec_intro.tex", "none of $69$ cells")
+chk("celulas repetidas com o ql_perm na discussao (69)", ncells, 69, 0, "sec_discussion.tex", "all $69$ cells that we repeated")
+chk("celulas repetidas com o ql_perm na conclusao (69)", ncells, 69, 0, "sec_discussion.tex", "none of $69$ cells")
+chk("Spearman na discussao: de +0,65 a -0,74", float(_ss.spearmanr(C264.folga, C264.g_ql).statistic), 0.65, 0.006, "sec_discussion.tex", "from $+0.65$ to $-0.74$")
+
 # ---------------------------------------------------------------- contadores do registro
 main = (J / "main.tex").read_text(encoding="utf-8")
 held = int(re.search(r"\\newcommand\{\\npredheld\}\{(\d+)\}", main).group(1))
@@ -208,13 +315,15 @@ share = int(re.search(r"\\newcommand\{\\npredshare\}\{(\d+)\}", main).group(1))
 src = (ROOT / "analysis" / "audit_cec_claims.py").read_text(encoding="utf-8")
 pred = eval(re.search(r"^PRED = (\[.*?\])\s+#", src, flags=re.M).group(1))   # as 40 baterias do CEC
 extra = []
-f256 = R / "entrada256_fanjul.txt"
-if f256.exists():
-    m = re.search(r"previsoes acertadas: (\d+) de (\d+)", f256.read_text(encoding="utf-8"))
-    extra = [(int(m.group(1)), int(m.group(2)))]
-chk("baterias contadas (CEC + Entrada 256)", len(pred) + len(extra), nbat, 0)
-chk("previsoes acertadas (CEC + Entrada 256)", sum(a for a, _ in pred + extra), held, 0)
-chk("previsoes registradas (CEC + Entrada 256)", sum(b for _, b in pred + extra), total, 0)
+# baterias alem das 40 do CEC: Entrada 256 (benchmark padrao), 258 (mecanismo, etapas 1 e 2; horizonte longo), 260, 261, 262 (politica neural), 263
+for fn in ("entrada256_fanjul.txt", "entrada258_mechanism.txt", "entrada258_mechanism2.txt", "entrada258L_longT.txt", "entrada260_qperm.txt", "entrada261_qperm_pcmax.txt",
+           "entrada262_neural.txt", "entrada263_qperm_longT.txt", "entrada264_qperm_pub.txt"):
+    f_ = R / fn
+    m = re.search(r"previsoes acertadas: (\d+) de (\d+)", f_.read_text(encoding="utf-8"))
+    extra.append((int(m.group(1)), int(m.group(2))))
+chk("baterias contadas (CEC + Entradas 256-263)", len(pred) + len(extra), nbat, 0)
+chk("previsoes acertadas (CEC + Entradas 256-263)", sum(a for a, _ in pred + extra), held, 0)
+chk("previsoes registradas (CEC + Entradas 256-263)", sum(b for _, b in pred + extra), total, 0)
 chk("porcentagem de acertos", 100 * held / total, share, 0.5)
 
 bad = [r for r in rows if not r[4]]

@@ -1,0 +1,67 @@
+==============================================================================================================
+Q-LEARNING INVARIANTE A ORDEM NAS INSTANCIAS PUBLICADAS HELD-OUT (Entrada 264)
+==============================================================================================================
+instancias held-out: 3950; excluidas (soma >= 2^62): {'B': 210, 'C': 0, 'E': 0}
+
+--- celulas (familia x grupo x espaco): folga do oraculo e ganhos contra o aleatorio (pontos; positivo = melhor) ---
+space fam  grp   n  folga  g_val   g_ql   g_qp
+   S5   B    0 450  0.055 -0.016 -0.065 -0.022
+   S5   B    1 420  0.071  0.061  0.022 -0.018
+   S5   B    2 420  0.055  0.053  0.045 -0.015
+   S5   C    0 480  0.112   0.01 -0.057  -0.04
+   S5   C    1 480  0.254  0.177  0.052 -0.103
+   S5   C    2 540   0.35  0.278  0.235 -0.134
+   S5   E    0 340   0.03  0.016 -0.064 -0.042
+   S5   E    1 360   0.06  0.007 -0.069 -0.021
+   S5   E    2 460  0.103  0.038 -0.047 -0.021
+  S15   B    0 450  0.089  0.008 -0.047 -0.055
+  S15   B    1 420   0.09  0.083  0.048 -0.034
+  S15   B    2 420  0.066  0.064   0.06 -0.013
+  S15   C    0 480  0.153 -0.048 -0.032 -0.075
+  S15   C    1 480  0.329  0.269   0.14 -0.219
+  S15   C    2 540  0.421  0.343  0.337 -0.276
+  S15   E    0 340  0.065 -0.023  -0.07 -0.075
+  S15   E    1 360  0.092  0.048  -0.06 -0.073
+  S15   E    2 460  0.145   0.07 -0.031 -0.062
+
+--- A (ql_perm contra o aleatorio; Holm sobre 18) ---
+  n  better  worse  tie  mean_d_pct  ci90_lo  ci90_hi  rank_biserial  p_raw        id  p_holm  reject  confirmada  equivalente_0.05        leitura
+450     156    218   76      0.0222   0.0141    0.032         0.1548      0  A-B-0-S5       0    True       False              True nao confirmada
+420     113    273   34      0.0183    0.014   0.0228         0.4634      0  A-B-1-S5       0    True       False              True nao confirmada
+420     112    308    0      0.0152   0.0132   0.0174         0.5012      0  A-B-2-S5       0    True       False              True nao confirmada
+480      80    175  225      0.0397   0.0291   0.0517         0.4852      0  A-C-0-S5       0    True       False             False nao confirmada
+480     110    273   97      0.1026   0.0831   0.1213         0.4821      0  A-C-1-S5       0    True       False             False nao confirmada
+540     108    335   97      0.1342   0.1158   0.1539         0.6032      0  A-C-2-S5       0    True       False             False nao confirmada
+340      21     64  255      0.0421   0.0239   0.0637         0.5855      0  A-E-0-S5       0    True       False             False nao confirmada
+360      64    116  180      0.0209   0.0129   0.0291         0.3298      0  A-E-1-S5       0    True       False              True nao confirmada
+460     144    229   87      0.0214   0.0138   0.0288         0.3333      0  A-E-2-S5       0    True       False              True nao confirmada
+450      93    285   72       0.055   0.0412   0.0734         0.4968      0 A-B-0-S15       0    True       False             False nao confirmada
+420     111    269   40      0.0343   0.0292   0.0397         0.4375      0 A-B-1-S15       0    True       False              True nao confirmada
+420     124    296    0       0.013   0.0104   0.0156         0.4649      0 A-B-2-S15       0    True       False              True nao confirmada
+480      65    225  190      0.0751   0.0618   0.0885         0.6694      0 A-C-0-S15       0    True       False             False nao confirmada
+480      45    334  101       0.219   0.1922   0.2477         0.8477      0 A-C-1-S15       0    True       False             False nao confirmada
+540      70    364  106      0.2761   0.2472   0.3076         0.8093      0 A-C-2-S15       0    True       False             False nao confirmada
+340      22     94  224      0.0747   0.0501    0.101         0.6182      0 A-E-0-S15       0    True       False             False nao confirmada
+360      32    171  157      0.0728   0.0591   0.0884         0.7342      0 A-E-1-S15       0    True       False             False nao confirmada
+460      93    306   61      0.0617   0.0523   0.0707         0.6409      0 A-E-2-S15       0    True       False             False nao confirmada
+
+--- H' (hipoteses H1-H3b com o ql_perm) ---
+  id space    n  mean_d_pct  ci90_lo  ci90_hi  p_holm   thr mode  confirmada_h
+ H1p   S15 1020      0.2493   0.2296   0.2701       0  -0.1  ate         False
+ H2p    S5 1020      0.1194    0.106   0.1326       0 -0.05  ate         False
+H3ap    S5 1160      0.0273   0.0208   0.0345       0     0 pior          True
+H3bp   S15 1160      0.0689   0.0599   0.0789       0     0 pior          True
+
+Spearman(folga do oraculo, ganho do ql_perm) em 18 celulas: rho = -0.736 (p = 0.0005); com o ql padrao: rho = +0.653 (p = 0.00329)
+razao de avaliacoes ao aleatorio (media das instancias): ql_perm S5 0.994, S15 0.981; ql padrao S5 0.545, S15 0.545
+ganho medio nas 18 celulas: validada 0.080; ql padrao 0.022; ql_perm -0.072
+
+--- PREVISOES ---
+(U1) H1' confirmada: NAO (previsto NAO): SIM
+(U2) H2' confirmada: NAO (previsto NAO): SIM
+(U3) celulas em que o ql_perm ganha alem da margem: 0 de 18 (previsto <= 1): SIM
+(U4) Spearman do ql_perm: -0.736 (previsto < +0,30): SIM
+(U5) a validada bate o ql_perm: 18 de 18 (previsto >= 15): SIM
+(U6) H3a' e H3b' confirmadas (ql_perm pior que o aleatorio na familia E): SIM (S5 True, S15 True) (previsto SIM): SIM
+(U7) razao de avaliacoes do ql_perm >= 0,9 nos dois espacos: SIM (0.994, 0.981)
+previsoes acertadas: 7 de 7

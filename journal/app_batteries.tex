@@ -1,10 +1,10 @@
 \section{Registered batteries and predictions}
 \label{app:batteries}
-\paragraph{Procedure.} Every battery of experiments reported in this paper followed the same three steps. (i) \emph{Before running}, the hypotheses, the decision rules and a list of point predictions with probabilities were written into the docstring of the analysis script, and the md5 hashes of the runner, the pipeline, the analysis script, the tests and every frozen input (for example the action chosen on the tuning instances) were written to a hash file under version control. (ii) The runner executed on instances disjoint from those used for tuning, with the seeds fixed by a deterministic function of the instance, the method and the repetition. (iii) The analysis script printed a verdict for each prediction (held or not held) and for each hypothesis, with Holm-adjusted $p$-values within a family of tests. A prediction that did not hold is reported as such, and some failures changed the reading of the results (the statement that no learner beats random choice by more than the margin holds for the synthetic classes, not for the published instances with a large headroom). Readings made after seeing the data are labelled post hoc in the text and are not counted as predictions.
+\paragraph{Procedure} Every battery of experiments reported in this paper followed the same three steps. (i) \emph{Before running}, the hypotheses, the decision rules and a list of point predictions with probabilities were written into the docstring of the analysis script, and the md5 hashes of the runner, the pipeline, the analysis script, the tests and every frozen input (for example the action chosen on the tuning instances) were written to a hash file under version control. (ii) The runner executed on instances disjoint from those used for tuning, with the seeds fixed by a deterministic function of the instance, the method and the repetition. (iii) The analysis script printed a verdict for each prediction (held or not held) and for each hypothesis, with Holm-adjusted $p$-values within a family of tests. A prediction that did not hold is reported as such, and some failures changed the reading of the results (the statement that no learner beats random choice by more than the margin holds for the synthetic classes, not for the published instances with a large headroom). Readings made after seeing the data are labelled post hoc in the text and are not counted as predictions.
 
-\paragraph{Limits of the record.} The order ``hashes before data'' rests on the research diary, the file times and the version-control history; it is not a third-party timestamp. A registry document that reproduces the pre-registration block and the hashes of every battery is generated from the repository by one script (\texttt{analysis/make\_osf\_registry.py}); until it is deposited in a public registry it does not prove the ordering to a reader who does not trust the repository. \todonote{the author deposits the registry and replaces this sentence by the registration link}
+\paragraph{Limits of the record} The order ``hashes before data'' rests on the research diary, the file times and the version-control history; it is not a third-party timestamp. A registry document that reproduces the pre-registration block and the hashes of every battery is generated from the repository by one script (\texttt{analysis/make\_osf\_registry.py}); until it is deposited in a public registry it does not prove the ordering to a reader who does not trust the repository. \todonote{the author deposits the registry and replaces this sentence by the registration link}
 
-\paragraph{Tally.} Table~\ref{tab:batteries} lists the batteries whose predictions are counted in the text and the number that held. Across all of them \npredheld{} of \npredtotal{} point predictions held in \nbatteries{} batteries (\npredshare\%), a hit rate that is not itself a result: it measures how often the authors' expectations were right.
+\paragraph{Tally} Table~\ref{tab:batteries} lists the batteries whose predictions are counted in the text and the number that held. Across all of them \npredheld{} of \npredtotal{} point predictions held in \nbatteries{} batteries (\npredshare\%), a hit rate that is not itself a result: it measures how often the authors' expectations were right.
 
 \begin{table}[t]
 \caption{Registered batteries whose point predictions are counted (held/total). ``Entry'' is the entry of the research diary in the repository.}
@@ -36,6 +36,15 @@ Entry & Battery & held/total \\
 244 & irace-configured algorithm & 8/8 \\
 254 & published families of $R||C_{\max}$ & 4/6 \\
 255 & irace and the published AOS designs on the published families & 5/6 \\
+256 & standard $R||C_{\max}$ benchmark of Fanjul-Peyro and Ruiz & 5/7 \\
+258 & why the standard Q-Learning loses: share of choices on the first action (stage 1) & 3/7 \\
+258 & the validated action moved to the first position (stage 2) & 5/5 \\
+258 & standard benchmark at a ten times longer horizon ($T=10^4$) & 5/6 \\
+260 & order-invariant Q-Learning on the standard benchmark and the published families & 4/6 \\
+261 & order-invariant Q-Learning on the synthetic $P||C_{\max}$ battery & 4/4 \\
+262 & neural policy trained offline on the standard benchmark & 5/5 \\
+263 & order-invariant Q-Learning at the longer horizon & 4/5 \\
+264 & order-invariant Q-Learning on the held-out published $P||C_{\max}$ instances & 7/7 \\
 \bottomrule
 \end{tabular}}
 \end{table}

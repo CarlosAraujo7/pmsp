@@ -1,0 +1,64 @@
+==============================================================================================================
+POLITICA NEURAL TREINADA OFFLINE NO BENCHMARK DE FANJUL-PEYRO E RUIZ (Entrada 262)
+==============================================================================================================
+--- ganhos sobre o aleatorio por celula (pontos) ---
+space       type  g_val  g_nn  g_nn_const   g_ql  g_ucb   g_pg  g_alns  g_qo   g_iq  g_fr  best_online
+  B15  JobsCorre  0.441 0.272       0.260 -0.045 -0.000 -0.035  -0.050 0.005 -0.062 0.018        0.018
+  B15   MaqCorre  0.938 0.826       0.792  0.081  0.044 -0.143  -0.111 0.186 -0.030 0.258        0.258
+  B15 U1000a1100  0.430 0.376       0.389  0.073  0.016 -0.007  -0.057 0.125  0.131 0.138        0.138
+  B15   U100a120  0.604 0.535       0.546  0.058  0.041  0.026  -0.133 0.158  0.255 0.149        0.255
+  B15   U100a200  1.563 1.233       1.188  0.151  0.056  0.072  -0.294 0.309  0.316 0.217        0.316
+  B15    U10a100  3.270 2.234       2.069  0.395  0.227  0.079   0.135 0.521  0.659 0.430        0.659
+  B15     U1a100  4.220 2.031       1.996 -0.372  0.006  0.163   0.029 0.339  0.376 0.542        0.542
+  B30  JobsCorre  0.499 0.161       0.080 -0.197  0.090  0.023   0.126 0.049 -0.315 0.014        0.126
+  B30   MaqCorre  2.224 1.680       1.410 -0.877  0.263  0.050   0.626 0.202 -0.669 0.151        0.626
+  B30 U1000a1100  0.395 0.303       0.265 -0.061  0.021 -0.015   0.088 0.093 -0.227 0.019        0.093
+  B30   U100a120  0.507 0.421       0.335 -0.175  0.046 -0.023   0.077 0.098 -0.349 0.029        0.098
+  B30   U100a200  2.929 1.993       1.632 -0.943  0.144  0.021   0.392 0.339 -0.763 0.209        0.392
+  B30    U10a100  4.149 3.119       2.629 -0.423  0.063  0.001   0.394 0.607 -0.467 0.350        0.607
+  B30     U1a100  5.081 3.155       2.766 -0.568  0.109  0.119   0.767 0.785  0.159 0.510        0.785
+
+ganho medio nas 14 celulas: validada 1.946; nn 1.310; nn_const 1.168; melhor online por celula (media) 0.351
+a validada bate nn (B, confirmada): 11 de 14; nn bate a validada alem da margem (B'): 0
+
+--- A: nn contra o aleatorio ---
+              id   n  mean_d_pct   ci90_lo   ci90_hi       p_holm  confirmada  equivalente_0.05
+ A-JobsCorre-B15 100   -0.272081 -0.350585 -0.195341 4.276471e-06        True             False
+  A-MaqCorre-B15 100   -0.826155 -1.018528 -0.629319 9.252432e-10        True             False
+A-U1000a1100-B15 100   -0.376132 -0.424523 -0.326592 6.233229e-15        True             False
+  A-U100a120-B15 100   -0.534886 -0.615783 -0.451259 8.933313e-14        True             False
+  A-U100a200-B15 100   -1.232751 -1.472703 -0.986277 2.686209e-14        True             False
+   A-U10a100-B15 100   -2.234015 -2.614453 -1.869944 4.507439e-12        True             False
+    A-U1a100-B15 100   -2.031204 -2.627515 -1.381157 9.612914e-08        True             False
+ A-JobsCorre-B30 100   -0.161197 -0.237956 -0.091401 6.811326e-03        True             False
+  A-MaqCorre-B30 100   -1.679889 -1.868070 -1.493862 9.056547e-16        True             False
+A-U1000a1100-B30 100   -0.303074 -0.326790 -0.279468 9.452836e-17        True             False
+  A-U100a120-B30 100   -0.420985 -0.487422 -0.352789 3.500601e-13        True             False
+  A-U100a200-B30 100   -1.992815 -2.253160 -1.735668 1.378221e-16        True             False
+   A-U10a100-B30 100   -3.118703 -3.406650 -2.834790 8.073634e-17        True             False
+    A-U1a100-B30 100   -3.155103 -3.798166 -2.461501 9.394264e-09        True             False
+
+--- D: nn contra nn_const ---
+              id   n  mean_d_pct   ci90_lo   ci90_hi       p_holm  confirmada  equivalente_0.05
+ D-JobsCorre-B15 100   -0.011305 -0.065784  0.040768 1.000000e+00       False             False
+  D-MaqCorre-B15 100   -0.031846 -0.137586  0.073328 1.000000e+00       False             False
+D-U1000a1100-B15 100    0.012708 -0.007586  0.031961 1.000000e+00       False              True
+  D-U100a120-B15 100    0.011733 -0.039943  0.066954 1.000000e+00       False             False
+  D-U100a200-B15 100   -0.043249 -0.175911  0.099415 1.000000e+00       False             False
+   D-U10a100-B15 100   -0.167119 -0.323276 -0.013812 7.207363e-01       False             False
+    D-U1a100-B15 100   -0.026636 -0.274005  0.233046 1.000000e+00       False             False
+ D-JobsCorre-B30 100   -0.081357 -0.133205 -0.035769 1.428296e-01       False             False
+  D-MaqCorre-B30 100   -0.271966 -0.391433 -0.155786 4.172128e-04        True             False
+D-U1000a1100-B30 100   -0.038290 -0.052706 -0.021873 1.644297e-07        True             False
+  D-U100a120-B30 100   -0.086246 -0.121571 -0.049196 1.799137e-03        True             False
+  D-U100a200-B30 100   -0.368259 -0.494466 -0.249889 5.150532e-05        True             False
+   D-U10a100-B30 100   -0.499599 -0.657099 -0.343356 1.958908e-05        True             False
+    D-U1a100-B30 100   -0.394580 -0.671560 -0.109598 6.018968e-03        True             False
+
+--- previsoes ---
+(N1) celulas em que nn ganha do aleatorio alem da margem: 14 de 14 (previsto >= 11): SIM
+(N2) celulas em que nn bate a validada alem da margem: 0 de 14 (previsto 0): SIM
+(N3) celulas em que nn supera o melhor aprendiz online: 14 de 14 (previsto >= 10): SIM
+(N4) razao do ganho medio nn / validada: 0.673 (previsto >= 0,5): SIM
+(N5) celulas em que nn bate nn_const alem da margem: 6 de 14 (previsto >= 5): SIM
+previsoes acertadas: 5 de 5
