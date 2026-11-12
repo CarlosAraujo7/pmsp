@@ -137,3 +137,15 @@ results/gamix_test_*_s*of*_entrada220.csv
 results/_irace_work/
 
 results/_irace_work_ext/
+
+# --- journal-length manuscript: build products (rebuilt by journal/build.sh; refs.bib comes from journal/make_bib.py) ---
+journal/*.aux
+journal/*.bbl
+journal/*.blg
+journal/*.log
+journal/*.out
+journal/*.spl
+journal/*.pdf
+journal/refs.bib
+journal/elsarticle.cls
+journal/elsarticle-harv.bst
