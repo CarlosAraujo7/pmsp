@@ -1,0 +1,56 @@
+==============================================================================================================
+MECANISMO, ETAPA 2: A ACAO VALIDADA NO INDICE 0 (Entrada 258)
+==============================================================================================================
+--- B5 ---
+        share_val     gap         evals
+method                                 
+ql         0.1787  9.8292  4.044525e+05
+ql_v0      0.7409  8.6061  6.026473e+05
+rand       0.1995  9.4417  1.025140e+06
+val        1.0000  8.4063  4.392857e+05
+
+--- B15 ---
+        share_val      gap         evals
+method                                  
+ql         0.1782  10.3275  4.218530e+05
+ql_v0      0.7030   8.8144  6.114970e+05
+rand       0.0665  10.3233  1.028327e+06
+val        1.0000   8.4478  4.017857e+05
+
+--- B30 ---
+        share_val     gap         evals
+method                                 
+ql         0.0306  8.0954  1.125763e+07
+ql_v0      0.6769  5.2498  2.613715e+07
+rand       0.0334  7.5114  1.469651e+07
+val        1.0000  4.8702  3.015108e+07
+
+--- ganhos sobre o aleatorio (pontos) ---
+         ql   ql_v0     val
+B5  -0.3584  0.7285  0.8958
+B15 -0.0156  1.3028  1.6182
+B30 -0.5387  2.0178  2.3525
+
+--- testes: A (metodo contra o aleatorio), B' (ql_v0 contra a validada); mean_d_pct negativo = ganho do primeiro ---
+         id   n  mean_d_pct   ci90_lo   ci90_hi       p_holm  confirmada  equivalente_0.05
+    A-B5-ql 140    0.358371  0.174222  0.566142 1.053989e-01       False             False
+   A-B15-ql 140    0.015642 -0.221462  0.267340 6.525571e-02       False             False
+   A-B30-ql 140    0.538695  0.285851  0.807876 1.779103e-04       False             False
+ A-B5-ql_v0 140   -0.728483 -0.907352 -0.563313 5.278336e-15        True             False
+A-B15-ql_v0 140   -1.302791 -1.586381 -1.049324 4.162864e-19        True             False
+A-B30-ql_v0 140   -2.017782 -2.309282 -1.719491 4.975457e-21        True             False
+   A-B5-val 140   -0.895792 -1.098848 -0.702859 1.024360e-12        True             False
+  A-B15-val 140   -1.618232 -1.928982 -1.329594 1.076277e-20        True             False
+  A-B30-val 140   -2.352546 -2.694565 -2.011962 3.790786e-22        True             False
+          id   n  mean_d_pct  ci90_lo  ci90_hi   p_holm  confirmada  equivalente_0.05
+ B'-B5-ql_v0 140    0.175778 0.056759 0.300578 0.040368       False             False
+B'-B15-ql_v0 140    0.331944 0.183546 0.483691 0.000029       False             False
+B'-B30-ql_v0 140    0.358635 0.190844 0.560383 0.000014       False             False
+
+--- previsoes ---
+(S1) ql_v0 ganha do aleatorio alem da margem em B30: ganho 2.018: SIM
+(S2) fracao do ganho da validada recuperada em B30: 0.858 (previsto >= 0,5): SIM
+(S3) fracao das escolhas do ql_v0 na acao validada em B30: 0.677 (previsto >= 0,40): SIM
+(S4) ql_v0 ganha alem da margem em B5 (0.728) e B15 (1.303): SIM
+(S5) ql_v0 nao bate a validada alem da margem em nenhum espaco: SIM
+previsoes acertadas: 5 de 5

@@ -1,0 +1,72 @@
+==============================================================================================================
+Q-LEARNING INVARIANTE A ORDEM (Entrada 260)
+==============================================================================================================
+--- Fanjul-Peyro e Ruiz: ganhos sobre o aleatorio por celula (pontos) ---
+space       type  g_val    g_ql    g_qp
+   B5  JobsCorre 0.2412 -0.1580 -0.0339
+   B5   MaqCorre 1.0948 -0.0699 -0.0223
+   B5 U1000a1100 0.1417 -0.0338  0.0294
+   B5   U100a120 0.2745 -0.1491  0.0243
+   B5   U100a200 0.8441 -0.2651  0.1136
+   B5    U10a100 1.6079 -0.4146 -0.0715
+   B5     U1a100 2.0999 -1.1874 -0.4717
+  B15  JobsCorre 0.4408 -0.0449 -0.0780
+  B15   MaqCorre 0.9381  0.0813 -0.5503
+  B15 U1000a1100 0.4297  0.0730 -0.0345
+  B15   U100a120 0.6035  0.0576 -0.0485
+  B15   U100a200 1.5628  0.1514 -0.2085
+  B15    U10a100 3.2700  0.3946 -0.0943
+  B15     U1a100 4.2201 -0.3716 -0.6387
+  B30  JobsCorre 0.4988 -0.1975 -0.2947
+  B30   MaqCorre 2.2242 -0.8768 -0.8585
+  B30 U1000a1100 0.3954 -0.0615 -0.1129
+  B30   U100a120 0.5068 -0.1747 -0.2709
+  B30   U100a200 2.9295 -0.9429 -0.8429
+  B30    U10a100 4.1493 -0.4229 -0.8546
+  B30     U1a100 5.0813 -0.5682 -0.9843
+
+ganho medio nas 21 celulas: ql_perm -0.3002; ql padrao -0.2467; validada +1.5978
+celulas em que o ql_perm ganha alem da margem: 0 de 21 (ql padrao: 3)
+celulas em que a validada bate o ql_perm (B, confirmada): 21 de 21
+
+--- familias publicadas de R||Cmax: ganhos sobre o aleatorio por celula (pontos) ---
+space fam  g_val    g_ql    g_qp  ratio_qp  ratio_ql
+   S5 unc 1.1540 -0.4530 -0.2728   -0.2364   -0.3925
+   S5  cj 0.5459 -0.0097 -0.0541   -0.0991   -0.0178
+   S5  cm 1.2642  0.6670 -0.2261   -0.1788    0.5276
+  S15 unc 2.5867  0.4609 -0.6562   -0.2537    0.1782
+  S15  cj 0.8515  0.2001 -0.2192   -0.2574    0.2350
+  S15  cm 1.2918  0.8347 -0.5262   -0.4074    0.6462
+
+celulas em que o ql_perm ganha alem da margem: 0 de 6 (ql padrao: 4)
+a validada bate o ql_perm (B): 6 de 6; ql_perm difere do ql padrao alem da margem (E): 0 de 6
+
+--- testes A, B, E nas familias ---
+       id   n  mean_d_pct   ci90_lo   ci90_hi       p_holm  confirmada  equivalente_0.05
+ A-unc-S5 500    0.272834  0.196566  0.350485 1.293207e-06       False             False
+  A-cj-S5 500    0.054073  0.026321  0.081465 9.640374e-03       False             False
+  A-cm-S5 500    0.226102  0.165494  0.289563 9.850629e-11       False             False
+A-unc-S15 500    0.656155  0.561352  0.753917 4.005307e-25       False             False
+ A-cj-S15 500    0.219162  0.186458  0.254098 5.258438e-26       False             False
+ A-cm-S15 500    0.526209  0.464986  0.587692 2.344019e-34       False             False
+ B-unc-S5 500   -1.415760 -1.500783 -1.327260 6.479132e-71        True             False
+  B-cj-S5 500   -0.598705 -0.630991 -0.566945 1.627015e-74        True             False
+  B-cm-S5 500   -1.482801 -1.564119 -1.401862 2.384016e-76        True             False
+B-unc-S15 500   -3.211451 -3.336916 -3.086269 1.346968e-80        True             False
+ B-cj-S15 500   -1.066780 -1.109995 -1.026524 4.246580e-79        True             False
+ B-cm-S15 500   -1.802425 -1.905343 -1.701554 3.662557e-76        True             False
+ E-unc-S5 500   -0.156063 -0.285552 -0.036689 1.322902e-01       False             False
+  E-cj-S5 500    0.047782 -0.000020  0.091448 3.758346e-03       False             False
+  E-cm-S5 500    0.910668  0.815958  1.001502 1.360469e-43       False             False
+E-unc-S15 500    1.164861  0.991307  1.332217 5.861665e-25       False             False
+ E-cj-S15 500    0.423666  0.373971  0.468668 9.816242e-35       False             False
+ E-cm-S15 500    1.384311  1.282980  1.479237 4.710365e-62       False             False
+
+--- previsoes ---
+(P1) ganho medio do ql_perm nas 21 celulas: -0.300 (previsto em [-0,25; +0,25]): NAO
+(P2) celulas de Fanjul-Peyro e Ruiz com ganho do ql_perm alem da margem: 0 (previsto <= 3): SIM
+(P3) celulas das familias com ganho do ql_perm alem da margem: 0 (previsto <= 3): SIM
+(P4) maior razao ql_perm / validada nas familias: -0.099 (previsto <= 0,45): SIM
+(P5) a validada bate o ql_perm: 21 de 21 e 6 de 6 (previsto 21 e >= 5): SIM
+(P6) ql_perm difere do ql padrao alem da margem em 0 das 6 celulas das familias (previsto >= 1): NAO
+previsoes acertadas: 4 de 6

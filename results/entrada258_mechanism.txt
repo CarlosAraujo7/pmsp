@@ -1,0 +1,79 @@
+==============================================================================================================
+MECANISMO DA PERDA DO Q-LEARNING EM B30 (Entrada 258)
+==============================================================================================================
+--- B5: uso e qualidade por metodo (140 instancias x 2 sementes) ---
+        share0  share_ls    qual     gap         evals
+method                                                
+alns    0.3443       NaN  1.0982  9.4690  6.704010e+05
+pg      0.1991       NaN  1.0975  9.4290  1.030090e+06
+ql      0.7267       NaN  1.1033  9.8292  4.044525e+05
+ql_rev  0.0635       NaN  1.0978  9.7101  2.123624e+06
+rand    0.1999       NaN  1.0975  9.4417  1.025140e+06
+ucb     0.1986       NaN  1.0974  9.5078  1.020706e+06
+
+--- B15: uso e qualidade por metodo (140 instancias x 2 sementes) ---
+        share0  share_ls    qual      gap         evals
+method                                                 
+alns    0.0997       NaN  1.1211  10.4175  6.199665e+05
+pg      0.0664       NaN  1.1204  10.3922  1.030201e+06
+ql      0.7059       NaN  1.1108  10.3275  4.218530e+05
+ql_rev  0.0228       NaN  1.1128  10.5611  2.158838e+06
+rand    0.0664       NaN  1.1204  10.3233  1.028327e+06
+ucb     0.0675       NaN  1.1201  10.2914  1.026762e+06
+
+--- B30: uso e qualidade por metodo (140 instancias x 2 sementes) ---
+        share0  share_ls    qual     gap         evals
+method                                                
+alns    0.0393    0.5754  1.1088  7.0056  1.574929e+07
+pg      0.0336    0.5030  1.1099  7.4665  1.491896e+07
+ql      0.5519    0.3441  1.1059  8.0954  1.125763e+07
+ql_rev  0.0083    0.8828  1.0978  7.9403  2.783439e+07
+rand    0.0336    0.5002  1.1100  7.5114  1.469651e+07
+ucb     0.0331    0.5072  1.1095  7.3806  1.513260e+07
+
+--- ql_rev contra ql (R-) e contra o aleatorio (V-); mean_d_pct negativo = ganho do primeiro; Holm nos tres espacos para R- ---
+   id   n  better  worse  tie  mean_d_pct   ci90_lo  ci90_hi   p_holm  confirmada        leitura
+ R-B5 140      46     83   11   -0.098940 -0.379951 0.155792 0.142734       False nao confirmada
+R-B15 140      36     94   10    0.226821 -0.081506 0.515185 0.000203       False nao confirmada
+R-B30 140      50     85    5   -0.115540 -0.434708 0.179263 0.142734       False nao confirmada
+               id   n  better  worse  tie  mean_d_pct   ci90_lo  ci90_hi
+     V-B5-ql-rand 140      65     68    7    0.358371  0.174222 0.566142
+ V-B5-ql_rev-rand 140      32     98   10    0.243178  0.010971 0.447597
+    V-B15-ql-rand 140      80     50   10    0.015642 -0.221462 0.267340
+V-B15-ql_rev-rand 140      40     87   13    0.214093  0.026392 0.388859
+    V-B30-ql-rand 140      46     85    9    0.538695  0.285851 0.807876
+V-B30-ql_rev-rand 140      24    101   15    0.387846  0.211262 0.567140
+
+--- fracao do ql na acao 0 por celula e ganho do ql (Entrada 256) ---
+space       type  share0    g_ql
+   B5  JobsCorre  0.7853 -0.1580
+   B5   MaqCorre  0.6868 -0.0699
+   B5 U1000a1100  0.6858 -0.0338
+   B5   U100a120  0.7138 -0.1491
+   B5   U100a200  0.7456 -0.2651
+   B5    U10a100  0.7360 -0.4146
+   B5     U1a100  0.7339 -1.1874
+  B15  JobsCorre  0.7485 -0.0449
+  B15   MaqCorre  0.6140  0.0813
+  B15 U1000a1100  0.6853  0.0730
+  B15   U100a120  0.6971  0.0576
+  B15   U100a200  0.7321  0.1514
+  B15    U10a100  0.7226  0.3946
+  B15     U1a100  0.7416 -0.3716
+  B30  JobsCorre  0.6391 -0.1975
+  B30   MaqCorre  0.5084 -0.8768
+  B30 U1000a1100  0.4870 -0.0615
+  B30   U100a120  0.5495 -0.1747
+  B30   U100a200  0.5130 -0.9429
+  B30    U10a100  0.5713 -0.4229
+  B30     U1a100  0.5948 -0.5682
+
+--- previsoes ---
+(M1) fracao do ql na acao 0 em B30: 0.552 (previsto >= 0,20): SIM
+(M2) fracao do ql em acoes com busca local em B30: 0.344 (previsto < 0,50): SIM
+(M3) qualidade ponderada pelo uso em B30: ql 1.1059 contra aleatorio 1.1100 (previsto ql pior): NAO
+(M4) fracao na acao 0 em B30 de ucb/pg/alns: 0.033/0.034/0.039 (previsto <= 0,10): SIM
+(M5) Spearman fracao na acao 0 x ganho do ql nas 21 celulas: +0.162 (previsto <= -0,4): NAO
+(M6) ql_rev contra ql em B30: -0.1155%, confirmada=False; ql_rev contra aleatorio: +0.3878%: NAO
+(M7) |ql_rev - ql| em B5 e B15: 0.099 e 0.227 (previsto < 0,15): NAO
+previsoes acertadas: 3 de 7

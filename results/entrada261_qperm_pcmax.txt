@@ -1,0 +1,44 @@
+==============================================================================================================
+Q-LEARNING INVARIANTE A ORDEM NA BATERIA PRINCIPAL DE P||Cmax (Entrada 261)
+==============================================================================================================
+--- ganhos sobre o aleatorio por celula (pontos) ---
+space           cls   g_val    g_ql    g_qp
+   S5 rand_100j_20m  0.1499  0.1248 -0.0524
+   S5 rand_150j_15m  0.0678  0.0586 -0.0058
+   S5 rand_150j_30m  0.2411  0.2130 -0.0674
+   S5   rand_20j_4m  0.0106 -0.0598 -0.0274
+   S5   rand_20j_6m  0.0748 -0.1472 -0.0296
+   S5 rand_250j_25m  0.0614  0.0478 -0.0104
+   S5 rand_300j_20m  0.0180 -0.0138 -0.0129
+   S5   rand_30j_8m  0.0677 -0.1285 -0.0429
+   S5   rand_40j_5m  0.0035 -0.0222 -0.0014
+   S5  rand_50j_10m  0.0936 -0.0736 -0.0316
+   S5  rand_60j_20m  0.1716 -0.1234 -0.0674
+   S5  rand_75j_15m  0.1436  0.0912 -0.0348
+  S15 rand_100j_20m  0.1276  0.1339 -0.1149
+  S15 rand_150j_15m  0.0127  0.0236 -0.0262
+  S15 rand_150j_30m  0.2501  0.2532 -0.1201
+  S15   rand_20j_4m  0.0297 -0.0612 -0.0562
+  S15   rand_20j_6m  0.0839 -0.1909 -0.1475
+  S15 rand_250j_25m -0.0096  0.0261 -0.0250
+  S15 rand_300j_20m  0.0028 -0.0086 -0.0135
+  S15   rand_30j_8m  0.0393 -0.1695 -0.1603
+  S15   rand_40j_5m  0.0071 -0.0136 -0.0227
+  S15  rand_50j_10m  0.1031 -0.0540 -0.0749
+  S15  rand_60j_20m  0.1788 -0.0901 -0.1822
+  S15  rand_75j_15m  0.1335  0.0998 -0.0716
+
+--- medias por espaco ---
+         g_ql    g_qp   g_val
+space                        
+S15   -0.0043 -0.0846  0.0799
+S5    -0.0028 -0.0320  0.0920
+
+razao de avaliacoes (ql_perm / aleatorio; ql padrao / aleatorio): S5 1.006; 0.462 | S15 0.990; 0.439
+
+--- previsoes ---
+(R1) celulas com ganho do ql_perm alem da margem: 0 de 24 (previsto <= 1): SIM
+(R2) ganho medio ql_perm <= ql padrao nos dois espacos: S5 -0.0320 vs -0.0028; S15 -0.0846 vs -0.0043: SIM
+(R3) a validada bate o ql_perm em 23 de 24 celulas (previsto >= 20): SIM
+(R4) razao de avaliacoes do ql_perm >= 0,8 nos dois espacos: 1.006 e 0.990: SIM
+previsoes acertadas: 4 de 4

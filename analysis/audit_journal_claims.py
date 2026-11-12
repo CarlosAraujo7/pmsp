@@ -146,6 +146,59 @@ chk("Q-Learning B30 MaqCorre (-0,88)", g30.loc["MaqCorre", "g_ql"], -0.88, 0.005
 chk("lacuna B30 minima por tipo U1000a1100 (0,5)", g30.gap_val.min(), 0.5, 0.05, "sec_fanjul.tex", "$0.5\\%$")
 chk("lacuna B30 maxima por tipo U10a100 (9,9)", g30.gap_val.max(), 9.9, 0.05, "sec_fanjul.tex", "$9.9\\%$")
 
+# ---------------------------------------------------------------- sensibilidade do Q-Learning padrao a ordem das acoes (Entradas 258, 260, 261)
+import sys as _sys
+_sys.path.insert(0, str(ROOT))
+from analysis.report_entrada180_agents import rel as _rel
+
+sh = {}
+for sp, A in (("B5", 5), ("B15", 15), ("B30", 30)):
+    D1 = pd.read_csv(R / f"mech_{sp}_entrada258.csv")
+    q = D1[D1.method == "ql"]
+    sh[sp] = float((q.used_0 / q[[f"used_{k}" for k in range(A)]].sum(axis=1)).mean())
+chk("ql no indice 0: minimo (55%)", min(sh.values()), 0.55, 0.005, "sec_order.tex", "$55$--$73\\%$")
+chk("ql no indice 0: maximo (73%)", max(sh.values()), 0.73, 0.005)
+rec = {}
+for sp in ("B5", "B15", "B30"):
+    D2 = pd.read_csv(R / f"mech2_{sp}_entrada258.csv")
+    W = D2.groupby(["type", "m", "n", "method"]).makespan.mean().unstack()
+    gg = {k: float(-_rel(W[k], W["rand"]).mean()) for k in ("ql_v0", "val")}
+    rec[sp] = (gg["ql_v0"], gg["ql_v0"] / gg["val"])
+for sp, lit in (("B5", 0.73), ("B15", 1.30), ("B30", 2.02)):
+    chk(f"ganho do ql_v0 em {sp} ({lit})", rec[sp][0], lit, 0.005)
+chk("ql_v0 recupera 81% (B5)", 100 * rec["B5"][1], 81, 0.5, "sec_order.tex", "$81\\%$, $81\\%$ and $86\\%$")
+chk("ql_v0 recupera 81% (B15)", 100 * rec["B15"][1], 81, 0.6)
+chk("ql_v0 recupera 86% (B30)", 100 * rec["B30"][1], 86, 0.5)
+H1 = (R / "entrada258_mechanism.txt").read_text(encoding="utf-8")
+H2 = (R / "entrada258_mechanism2.txt").read_text(encoding="utf-8")
+chk("etapa 1: 3 de 7 previsoes", int(re.search(r"previsoes acertadas: (\d+) de", H1).group(1)), 3, 0, "sec_order.tex", "three of the seven predictions")
+chk("etapa 2: 5 de 5 previsoes", int(re.search(r"previsoes acertadas: (\d+) de", H2).group(1)), 5, 0, "sec_order.tex", "all five registered predictions")
+Cz = pd.read_csv(R / "entrada260_qperm_cells_fanjul.csv")
+Cf = pd.read_csv(R / "entrada260_qperm_cells_families.csv")
+Cp = pd.read_csv(R / "entrada261_qperm_pcmax_cells.csv")
+T260 = pd.read_csv(R / "entrada260_qperm_tests.csv").set_index("id")
+chk("ql_perm Fanjul: media nas 21 celulas (-0,30)", Cz.g_qp.mean(), -0.30, 0.005, "sec_order.tex", "mean $-0.30$ points")
+chk("ql padrao Fanjul: media nas 21 celulas (-0,25)", Cz.g_ql.mean(), -0.25, 0.005, "sec_order.tex", "$-0.25$ for the standard learner")
+tA = T260[T260.index.str.startswith("A-") & ~T260.index.str.contains("-B")]
+tAF = T260[T260.index.str.startswith("A-") & T260.index.str.contains("-B")]
+chk("ql_perm Fanjul: 0 de 21 celulas alem da margem", int((tAF.confirmada & ~tAF["equivalente_0.05"]).sum()), 0, 0, "sec_order.tex", "none of the $21$ cells")
+chk("ql_perm familias: ganho maximo negativo (-0,05)", Cf.g_qp.max(), -0.05, 0.005, "sec_order.tex", "from $-0.05$ to $-0.66$")
+chk("ql_perm familias: ganho minimo (-0,66)", Cf.g_qp.min(), -0.66, 0.005)
+chk("ql_perm familias: todas negativas (6)", int((Cf.g_qp < 0).sum()), 6, 0)
+chk("a validada bate o ql_perm nas 6 celulas das familias", int(tA.shape[0] == 6) and int(T260[T260.index.str.startswith("B-") & ~T260.index.str.contains("-B")].confirmada.sum()), 6, 0)
+chk("ql_perm P||Cmax: 0 de 24 celulas", int((Cp.g_qp > 0.05).sum()), 0, 0, "sec_order.tex", "none of the $24$ cells")
+T261 = pd.read_csv(R / "entrada261_qperm_pcmax_tests.csv").set_index("id")
+chk("a validada bate o ql_perm em 23 de 24 celulas do P||Cmax", int(T261[T261.index.str.startswith("B-")].confirmada.sum()), 23, 0, "sec_order.tex", "beats it in $23$")
+H61 = (R / "entrada261_qperm_pcmax.txt").read_text(encoding="utf-8")
+mm = re.search(r"S5 ([\d.]+); ([\d.]+) \| S15 ([\d.]+); ([\d.]+)", H61)
+chk("razao de avaliacoes ql padrao no P||Cmax: 0,44", min(float(mm.group(2)), float(mm.group(4))), 0.44, 0.005, "sec_order.tex", "$0.44$--$0.46$")
+chk("razao de avaliacoes ql padrao no P||Cmax: 0,46", max(float(mm.group(2)), float(mm.group(4))), 0.46, 0.005)
+chk("razao de avaliacoes ql_perm: 0,99", min(float(mm.group(1)), float(mm.group(3))), 0.99, 0.005, "sec_order.tex", "$0.99$--$1.01$")
+chk("razao de avaliacoes ql_perm: 1,01", max(float(mm.group(1)), float(mm.group(3))), 1.01, 0.005)
+H60 = (R / "entrada260_qperm.txt").read_text(encoding="utf-8")
+chk("Entrada 260: 4 de 6 previsoes", int(re.search(r"previsoes acertadas: (\d+) de", H60).group(1)), 4, 0, "sec_order.tex", "Four of the six registered predictions")
+chk("Entrada 261: 4 de 4 previsoes", int(re.search(r"previsoes acertadas: (\d+) de", H61).group(1)), 4, 0, "sec_order.tex", "all four on $P||C_{\\max}$")
+
 # ---------------------------------------------------------------- contadores do registro
 main = (J / "main.tex").read_text(encoding="utf-8")
 held = int(re.search(r"\\newcommand\{\\npredheld\}\{(\d+)\}", main).group(1))
