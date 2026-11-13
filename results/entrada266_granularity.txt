@@ -1,0 +1,98 @@
+==============================================================================================================
+O VALOR DO CONHECIMENTO OFFLINE POR GRANULARIDADE (Entrada 266)
+==============================================================================================================
+--- B30: ganhos medios por politica estatica e por aprendiz (pontos; media dos 7 tipos) ---
+estaticas: G0 1.151; Gn 2.004; Gt 1.194; Gtn 2.242; LOTO_G0 0.998; LOTO_Gn 1.943; LOSO_G0 0.335; LOSO_Gt 0.376; HCF 2.228
+aprendizes: ql -0.464; ucb 0.105; pg 0.025; alns 0.353; qo 0.310; iq -0.376; fr 0.183; ql_perm -0.603; nn 1.547; nn_const 1.302
+melhor aprendiz online por tipo, media: 0.390
+
+space       type  g_G0  g_Gn  g_Gt  g_Gtn  g_LOTO_G0  g_LOTO_Gn  g_LOSO_G0  g_LOSO_Gt  g_HCF   g_ql  g_ucb   g_pg  g_alns  g_qo   g_iq  g_fr  g_ql_perm  g_nn  g_nn_const  g_valrun
+  B30     U1a100 2.951 3.454 2.951  5.124      1.878      3.454      1.205      2.951  5.124 -0.568  0.109  0.119   0.767 0.785  0.159 0.510     -0.984 3.155       2.766     5.081
+  B30    U10a100 2.329 4.107 2.293  4.107      2.329      4.107      1.012      0.249  4.107 -0.423  0.063  0.001   0.394 0.607 -0.467 0.350     -0.855 3.119       2.629     4.149
+  B30   U100a120 0.326 0.517 0.326  0.517      0.326      0.517      0.101      0.231  0.515 -0.175  0.046 -0.023   0.077 0.098 -0.349 0.029     -0.271 0.421       0.335     0.507
+  B30   U100a200 1.301 2.826 1.301  2.826      1.301      2.401      0.267     -0.421  2.794 -0.943  0.144  0.021   0.392 0.339 -0.763 0.209     -0.843 1.993       1.632     2.929
+  B30 U1000a1100 0.143 0.386 0.258  0.386      0.143      0.386      0.057      0.071  0.386 -0.061  0.021 -0.015   0.088 0.093 -0.227 0.019     -0.113 0.303       0.265     0.395
+  B30  JobsCorre 0.036 0.516 0.036  0.516      0.036      0.516     -0.360     -0.517  0.516 -0.197  0.090  0.023   0.126 0.049 -0.315 0.014     -0.295 0.161       0.080     0.499
+  B30   MaqCorre 0.972 2.220 1.196  2.220      0.972      2.220      0.067      0.067  2.156 -0.877  0.263  0.050   0.626 0.202 -0.669 0.151     -0.859 1.680       1.410     2.224
+
+politicas estaticas que ganham do aleatorio alem da margem (de 7 tipos): G0 6; Gn 7; Gt 6; Gtn 7; LOTO_G0 6; LOTO_Gn 7; LOSO_G0 4; LOSO_Gt 4
+aprendizes que batem a estatica alem da margem (B'; de 7 tipos): ql->G0: 0; ucb->G0: 0; pg->G0: 0; alns->G0: 0; qo->G0: 0; iq->G0: 0; fr->G0: 0; ql_perm->G0: 0; nn->G0: 4; nn_const->G0: 1; ql->LOTO_G0: 0; ucb->LOTO_G0: 0; pg->LOTO_G0: 0; alns->LOTO_G0: 0; qo->LOTO_G0: 0; iq->LOTO_G0: 0; fr->LOTO_G0: 0; ql_perm->LOTO_G0: 0; nn->LOTO_G0: 5; nn_const->LOTO_G0: 1; ql->Gtn: 0; ucb->Gtn: 0; pg->Gtn: 0; alns->Gtn: 0; qo->Gtn: 0; iq->Gtn: 0; fr->Gtn: 0; ql_perm->Gtn: 0; nn->Gtn: 0; nn_const->Gtn: 0
+
+por tamanho (G0 e LOSO_G0 contra o aleatorio):
+                 id   n  mean_d_pct  ci90_lo  ci90_hi  p_holm  confirmada  equivalente_0.05
+ A-LOSO_G0-n100-B30 175      1.1889   0.8563   1.5443     0.0       False             False
+      A-G0-n100-B30 175     -0.9199  -1.1480  -0.6875     0.0        True             False
+ A-LOSO_G0-n200-B30 175     -0.8407  -1.0777  -0.6109     0.0        True             False
+      A-G0-n200-B30 175     -1.9947  -2.2744  -1.7264     0.0        True             False
+ A-LOSO_G0-n500-B30 175     -1.3194  -1.6570  -1.0019     0.0        True             False
+      A-G0-n500-B30 175     -1.3194  -1.6570  -1.0019     0.0        True             False
+A-LOSO_G0-n1000-B30 175     -0.3706  -0.5925  -0.1595     1.0       False             False
+     A-G0-n1000-B30 175     -0.3706  -0.5925  -0.1595     1.0       False             False
+
+--- B15: ganhos medios por politica estatica e por aprendiz (pontos; media dos 7 tipos) ---
+estaticas: G0 1.024; Gn 1.304; Gt 0.993; Gtn 1.600; LOTO_G0 1.024; LOTO_Gn 1.096; LOSO_G0 1.024; LOSO_Gt 0.327; HCF 1.610
+aprendizes: ql 0.049; ucb 0.056; pg 0.022; alns -0.069; qo 0.235; iq 0.235; fr 0.250; ql_perm -0.236; nn 1.072; nn_const 1.034
+melhor aprendiz online por tipo, media: 0.312
+
+space       type  g_G0  g_Gn  g_Gt  g_Gtn  g_LOTO_G0  g_LOTO_Gn  g_LOSO_G0  g_LOSO_Gt  g_HCF   g_ql  g_ucb   g_pg  g_alns  g_qo   g_iq  g_fr  g_ql_perm  g_nn  g_nn_const  g_valrun
+  B15     U1a100 1.856 2.974 1.856  4.105      1.856      1.521      1.856     -0.025  4.105 -0.372  0.006  0.163   0.029 0.339  0.376 0.542     -0.639 2.031       1.996     4.220
+  B15    U10a100 2.253 2.562 2.253  3.255      2.253      2.562      2.253      0.745  3.255  0.395  0.227  0.079   0.135 0.521  0.659 0.430     -0.094 2.234       2.069     3.270
+  B15   U100a120 0.537 0.610 0.537  0.571      0.537      0.610      0.537      0.519  0.627  0.058  0.041  0.026  -0.133 0.158  0.255 0.149     -0.048 0.535       0.546     0.604
+  B15   U100a200 1.080 1.344 1.080  1.444      1.080      1.344      1.080      1.067  1.374  0.151  0.056  0.072  -0.294 0.309  0.316 0.217     -0.208 1.233       1.188     1.563
+  B15 U1000a1100 0.377 0.411 0.377  0.414      0.377      0.411      0.377      0.377  0.414  0.073  0.016 -0.007  -0.057 0.125  0.131 0.138     -0.035 0.376       0.389     0.430
+  B15  JobsCorre 0.276 0.293 0.276  0.411      0.276      0.293      0.276     -0.175  0.411 -0.045 -0.000 -0.035  -0.050 0.005 -0.062 0.018     -0.078 0.272       0.260     0.441
+  B15   MaqCorre 0.790 0.932 0.573  0.997      0.790      0.932      0.790     -0.218  1.082  0.081  0.044 -0.143  -0.111 0.186 -0.030 0.258     -0.550 0.826       0.792     0.938
+
+politicas estaticas que ganham do aleatorio alem da margem (de 7 tipos): G0 7; Gn 7; Gt 7; Gtn 7; LOTO_G0 7; LOTO_Gn 7; LOSO_G0 7; LOSO_Gt 4
+aprendizes que batem a estatica alem da margem (B'; de 7 tipos): ql->G0: 0; ucb->G0: 0; pg->G0: 0; alns->G0: 0; qo->G0: 0; iq->G0: 0; fr->G0: 0; ql_perm->G0: 0; nn->G0: 0; nn_const->G0: 0; ql->LOTO_G0: 0; ucb->LOTO_G0: 0; pg->LOTO_G0: 0; alns->LOTO_G0: 0; qo->LOTO_G0: 0; iq->LOTO_G0: 0; fr->LOTO_G0: 0; ql_perm->LOTO_G0: 0; nn->LOTO_G0: 0; nn_const->LOTO_G0: 0; ql->Gtn: 0; ucb->Gtn: 0; pg->Gtn: 0; alns->Gtn: 0; qo->Gtn: 0; iq->Gtn: 0; fr->Gtn: 0; ql_perm->Gtn: 0; nn->Gtn: 0; nn_const->Gtn: 0
+
+por tamanho (G0 e LOSO_G0 contra o aleatorio):
+                 id   n  mean_d_pct  ci90_lo  ci90_hi  p_holm  confirmada  equivalente_0.05
+ A-LOSO_G0-n100-B15 175     -0.9490  -1.2549  -0.6272     0.0        True             False
+      A-G0-n100-B15 175     -0.9490  -1.2549  -0.6272     0.0        True             False
+ A-LOSO_G0-n200-B15 175     -1.4269  -1.6444  -1.2326     0.0        True             False
+      A-G0-n200-B15 175     -1.4269  -1.6444  -1.2326     0.0        True             False
+ A-LOSO_G0-n500-B15 175     -1.1783  -1.4356  -0.9253     0.0        True             False
+      A-G0-n500-B15 175     -1.1783  -1.4356  -0.9253     0.0        True             False
+A-LOSO_G0-n1000-B15 175     -0.5425  -0.6897  -0.3961     0.0        True             False
+     A-G0-n1000-B15 175     -0.5425  -0.6897  -0.3961     0.0        True             False
+
+--- B5: ganhos medios por politica estatica e por aprendiz (pontos; media dos 7 tipos) ---
+estaticas: G0 0.284; Gn 0.566; Gt 0.317; Gtn 0.868; LOTO_G0 0.284; LOTO_Gn 0.353; LOSO_G0 0.284; LOSO_Gt -0.396; HCF 0.874
+aprendizes: ql -0.325; ucb 0.023; pg 0.042; alns 0.071; qo 0.179; iq 0.088; fr 0.169; ql_perm -0.062
+melhor aprendiz online por tipo, media: 0.217
+
+space       type   g_G0  g_Gn   g_Gt  g_Gtn  g_LOTO_G0  g_LOTO_Gn  g_LOSO_G0  g_LOSO_Gt  g_HCF   g_ql  g_ucb   g_pg  g_alns   g_qo   g_iq  g_fr  g_ql_perm  g_valrun
+   B5     U1a100 -0.181 0.948 -0.181  2.020     -0.181     -0.546     -0.181     -2.118  2.110 -1.187 -0.096  0.099   0.313  0.424  0.159 0.212     -0.472     2.100
+   B5    U10a100  0.638 0.952  0.638  1.650      0.638      0.952      0.638     -0.911  1.650 -0.415  0.168  0.182   0.098  0.135  0.161 0.134     -0.071     1.608
+   B5   U100a120  0.192 0.266  0.192  0.244      0.192      0.266      0.192      0.154  0.283 -0.149  0.003  0.028  -0.020  0.064  0.050 0.125      0.024     0.274
+   B5   U100a200  0.404 0.671  0.696  0.772      0.404      0.671      0.404      0.407  0.701 -0.265  0.140  0.067   0.094  0.384  0.200 0.308      0.114     0.844
+   B5 U1000a1100  0.126 0.160  0.126  0.154      0.126      0.160      0.126      0.126  0.163 -0.034 -0.000 -0.009  -0.022  0.029  0.011 0.097      0.029     0.142
+   B5  JobsCorre  0.117 0.135  0.060  0.243      0.117      0.135      0.117     -0.308  0.253 -0.158 -0.014 -0.010  -0.024 -0.031 -0.016 0.021     -0.034     0.241
+   B5   MaqCorre  0.690 0.831  0.690  0.990      0.690      0.831      0.690     -0.123  0.958 -0.070 -0.043 -0.066   0.056  0.250  0.051 0.285     -0.022     1.095
+
+politicas estaticas que ganham do aleatorio alem da margem (de 7 tipos): G0 6; Gn 7; Gt 5; Gtn 7; LOTO_G0 6; LOTO_Gn 6; LOSO_G0 6; LOSO_Gt 3
+aprendizes que batem a estatica alem da margem (B'; de 7 tipos): ql->G0: 0; ucb->G0: 0; pg->G0: 0; alns->G0: 0; qo->G0: 0; iq->G0: 0; fr->G0: 0; ql_perm->G0: 0; ql->LOTO_G0: 0; ucb->LOTO_G0: 0; pg->LOTO_G0: 0; alns->LOTO_G0: 0; qo->LOTO_G0: 0; iq->LOTO_G0: 0; fr->LOTO_G0: 0; ql_perm->LOTO_G0: 0; ql->Gtn: 0; ucb->Gtn: 0; pg->Gtn: 0; alns->Gtn: 0; qo->Gtn: 0; iq->Gtn: 0; fr->Gtn: 0; ql_perm->Gtn: 0
+
+por tamanho (G0 e LOSO_G0 contra o aleatorio):
+                id   n  mean_d_pct  ci90_lo  ci90_hi  p_holm  confirmada  equivalente_0.05
+ A-LOSO_G0-n100-B5 175     -0.0602  -0.3063   0.1990  0.0002        True             False
+      A-G0-n100-B5 175     -0.0602  -0.3063   0.1990  0.0002        True             False
+ A-LOSO_G0-n200-B5 175     -0.4737  -0.6374  -0.2954  0.0000        True             False
+      A-G0-n200-B5 175     -0.4737  -0.6374  -0.2954  0.0000        True             False
+ A-LOSO_G0-n500-B5 175     -0.4774  -0.6379  -0.3269  0.0000        True             False
+      A-G0-n500-B5 175     -0.4774  -0.6379  -0.3269  0.0000        True             False
+A-LOSO_G0-n1000-B5 175     -0.1235  -0.2066  -0.0467  0.1776       False             False
+     A-G0-n1000-B5 175     -0.1235  -0.2066  -0.0467  0.1776       False             False
+
+--- previsoes (B30) ---
+(K1) tipos em que G0 ganha do aleatorio alem da margem: 6 de 7 (previsto >= 5): SIM
+(K2) ganho medio G0 / Gtn: 0.513 (previsto >= 0,50): SIM
+(K3) pares (aprendiz, tipo) em que um aprendiz online bate G0 alem da margem: 0 de 49 (previsto <= 3): SIM
+(K4) ordem de granularidade: Gtn 2.242 >= Gt 1.194 >= G0-0,05 (1.101) e Gtn >= Gn 2.004 >= G0-0,05: SIM
+(K5) tipos em que LOTO-G0 ganha do aleatorio alem da margem: 6 de 7 (previsto >= 5): SIM
+(K6) tipos em que o melhor aprendiz online bate LOTO-G0 alem da margem: 0 de 7 (previsto <= 2): SIM
+(K7) tamanhos em que LOSO-G0 ganha do aleatorio alem da margem: 2 de 4 (previsto >= 3): NAO
+(K8) folga estatica por classe com validacao cruzada no teste menos o ganho de Gtn: -0.014 (previsto <= 0,30): SIM
+(K9) tipos em que a politica neural bate G0 alem da margem: 4 de 7 (previsto <= 2): NAO
+previsoes acertadas: 7 de 9

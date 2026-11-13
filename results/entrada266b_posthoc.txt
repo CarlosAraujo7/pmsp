@@ -1,0 +1,40 @@
+==============================================================================================================
+LEITURA POS HOC: TRANSFERENCIA A UM TAMANHO NAO VISTO (Entrada 266b)
+==============================================================================================================
+ganhos sobre o aleatorio (pontos) por tamanho; os sete tipos agrupados (175 instancias por tamanho); 'best_online' = o melhor dos sete aprendizes online no tamanho
+   n    G0  LOSO_G0  LOSO_Gt    nn     ql   ucb     pg  alns    qo     iq    fr  ql_perm best_online  g_best_online
+ 100 0.920   -1.189   -0.582 0.638 -1.118 0.033 -0.025 0.005 0.002 -0.624 0.071   -0.793          fr          0.071
+ 200 1.995    0.841    0.340 1.735 -0.893 0.065 -0.012 0.053 0.051 -0.767 0.097   -0.859          fr          0.097
+ 500 1.319    1.319    1.375 2.091 -0.010 0.118  0.091 0.529 0.360 -0.128 0.236   -0.522        alns          0.529
+1000 0.371    0.371    0.371 1.725  0.167 0.205  0.047 0.825 0.828  0.016 0.329   -0.237          qo          0.828
+
+--- o melhor aprendiz online contra LOSO-G0 (Holm sobre 4 tamanhos; negativo = o aprendiz e' melhor) ---
+                   id   n  mean_d_pct  ci90_lo  ci90_hi  p_holm  confirmada  equivalente_0.05
+ best-vs-LOSO_G0-n100 175     -1.1796  -1.4794  -0.8842  0.0000        True             False
+ best-vs-LOSO_G0-n200 175      0.7828   0.5488   1.0314  0.0000       False             False
+ best-vs-LOSO_G0-n500 175      0.8671   0.5515   1.2112  0.0034       False             False
+best-vs-LOSO_G0-n1000 175     -0.4373  -0.6237  -0.2445  0.0000        True             False
+
+--- o melhor aprendiz online contra LOSO-Gt ---
+                   id   n  mean_d_pct  ci90_lo  ci90_hi  p_holm  confirmada  equivalente_0.05
+ best-vs-LOSO_Gt-n100 175     -0.6307  -0.8170  -0.4416  0.0000        True             False
+ best-vs-LOSO_Gt-n200 175      0.2597   0.0867   0.4135  0.0181       False             False
+ best-vs-LOSO_Gt-n500 175      0.9231   0.6076   1.2612  0.0001       False             False
+best-vs-LOSO_Gt-n1000 175     -0.4373  -0.6237  -0.2445  0.0000        True             False
+
+--- a politica neural contra LOSO-G0 ---
+                 id   n  mean_d_pct  ci90_lo  ci90_hi  p_holm  confirmada  equivalente_0.05
+ nn-vs-LOSO_G0-n100 175     -1.7685  -2.0080  -1.5252     0.0        True             False
+ nn-vs-LOSO_G0-n200 175     -0.8936  -1.0730  -0.7150     0.0        True             False
+ nn-vs-LOSO_G0-n500 175     -0.7631  -0.9249  -0.6030     0.0        True             False
+nn-vs-LOSO_G0-n1000 175     -1.3601  -1.5194  -1.1923     0.0        True             False
+
+--- LOSO-G0 contra o aleatorio ---
+                   id   n  mean_d_pct  ci90_lo  ci90_hi  p_holm  confirmada  equivalente_0.05
+ LOSO_G0-vs-rand-n100 175      1.1889   0.8563   1.5443   0.000       False             False
+ LOSO_G0-vs-rand-n200 175     -0.8407  -1.0777  -0.6109   0.000        True             False
+ LOSO_G0-vs-rand-n500 175     -1.3194  -1.6570  -1.0019   0.000        True             False
+LOSO_G0-vs-rand-n1000 175     -0.3706  -0.5925  -0.1595   0.916       False             False
+
+tamanhos em que o melhor aprendiz online bate LOSO-G0 alem da margem: 2 de 4; bate LOSO-Gt: 2 de 4; a politica neural bate LOSO-G0: 4 de 4
+tamanhos em que LOSO-G0 PERDE para o aleatorio (d > 0 com o IC90 acima de zero): 1 de 4

@@ -1,0 +1,60 @@
+==============================================================================================================
+O PROTOCOLO NUM SEGUNDO DOMINIO: ILS DO TSP (Entrada 267)
+==============================================================================================================
+--- celulas (classe x espaco): ganhos sobre o aleatorio (pontos) e lacuna da validada ao melhor encontrado (%) ---
+space  kind    n  g_val  gap_val  gap_rand   g_ql  g_ucb   g_pg  g_alns   g_ts   g_qo  g_ql_perm
+   T5 clust  200  0.123    0.149     0.273 -0.151  0.028 -0.016   0.036  0.050  0.021     -0.052
+   T5 clust  500  0.595    0.655     1.265 -0.456  0.175  0.221   0.040  0.267  0.226     -0.005
+   T5 clust 1000  0.513    0.762     1.283 -0.629 -0.115 -0.080  -0.136  0.245 -0.004     -0.167
+   T5 clust 2000  0.346    1.088     1.439 -0.528  0.057  0.020  -0.073  0.383  0.195     -0.024
+   T5  unif  200  0.084    0.196     0.281 -0.337 -0.048 -0.086  -0.121  0.009 -0.055     -0.114
+   T5  unif  500  0.289    0.410     0.701 -0.385 -0.018 -0.014  -0.098  0.078  0.042     -0.141
+   T5  unif 1000  0.492    0.464     0.961 -0.397  0.047  0.057  -0.051  0.249  0.108     -0.070
+   T5  unif 2000  0.555    0.589     1.150 -0.416  0.073  0.013  -0.019  0.301  0.131      0.034
+  T15 clust  200  0.051    0.135     0.186 -0.130 -0.010 -0.032  -0.076 -0.006  0.005     -0.073
+  T15 clust  500  0.362    0.655     1.024 -0.375  0.021  0.096  -0.131  0.158  0.137     -0.125
+  T15 clust 1000  0.775    0.316     1.101 -0.529  0.074 -0.007  -0.195  0.108  0.055     -0.155
+  T15 clust 2000  0.904    0.168     1.083 -0.478  0.000 -0.042  -0.148  0.282  0.086     -0.088
+  T15  unif  200  0.087    0.237     0.324 -0.147  0.038  0.026   0.008  0.061  0.033     -0.052
+  T15  unif  500  0.392    0.246     0.641 -0.316  0.018  0.019  -0.126  0.036  0.003     -0.125
+  T15  unif 1000  0.666    0.155     0.827 -0.293  0.018  0.061  -0.129  0.178  0.080     -0.105
+  T15  unif 2000  0.796    0.153     0.956 -0.338  0.046  0.017  -0.084  0.244  0.074      0.018
+
+ganho medio da validada: T5 0.374, T15 0.504; lacuna media da validada ao melhor encontrado (T15): 0.26% (aleatorio 0.77%)
+celulas em que cada metodo ganha do aleatorio alem da margem (de 16): val 16; ql 0; ucb 1; pg 1; alns 0; ts 7; qo 4; ql_perm 0
+celulas em que a validada bate o aprendiz (B, confirmada; de 16): ql 16; ucb 15; pg 16; alns 16; ts 12; qo 16; ql_perm 16
+celulas em que o aprendiz bate a validada alem da margem (Bp; de 16): ql 0; ucb 0; pg 0; alns 0; ts 0; qo 0; ql_perm 0
+fracao das escolhas do Q-Learning padrao na acao listada primeiro (T15): 0.607; (T5): 0.648
+razao de avaliacoes ao aleatorio: ql 0.638; ql_perm 1.114
+
+--- granularidade do conhecimento offline (T15; ganhos medios nas 8 classes) ---
+G0 0.542; Gn 0.530; Gk 0.542; Gkn 0.504; LOSO_G0 0.542; LOKO_G0 0.542
+ kind    n  g_G0  g_Gn  g_Gk  g_Gkn  g_LOSO_G0  g_LOKO_G0
+clust  200 0.047 0.051 0.047  0.051      0.047      0.047
+clust  500 0.567 0.567 0.567  0.362      0.567      0.567
+clust 1000 0.775 0.775 0.775  0.775      0.775      0.775
+clust 2000 0.904 0.904 0.904  0.904      0.904      0.904
+ unif  200 0.194 0.087 0.194  0.087      0.194      0.194
+ unif  500 0.392 0.392 0.392  0.392      0.392      0.392
+ unif 1000 0.666 0.666 0.666  0.666      0.666      0.666
+ unif 2000 0.796 0.796 0.796  0.796      0.796      0.796
+
+LOSO-G0 por tamanho:
+             id   n  mean_d_pct  ci90_lo  ci90_hi  p_holm  confirmada  equivalente_0.05
+ S-LOSO_G0-n200 100     -0.1202  -0.1572  -0.0815     0.0        True             False
+ S-LOSO_G0-n500 100     -0.4794  -0.5622  -0.4024     0.0        True             False
+S-LOSO_G0-n1000 100     -0.7204  -0.7794  -0.6656     0.0        True             False
+S-LOSO_G0-n2000 100     -0.8499  -0.8894  -0.8135     0.0        True             False
+
+--- previsoes ---
+(P1) celulas em que a validada ganha alem da margem: 16 de 16 (previsto >= 12): SIM
+(P2) pares aprendiz online-celula em que o aprendiz bate a validada alem da margem: 0 de 96 (previsto 0): SIM
+(P3) celulas em que o ql padrao ganha alem da margem: 0 de 16 (previsto <= 3): SIM
+(P4) celulas em que o ql_perm ganha alem da margem: 0 de 16 (previsto <= 1): SIM
+(P5) fracao do ql padrao na acao listada primeiro em T15: 0.607 (previsto >= 0,20): SIM
+(P6) celulas em que o ql_perm difere do ql alem da margem: 15 de 16 (previsto >= 4): SIM
+(P7) ganho medio G0 / Gkn em T15: 1.076 (previsto >= 0,50): SIM
+(P8) tamanhos em que LOSO-G0 ganha alem da margem: 4 de 4 (previsto >= 3): SIM
+(P9) celulas (com validada > 0,05) em que o melhor aprendiz online recupera <= 50% do ganho da validada: 12 de 16 (previsto >= 10): SIM
+(P10) ganho medio da validada T15 0.504 > T5 0.374: SIM
+previsoes acertadas: 10 de 10

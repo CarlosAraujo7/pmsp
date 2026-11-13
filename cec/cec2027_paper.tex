@@ -110,7 +110,7 @@ the margin is reported as parity, and one whose interval crosses the margin as a
 
 \subsection{Implementations}
 The local search was first written with Python loops, then vectorized ($120$ of $120$ runs identical), then compiled with the IG, the destruction strategies and the agents (numba), exact on the deterministic parts and statistically equivalent on the random draws
-(inside $\pm0.05\%$ in five checks); it also counts evaluations. The other hosts have their own compiled cores with the same agent code ($1{,}561$ unit tests in all). All runs used one laptop (Intel Core i5-12450H, 8 cores, 16 GB), where $K$ was measured.
+(inside $\pm0.05\%$ in five checks); it also counts evaluations. The other hosts have their own compiled cores with the same agent code ($1{,}569$ unit tests in all). All runs used one laptop (Intel Core i5-12450H, 8 cores, 16 GB), where $K$ was measured.
 
 \section{Results}
 Table~\ref{tab:answers} summarizes the answers (registered findings versus post hoc readings); the subsections give the evidence.

@@ -1,0 +1,37 @@
+==============================================================================================================
+O PROTOCOLO A CPU IGUAL NO BENCHMARK DE FANJUL-PEYRO E RUIZ, B30 (Entrada 268)
+==============================================================================================================
+razao de CPU K (mediana nas 28 classes; por tamanho n a mediana nos 7 tipos):
+  ql   ucb   pg  alns    qo   iq    fr   val
+0.74 1.037 1.05 0.978 1.065 1.48 1.041 1.974
+K por tamanho n:
+         ql    ucb     pg   alns     qo     iq     fr    val
+n                                                           
+100   0.717  1.063  1.032  0.906  1.061  1.315  1.213  2.064
+200   0.615  1.054  1.102  0.965  1.042  1.475  1.008  1.970
+500   0.766  1.027  1.042  0.974  0.986  1.546  0.954  1.822
+1000  0.819  1.098  1.138  1.186  1.351  1.555  0.967  2.363
+
+ganhos por tipo (pontos): dec = a iteracoes iguais; cpu = a CPU igual; cost = cpu - dec; vgain = ganho da validada a CPU igual sobre o aprendiz
+      type  dec_ql  cpu_ql  cost_ql  vgain_ql  dec_ucb  cpu_ucb  cost_ucb  vgain_ucb  dec_pg  cpu_pg  cost_pg  vgain_pg  dec_alns  cpu_alns  cost_alns  vgain_alns  dec_qo  cpu_qo  cost_qo  vgain_qo  dec_iq  cpu_iq  cost_iq  vgain_iq  dec_fr  cpu_fr  cost_fr  vgain_fr
+    U1a100  -0.568   0.549    1.117     2.848    0.109   -0.200    -0.309      3.244   0.119   0.236    0.116     3.318     0.767     0.786      0.019       2.580   0.785   0.612   -0.173     2.647   0.159  -0.859   -1.019     4.181   0.510   0.326   -0.183     3.008
+   U10a100  -0.423   0.424    0.847     2.610    0.063    0.110     0.047      3.262   0.001  -0.223   -0.224     3.286     0.394     0.308     -0.086       2.811   0.607   0.727    0.120     2.468  -0.467  -1.253   -0.787     4.487   0.350   0.282   -0.068     2.954
+  U100a120  -0.175  -0.038    0.137     0.242    0.046    0.042    -0.004      0.142  -0.023   0.002    0.025     0.193     0.077     0.097      0.020       0.136   0.098  -0.001   -0.099     0.201  -0.349  -0.494   -0.145     0.716   0.029   0.048    0.019     0.158
+  U100a200  -0.943  -0.602    0.341     1.881    0.144   -0.062    -0.206      1.709   0.021  -0.323   -0.343     1.905     0.392     0.363     -0.029       1.371   0.339   0.227   -0.112     1.360  -0.763  -1.517   -0.754     3.240   0.209   0.101   -0.108     1.569
+U1000a1100  -0.061  -0.015    0.046     0.241    0.021   -0.009    -0.030      0.232  -0.015  -0.058   -0.044     0.281     0.088     0.059     -0.029       0.170   0.093   0.052   -0.041     0.163  -0.227  -0.319   -0.092     0.536   0.019  -0.003   -0.022     0.230
+ JobsCorre  -0.197  -0.073    0.124     0.227    0.090    0.030    -0.060      0.124   0.023  -0.010   -0.034     0.177     0.126     0.139      0.013       0.041   0.049  -0.011   -0.060     0.172  -0.315  -0.448   -0.133     0.626   0.014   0.014   -0.000     0.169
+  MaqCorre  -0.877  -0.441    0.436     0.332    0.263    0.061    -0.202      0.099   0.050  -0.196   -0.246     0.114     0.626     0.354     -0.272      -0.304   0.202  -0.112   -0.314     0.149  -0.669  -1.595   -0.926     1.695   0.151   0.393    0.242    -0.558
+
+ganho medio nos 7 tipos: ql: dec -0.464, cpu -0.028, custo 0.435, validada sobre ele 1.197; ucb: dec 0.105, cpu -0.004, custo -0.109, validada sobre ele 1.259; pg: dec 0.025, cpu -0.082, custo -0.107, validada sobre ele 1.325; alns: dec 0.353, cpu 0.301, custo -0.052, validada sobre ele 0.972; qo: dec 0.310, cpu 0.213, custo -0.097, validada sobre ele 1.023; iq: dec -0.376, cpu -0.926, custo -0.551, validada sobre ele 2.212; fr: dec 0.183, cpu 0.166, custo -0.017, validada sobre ele 1.076
+tipos em que cada aprendiz ganha do aleatorio a CPU igual alem da margem (Acpu; de 7): ql 2; ucb 0; pg 0; alns 7; qo 3; iq 0; fr 3
+a validada a CPU igual bate o aprendiz (Bcpu, confirmada): 44 de 49; aprendizes que a batem alem da margem (Bpcpu): 2 de 49
+
+--- previsoes ---
+(E1) mediana de K do ql padrao: 0.740 (previsto <= 0,85): SIM
+(E2) medianas de K de ucb, pg, alns, qo, iq, fr: ucb 1.037, pg 1.050, alns 0.978, qo 1.065, iq 1.480, fr 1.041 (previsto em [0,9; 1,15]): NAO
+(E3) mediana de K da validada: 1.974 (previsto >= 1,5): SIM
+(E4) tipos em que o ql padrao ganha do aleatorio a CPU igual alem da margem: 2 de 7 (previsto <= 1): NAO
+(E5) pares em que a validada a CPU igual bate o aprendiz (confirmada): 44 de 49 (previsto >= 45): NAO
+(E6) pares em que o aprendiz bate a validada a CPU igual alem da margem: 2 de 49 (previsto 0): NAO
+(E7) vantagem media da validada a CPU igual sobre o melhor aprendiz de cada tipo: 0.884 (previsto >= 1,0): NAO
+previsoes acertadas: 2 de 7

@@ -1,0 +1,264 @@
+{
+ "source": "https://raw.githubusercontent.com/pdrozdowski/TSPLib.Net/master/TSPLIB95/tsp/",
+ "instances": [
+  {
+   "name": "kroA200",
+   "n": 200,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 2656,
+   "md5": "ed4a61b8014a061dd15d6b89966b6982"
+  },
+  {
+   "name": "kroB200",
+   "n": 200,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 2663,
+   "md5": "62c7be38ee01dd0b49f39b44648a9077"
+  },
+  {
+   "name": "ts225",
+   "n": 225,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 3485,
+   "md5": "fdade79da4e50cd8db76702342ea6128"
+  },
+  {
+   "name": "tsp225",
+   "n": 225,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 4174,
+   "md5": "a59cf4da1a00ad2fc97529fb343989a8"
+  },
+  {
+   "name": "pr226",
+   "n": 226,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 3367,
+   "md5": "4c3753c76266e91dd428c0b548fe9e99"
+  },
+  {
+   "name": "gil262",
+   "n": 262,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 2841,
+   "md5": "1891296191a8c3bb064e1526eaeb9f37"
+  },
+  {
+   "name": "pr264",
+   "n": 264,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 3787,
+   "md5": "5d813ef5694e78e2a75e8171ba1746b5"
+  },
+  {
+   "name": "a280",
+   "n": 280,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 3483,
+   "md5": "d5678b353de18aca3392bc70535c6661"
+  },
+  {
+   "name": "pr299",
+   "n": 299,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 4212,
+   "md5": "472310deee92b31940cfd2d8944775e3"
+  },
+  {
+   "name": "lin318",
+   "n": 318,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 4253,
+   "md5": "382398f98027f53ecf21aa75dc781875"
+  },
+  {
+   "name": "rd400",
+   "n": 400,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 11221,
+   "md5": "269c783125e5bf76b57285a205772d23"
+  },
+  {
+   "name": "fl417",
+   "n": 417,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 11694,
+   "md5": "821773341c186f3f93d00893d37074c2"
+  },
+  {
+   "name": "pr439",
+   "n": 439,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 6540,
+   "md5": "9690f238108e4291d7cf91c153b1e3ca"
+  },
+  {
+   "name": "pcb442",
+   "n": 442,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 12414,
+   "md5": "f94be7e9bc8ceb5cd522b3078d1c734a"
+  },
+  {
+   "name": "d493",
+   "n": 493,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 13821,
+   "md5": "9d75b7ee2a0295809647546e2caec298"
+  },
+  {
+   "name": "u574",
+   "n": 574,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 16089,
+   "md5": "43a1af7e617df91be4aa07498054ca03"
+  },
+  {
+   "name": "rat575",
+   "n": 575,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 7097,
+   "md5": "59b2b1cffe4bc9ccbe06fe23dcd36291"
+  },
+  {
+   "name": "p654",
+   "n": 654,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 18329,
+   "md5": "bb5ae8284414cd3317509917d2f7d89e"
+  },
+  {
+   "name": "d657",
+   "n": 657,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 18413,
+   "md5": "cf906a72db8baac174f3cb0ca05ec581"
+  },
+  {
+   "name": "u724",
+   "n": 724,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 20289,
+   "md5": "cb15b13fc4effcbdb543a2b544800973"
+  },
+  {
+   "name": "rat783",
+   "n": 783,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 9739,
+   "md5": "095999bc502a719cd3c3751ae04363cb"
+  },
+  {
+   "name": "pr1002",
+   "n": 1002,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 14744,
+   "md5": "665763fe8ab426b1e20ab0a4033767c5"
+  },
+  {
+   "name": "u1060",
+   "n": 1060,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 29768,
+   "md5": "9bc33671587abfa51ef1b7252492b99d"
+  },
+  {
+   "name": "vm1084",
+   "n": 1084,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 30458,
+   "md5": "306d48ad6d5c2b0e790dc6e270341599"
+  },
+  {
+   "name": "pcb1173",
+   "n": 1173,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 33047,
+   "md5": "3a64c3c9c98f7f08806a6567cd4fc125"
+  },
+  {
+   "name": "d1291",
+   "n": 1291,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 36459,
+   "md5": "81bf1a163bd7d621fb79230925c2aa51"
+  },
+  {
+   "name": "rl1304",
+   "n": 1304,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 36834,
+   "md5": "01b5feb465938d92e1484aa42955592f"
+  },
+  {
+   "name": "rl1323",
+   "n": 1323,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 37385,
+   "md5": "4defd5734fd7639e1f14acffe03b9454"
+  },
+  {
+   "name": "nrw1379",
+   "n": 1379,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 30490,
+   "md5": "73542772bbcf0a3ba8de1ce6e8bd1b2c"
+  },
+  {
+   "name": "fl1400",
+   "n": 1400,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 39621,
+   "md5": "742ab9bdb3b4836c723e3dbd5d1a0cf7"
+  },
+  {
+   "name": "u1432",
+   "n": 1432,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 40548,
+   "md5": "02680f974c57867a759af2bb53940b56"
+  },
+  {
+   "name": "fl1577",
+   "n": 1577,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 44754,
+   "md5": "fed72c3dac9834d18653dffe24d15ff1"
+  },
+  {
+   "name": "d1655",
+   "n": 1655,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 47015,
+   "md5": "d4eb866d969158f12f6f3dde1690306f"
+  },
+  {
+   "name": "vm1748",
+   "n": 1748,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 49714,
+   "md5": "8301aa582504982e04acbe705aed22be"
+  },
+  {
+   "name": "u1817",
+   "n": 1817,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 51713,
+   "md5": "e0072b006a003782d7a4d8f8e6a38553"
+  },
+  {
+   "name": "rl1889",
+   "n": 1889,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 53799,
+   "md5": "0c0e1b6b35fb388135f98aa76dd66423"
+  },
+  {
+   "name": "d2103",
+   "n": 2103,
+   "edge_weight_type": "EUC_2D",
+   "bytes": 60007,
+   "md5": "da0e6d37339d66eb46025e0a80ed13e5"
+  }
+ ]
+}

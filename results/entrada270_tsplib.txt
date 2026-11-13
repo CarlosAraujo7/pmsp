@@ -1,0 +1,49 @@
+==============================================================================================================
+O ILS DO TSP EM INSTANCIAS PUBLICADAS DA TSPLIB (Entrada 270)
+==============================================================================================================
+--- ganhos medios sobre o aleatorio (pontos) e lacunas ao otimo (%) por espaco; 37 instancias ---
+                 0      1
+space           T5    T15
+n               37     37
+g_Gn_syn     0.528  0.562
+gap_Gn_syn   1.376  1.207
+g_G0_syn     0.528  0.684
+gap_G0_syn   1.376  1.084
+g_ql        -0.613 -0.344
+gap_ql       2.556   2.14
+g_ucb        0.036  0.051
+gap_ucb      1.885  1.735
+g_pg        -0.043  0.032
+gap_pg       1.967  1.755
+g_alns      -0.019 -0.108
+gap_alns     1.946  1.898
+g_ts         0.122  0.241
+gap_ts       1.798  1.541
+g_qo         0.017  0.068
+gap_qo       1.906  1.719
+g_ql_perm   -0.154 -0.192
+gap_ql_perm  2.082  1.984
+gap_rand     1.926  1.788
+
+--- por faixa de tamanho (T15) ---
+  band  n  g_Gn_syn  g_G0_syn  g_best_online  gap_Gn_syn  gap_rand
+ large 12     1.187     1.187          0.257       2.174     3.410
+medium 10     0.689     0.689          0.252       0.720     1.420
+ small 15    -0.023     0.278          0.221       0.759     0.735
+
+metodos que ganham do aleatorio alem da margem (A): T5: Gn_syn, G0_syn; T15: Gn_syn, G0_syn, ts
+aprendizes online que batem Gn_syn alem da margem (Bp): nenhum
+ql_perm difere do ql (E): E-ql_perm-T5 d=-0.453 p_holm=1.09e-05; E-ql_perm-T15 d=-0.148 p_holm=0.0308
+fracao do ql padrao na acao listada primeiro: T15 0.628; T5 0.651
+
+--- previsoes ---
+(L1) Gn_syn ganha alem da margem em T5 e T15: SIM
+(L2) aprendizes online que batem Gn_syn alem da margem: 0 de 12 (previsto 0): SIM
+(L3) ql e ql_perm nao ganham alem da margem em nenhum espaco: SIM
+(L4) G0_syn ganha alem da margem em T15: SIM
+(L5) lacuna media de Gn_syn ao otimo em T15: 1.21% (previsto <= 6%): SIM
+(L6) razao melhor aprendiz online / Gn_syn: T5 0.232, T15 0.429 (previsto <= 0,60): SIM
+(L7) fracao do ql na acao listada primeiro em T15: 0.628 (previsto >= 0,40): SIM
+(L8) Thompson ganha alem da margem em T15: SIM
+(L9) faixas de tamanho em que Gn_syn ganha alem da margem (T15): 2 de 3 (previsto >= 2): SIM
+previsoes acertadas: 9 de 9

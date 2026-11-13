@@ -1,0 +1,9 @@
+dd98c0655476c5b1203ce52e474d3fd4 *experiment/run_cycle42_tsplib_entrada270.py
+383bbcb8618a368f6625a7c68a5e9f5e *analysis/report_entrada270_tsplib.py
+ee3b11df7cfaa4eb6d6b990121a9fa0d *experiment/run_cycle40_tsp_entrada267.py
+76b6adfe3ab09c721ed68f8788639d6d *pmsp/tsp_numba.py
+541f0242b98e0b7899d3f4c24406fce8 *pmsp/instance_tsp.py
+2e66b7567e32750ac1b108a9e111c767 *pmsp/instance_tsplib.py
+1d94037552762dd6d89f0155562b170f *results/tsplib_choice_entrada270.json
+3e7649db553e2450e0ca8601dc794a14 *external_benchmarks/tsplib/solutions_mastqe.txt
+e83bafc50b391615c879fe7e635214b2 *external_benchmarks/tsplib/manifest_tsplib.json

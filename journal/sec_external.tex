@@ -1,6 +1,6 @@
-\section{Published instance families and the standard benchmark}
+\section{External validity: published instances, a longer horizon, offline knowledge and a second domain}
 \label{sec:external}
-The synthetic classes and our own generators are the weakest point of any such study, because they were chosen by the authors. We therefore repeated the protocol on instances that others defined, in two steps of increasing external validity: three published families of $R||\Cmax$ instances, for which we kept the frozen learners and re-chose only the validated action (Section~\ref{sec:families}); and the standard benchmark of \citet{FanjulPeyroRuiz2010}, which comes with the best known solutions of three exact methods run by third parties and lets us report the distance to them (Section~\ref{sec:fanjul}).
+The synthetic classes and our own generators are the weakest point of any such study, because they were chosen by the authors. We therefore repeated the protocol on instances that others defined, in two steps of increasing external validity: three published families of $R||\Cmax$ instances, for which we kept the frozen learners and re-chose only the validated action (Section~\ref{sec:families}); and the standard benchmark of \citet{FanjulPeyroRuiz2010}, which comes with the best known solutions of three exact methods run by third parties and lets us report the distance to them (Section~\ref{sec:fanjul}). On that benchmark we then ask whether the conclusions hold at equal CPU time rather than equal iterations (Section~\ref{sec:eqcpu}), at a ten times longer horizon (Section~\ref{sec:longT}), whether a policy trained offline with a neural network does better than the online learners and than a static action (Section~\ref{sec:neural}), and how much offline knowledge a static action needs to beat them, including its transfer to a type or a size never tuned for (Section~\ref{sec:granularity}). Finally, Section~\ref{sec:tsp} applies the protocol to a different kind of problem, the travelling salesman problem.
 
 \subsection{Three published families of $R||\Cmax$}
 \label{sec:families}
@@ -16,4 +16,10 @@ The synthetic classes and our own generators are the weakest point of any such s
 \label{sec:fanjul}
 \input{sec_fanjul}
 
+\input{sec_eqcpu}
+
 \input{sec_longneural}
+
+\input{sec_granularity}
+
+\input{sec_tsp}

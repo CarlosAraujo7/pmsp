@@ -38,6 +38,10 @@ The identity is an accounting one, but it separates two claims that are usually 
 
 \paragraph{(5) Power and positive controls} The minimum detectable gain is estimated analytically and by planting gains in the paired differences, and the learners and the pipeline are checked on a planted reward bonus and on a static policy chosen with class information.
 
+\paragraph{(6) Order sensitivity} Report the share of the learner's choices that fall on the action listed first and repeat the learner with the actions permuted at random in each run (or with ties broken at random); a result that changes with the order of the list measures the list, not the reward (Section~\ref{sec:order}).
+
+\paragraph{(7) What the static competitor knows} Choose static policies on the tuning instances with decreasing knowledge of the instance (one action for all instances, one per size, one per type, one per class) and in transfer regimes (the tuning data of the tested type, or of the tested size, withheld), and compare each with the learner; the verdict on online learning is relative to the knowledge the static action is given (Section~\ref{sec:granularity}).
+
 \subsection{The cross-fitted headroom estimator}
 \label{sec:estimator}
 Let $x$ be an instance, $a\in\{1,\dots,A\}$ an action and $Y_a(x)$ the relative makespan of one run, with $\mathbb E\,Y_a(x)=\mu_a(x)$ and independent run-to-run noise of variance $\sigma^2$. Let $\mu_{\mathrm{rand}}(x)$ be the expected makespan of the random control. The \emph{headroom} of $x$ is $H(x)=\mu_{\mathrm{rand}}(x)-\min_a\mu_a(x)$ and the headroom of a cell is its mean over instances. The \emph{one-seed oracle} takes $\hat H_1=\mu_{\mathrm{rand}}-\min_aY_a$ from one run per action; the \emph{cross-fitted oracle} chooses $\hat a=\arg\min_a\bar Y_a^{(1)}$ on $k_1$ runs and evaluates it on $k_2$ independent ones, $\hat H_{\mathrm{cf}}=\mu_{\mathrm{rand}}-\bar Y_{\hat a}^{(2)}$ (we use $k_1=k_2=2$).
