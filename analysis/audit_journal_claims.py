@@ -306,6 +306,17 @@ chk("celulas repetidas com o ql_perm na discussao (69)", ncells, 69, 0, "sec_dis
 chk("celulas repetidas com o ql_perm na conclusao (69)", ncells, 69, 0, "sec_discussion.tex", "none of $69$ cells")
 chk("Spearman na discussao: de +0,65 a -0,74", float(_ss.spearmanr(C264.folga, C264.g_ql).statistic), 0.65, 0.006, "sec_discussion.tex", "from $+0.65$ to $-0.74$")
 
+# ---------------------------------------------------------------- controle global de falsas descobertas (Entradas 247 e 265)
+HG = (R / "entrada265_global.txt").read_text(encoding="utf-8")
+mg_ = re.search(r"todas \(ate a Entrada 264\): (\d+) testes em \d+ arquivos; (\d+) 'confirmada'; sobrevivem a Holm global \d+ \([\d.]+\) e a Benjamini-Yekutieli global (\d+)", HG)
+mo_ = re.search(r"ate a Entrada 255 \(o conjunto do artigo\): (\d+) testes em \d+ arquivos; (\d+) 'confirmada'; sobrevivem a Holm global \d+ \([\d.]+\) e a Benjamini-Yekutieli global (\d+)", HG)
+chk("BY global: testes (1.844)", int(mg_.group(1)), 1844, 0, "sec_discussion.tex", "$1{,}844$ tests of all registered batteries")
+chk("BY global: confirmados (1.048)", int(mg_.group(2)), 1048, 0, "sec_discussion.tex", "$1{,}048$ confirmed tests")
+chk("BY global: sobrevivem (1.020)", int(mg_.group(3)), 1020, 0, "sec_discussion.tex", "$1{,}020$ of the")
+chk("BY global ate 255: testes (1.169)", int(mo_.group(1)), 1169, 0, "sec_discussion.tex", "$1{,}169$ tests up to Entry 255")
+chk("BY global ate 255: confirmados e sobreviventes (685, 663)", int(mo_.group(2)) * 1000 + int(mo_.group(3)), 685663, 0, "sec_discussion.tex", "$663$ of $685$")
+chk("BY global: previsoes da Entrada 265 (3 de 3)", int(re.search(r"previsoes acertadas: (\d+) de", HG).group(1)), 3, 0, "sec_discussion.tex", "three predictions of three")
+
 # ---------------------------------------------------------------- contadores do registro
 main = (J / "main.tex").read_text(encoding="utf-8")
 held = int(re.search(r"\\newcommand\{\\npredheld\}\{(\d+)\}", main).group(1))
@@ -317,7 +328,7 @@ pred = eval(re.search(r"^PRED = (\[.*?\])\s+#", src, flags=re.M).group(1))   # a
 extra = []
 # baterias alem das 40 do CEC: Entrada 256 (benchmark padrao), 258 (mecanismo, etapas 1 e 2; horizonte longo), 260, 261, 262 (politica neural), 263
 for fn in ("entrada256_fanjul.txt", "entrada258_mechanism.txt", "entrada258_mechanism2.txt", "entrada258L_longT.txt", "entrada260_qperm.txt", "entrada261_qperm_pcmax.txt",
-           "entrada262_neural.txt", "entrada263_qperm_longT.txt", "entrada264_qperm_pub.txt"):
+           "entrada262_neural.txt", "entrada263_qperm_longT.txt", "entrada264_qperm_pub.txt", "entrada265_global.txt"):
     f_ = R / fn
     m = re.search(r"previsoes acertadas: (\d+) de (\d+)", f_.read_text(encoding="utf-8"))
     extra.append((int(m.group(1)), int(m.group(2))))

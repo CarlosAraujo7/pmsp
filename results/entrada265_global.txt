@@ -1,0 +1,44 @@
+==============================================================================================================
+CONTROLE GLOBAL ESTENDIDO AS ENTRADAS 256-264 (Entrada 265)
+==============================================================================================================
+arquivos com testes registrados: 162; testes: 1844; linhas repetidas (arquivo, id): 85
+
+ate a Entrada 255 (o conjunto do artigo): 1169 testes em 153 arquivos; 685 'confirmada'; sobrevivem a Holm global 624 (0.911) e a Benjamini-Yekutieli global 663 (0.968)
+todas (ate a Entrada 264): 1844 testes em 162 arquivos; 1048 'confirmada'; sobrevivem a Holm global 946 (0.903) e a Benjamini-Yekutieli global 1020 (0.973)
+entradas 256-264: 675 testes em 9 arquivos; 363 'confirmada'; sobrevivem ao BY global (calculado sobre todos) 358 (0.986)
+
+(G1) o conjunto ate' a Entrada 255: 1169 testes, 685 'confirmada', 663 sobrevivem ao BY do conjunto proprio (previsto 1.169 / 685 / 663): SIM
+(G2) >= 0,90 entre os 'confirmada' das Entradas 256-264: 0.986 -> SIM
+(G3) >= 0,95 no conjunto completo: 0.973 -> SIM
+previsoes acertadas: 3 de 3
+
+testes 'confirmada' que NAO sobrevivem ao BY global (conjunto completo):
+                                file                  id  mean_d_pct    p_raw  p_by_global
+       entrada102_seeded_primary.csv                  P1    -0.01038  0.03636       0.3762
+   entrada117_ils_seeded_primary.csv                  I2     -0.0648 0.004569      0.05035
+    entrada118_unrelated_primary.csv                  M2     -0.1449  0.01093       0.1174
+   entrada121_budget_law_primary.csv                  B4         NaN 0.006836      0.07423
+             entrada180_agents_b.csv           B-S30-ucb   -0.008024 0.005273      0.05789
+             entrada185_aos_acpu.csv          Acpu-S5-ap   -0.008578  0.01208       0.1292
+            entrada185_aos_aiter.csv         Aiter-S5-ap   -0.009451 0.008776      0.09482
+             entrada188_new_acpu.csv       Acpu-S15-dmab   -0.005391  0.01968       0.2078
+            entrada188_new_aiter.csv      Aiter-S15-dmab   -0.007482 0.005146      0.05654
+           entrada199_famF_Aiter.csv        Aiter-S5-ucb   -0.004204 0.005724      0.06266
+  entrada205_pfsp_selector_Crand.csv         Crand-F5-ta    -0.03363  0.04438       0.4542
+             entrada219_ga_Aiter.csv        Aiter-G9-ucb    -0.01266 0.005739      0.06277
+             entrada219_ga_Aiter.csv         Aiter-G9-pg    -0.01436 0.005656      0.06196
+           entrada220_ga_mix_Mit.csv         Mit-G9-alns    -0.07694  0.01132       0.1212
+          entrada220_ga_mix_Mval.csv             Mval-G9     -0.1054  0.01545       0.1638
+              entrada223_optq_Or.csv      Or-S15-heldout   -0.004297 0.006502      0.07081
+          entrada244_irace_FBrev.csv         B'-pc-S5-b1   -0.006722  0.04722       0.4813
+             entrada244_irace_FC.csv         C-ur-S15-b1     -0.1694  0.04359       0.4467
+             entrada244_irace_FC.csv        C-ur-S15-b10     -0.1582  0.04706       0.4803
+     entrada249_closedloop_tests.csv             D-ur-S5     -0.3106 0.008773      0.09482
+    entrada254_ur_external_tests.csv        A-cm-S15-ucb    -0.07511 0.006653       0.0724
+    entrada254_ur_external_tests.csv         A-cj-S15-qo    -0.03642 0.009593       0.1033
+entrada255_ext_competitors_tests.csv         A-unc-S5-fr    -0.05375  0.01167       0.1248
+         entrada256_fanjul_tests.csv    A-U100a120-B5-iq    -0.05016 0.004821      0.05304
+         entrada258L_longT_tests.csv    A-JobsCorre-alns    -0.06503  0.01131       0.1212
+    entrada261_qperm_pcmax_tests.csv B-rand_250j_25m-S15    -0.01534 0.006218      0.06787
+         entrada262_neural_tests.csv     A-JobsCorre-B30     -0.1612 0.006811      0.07402
+    entrada263_qperm_longT_tests.csv        A-U1000a1100    -0.02422  0.03532       0.3658
