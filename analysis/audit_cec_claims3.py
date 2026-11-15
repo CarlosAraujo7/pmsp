@@ -202,7 +202,7 @@ chk("ganho do seletor sobre o aleatorio, minimo (0,099)", min(sg), 0.099, 0.0006
 chk("ganho do seletor sobre o aleatorio, maximo (0,146)", max(sg), 0.146, 0.0006)
 chk("ganho do seletor entre a folga cf e a de uma semente nos 4 pares", float(all(between)), 1, 0)
 nt = int(re.search(r"(\d+) tests? collected", subprocess.run([sys.executable, "-m", "pytest", "--collect-only", "-q"], cwd=ROOT, capture_output=True, text=True).stdout).group(1))
-chk("testes unitarios no total (1.549)", nt, 1569, 0, "$1{,}569$ unit tests in all")
+chk("testes unitarios no total (1.577)", nt, 1577, 0, "$1{,}577$ unit tests in all")
 
 # ---------------------------------------------------------------- Ciclo 21: o estimador, a regra com IC por conglomerado, os tempos finos e a leitura de condicao necessaria
 t227 = (R / "entrada227_cfvariants.txt").read_text(encoding="utf-8")

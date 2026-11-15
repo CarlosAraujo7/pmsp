@@ -1,0 +1,61 @@
+\section{Results}
+\label{sec:results}
+Table~\ref{tab:answers} summarises the answers, separating registered findings from post hoc readings; the subsections give the evidence, and Section~\ref{sec:external} tests how far it carries.
+
+\begin{table}[t]
+\caption{Answers to the three research questions and the check on other hosts (gains in percentage points of the makespan).}
+\label{tab:answers}
+\centering
+{\scriptsize\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lp{7.6cm}p{2.6cm}l@{}}
+\toprule
+ & Answer & Status & Evidence \\
+\midrule
+RQ1 & Search structure, not the policy (the IG beats the ILS by $0.46\%$ at equal CPU time); budget is $93\%$, $30\%$ or $28\%$ of a local search's gain, by implementation & registered & \ref{sec:rq1} \\
+RQ2 & On the synthetic classes no learner beats random choice at equal iterations by more than $0.04$ points; equal-CPU wins are cost effects; a validated action wins & registered & \ref{sec:rq2} \\
+RQ3 & Headroom is a necessary condition only; an order-invariant Q-Learning gains in none of the $85$ cells where we repeated it; a selector trained offline captures the headroom (parity with the validated action; a neural policy, two thirds of its gain), no online repair works; one action for all instances beats every online learner on the standard benchmark, and an online learner beat an offline action only when it was transferred to an unseen size (post hoc), where warm-starting it with the offline prior adds $0.67$ points to the prior alone & registered (held-out test, cross-fitting); the rule and its one-sided reading are exploratory & \ref{sec:rq3}, \ref{sec:order}, \ref{sec:granularity} \\
+Hosts & No online learner gains on a flowshop; the findings repeat in the TSP, outside scheduling; on a genetic algorithm only Thompson sampling does, and a validated mixture is never worse; on unrelated machines the validated action beats every learner & registered & \ref{sec:hosts}, \ref{sec:external} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\subsection{RQ1: the search structure and the budget, not the policy}
+\label{sec:rq1}
+Against LPT and seven ILS variants in the twelve classes, the Q-Learning-guided IG is significantly better, after Holm correction, in $72$ of $96$ comparisons and never worse, yet its advantage over its four ablation siblings (random selection, UCB1 with and without state, Q-Learning without state) is negligible: $0.011\%$ ($90\%$ interval $0.003$ to $0.019$). With learning removed from both sides, the IG beats the ILS at equal iterations in $10$ of $12$ classes by $0.49\%$, against $0.53\%$ for the learned versions; with vectorised operators ($6.2$ times faster), the IG still beats the ILS by $0.46\%$ at equal CPU time ($p_{\mathrm{Holm}}<10^{-80}$), with a positive gain in all twelve classes.
+
+\emph{Budget.} A short best-improvement descent after each reconstruction improves the IG by $0.150\%$ at equal iterations but costs CPU time, so the verdict at equal CPU depends on $K$, and $K$ on the implementation. With the loop-based descent ($K=9.6$) the advantage at equal CPU is $0.010\%$ ($93\%$ of the gain would have been budget); vectorising it cuts $K$ to $1.8$ and the advantage at equal CPU is $0.105\%$ ($30\%$ budget); compiling both arms gives $K=2.0$ and $0.115\%$ of the $0.159\%$ ($28\%$), a reading registered before the compiled run. The share of a local search's gain that is ``only budget'' ranges from $28\%$ to $93\%$ with the implementation, so a claim about it is a claim about an implementation.
+
+\subsection{RQ2: do learners beat random choice, does a static configuration win, and could learning have shown up?}
+\label{sec:rq2}
+\emph{At an equal number of iterations none of the three original learners gains more than $0.016\%$ over random choice in any of the $12$ comparisons}, within the equivalence margin. \emph{At equal CPU time Q-Learning does win} in the two spaces of sizes, by $0.059\%$ and $0.049\%$, \emph{but only by choosing cheaper actions}: its decision effect is nil ($-0.003$ and $-0.004$ points) and its cost effect is $0.062$ and $0.053$, an effect that an order-invariant version does not have (Section~\ref{sec:order}). Among the classic AOS methods only the ALNS-style roulette gains ($0.039$ points at equal iterations with five sizes, inside the margin), and online racing is \emph{worse} than random choice ($-0.012$ and $-0.067$). The configuration validated per class is ahead of every one of nine methods by $0.053$--$0.147$ points in the spaces of $5$ and $15$ actions ($p_{\mathrm{Holm}}<10^{-57}$); where the actions differ in effect and cost (the four ILS operators), a DQN and LinUCB lose to the uniform mixture ($0.041\%$ and $0.066\%$).
+
+\emph{Could learning have shown up?} With $1{,}200$ pairs the analytic minimum detectable gain at $80\%$ power is $0.006$--$0.014$ points; planting gains gives $58$--$99.8\%$ power at $0.02$ points and at least $97\%$ at $0.03$, while the largest gain of Q-Learning, UCB1 or the policy gradient is $0.016$: gains of $0.03$ points or more are excluded. The per-class validated action is detected at $0.092$ and $0.080$ points, and with a reward bonus planted on one action all six learners tested choose it at least $1.5$ times more often than uniform. Longer horizons do not rescue the learner: with five sizes and $T$ up to $100{,}000$ the learners stay within $0.006$ points of random choice while the one-seed oracle headroom falls from $0.125\%$ to $0.015\%$.
+
+\emph{Stronger competitors.} irace~\cite{LopezIbanezEtal2016}, given the tuning cost of the validated action, reaches parity with it on P$||\Cmax$ (within $0.012$ points) and stays $0.15$ and $0.19$ points behind on R$||\Cmax$, never ahead beyond the margin even with ten times the budget; the best three-phase schedule of the sizes per class adds nothing at the class level; two state-dependent look-ahead policies that are given hundreds of times a learner's evaluations are beaten by the validated action in all eight cells ($0.04$--$1.58$ points); tuning Q-Learning's hyperparameters beats the default by $0.58$ and $0.63$ points on R$||\Cmax$, yet the validated action beats it in all four host--space pairs ($0.06$--$1.90$). Two published AOS designs reach at most $14\%$ of the validated action's gain on R$||\Cmax$.
+
+\subsection{RQ3: where does an online selector pay, and what exploits the headroom?}
+\label{sec:rq3}
+\paragraph{The oracle headroom is mostly noise unless it is cross-fitted} Taken as the best of one seed per action, the headroom of the synthetic classes is $0.125$ and $0.122$ points (five and fifteen actions); cross-fitting removes half to two thirds of it ($0.063$ and $0.043$), $28$--$40\%$ of that of the published instances, and $80$--$90\%$ on the flowshop, where run-to-run noise is high.
+
+\paragraph{A necessary condition, not a sufficient one} Across the cells of a space, the rank correlation between the cross-fitted headroom and the \emph{standard} Q-Learning's gain is $0.95$ and $0.97$ on the held-out published instances, and a single threshold $h^*=0.048$ points, chosen on $18$ discovery cells, classifies $78\%$ of the $60$ others correctly (balanced accuracy $0.80$; Fig.~\ref{fig:class}). The robust reading is one-sided and post hoc: below $h^*$ there are $71$ cells outside the discovery set and in none does Q-Learning gain beyond the margin; above it there are $79$ and it does in $29$. The order diagnostic below qualifies even this: with the order-invariant learner the correlation on the held-out cells is $-0.74$, so what survives is the negative half of the rule.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.78\textwidth]{fig_cec6.pdf}
+\caption{Cross-fitted oracle headroom against the gain of the \emph{standard} Q-Learning over random choice at equal iterations, per cell: synthetic class by action space (grey), published family by size tercile by space ($18$ discovery cells, hollow; $18$ held-out, filled), flowshop (crosses), genetic algorithm (triangles) and synthetic class with finer times (squares). Dotted: the threshold $h^*$. Unrelated-machines cells are off scale.}
+\label{fig:class}
+\end{figure}
+
+\paragraph{What exploits the headroom: a policy learned offline} An ExtraTrees regressor trained on $5{,}720$ disjoint instances with scale-free features and no family label picks one action per instance. On the published instances it gains $0.024$--$0.044$ points over the validated action (parity, except in one cell), $0.08$--$0.095$ over Q-Learning and captures $0.79$--$0.84$ of the one-seed oracle headroom against $0.58$--$0.66$ for the validated action; a per-class lookup table learned on the same instances is level with it, so most of the gain is class-level knowledge. On unrelated machines it beats the best online learner by $0.72$ and $1.91$ points but captures $60\%$ and $73\%$ of the headroom, no more than the validated action. Four repairs of the online learner (tuning per family, plateau rewards, a pre-trained Q table, optimistic initialisation) do not change the order: the limit is the learning signal (bandit feedback), not the cold start, since the selector sees every action's outcome on every training instance.
+
+\subsection{Other hosts: a flowshop, a genetic algorithm and unrelated machines}
+\label{sec:hosts}
+\emph{Flowshop.} The cross-fitted headroom is only $0.012$ and $0.025$ points; no online learner beats random choice and the validated action beats the five learners in all ten pairs. \emph{Genetic algorithm.} The actions are complementary, so a single validated action can lose to uniform random choice ($-0.057$ with nine actions); Thompson sampling gains $0.051$ and $0.047$, Q-Learning loses, and the competitor that wins is a validated \emph{mixture} (specified after the single action lost on this host): it gains $0.050$ and $0.144$. \emph{Unrelated machines.} Here the headroom is real ($1.5$ and $2.8$ points one-seed, $0.43$ and $1.60$ cross-fitted; the validated action gains $0.95$ and $2.08$), yet at equal iterations Q-Learning loses ($-1.06$ and $-0.48$), and only the optimistic Q-Learning ($+0.17$) and the ALNS roulette ($+0.15$) gain beyond the margin, at most $18\%$ and $7\%$ of the validated gain; at equal CPU time Q-Learning and the roulette gain through the cost effect, and the validated action, with its own cost ratio, still beats all five learners in all ten pairs ($0.94$--$2.17$).
+
+\subsection{A caveat on the standard Q-Learning: it depends on the order of the actions}
+\label{sec:order}
+The standard Q-Learning behaved in ways that looked like learning but were not: it lost to random choice by up to $1.19$ points where the static choice gains most, gained up to $65\%$ of the validated gain on published families, and won at equal CPU time ``by choosing cheaper actions''. A registered diagnostic showed that it puts $55$--$73\%$ of its choices on the action listed first (random choice: $3$--$20\%$). Moving the validated action of each class to index $0$ lifts the standard learner to $81\%$, $81\%$ and $86\%$ of the validated gain in the three spaces: it recovers an average action wherever the list puts one. Repeating the cells with the order-invariant version (Table~\ref{tab:order_b}), it gains beyond the margin in none of the $85$ cells ($21$ of the standard benchmark, $6$ of the published $R||\Cmax$ families, $24$ of the synthetic $P||\Cmax$ battery, $18$ of the held-out published $P||\Cmax$ instances, $16$ of the TSP host); on the held-out instances of family C, where the standard learner gained $0.245$ and $0.149$ points, it loses $0.25$ and $0.12$. The cost effect has the same cause: the standard learner evaluates $0.44$--$0.46$ times as many solutions as random choice, the order-invariant one $0.99$--$1.01$ times.
+
+\input{tab_order_b.tex}
+
+This removes the strongest evidence for online learning that the study had, together with the positive half of the headroom rule. Four things follow: the earlier gains of ``Q-Learning'' describe the standard implementation; what survives of the rule of use is its negative half; the protocol needs a rule it did not have (report the learner's order sensitivity or break ties at random); and the optimistic Q-Learning, UCB1 and the other bandits, which do not repeat the first index, are the more reliable representatives of online learning.

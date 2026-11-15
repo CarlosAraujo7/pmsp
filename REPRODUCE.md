@@ -7,11 +7,13 @@ the experiments themselves can be re-run with the pipelines below. Heavy runs ar
 
 ```bash
 pip install -r requirements.txt          # Python 3.12; numba 0.68, numpy, pandas, scipy
-python -m pytest tests -q                # 1,569 tests, about 1 minute
-python -m analysis.audit_journal_claims  # 325 checks: numbers, text snippets, registered-prediction counters
+python -m pytest tests -q                # 1,577 tests, about 1 minute
+python -m analysis.audit_journal_claims  # 366 checks: numbers, text snippets, registered-prediction counters
+python -m analysis.audit_journal_short   # every number of the condensed version occurs in the audited full text
 python -m analysis.audit_cec_claims && python -m analysis.audit_cec_claims2 && python -m analysis.audit_cec_claims3   # 530 checks for the 8-page version
 python analysis/make_table_journal.py && python analysis/make_fig_journal_granularity.py   # tables and the figure of the manuscript
-bash journal/build.sh                    # journal/main.pdf (MiKTeX or TeX Live; elsarticle)
+bash journal/build.sh                    # journal/main.pdf, the full manuscript (MiKTeX or TeX Live; elsarticle)
+bash journal/build_short.sh              # journal/main_short.pdf, the condensed version
 ```
 
 The md5 hashes recorded before each battery are in `results/entradaNNN_prereg_hashes.txt`; check one with
@@ -29,8 +31,9 @@ the line-ending conversion of git can change the hash of a text file, so compare
 | 266 | value of offline knowledge by granularity | `pipeline_cycle39_arms_entrada266.sh` | `report_entrada266_granularity.py` (+ post hoc `report_entrada266b_posthoc.py`) | 5.6 |
 | 271, 272 | optimistic Q-Learning warm-started with an offline prior, and the control without learning | `pipeline_cycle43_warmqo_entrada271.sh`, `pipeline_cycle44_frozenqo_entrada272.sh` | `report_entrada271_warmqo.py`, `report_entrada272_frozenqo.py` | 5.6 |
 | 267, 270 | second domain: ILS for the TSP (generated and TSPLIB instances) | `pipeline_cycle40_tsp_entrada267.sh`, `pipeline_cycle42_tsplib_entrada270.sh` | `report_entrada267_tsp.py`, `report_entrada270_tsplib.py` | 5.7 |
+| 274, 275 | the warm-start finding replicated in the TSP host (synthetic and TSPLIB instances) | `pipeline_cycle45_warmtsp_entrada274.sh` (hashes, then both runs) | `report_entrada274_warmtsp.py`, `report_entrada275_warmtsplib.py` | 5.7 |
 | 268 | equal CPU time on the standard benchmark | `pipeline_cycle41_eqcpu_fanjul_entrada268.sh` | `report_entrada268_eqcpu_fanjul.py` | 5.3 |
-| 265, 269, 273 | global Benjamini-Yekutieli control | none (reads all test files) | `report_entrada265_global.py`, `report_entrada269_global.py`, `report_entrada273_global.py` | 6 |
+| 265, 269, 273, 276 | global Benjamini-Yekutieli control | none (reads all test files) | `report_entrada265_global.py`, `report_entrada269_global.py`, `report_entrada273_global.py`, `report_entrada276_global.py` | 6 |
 
 The registered predictions of every battery (the `PRE-REGISTRO` block of each report) are compiled in one document by
 `python analysis/make_osf_registry.py` (`entrega/OSF_REGISTRO_PREVISOES.md`). The research diary is `diario_pesquisa.md`.

@@ -1,0 +1,84 @@
+==============================================================================================================
+CONTROLE GLOBAL ESTENDIDO AS ENTRADAS 274 E 275 (Entrada 276)
+==============================================================================================================
+arquivos com testes registrados: 170; testes: 3578; linhas repetidas (arquivo, id): 85
+
+ate a Entrada 272: 3318 testes em 168 arquivos; 1550 'confirmada'; sobrevivem a Holm global 1355 (0.874) e a Benjamini-Yekutieli global 1486 (0.959)
+todas (ate a Entrada 275): 3578 testes em 170 arquivos; 1674 'confirmada'; sobrevivem a Holm global 1455 (0.869) e a Benjamini-Yekutieli global 1606 (0.959)
+entradas 274-275: 260 testes em 2 arquivos; 124 'confirmada'; sobrevivem ao BY global (calculado sobre todos) 120 (0.968)
+
+(Q1) o conjunto ate' a Entrada 272: 3318 testes, 1550 'confirmada', 1486 sobrevivem ao BY do conjunto proprio (previsto 3.318 / 1.550 / 1.486): SIM
+(Q2) >= 0,90 entre os 'confirmada' das Entradas 274-275: 0.968 -> SIM
+(Q3) >= 0,95 no conjunto completo: 0.959 -> SIM
+previsoes acertadas: 3 de 3
+
+testes 'confirmada' que NAO sobrevivem ao BY global (conjunto completo):
+                                file                           id  mean_d_pct    p_raw  p_by_global
+       entrada102_seeded_primary.csv                           P1    -0.01038  0.03636       0.3928
+   entrada117_ils_seeded_primary.csv                           I2     -0.0648 0.004569      0.05329
+    entrada118_unrelated_primary.csv                           M2     -0.1449  0.01093       0.1237
+   entrada121_budget_law_primary.csv                           B4         NaN 0.006836      0.07848
+             entrada180_agents_b.csv                    B-S30-ucb   -0.008024 0.005273      0.06121
+             entrada185_aos_acpu.csv                   Acpu-S5-ap   -0.008578  0.01208       0.1361
+            entrada185_aos_aiter.csv                  Aiter-S5-ap   -0.009451 0.008776       0.0999
+             entrada188_new_acpu.csv                Acpu-S15-dmab   -0.005391  0.01968       0.2177
+            entrada188_new_aiter.csv               Aiter-S15-dmab   -0.007482 0.005146      0.05985
+           entrada199_famF_Aiter.csv                 Aiter-S5-ucb   -0.004204 0.005724      0.06623
+  entrada205_pfsp_selector_Crand.csv                  Crand-F5-ta    -0.03363  0.04438       0.4752
+             entrada219_ga_Aiter.csv                 Aiter-G9-ucb    -0.01266 0.005739      0.06637
+             entrada219_ga_Aiter.csv                  Aiter-G9-pg    -0.01436 0.005656      0.06546
+           entrada220_ga_mix_Mit.csv                  Mit-G9-alns    -0.07694  0.01132       0.1276
+          entrada220_ga_mix_Mval.csv                      Mval-G9     -0.1054  0.01545       0.1725
+              entrada223_optq_Or.csv               Or-S15-heldout   -0.004297 0.006502      0.07486
+          entrada244_irace_FBrev.csv                  B'-pc-S5-b1   -0.006722  0.04722       0.5041
+             entrada244_irace_FC.csv                  C-ur-S15-b1     -0.1694  0.04359       0.4672
+             entrada244_irace_FC.csv                 C-ur-S15-b10     -0.1582  0.04706       0.5028
+     entrada249_closedloop_tests.csv                      D-ur-S5     -0.3106 0.008773       0.0999
+    entrada254_ur_external_tests.csv                 A-cm-S15-ucb    -0.07511 0.006653      0.07649
+    entrada254_ur_external_tests.csv                  A-cj-S15-qo    -0.03642 0.009593       0.1089
+entrada255_ext_competitors_tests.csv                  A-unc-S5-fr    -0.05375  0.01167       0.1316
+         entrada256_fanjul_tests.csv             A-U100a120-B5-iq    -0.05016 0.004821      0.05619
+         entrada258L_longT_tests.csv             A-JobsCorre-alns    -0.06503  0.01131       0.1276
+         entrada258L_longT_tests.csv                  A-U1a100-iq     -0.4487  0.00449      0.05243
+    entrada261_qperm_pcmax_tests.csv          B-rand_250j_25m-S15    -0.01534 0.006218      0.07173
+         entrada262_neural_tests.csv              A-JobsCorre-B30     -0.1612 0.006811      0.07823
+    entrada263_qperm_longT_tests.csv                 A-U1000a1100    -0.02422  0.03532       0.3822
+    entrada266_granularity_tests.csv       A-LOSO_G0-U100a120-B30     -0.1006 0.005863      0.06771
+    entrada266_granularity_tests.csv     A-LOSO_G0-U1000a1100-B30     -0.0569 0.007387      0.08462
+    entrada266_granularity_tests.csv        A-LOSO_Gt-U10a100-B30     -0.2491  0.01118       0.1264
+    entrada266_granularity_tests.csv     A-LOSO_Gt-U1000a1100-B30     -0.0705  0.01584       0.1766
+    entrada266_granularity_tests.csv            A-G0-JobsCorre-B5     -0.1173  0.01539       0.1719
+    entrada266_granularity_tests.csv            A-Gn-JobsCorre-B5     -0.1346 0.009691       0.1099
+    entrada266_granularity_tests.csv       A-LOTO_G0-JobsCorre-B5     -0.1173  0.01539       0.1719
+    entrada266_granularity_tests.csv       A-LOTO_Gn-JobsCorre-B5     -0.1346 0.009691       0.1099
+    entrada266_granularity_tests.csv       A-LOSO_G0-JobsCorre-B5     -0.1173  0.01539       0.1719
+            entrada267_tsp_tests.csv            A-pg-unif|1000-T5    -0.05657 0.005237      0.06081
+            entrada267_tsp_tests.csv          A-qo-clust|2000-T15    -0.08592 0.005579      0.06467
+            entrada267_tsp_tests.csv           A-ucb-unif|2000-T5    -0.07325 0.005758      0.06657
+            entrada267_tsp_tests.csv          A-val-clust|200-T15    -0.05146  0.02631       0.2872
+            entrada267_tsp_tests.csv           A-val-unif|200-T15    -0.08688 0.005579      0.06467
+            entrada267_tsp_tests.csv            A-val-unif|200-T5     -0.0844  0.00673      0.07733
+            entrada267_tsp_tests.csv          B-alns-unif|200-T15    -0.07869  0.01088       0.1231
+            entrada267_tsp_tests.csv            B-pg-unif|200-T15     -0.0605  0.02359       0.2585
+            entrada267_tsp_tests.csv           B-qo-clust|200-T15    -0.04648  0.02923        0.318
+            entrada267_tsp_tests.csv            B-qo-unif|200-T15    -0.05389  0.00516      0.05999
+            entrada267_tsp_tests.csv           B-ts-clust|200-T15     -0.0574  0.02364        0.259
+            entrada267_tsp_tests.csv           B-ts-clust|500-T15     -0.2033 0.004912      0.05719
+            entrada267_tsp_tests.csv          B-ucb-clust|200-T15    -0.06155  0.01271       0.1427
+            entrada267_tsp_tests.csv      E-ql_perm-clust|500-T15     -0.2463 0.008588      0.09791
+            entrada267_tsp_tests.csv       E-ql_perm-unif|200-T15    -0.09522  0.01026       0.1163
+            entrada267_tsp_tests.csv               G-Gn-clust|200    -0.05146  0.02631       0.2872
+            entrada267_tsp_tests.csv                G-Gn-unif|200    -0.08688 0.005579      0.06467
+            entrada267_tsp_tests.csv              G-Gkn-clust|200    -0.05146  0.02631       0.2872
+            entrada267_tsp_tests.csv               G-Gkn-unif|200    -0.08688 0.005579      0.06467
+   entrada268_eqcpu_fanjul_tests.csv            Acpu-alns-U10a100     -0.3081 0.004559       0.0532
+   entrada268_eqcpu_fanjul_tests.csv             Bcpu-qo-MaqCorre     -0.1492  0.04385       0.4699
+   entrada268_eqcpu_fanjul_tests.csv          Bpcpu-alns-MaqCorre     -0.2899 0.007474      0.08559
+   entrada268_eqcpu_fanjul_tests.csv            Bpcpu-fr-MaqCorre     -0.5291 0.007806      0.08926
+         entrada270_tsplib_tests.csv                E-ql_perm-T15     -0.1483   0.0308       0.3347
+         entrada271_warmqo_tests.csv Bp-Gtn-qo_warm_full-MaqCorre     -0.2681  0.00653      0.07514
+       entrada272_frozenqo_tests.csv              L-loso-U100a120     -0.1351 0.008778       0.0999
+        entrada274_warmtsp_tests.csv   A-frozen_full-unif|200-T15    -0.07613 0.006312      0.07276
+        entrada274_warmtsp_tests.csv    A-frozen_full-unif|200-T5    -0.08469  0.00626      0.07219
+        entrada274_warmtsp_tests.csv     E-warm_full-clust|200-T5    -0.08393  0.01574       0.1756
+        entrada274_warmtsp_tests.csv          Lp-loso-unif|200-T5    -0.08958 0.005868      0.06772

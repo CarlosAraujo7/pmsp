@@ -1,0 +1,50 @@
+==============================================================================================================
+A REPLICA NA TSPLIB: A PRIORI SINTETICA COMO PONTO DE PARTIDA DO APRENDIZ (Entrada 275)
+==============================================================================================================
+--- ganhos medios sobre o aleatorio (pontos) e lacunas ao otimo (%) por espaco; 37 instancias ---
+space                      T15          T5
+n                       37.000      37.000
+evals_frozen_synn  1729629.207  498494.784
+evals_warm_synn    1079947.126  410264.045
+g_qo                     0.068       0.017
+gap_qo                   1.719       1.906
+g_Gn_syn                 0.562       0.528
+gap_Gn_syn               1.207       1.376
+g_G0_syn                 0.684       0.528
+gap_G0_syn               1.084       1.376
+g_warm_synn              0.560       0.457
+gap_warm_synn            1.211       1.452
+g_frozen_synn            0.626       0.435
+gap_frozen_synn          1.140       1.475
+g_warm_syn0              0.582       0.408
+gap_warm_syn0            1.190       1.497
+g_frozen_syn0            0.677       0.542
+gap_frozen_syn0          1.089       1.363
+gap_rand                 1.788       1.926
+
+--- por faixa de tamanho (T15; ganhos medios; d_* = ganho do aquecido - ganho do congelado) ---
+band            large  medium   small  medium+large     all
+n              12.000  10.000  15.000        22.000  37.000
+g_qo            0.025  -0.017   0.158         0.006   0.068
+g_Gn_syn        1.187   0.689  -0.023         0.961   0.562
+g_G0_syn        1.187   0.689   0.278         0.961   0.684
+g_warm_synn     0.964   0.594   0.214         0.796   0.560
+g_frozen_synn   1.190   0.677   0.142         0.957   0.626
+g_warm_syn0     0.905   0.608   0.306         0.770   0.582
+g_frozen_syn0   1.292   0.661   0.195         1.005   0.677
+d_synn         -0.226  -0.084   0.072        -0.161  -0.067
+d_syn0         -0.387  -0.053   0.111        -0.235  -0.095
+
+variantes que ganham do aleatorio alem da margem (A): T15: warm_synn, frozen_synn, warm_syn0, frozen_syn0; T5: warm_synn, frozen_synn, warm_syn0, frozen_syn0
+aquecido bate o qo frio alem da margem (E): E-warm_synn-T15 d=-0.492 p_holm=2.5e-07; E-warm_syn0-T15 d=-0.513 p_holm=1.93e-07; E-warm_synn-T5 d=-0.439 p_holm=7.48e-07; E-warm_syn0-T5 d=-0.391 p_holm=7.15e-08
+aquecido contra a acao estatica (Bp: o aquecido ganha; Bs: a estatica ganha): Bp-warm_synn-T15 d=0.004 p_holm=0.201 conf=False; Bp-warm_syn0-T15 d=0.104 p_holm=0.201 conf=False; Bp-warm_synn-T5 d=0.073 p_holm=0.332 conf=False; Bp-warm_syn0-T5 d=0.121 p_holm=0.332 conf=False; Bs-warm_synn-T15 d=-0.001 p_holm=0.201 conf=False; Bs-warm_syn0-T15 d=-0.103 p_holm=0.201 conf=False; Bs-warm_synn-T5 d=-0.072 p_holm=0.332 conf=False; Bs-warm_syn0-T5 d=-0.119 p_holm=0.332 conf=False
+
+--- previsoes ---
+(M1) o qo_warm_synn bate o qo frio alem da margem (T15): SIM
+(M2) ganho do qo_frozen_syn0 / ganho da G0_syn (T15): 0.989 (previsto >= 0,90): SIM
+(M3) faixa pequena: ganho do warm_synn - ganho do frozen_synn = 0.072 (previsto > 0): SIM
+(M4) faixas media e grande: ganho do warm_synn - ganho do frozen_synn = -0.161 (previsto < 0): SIM
+(M5) variantes aquecidas que batem a estatica correspondente alem da margem: 0 de 2 (previsto 0): SIM
+(M6) a Gn_syn bate o qo_warm_synn alem da margem (T15): NAO
+(M7) faixa pequena: ganho do warm_synn - ganho da Gn_syn = 0.237 (previsto > 0): SIM
+previsoes acertadas: 6 de 7

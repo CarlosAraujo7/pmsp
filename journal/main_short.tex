@@ -1,0 +1,60 @@
+%% CONDENSED version of "Budget-fair attribution of the gains of learning-guided Iterated Greedy" (the full manuscript with every table, battery and proof is journal/main.tex, the supplementary material).
+%% Build: bash journal/build_short.sh   (pdflatex -> bibtex -> pdflatex x2). Numbers are checked by analysis/audit_journal_short.py against the audited full manuscript.
+\documentclass[preprint,12pt,authoryear]{elsarticle}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{enumitem}
+\setlist{nosep,topsep=2pt,itemsep=1pt,parsep=0pt,leftmargin=*}
+\graphicspath{{../cec/}{./}}
+\newif\ifdraftmarks \draftmarkstrue
+\newcommand{\todonote}[1]{\ifdraftmarks\textcolor{red}{\textbf{[#1]}}\fi}
+\newcommand{\Cmax}{C_{\max}}
+\let\cite\citep
+% counters of the registry (the same as main.tex; audited by analysis/audit_journal_claims.py)
+\newcommand{\npredheld}{349}\newcommand{\npredtotal}{435}\newcommand{\nbatteries}{61}\newcommand{\npredshare}{80}
+\newtheorem{proposition}{Proposition}
+\hyphenation{learn-heu-ris-tics}
+\sloppy
+
+\journal{(journal to be chosen)}
+
+\begin{document}
+\begin{frontmatter}
+
+\title{Budget-fair attribution of the gains of learning-guided Iterated Greedy: where does online learning pay?}
+
+\author{Carlos Vin\'icio Dantas Ara\'ujo\corref{cor1}}
+\ead{carlos.vinicio@aluno.uece.br}
+\address{Graduate Program in Computer Science, State University of Cear\'a (UECE), Fortaleza, Brazil}
+\cortext[cor1]{Corresponding author.}
+\todonote{advisor/coauthor, funding statement and the anonymised repository link are the author's to add}
+
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+
+\begin{keyword}
+learnheuristics \sep adaptive operator selection \sep iterated greedy \sep parallel machine scheduling \sep experimental methodology \sep reinforcement learning
+\end{keyword}
+\end{frontmatter}
+
+\onehalfspacing
+\input{s_intro}
+\input{s_related}
+\input{s_method}
+\input{s_results}
+\input{s_external}
+\input{s_discussion}
+
+\bibliographystyle{elsarticle-harv}
+\bibliography{refs}
+\end{document}
