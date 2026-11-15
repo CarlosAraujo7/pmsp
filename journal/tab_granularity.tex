@@ -23,6 +23,10 @@ $G_0$ chosen without the size of the instance & 0.28 & 1.02 & 0.34 & 15\% \\
 $G_t$ chosen without the size of the instance & $-$0.40 & 0.33 & 0.38 & 17\% \\
 constant mixture trained offline (nn\_const) & -- & 1.03 & 1.30 & 58\% \\
 neural policy trained offline (nn) & -- & 1.07 & 1.55 & 69\% \\
+online learner (optimistic Q-Learning) warm-started with the prior of the other sizes & -- & -- & 1.07 & 48\% \\
+the same prior without learning & -- & -- & 0.40 & 18\% \\
+online learner warm-started with the prior of the class & -- & -- & 1.97 & 88\% \\
+the same prior without learning & -- & -- & 2.25 & 100\% \\
 \bottomrule
 \end{tabular}}
 \end{table}

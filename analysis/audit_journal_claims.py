@@ -361,6 +361,42 @@ chk("resumo: G0 / melhor aprendiz online (tres vezes)", gm_("g_G0") / best_, 3.0
 chk("resumo: Gn / Gtn (nove decimos)", 100 * gm_("g_Gn") / gtn_, 90, 1.5, "abstract.tex", "nine tenths of what class-level knowledge gives")
 chk("resumo: a politica neural recupera dois tercos do ganho da validada por classe", 100 * gm_("g_nn") / gtn_, 67, 3.0, "abstract.tex", "recovers about two thirds of it")
 
+# ---------------------------------------------------------------- Q-Learning otimista aquecido por uma priori offline e o controle sem aprendizagem (Entradas 271 e 272)
+CW = pd.read_csv(R / "entrada272_frozenqo_cells.csv")
+TW = pd.read_csv(R / "entrada271_warmqo_tests.csv")
+TZ = pd.read_csv(R / "entrada272_frozenqo_tests.csv")
+HW = (R / "entrada271_warmqo.txt").read_text(encoding="utf-8")
+HZ = (R / "entrada272_frozenqo.txt").read_text(encoding="utf-8")
+mw = {m: float(CW[f"g_{m}"].mean()) for m in ("qo", "qo_warm_loso", "qo_frozen_loso", "qo_warm_full", "qo_frozen_full", "LOSO_Gt", "Gtn")}
+chk("aquecido: qo aquecido com a priori dos outros tamanhos (1,07)", mw["qo_warm_loso"], 1.07, 0.006, "sec_granularity.tex", "the warm-started learner gains $1.07$ points, against $0.31$ for the cold learner and $0.38$")
+chk("aquecido: qo frio (0,31)", mw["qo"], 0.31, 0.006)
+chk("aquecido: LOSO-Gt (0,38)", mw["LOSO_Gt"], 0.38, 0.006)
+Ew = TW[TW.id.str.startswith("E-")]
+chk("aquecido: o aquecido (LOSO) bate o frio alem da margem em 6 de 7 tipos", int(beyond_ := int((Ew[Ew.id.str.split("-").str[1] == "qo_warm_loso"].confirmada & ~Ew[Ew.id.str.split("-").str[1] == "qo_warm_loso"]["equivalente_0.05"]).sum())), 6, 0, "sec_granularity.tex", "in six of the seven types and the transferred static action at all four sizes")
+Bs_ = TW[TW.id.str.startswith("Bs-qo_warm_loso-LOSO_Gt-n")]
+chk("aquecido: o aquecido bate a LOSO-Gt em 4 de 4 tamanhos (confirmada)", int(Bs_.confirmada.sum()), 4, 0)
+chk("aquecido: em n = 500 a vantagem e' de 0,13 (menor que a margem)", -float(Bs_[Bs_.id.str.endswith("n500")].mean_d_pct.iloc[0]), 0.13, 0.006, "sec_granularity.tex", "at $n=500$ by $0.13$ points, less than the margin")
+chk("aquecido: qo aquecido com a priori da classe (1,97)", mw["qo_warm_full"], 1.97, 0.006, "sec_granularity.tex", "it gains $1.97$ points, $88\\%$ of the class-validated gain")
+chk("aquecido: qo_warm_full / Gtn (88%)", 100 * mw["qo_warm_full"] / mw["Gtn"], 88, 0.6)
+Fw = TW[(TW.id.str.startswith("E-qo_warm_full"))]
+chk("aquecido: o aquecido (classe) bate o frio em 7 de 7 tipos", int((Fw.confirmada & ~Fw["equivalente_0.05"]).sum()), 7, 0, "sec_granularity.tex", "beats the cold learner in all seven types")
+Sw = TW[TW.id.str.startswith("Bs-qo_warm_full-Gtn-")]
+chk("aquecido: o aquecido (classe) nao bate a validada em nenhum dos 7 tipos", int((Sw.confirmada & ~Sw["equivalente_0.05"]).sum()), 0, 0, "sec_granularity.tex", "but never the class-validated action (none of seven)")
+chk("controle: qo congelado (LOSO) (0,40)", mw["qo_frozen_loso"], 0.40, 0.006, "sec_granularity.tex", "($0.40$ against $0.38$)")
+chk("controle: qo congelado (classe) (2,25)", mw["qo_frozen_full"], 2.25, 0.006, "sec_granularity.tex", "($2.25$ against $2.24$)")
+chk("controle: Gtn (2,24)", mw["Gtn"], 2.24, 0.006)
+chk("controle: a aprendizagem acrescenta 0,67 quando a priori foi transferida", mw["qo_warm_loso"] - mw["qo_frozen_loso"], 0.67, 0.006, "sec_granularity.tex", "learning adds $0.67$ points when the prior was transferred (six of seven types)")
+Lw = TZ[TZ.id.str.startswith("L-loso-")]
+chk("controle: a aprendizagem ajuda em 6 de 7 tipos (priori transferida)", int((Lw.confirmada & ~Lw["equivalente_0.05"]).sum()), 6, 0)
+chk("controle: a aprendizagem custa 0,28 quando a priori e' exata", mw["qo_frozen_full"] - mw["qo_warm_full"], 0.28, 0.006, "sec_granularity.tex", "costs $0.28$ when the prior was exact")
+chk("aquecido: previsoes da Entrada 271 (6 de 7)", int(re.search(r"previsoes acertadas: (\d+) de", HW).group(1)), 6, 0, "sec_granularity.tex", "Six of the seven predictions of the warm-start battery held")
+chk("aquecido: previsoes da Entrada 272 (5 de 5)", int(re.search(r"previsoes acertadas: (\d+) de", HZ).group(1)), 5, 0, "sec_granularity.tex", "all five of the control")
+chk("aquecido: lacuna de 0,28 ponto a validada (W6)", mw["Gtn"] - mw["qo_warm_full"], 0.28, 0.006, "sec_granularity.tex", "a gap of $0.28$ points to the class-validated action")
+chk("discussao: aquecido recupera 48% do ganho por classe", 100 * mw["qo_warm_loso"] / mw["Gtn"], 48, 0.6, "sec_discussion.tex", "it recovers $48\\%$ of the class-level gain there")
+chk("discussao: a estatica transferida recupera 17%", 100 * mw["LOSO_Gt"] / mw["Gtn"], 17, 0.6, "sec_discussion.tex", "against $17\\%$ for the transferred static action")
+chk("discussao: sem priori recupera 14%", 100 * mw["qo"] / mw["Gtn"], 14, 0.6, "sec_discussion.tex", "without a prior it recovers $14\\%$")
+chk("resumo: a aprendizagem acrescenta 0,67 e custa 0,28", round((mw["qo_warm_loso"] - mw["qo_frozen_loso"]) * 100) * 1000 + round((mw["qo_frozen_full"] - mw["qo_warm_full"]) * 100), 67 * 1000 + 28, 0, "abstract.tex", "gains $0.67$ points over the same prior without learning, whereas with an exact prior learning costs $0.28$")
+
 # ---------------------------------------------------------------- segundo dominio: o ILS do TSP (Entrada 267)
 CT7 = pd.read_csv(R / "entrada267_tsp_cells.csv")
 GT7 = pd.read_csv(R / "entrada267_tsp_gran_cells.csv")
@@ -479,21 +515,29 @@ chk("TSPLIB: previsoes 9 de 9", int(re.search(r"previsoes acertadas: (\d+) de", 
 
 chk("resumo: dois dos 49 pares a CPU igual vao no sentido contrario", len(P8b), 2, 0, "abstract.tex", "two of $49$ pairs go the other way")
 
+chk("limitacoes: lacuna da validada a T=1000 (4,89%)", float(re.search(r"B30: validada ([\d.]+);", (R / "entrada256_fanjul.txt").read_text(encoding="utf-8")).group(1)), 4.89, 0.006, "sec_discussion.tex", "$4.89\\%$ above the best known solutions at $T=1000$")
+chk("limitacoes: lacuna da validada a T=10^4 (2,69%)", float(gm.group(1)), 2.69, 0.006, "sec_discussion.tex", "$2.69\\%$ at $T=10^4$")
+chk("limitacoes: lacuna da validada na TSPLIB (1,21%)", C70.loc["T15", "gap_Gn_syn"], 1.21, 0.006, "sec_discussion.tex", "$1.21\\%$ above the optimum of the TSPLIB instances (T15)")
+
 # ---------------------------------------------------------------- controle global de falsas descobertas (Entradas 247 e 265)
 HG = (R / "entrada265_global.txt").read_text(encoding="utf-8")
 HG9 = (R / "entrada269_global.txt").read_text(encoding="utf-8")
+HG73 = (R / "entrada273_global.txt").read_text(encoding="utf-8")
 pat_ = r"\(ate a Entrada \d+[^)]*\): (\d+) testes em \d+ arquivos; (\d+) 'confirmada'; sobrevivem a Holm global \d+ \([\d.]+\) e a Benjamini-Yekutieli global (\d+)"
-mg_ = re.search(r"todas \(ate a Entrada 270\): (\d+) testes em \d+ arquivos; (\d+) 'confirmada'; sobrevivem a Holm global \d+ \([\d.]+\) e a Benjamini-Yekutieli global (\d+)", HG9)
+mg_ = re.search(r"todas \(ate a Entrada 272\): (\d+) testes em \d+ arquivos; (\d+) 'confirmada'; sobrevivem a Holm global \d+ \([\d.]+\) e a Benjamini-Yekutieli global (\d+)", HG73)
+m70_ = re.search(r"todas \(ate a Entrada 270\): (\d+) testes em \d+ arquivos; (\d+) 'confirmada'; sobrevivem a Holm global \d+ \([\d.]+\) e a Benjamini-Yekutieli global (\d+)", HG9)
 m64_ = re.search(r"todas \(ate a Entrada 264\): (\d+) testes em \d+ arquivos; (\d+) 'confirmada'; sobrevivem a Holm global \d+ \([\d.]+\) e a Benjamini-Yekutieli global (\d+)", HG)
 mo_ = re.search(r"ate a Entrada 255 \(o conjunto do artigo\): (\d+) testes em \d+ arquivos; (\d+) 'confirmada'; sobrevivem a Holm global \d+ \([\d.]+\) e a Benjamini-Yekutieli global (\d+)", HG)
-chk("BY global: testes (3.240)", int(mg_.group(1)), 3240, 0, "sec_discussion.tex", "$3{,}240$ tests of all registered batteries")
-chk("BY global: confirmados (1.497)", int(mg_.group(2)), 1497, 0, "sec_discussion.tex", "$1{,}497$ confirmed tests")
-chk("BY global: sobrevivem (1.435)", int(mg_.group(3)), 1435, 0, "sec_discussion.tex", "$1{,}435$ of the")
+chk("BY global: testes (3.318)", int(mg_.group(1)), 3318, 0, "sec_discussion.tex", "$3{,}318$ tests of all registered batteries")
+chk("BY global ate 270: testes (3.240)", int(m70_.group(1)), 3240, 0, "sec_discussion.tex", "$3{,}240$ tests up to Entry 270")
+chk("BY global: confirmados (1.550)", int(mg_.group(2)), 1550, 0, "sec_discussion.tex", "$1{,}550$ confirmed tests")
+chk("BY global ate 270: confirmados e sobreviventes (1.497, 1.435)", int(m70_.group(2)) * 10000 + int(m70_.group(3)), 1497 * 10000 + 1435, 0, "sec_discussion.tex", "$1{,}435$ of $1{,}497$")
+chk("BY global: sobrevivem (1.486)", int(mg_.group(3)), 1486, 0, "sec_discussion.tex", "$1{,}486$ of the")
 chk("BY global ate 264: testes (1.844)", int(m64_.group(1)), 1844, 0, "sec_discussion.tex", "$1{,}844$ tests up to Entry 264")
 chk("BY global ate 264: confirmados e sobreviventes (1.048, 1.020)", int(m64_.group(2)) * 10000 + int(m64_.group(3)), 1048 * 10000 + 1020, 0, "sec_discussion.tex", "$1{,}020$ of $1{,}048$")
 chk("BY global ate 255: testes (1.169)", int(mo_.group(1)), 1169, 0, "sec_discussion.tex", "$1{,}169$ tests up to Entry 255")
 chk("BY global ate 255: confirmados e sobreviventes (685, 663)", int(mo_.group(2)) * 1000 + int(mo_.group(3)), 685663, 0, "sec_discussion.tex", "$663$ of $685$")
-chk("BY global: previsoes das Entradas 265 e 269 (3 de 3 cada)", int(re.search(r"previsoes acertadas: (\d+) de", HG).group(1)) + int(re.search(r"previsoes acertadas: (\d+) de", HG9).group(1)), 6, 0, "sec_discussion.tex", "three predictions of three")
+chk("BY global: previsoes das Entradas 265, 269 e 273 (3 de 3 cada)", int(re.search(r"previsoes acertadas: (\d+) de", HG).group(1)) + int(re.search(r"previsoes acertadas: (\d+) de", HG9).group(1)) + int(re.search(r"previsoes acertadas: (\d+) de", HG73).group(1)), 9, 0, "sec_discussion.tex", "three predictions of three")
 
 # ---------------------------------------------------------------- contadores do registro
 main = (J / "main.tex").read_text(encoding="utf-8")
@@ -507,7 +551,8 @@ extra = []
 # baterias alem das 40 do CEC: Entrada 256 (benchmark padrao), 258 (mecanismo, etapas 1 e 2; horizonte longo), 260, 261, 262 (politica neural), 263
 for fn in ("entrada256_fanjul.txt", "entrada258_mechanism.txt", "entrada258_mechanism2.txt", "entrada258L_longT.txt", "entrada260_qperm.txt", "entrada261_qperm_pcmax.txt",
            "entrada262_neural.txt", "entrada263_qperm_longT.txt", "entrada264_qperm_pub.txt", "entrada265_global.txt",
-           "entrada266_granularity.txt", "entrada267_tsp.txt", "entrada268_eqcpu_fanjul.txt", "entrada270_tsplib.txt", "entrada269_global.txt"):
+           "entrada266_granularity.txt", "entrada267_tsp.txt", "entrada268_eqcpu_fanjul.txt", "entrada270_tsplib.txt", "entrada269_global.txt",
+           "entrada271_warmqo.txt", "entrada272_frozenqo.txt", "entrada273_global.txt"):
     f_ = R / fn
     m = re.search(r"previsoes acertadas: (\d+) de (\d+)", f_.read_text(encoding="utf-8"))
     extra.append((int(m.group(1)), int(m.group(2))))

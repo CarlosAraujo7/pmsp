@@ -236,9 +236,15 @@ if (R / "entrada266_granularity_cells.csv").exists():
               ("static, by class (type, size): the validated action ($G_{tn}$)", "g_Gtn", None), ("static, by class, chosen on the test seeds (cross-fitted ceiling)", "g_HCF", None),
               ("$G_0$ chosen without the type of the instance", "g_LOTO_G0", None), ("$G_n$ chosen without the type of the instance", "g_LOTO_Gn", None),
               ("$G_0$ chosen without the size of the instance", "g_LOSO_G0", None), ("$G_t$ chosen without the size of the instance", "g_LOSO_Gt", None),
-              ("constant mixture trained offline (nn\\_const)", "g_nn_const", None), ("neural policy trained offline (nn)", "g_nn", None)]
+              ("constant mixture trained offline (nn\\_const)", "g_nn_const", None), ("neural policy trained offline (nn)", "g_nn", None),
+              ("online learner (optimistic Q-Learning) warm-started with the prior of the other sizes", "z_qo_warm_loso", None), ("the same prior without learning", "z_qo_frozen_loso", None),
+              ("online learner warm-started with the prior of the class", "z_qo_warm_full", None), ("the same prior without learning", "z_qo_frozen_full", None)]
+
+    FZ_ = pd.read_csv(R / "entrada272_frozenqo_cells.csv")
 
     def gm_(sp, col):
+        if col.startswith("z_"):
+            return float(FZ_["g_" + col[2:]].mean()) if sp == "B30" else None
         x = GC_[GC_.space == sp]
         if col == "BEST":
             return float(x[[f"g_{k}" for k in LRN_G]].max(axis=1).mean())

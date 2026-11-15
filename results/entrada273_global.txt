@@ -1,0 +1,13 @@
+==============================================================================================================
+CONTROLE GLOBAL ESTENDIDO AS ENTRADAS 271 E 272 (Entrada 273)
+==============================================================================================================
+arquivos com testes registrados: 168; testes: 3318; linhas repetidas (arquivo, id): 85
+
+ate a Entrada 270: 3240 testes em 166 arquivos; 1497 'confirmada'; sobrevivem a Holm global 1307 (0.873) e a Benjamini-Yekutieli global 1435 (0.959)
+todas (ate a Entrada 272): 3318 testes em 168 arquivos; 1550 'confirmada'; sobrevivem a Holm global 1355 (0.874) e a Benjamini-Yekutieli global 1486 (0.959)
+entradas 271-272: 78 testes em 2 arquivos; 53 'confirmada'; sobrevivem ao BY global (calculado sobre todos) 51 (0.962)
+
+(J1) o conjunto ate' a Entrada 270: 3240 testes, 1497 'confirmada', 1435 sobrevivem ao BY do conjunto proprio (previsto 3.240 / 1.497 / 1.435): SIM
+(J2) >= 0,90 entre os 'confirmada' das Entradas 271-272: 0.962 -> SIM
+(J3) >= 0,95 no conjunto completo: 0.959 -> SIM
+previsoes acertadas: 3 de 3

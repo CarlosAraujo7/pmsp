@@ -14,6 +14,8 @@ ROOT = Path(__file__).resolve().parent.parent
 C = pd.read_csv(ROOT / "results" / "entrada266_granularity_cells.csv")
 B = C[C.space == "B30"]
 m = lambda col: float(B[col].mean())
+Z = pd.read_csv(ROOT / "results" / "entrada272_frozenqo_cells.csv")
+mz = lambda col: float(Z[col].mean())
 best = float(B[[f"g_{k}" for k in ("ql", "ucb", "pg", "alns", "qo", "iq", "fr")]].max(axis=1).mean())
 BLUE, ORANGE, AQUA, GREY, INK, MUTED = "#2a78d6", "#eb6834", "#1baf7a", "#8d8c87", "#0b0b0b", "#52514e"
 rows = [  # (rotulo, valor, cor, tracejada)
@@ -31,11 +33,15 @@ rows = [  # (rotulo, valor, cor, tracejada)
     ("one action per type, chosen without the size", m("g_LOSO_Gt"), BLUE, True),
     ("constant mixture trained offline", m("g_nn_const"), AQUA, False),
     ("neural policy trained offline", m("g_nn"), AQUA, False),
+    ("online learner warm-started with the prior of the other sizes", mz("g_qo_warm_loso"), ORANGE, "dots"),
+    ("the same prior without learning", mz("g_qo_frozen_loso"), BLUE, True),
+    ("online learner warm-started with the prior of the class", mz("g_qo_warm_full"), ORANGE, "dots"),
+    ("the same prior without learning", mz("g_qo_frozen_full"), BLUE, False),
 ]
-fig, ax = plt.subplots(figsize=(6.4, 4.3))
+fig, ax = plt.subplots(figsize=(6.6, 5.4))
 y = list(range(len(rows)))[::-1]
 for yi, (lab, v, col, hatch) in zip(y, rows):
-    ax.barh(yi, v, height=0.62, color=col, edgecolor="white" if not hatch else col, linewidth=0.8, hatch="////" if hatch else None, alpha=0.55 if hatch else 1.0)
+    ax.barh(yi, v, height=0.62, color=col, edgecolor="white" if not hatch else col, linewidth=0.8, hatch=("////" if hatch is True else ("..." if hatch == "dots" else None)), alpha=0.55 if hatch else 1.0)
     ax.text(v + (0.04 if v >= 0 else -0.04), yi, f"{v:.2f}".replace("-", "−"), va="center", ha="left" if v >= 0 else "right", fontsize=7.5, color=INK)
 ax.axvline(0, color=MUTED, lw=0.8)
 ax.set_yticks(y)
@@ -52,7 +58,7 @@ ax.set_axisbelow(True)
 from matplotlib.patches import Patch  # noqa: E402
 
 ax.legend(handles=[Patch(color=ORANGE, label="online learner"), Patch(color=BLUE, label="static, chosen offline"), Patch(facecolor=BLUE, alpha=0.55, hatch="////", edgecolor=BLUE, label="static, to an unseen type/size"),
-                   Patch(color=AQUA, label="trained offline")], fontsize=7, frameon=False, loc="upper right", bbox_to_anchor=(1.0, 1.0))
+                   Patch(color=AQUA, label="trained offline"), Patch(facecolor=ORANGE, alpha=0.55, hatch="...", edgecolor=ORANGE, label="online, warm-started with an offline prior")], fontsize=7, frameon=False, loc="upper right", bbox_to_anchor=(1.0, 1.0))
 fig.tight_layout()
 out = ROOT / "journal" / "fig_granularity.pdf"
 fig.savefig(out, bbox_inches="tight")

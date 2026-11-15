@@ -1,0 +1,24 @@
+==============================================================================================================
+CONTROLE: A PRIORI SEM APRENDIZAGEM (Entrada 272)
+==============================================================================================================
+--- ganhos sobre o aleatorio por tipo (pontos) ---
+      type  g_qo  g_qo_warm_loso  g_qo_frozen_loso  g_qo_warm_full  g_qo_frozen_full  g_LOSO_Gt  g_Gtn
+    U1a100 0.785           2.128             2.967           4.650             5.128      2.951  5.124
+   U10a100 0.607           2.208             0.267           3.440             4.122      0.249  4.107
+  U100a120 0.098           0.360             0.224           0.396             0.500      0.231  0.517
+  U100a200 0.339           1.229            -0.467           2.611             2.756     -0.421  2.826
+U1000a1100 0.093           0.286             0.083           0.337             0.386      0.071  0.386
+ JobsCorre 0.049           0.020            -0.378           0.381             0.493     -0.517  0.516
+  MaqCorre 0.202           1.267             0.124           1.952             2.363      0.067  2.220
+
+ganho medio nos 7 tipos: qo 0.310; qo_warm_loso 1.071; qo_frozen_loso 0.403; qo_warm_full 1.966; qo_frozen_full 2.250; LOSO_Gt 0.376; Gtn 2.242
+tipos em que o congelado ganha do aleatorio alem da margem: qo_frozen_loso 3; qo_frozen_full 7
+tipos em que o aquecido bate o congelado alem da margem (L): loso 6; full 0
+
+--- previsoes ---
+(F1) tipos em que o qo_warm_loso bate o qo_frozen_loso alem da margem: 6 de 7 (previsto >= 4): SIM
+(F2) |ganho do qo_frozen_loso - ganho da LOSO-Gt| = 0.027 (previsto <= 0,3): SIM
+(F3) ganho do qo_warm_loso - ganho do qo_frozen_loso = 0.668 (previsto >= 0,3): SIM
+(F4) qo_frozen_full 2.250 >= qo_warm_full 1.966: SIM
+(F5) qo_frozen_full / Gtn = 1.003 (previsto >= 0,90): SIM
+previsoes acertadas: 5 de 5
