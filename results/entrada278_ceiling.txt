@@ -1,0 +1,42 @@
+==============================================================================================================
+O TETO DAS CLASSES SINTETICAS E A SENSIBILIDADE A MARGEM (Entrada 278)
+==============================================================================================================
+--- S5: teto ---
+lacuna media ao limite inferior: aleatorio 0.278%; validada 0.185%; fracao das execucoes que atingem o limite inferior: aleatorio 0.421; validada 0.602
+fracao das instancias em que TODOS os 5 bracos fixos atingem o limite inferior: 0.124; em que ALGUM braco o atinge: 0.657
+
+--- S5: classes (de 12) em que o metodo ganha do aleatorio alem da margem m (a margem do manuscrito e' 0,05) ---
+margin  0.01  0.02  0.05  0.10
+method                        
+pg         0     0     0     0
+ql         5     5     5     3
+ucb        0     0     0     0
+val       11    10     9     6
+ganho medio (pontos) sobre as 12 classes: ql -0.003; ucb 0.001; pg -0.000; val 0.092
+
+--- S15: teto ---
+lacuna media ao limite inferior: aleatorio 0.264%; validada 0.184%; fracao das execucoes que atingem o limite inferior: aleatorio 0.481; validada 0.601
+fracao das instancias em que TODOS os 15 bracos fixos atingem o limite inferior: 0.037; em que ALGUM braco o atinge: 0.695
+
+--- S15: classes (de 12) em que o metodo ganha do aleatorio alem da margem m (a margem do manuscrito e' 0,05) ---
+margin  0.01  0.02  0.05  0.10
+method                        
+pg         0     0     0     0
+ql         5     5     3     3
+ucb        0     0     0     0
+val        8     8     6     6
+ganho medio (pontos) sobre as 12 classes: ql -0.004; ucb 0.004; pg 0.000; val 0.080
+
+--- total (S5 + S15): pares (aprendiz, classe, espaco) em que um aprendiz ganha alem da margem, de 72; celulas (classe, espaco) em que a validada ganha alem da margem, de 24 ---
+                    0.01  0.02  0.05  0.10
+aprendizes (de 72)    10    10     8     6
+validada (de 24)      19    18    15    12
+
+--- previsoes ---
+(Q1) lacuna media do aleatorio ao limite inferior: S5 0.278%, S15 0.264% (previsto < 0,30% nos dois): SIM
+(Q2) fracao das execucoes do aleatorio que atingem o limite inferior: S5 0.421, S15 0.481 (previsto >= 0,50 nos dois): NAO
+(Q3) fracao das instancias em que todos os bracos atingem o limite inferior: S5 0.124, S15 0.037 (previsto >= 0,30 nos dois): NAO
+(Q4) pares com ganho de aprendiz alem da margem 0,01: 10 de 72 (previsto <= 6): NAO
+(Q5) pares com ganho de aprendiz alem da margem 0,10: 6 (previsto 0): NAO
+(Q6) celulas em que a validada ganha alem da margem: 15 de 24 com 0,05 (previsto >= 12) e 12 de 24 com 0,10 (previsto <= 8): NAO
+previsoes acertadas: 1 de 6

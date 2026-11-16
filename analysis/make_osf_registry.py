@@ -35,7 +35,7 @@ for f in sorted((ROOT / "analysis").glob("report_entrada*.py")):
     rows.append((int(m.group(1)), f, head, block))
 
 L = ["# Registry of pre-specified hypotheses and predictions", "",
-     "Project: *Budget-fair attribution of the gains of learning-guided Iterated Greedy* (P||Cmax, R||Cmax, permutation flowshop, genetic algorithm).", "",
+     "Project: *Budget-fair attribution of the gains of learning-guided metaheuristics* (P||Cmax, R||Cmax, permutation flowshop, genetic algorithm).", "",
      "Each section below reproduces, verbatim from the repository, the pre-registration block of one analysis script (hypotheses, decision rules and probabilistic predictions written before the corresponding battery was run), followed by the md5 hashes of the code and frozen inputs recorded before the run and the date and commit in which the hash file first entered the repository. "
      "**Limitation, stated plainly:** until this document is deposited in a public registry the ordering 'hashes before data' rests on the research diary and on file times, not on a third-party timestamp; from the deposit date on, this document is timestamped by the registry and does not apply retroactively. "
      "Predictions are scored as held / not held in the paper (Table I and the 'registered predictions' paragraph of the Discussion); the analysis scripts print the outcome of each prediction.", "",

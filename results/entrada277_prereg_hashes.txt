@@ -1,0 +1,7 @@
+11ff32d15856820666d8c41fbfcbb4e8 *analysis/report_entrada277_cost.py
+a51fe1ad6baf8641b2874228058c6aec *analysis/report_entrada180_agents.py
+3bf9387442a508aed4ca6974ecc5136a *results/fr_tune_B30_s0of4_entrada256.csv
+54f3d1f8cbaa6efdbdb7248b82463c44 *results/fr_tune_B30_s1of4_entrada256.csv
+a28bdb0bc2903bf2ffbcb0e9129491e9 *results/fr_tune_B30_s2of4_entrada256.csv
+703e05438270ffea3694da4a31c08b08 *results/fr_tune_B30_s3of4_entrada256.csv
+c9930f291b2e6aaa38754a48e68b7396 *results/fr_choice_B30_entrada256.json

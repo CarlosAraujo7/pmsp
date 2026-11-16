@@ -7,9 +7,10 @@ the experiments themselves can be re-run with the pipelines below. Heavy runs ar
 
 ```bash
 pip install -r requirements.txt          # Python 3.12; numba 0.68, numpy, pandas, scipy
-python -m pytest tests -q                # 1,577 tests, about 1 minute
-python -m analysis.audit_journal_claims  # 366 checks: numbers, text snippets, registered-prediction counters
+python -m pytest tests -q                # 1,585 tests, about 4 minutes
+python -m analysis.audit_journal_claims  # 422 checks: numbers, text snippets, registered-prediction counters
 python -m analysis.audit_journal_short   # every number of the condensed version occurs in the audited full text
+python -m analysis.audit_cec_claims4     # numbers of the CEC correction (random-tie Q-Learning)
 python -m analysis.audit_cec_claims && python -m analysis.audit_cec_claims2 && python -m analysis.audit_cec_claims3   # 530 checks for the 8-page version
 python analysis/make_table_journal.py && python analysis/make_fig_journal_granularity.py   # tables and the figure of the manuscript
 bash journal/build.sh                    # journal/main.pdf, the full manuscript (MiKTeX or TeX Live; elsarticle)
@@ -33,6 +34,8 @@ the line-ending conversion of git can change the hash of a text file, so compare
 | 267, 270 | second domain: ILS for the TSP (generated and TSPLIB instances) | `pipeline_cycle40_tsp_entrada267.sh`, `pipeline_cycle42_tsplib_entrada270.sh` | `report_entrada267_tsp.py`, `report_entrada270_tsplib.py` | 5.7 |
 | 274, 275 | the warm-start finding replicated in the TSP host (synthetic and TSPLIB instances) | `pipeline_cycle45_warmtsp_entrada274.sh` (hashes, then both runs) | `report_entrada274_warmtsp.py`, `report_entrada275_warmtsplib.py` | 5.7 |
 | 268 | equal CPU time on the standard benchmark | `pipeline_cycle41_eqcpu_fanjul_entrada268.sh` | `report_entrada268_eqcpu_fanjul.py` | 5.3 |
+| 277, 278 | price of offline knowledge (tuning cost, learning curve, equal total compute); ceiling and margin of the synthetic classes | none (existing data) | `report_entrada277_cost.py`, `report_entrada278_ceiling.py` | 5.4, 4.2 |
+| 279, 280, 280b | Q-Learning with ties broken at random and permuted lists; the same in the 85 cells of the order diagnostic; post hoc test against the validated action | `pipeline_cycle47_ties_entrada279.sh`, `pipeline_cycle48_tiesall_entrada280.sh` (hashes, then the runs) | `report_entrada279_ties.py`, `report_entrada280_tiesall.py`, `report_entrada280b_headline.py` | 4.5 |
 | 265, 269, 273, 276 | global Benjamini-Yekutieli control | none (reads all test files) | `report_entrada265_global.py`, `report_entrada269_global.py`, `report_entrada273_global.py`, `report_entrada276_global.py` | 6 |
 
 The registered predictions of every battery (the `PRE-REGISTRO` block of each report) are compiled in one document by

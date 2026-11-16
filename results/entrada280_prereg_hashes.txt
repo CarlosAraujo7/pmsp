@@ -1,0 +1,11 @@
+b7008686d96350851b06342d2d27e0c2 *experiment/run_cycle48_tiesall_entrada280.py
+a7dd4aa354971bce5301ea6f3f454a2f *analysis/report_entrada280_tiesall.py
+bbb2182119cd5d811a5d543684d1df85 *pmsp/ur_ties.py
+35942e07c21e23a35fe3e4236b16f33b *pmsp/ig_ties.py
+523ef29ce42b62b72b09c4902d6ff038 *pmsp/tsp_ties.py
+2d907420e938a2cd8984a891a1f21f2b *pmsp/ig_numba_agents5.py
+acccb342ebd1492c63ad0505b3722ef3 *pmsp/ur_numba_agents5.py
+76b6adfe3ab09c721ed68f8788639d6d *pmsp/tsp_numba.py
+61321ef144b13c49b08d7af7f73f073f *tests/test_ties_more_entrada280.py
+278f928d1f473ce9a3ae52f32e7ebf2a *tests/test_ur_ties_entrada279.py
+6af22b76ea157ec33f60e57bceda2918 *results/entrada279_ties.txt

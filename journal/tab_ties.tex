@@ -1,0 +1,19 @@
+\begin{table}[t]
+\caption{The Q-Learning with ties broken at random at every decision (ql-rt) in the $85$ cells of the order diagnostic: mean gain over random choice at equal iterations (points of the makespan or tour length) of the standard learner, of the learner with the action list permuted once per run (ql-perm), of the random-tie learner and of the validated action; cells in which the random-tie learner gains beyond the margin, and cells in which the validated action beats it (Holm within each collection).}
+\label{tab:ties}
+\centering
+{\scriptsize\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+Collection & Cells & Standard & ql-perm & ql-rt & Validated & ql-rt gains & Validated beats \\
+\midrule
+Standard benchmark (B5, B15, B30) & $21$ & $-0.247$ & $-0.300$ & $0.248$ & $1.598$ & $15$ & $21$ \\
+Published families of $R||\Cmax$ & $6$ & $0.283$ & $-0.326$ & $0.215$ & $1.282$ & $6$ & $6$ \\
+Synthetic $P||\Cmax$ & $24$ & $-0.004$ & $-0.058$ & $0.005$ & $0.086$ & $0$ & $20$ \\
+Held-out published $P||\Cmax$ & $18$ & $0.022$ & $-0.072$ & $0.022$ & $0.080$ & $4$ & $12$ \\
+TSP (iterated local search) & $16$ & $-0.369$ & $-0.078$ & $0.087$ & $0.439$ & $7$ & $15$ \\
+\midrule
+Total & $85$ & & & & & $32$ & $74$ \\
+\bottomrule
+\end{tabular}}
+\end{table}

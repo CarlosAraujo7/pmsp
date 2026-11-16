@@ -296,14 +296,14 @@ chk("Entrada 190: perda do Q padrao na familia E, S5 (0,06)", H190.loc["H3a", "m
 chk("Entrada 264: a validada bate o ql_perm nas 18 celulas", int(B264.confirmada.sum()), 18, 0, "sec_order.tex", "in all $18$ cells")
 from scipy import stats as _ss
 chk("Entrada 264: Spearman do Q padrao (+0,65)", float(_ss.spearmanr(C264.folga, C264.g_ql).statistic), 0.65, 0.006, "sec_order.tex", "$+0.65$ for the standard learner")
-chk("Entrada 264: Spearman do ql_perm (-0,74)", float(_ss.spearmanr(C264.folga, C264.g_qp).statistic), -0.74, 0.006, "sec_order.tex", "is $-0.74$ for the order-invariant one")
+chk("Entrada 264: Spearman do ql_perm (-0,74)", float(_ss.spearmanr(C264.folga, C264.g_qp).statistic), -0.74, 0.006, "sec_order.tex", "is $-0.74$ for the permuted-list one")
 chk("Entrada 264: 7 de 7 previsoes", int(re.search(r"previsoes acertadas: (\d+) de", T264_text).group(1)), 7, 0, "sec_order.tex", "all seven predictions held")
 ncells = len(Cz) + len(Cf) + len(Cp) + len(C264) + len(pd.read_csv(R / "entrada267_tsp_cells.csv"))
-chk("celulas repetidas com o ql_perm (69)", ncells, 85, 0, "sec_order.tex", "none of the $85$ cells where we repeated it")
-chk("celulas repetidas com o ql_perm no resumo (69)", ncells, 85, 0, "abstract.tex", "none of $85$ cells")
+chk("celulas repetidas com o ql_perm (69)", ncells, 85, 0, "sec_order.tex", "gains in none of the $85$ cells, but it is itself a lock-in learner")
+chk("celulas repetidas com o ql_perm no resumo (69)", ncells, 85, 0, "abstract.tex", "in $32$ of $85$ cells")
 chk("celulas repetidas com o ql_perm na introducao (85)", ncells, 85, 0, "sec_intro.tex", "none of $85$ cells")
-chk("celulas repetidas com o ql_perm na discussao (85)", ncells, 85, 0, "sec_discussion.tex", "all $85$ cells that we repeated")
-chk("celulas repetidas com o ql_perm na conclusao (85)", ncells, 85, 0, "sec_discussion.tex", "none of $85$ cells")
+chk("celulas repetidas com o ql_perm na discussao (85)", ncells, 85, 0, "sec_discussion.tex", "gains in none of the $85$ cells and measures nothing about learning")
+chk("celulas repetidas com o ql_perm na conclusao (85)", ncells, 85, 0, "sec_discussion.tex", "in $32$ of $85$ cells but recovers only")
 chk("Spearman na discussao: de +0,65 a -0,74", float(_ss.spearmanr(C264.folga, C264.g_ql).statistic), 0.65, 0.006, "sec_discussion.tex", "from $+0.65$ to $-0.74$")
 
 # ---------------------------------------------------------------- o valor do conhecimento offline por granularidade (Entradas 266 e 266b)
@@ -357,9 +357,9 @@ chk("granularidade pos hoc: Gn matched ao tamanho (2,00)", gm_("g_Gn"), 2.00, 0.
 PHT = pd.read_csv(R / "entrada266b_posthoc_tests.csv")
 chk("granularidade pos hoc: o melhor aprendiz bate LOSO-G0 em 2 de 4 tamanhos", int((PHT[PHT.id.str.startswith("best-vs-LOSO_G0")].confirmada & ~PHT[PHT.id.str.startswith("best-vs-LOSO_G0")]["equivalente_0.05"]).sum()), 2, 0)
 
-chk("resumo: G0 / melhor aprendiz online (tres vezes)", gm_("g_G0") / best_, 3.0, 0.1, "abstract.tex", "gains three times what the best online learner finds")
-chk("resumo: Gn / Gtn (nove decimos)", 100 * gm_("g_Gn") / gtn_, 90, 1.5, "abstract.tex", "nine tenths of what class-level knowledge gives")
-chk("resumo: a politica neural recupera dois tercos do ganho da validada por classe", 100 * gm_("g_nn") / gtn_, 67, 3.0, "abstract.tex", "recovers about two thirds of it")
+# (removido do resumo na revisao de 16/11/2026) chk("resumo: G0 / melhor aprendiz online (tres vezes)", gm_("g_G0") / best_, 3.0, 0.1, "abstract.tex", "gains three times what the best online learner finds")
+# (removido do resumo na revisao de 16/11/2026) chk("resumo: Gn / Gtn (nove decimos)", 100 * gm_("g_Gn") / gtn_, 90, 1.5, "abstract.tex", "nine tenths of what class-level knowledge gives")
+# (removido do resumo na revisao de 16/11/2026) chk("resumo: a politica neural recupera dois tercos do ganho da validada por classe", 100 * gm_("g_nn") / gtn_, 67, 3.0, "abstract.tex", "recovers about two thirds of it")
 
 # ---------------------------------------------------------------- Q-Learning otimista aquecido por uma priori offline e o controle sem aprendizagem (Entradas 271 e 272)
 CW = pd.read_csv(R / "entrada272_frozenqo_cells.csv")
@@ -395,7 +395,7 @@ chk("aquecido: lacuna de 0,28 ponto a validada (W6)", mw["Gtn"] - mw["qo_warm_fu
 chk("discussao: aquecido recupera 48% do ganho por classe", 100 * mw["qo_warm_loso"] / mw["Gtn"], 48, 0.6, "sec_discussion.tex", "it recovers $48\\%$ of the class-level gain there")
 chk("discussao: a estatica transferida recupera 17%", 100 * mw["LOSO_Gt"] / mw["Gtn"], 17, 0.6, "sec_discussion.tex", "against $17\\%$ for the transferred static action")
 chk("discussao: sem priori recupera 14%", 100 * mw["qo"] / mw["Gtn"], 14, 0.6, "sec_discussion.tex", "without a prior it recovers $14\\%$")
-chk("resumo: a aprendizagem acrescenta 0,67 e custa 0,28", round((mw["qo_warm_loso"] - mw["qo_frozen_loso"]) * 100) * 1000 + round((mw["qo_frozen_full"] - mw["qo_warm_full"]) * 100), 67 * 1000 + 28, 0, "abstract.tex", "gains $0.67$ points over the same prior without learning, whereas with an exact prior learning costs $0.28$")
+chk("resumo: a aprendizagem acrescenta 0,67 e custa 0,28", round((mw["qo_warm_loso"] - mw["qo_frozen_loso"]) * 100) * 1000 + round((mw["qo_frozen_full"] - mw["qo_warm_full"]) * 100), 67 * 1000 + 28, 0, "abstract.tex", "corrects a transferred prior ($+0.67$ points) and costs a little when the prior is exact ($-0.28$)")
 
 # ---------------------------------------------------------------- segundo dominio: o ILS do TSP (Entrada 267)
 CT7 = pd.read_csv(R / "entrada267_tsp_cells.csv")
@@ -513,7 +513,7 @@ chk("TSPLIB: lacuna nas instancias grandes (2,17%)", BR70.loc["large", "gap_Gn_s
 chk("TSPLIB: ganho de Gn_syn nas instancias grandes (1,19)", BR70.loc["large", "g_Gn_syn"], 1.19, 0.006, "sec_tsp.tex", "($1.19$ points; none in the small ones")
 chk("TSPLIB: previsoes 9 de 9", int(re.search(r"previsoes acertadas: (\d+) de", H70).group(1)), 9, 0, "sec_tsp.tex", "all nine held")
 
-chk("resumo: dois dos 49 pares a CPU igual vao no sentido contrario", len(P8b), 2, 0, "abstract.tex", "two of $49$ pairs go the other way")
+chk("resumo: dois dos 49 pares a CPU igual vao no sentido contrario", len(P8b), 2, 0, "abstract.tex", "in $2$ of $49$ pairs at equal CPU time")
 
 chk("limitacoes: lacuna da validada a T=1000 (4,89%)", float(re.search(r"B30: validada ([\d.]+);", (R / "entrada256_fanjul.txt").read_text(encoding="utf-8")).group(1)), 4.89, 0.006, "sec_discussion.tex", "$4.89\\%$ above the best known solutions at $T=1000$")
 chk("limitacoes: lacuna da validada a T=10^4 (2,69%)", float(gm.group(1)), 2.69, 0.006, "sec_discussion.tex", "$2.69\\%$ at $T=10^4$")
@@ -603,6 +603,9 @@ chk("BY global ate 255: testes (1.169)", int(mo_.group(1)), 1169, 0, "sec_discus
 chk("BY global ate 255: confirmados e sobreviventes (685, 663)", int(mo_.group(2)) * 1000 + int(mo_.group(3)), 685663, 0, "sec_discussion.tex", "$663$ of $685$")
 chk("BY global: previsoes das Entradas 265, 269, 273 e 276 (3 de 3 cada)", int(re.search(r"previsoes acertadas: (\d+) de", HG).group(1)) + int(re.search(r"previsoes acertadas: (\d+) de", HG9).group(1)) + int(re.search(r"previsoes acertadas: (\d+) de", HG73).group(1)) + int(re.search(r"previsoes acertadas: (\d+) de", HG76).group(1)), 12, 0, "sec_discussion.tex", "three predictions of three")
 
+from analysis import audit_journal_277_280  # noqa: E402
+audit_journal_277_280.run(chk, present)
+
 # ---------------------------------------------------------------- contadores do registro
 main = (J / "main.tex").read_text(encoding="utf-8")
 held = int(re.search(r"\\newcommand\{\\npredheld\}\{(\d+)\}", main).group(1))
@@ -617,7 +620,8 @@ for fn in ("entrada256_fanjul.txt", "entrada258_mechanism.txt", "entrada258_mech
            "entrada262_neural.txt", "entrada263_qperm_longT.txt", "entrada264_qperm_pub.txt", "entrada265_global.txt",
            "entrada266_granularity.txt", "entrada267_tsp.txt", "entrada268_eqcpu_fanjul.txt", "entrada270_tsplib.txt", "entrada269_global.txt",
            "entrada271_warmqo.txt", "entrada272_frozenqo.txt", "entrada273_global.txt",
-           "entrada274_warmtsp.txt", "entrada275_warmtsplib.txt", "entrada276_global.txt"):
+           "entrada274_warmtsp.txt", "entrada275_warmtsplib.txt", "entrada276_global.txt",
+           "entrada277_cost.txt", "entrada278_ceiling.txt", "entrada279_ties.txt", "entrada280_tiesall.txt"):
     f_ = R / fn
     m = re.search(r"previsoes acertadas: (\d+) de (\d+)", f_.read_text(encoding="utf-8"))
     extra.append((int(m.group(1)), int(m.group(2))))

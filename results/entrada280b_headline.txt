@@ -1,0 +1,15 @@
+==============================================================================================================
+O ql_rt BATE A VALIDADA ALEM DA MARGEM? (Entrada 280b, pos hoc)
+==============================================================================================================
+Teste inverso: ql_rt contra a validada por celula (confirmada = o ql_rt e' melhor, Holm sobre as celulas da colecao); 'alem da margem' = confirmada e nao equivalente a zero em +-0,05.
+
+padrao: o ql_rt bate a validada alem da margem em 0 de 21 celulas; a validada bate o ql_rt (Holm) em 21; sem diferenca detectavel em 0
+familias: o ql_rt bate a validada alem da margem em 0 de 6 celulas; a validada bate o ql_rt (Holm) em 6; sem diferenca detectavel em 0
+sintetico: o ql_rt bate a validada alem da margem em 0 de 24 celulas; a validada bate o ql_rt (Holm) em 20; sem diferenca detectavel em 4
+publicado: o ql_rt bate a validada alem da margem em 2 de 18 celulas; a validada bate o ql_rt (Holm) em 12; sem diferenca detectavel em 4
+        id  mean_d_pct  ci90_lo  ci90_hi  p_holm   g_rt   g_val
+ Bp-S5|B|0     -0.0165  -0.0573    0.007  0.0001  0.003 -0.0155
+Bp-S15|B|0     -0.0096  -0.0509   0.0148       0 0.0191  0.0078
+tsp: o ql_rt bate a validada alem da margem em 0 de 16 celulas; a validada bate o ql_rt (Holm) em 15; sem diferenca detectavel em 1
+
+total: o ql_rt bate a validada alem da margem em 2 das 85 celulas

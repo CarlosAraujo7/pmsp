@@ -1,0 +1,17 @@
+\begin{table}[t]
+\caption{The price of offline knowledge on the standard benchmark (B30, $T=1000$): the class-validated action chosen with $k$ of the $10$ tuning instances of each class ($1{,}000$ resamples; $k=10$ is the validated action), its gain over random choice (5th--95th percentile of the resamples), its mean gap to the best known solutions, the cost of the tuning in units of one run of the validated action over the $25$ test instances of the class, and the number of instances per class beyond which its total cost, tuning included, is below that of random choice at $T=10^4$ ($4.31\%$ above the best known; measured) and below that of random choice with the iterations that give the same gap (interpolated).}
+\label{tab:cost}
+\centering
+{\scriptsize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}rrrrrrr@{}}
+\toprule
+$k$ & Tuning runs & Gain (p5--p95) & Gap (\%) & Tuning cost & $N$ at $T=10^4$ & $N^*$ \\
+\midrule
+$1$ & $60$ & $1.81$ ($1.50$--$2.07$) & $5.37$ & $1.2$ & $7$ & $22$ \\
+$2$ & $120$ & $2.07$ ($1.79$--$2.20$) & $5.09$ & $2.3$ & $14$ & $32$ \\
+$3$ & $180$ & $2.15$ ($2.05$--$2.23$) & $5.00$ & $3.4$ & $22$ & $44$ \\
+$5$ & $300$ & $2.21$ ($2.15$--$2.24$) & $4.94$ & $5.7$ & $36$ & $68$ \\
+$10$ & $600$ & $2.24$ & $4.90$ & $11.4$ & $72$ & $130$ \\
+\bottomrule
+\end{tabular}}
+\end{table}

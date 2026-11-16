@@ -1,0 +1,69 @@
+==============================================================================================================
+APRENDIZES SEM TRAVAMENTO NA PRIMEIRA ACAO E A ORDEM DAS ACOES (Entrada 279)
+==============================================================================================================
+--- B30: ganho medio sobre o aleatorio (pontos; media dos 7 tipos) ---
+aprendizes originais: ql -0.464; ucb 0.105; pg 0.025; alns 0.353; qo 0.310; iq -0.376; fr 0.183; ql_perm -0.603; validada 2.255
+variantes novas:      ql_rt 0.279; qo_rt 0.312; qo_perm 0.343; ucb_perm 0.124; pg_perm 0.020; alns_perm 0.353; iq_perm -0.362; fr_perm 0.158
+
+space       type   g_ql  g_ucb   g_pg  g_alns  g_qo   g_iq  g_fr  g_ql_perm  g_ql_rt  g_qo_rt  g_qo_perm  g_ucb_perm  g_pg_perm  g_alns_perm  g_iq_perm  g_fr_perm  g_val
+  B30     U1a100 -0.568  0.109  0.119   0.767 0.785  0.159 0.510     -0.984    0.657    0.672      0.852       0.036      0.027        0.756     -0.129      0.253  5.081
+  B30    U10a100 -0.423  0.063  0.001   0.394 0.607 -0.467 0.350     -0.855    0.389    0.424      0.375       0.101     -0.038        0.377     -0.144      0.140  4.149
+  B30   U100a120 -0.175  0.046 -0.023   0.077 0.098 -0.349 0.029     -0.271    0.083    0.135      0.131       0.059     -0.016        0.107     -0.334      0.028  0.507
+  B30   U100a200 -0.943  0.144  0.021   0.392 0.339 -0.763 0.209     -0.843    0.278    0.396      0.410       0.237      0.064        0.403     -0.698      0.236  2.929
+  B30 U1000a1100 -0.061  0.021 -0.015   0.088 0.093 -0.227 0.019     -0.113    0.074    0.099      0.103       0.032     -0.005        0.105     -0.212      0.037  0.395
+  B30  JobsCorre -0.197  0.090  0.023   0.126 0.049 -0.315 0.014     -0.295    0.006    0.085      0.096       0.089      0.006        0.110     -0.274      0.059  0.499
+  B30   MaqCorre -0.877  0.263  0.050   0.626 0.202 -0.669 0.151     -0.859    0.464    0.370      0.436       0.313      0.101        0.610     -0.745      0.351  2.224
+
+variantes que ganham do aleatorio alem da margem (de 7 tipos): ql_rt 6; qo_rt 7; qo_perm 7; ucb_perm 4; pg_perm 0; alns_perm 7; iq_perm 0; fr_perm 2
+variantes equivalentes ao aprendiz de base (de 7 tipos): ql_rt~ql 0; qo_rt~qo 1; qo_perm~qo 1; ucb_perm~ucb 2; pg_perm~pg 2; alns_perm~alns 1; iq_perm~iq 0; fr_perm~fr 2
+variantes que DIFEREM do aprendiz de base alem da margem (de 7 tipos): ql_rt 7; qo_rt 0; qo_perm 0; ucb_perm 0; pg_perm 0; alns_perm 0; iq_perm 0; fr_perm 2
+variantes que batem a validada alem da margem (de 7 tipos): ql_rt 0; qo_rt 0; qo_perm 0; ucb_perm 0; pg_perm 0; alns_perm 0; iq_perm 0; fr_perm 0
+
+--- B15: ganho medio sobre o aleatorio (pontos; media dos 7 tipos) ---
+aprendizes originais: ql 0.049; ucb 0.056; pg 0.022; alns -0.069; qo 0.235; iq 0.235; fr 0.250; ql_perm -0.236; validada 1.638
+variantes novas:      ql_rt 0.303; qo_rt 0.168; qo_perm 0.223; ucb_perm 0.033; pg_perm -0.010; alns_perm -0.095; iq_perm 0.252; fr_perm 0.158
+
+space       type   g_ql  g_ucb   g_pg  g_alns  g_qo   g_iq  g_fr  g_ql_perm  g_ql_rt  g_qo_rt  g_qo_perm  g_ucb_perm  g_pg_perm  g_alns_perm  g_iq_perm  g_fr_perm  g_val
+  B15     U1a100 -0.372  0.006  0.163   0.029 0.339  0.376 0.542     -0.639    0.588    0.049      0.219       0.140     -0.131        0.017      0.637      0.190  4.220
+  B15    U10a100  0.395  0.227  0.079   0.135 0.521  0.659 0.430     -0.094    0.590    0.379      0.475       0.119      0.097        0.035      0.509      0.235  3.270
+  B15   U100a120  0.058  0.041  0.026  -0.133 0.158  0.255 0.149     -0.048    0.186    0.175      0.197       0.018      0.011       -0.135      0.227      0.135  0.604
+  B15   U100a200  0.151  0.056  0.072  -0.294 0.309  0.316 0.217     -0.208    0.300    0.307      0.291       0.004     -0.027       -0.306      0.375      0.197  1.563
+  B15 U1000a1100  0.073  0.016 -0.007  -0.057 0.125  0.131 0.138     -0.035    0.159    0.123      0.126      -0.001     -0.004       -0.086      0.118      0.122  0.430
+  B15  JobsCorre -0.045 -0.000 -0.035  -0.050 0.005 -0.062 0.018     -0.078   -0.004   -0.009      0.022      -0.055      0.012       -0.054     -0.091      0.025  0.441
+  B15   MaqCorre  0.081  0.044 -0.143  -0.111 0.186 -0.030 0.258     -0.550    0.300    0.153      0.232       0.009     -0.028       -0.140     -0.013      0.201  0.938
+
+variantes que ganham do aleatorio alem da margem (de 7 tipos): ql_rt 6; qo_rt 4; qo_perm 5; ucb_perm 0; pg_perm 0; alns_perm 0; iq_perm 5; fr_perm 4
+variantes equivalentes ao aprendiz de base (de 7 tipos): ql_rt~ql 0; qo_rt~qo 1; qo_perm~qo 1; ucb_perm~ucb 1; pg_perm~pg 1; alns_perm~alns 1; iq_perm~iq 0; fr_perm~fr 1
+variantes que DIFEREM do aprendiz de base alem da margem (de 7 tipos): ql_rt 1; qo_rt 0; qo_perm 0; ucb_perm 0; pg_perm 0; alns_perm 0; iq_perm 0; fr_perm 1
+variantes que batem a validada alem da margem (de 7 tipos): ql_rt 0; qo_rt 0; qo_perm 0; ucb_perm 0; pg_perm 0; alns_perm 0; iq_perm 0; fr_perm 0
+
+--- B30: correlacao de postos entre a folga por classe (HCF) e o ganho do aprendiz, 28 classes (IC90 por bootstrap das classes; 'classes_gain_gt_0_05' = classes com ganho > 0,05) ---
+  learner  spearman  ci90_lo  ci90_hi  classes_gain_gt_0_05
+       ql    -0.140   -0.557    0.252                     4
+      ucb     0.385    0.075    0.653                    18
+       pg     0.283   -0.032    0.579                     8
+     alns     0.471    0.138    0.741                    19
+       qo     0.537    0.236    0.755                    17
+       iq    -0.245   -0.625    0.145                     2
+       fr     0.819    0.674    0.910                    16
+  ql_perm    -0.553   -0.827   -0.207                     1
+    ql_rt     0.809    0.664    0.891                    21
+    qo_rt     0.765    0.531    0.925                    23
+  qo_perm     0.687    0.432    0.875                    22
+ ucb_perm     0.324   -0.028    0.633                    18
+  pg_perm     0.100   -0.272    0.476                     7
+alns_perm     0.522    0.210    0.769                    19
+  iq_perm     0.120   -0.332    0.478                     2
+  fr_perm     0.598    0.337    0.752                    16
+
+--- previsoes ---
+(R1) celulas em que o ql_rt ganha do aleatorio alem da margem: 12 de 14 (previsto <= 1): NAO
+(R2) ganho medio do ql_rt em B30: 0.279 (previsto < 0): NAO
+(R3) celulas em que o qo_rt e' equivalente ao qo: 2 de 14 (previsto >= 10): NAO
+(R4) ganho medio do qo menos o do qo_perm em B30: -0.033 (previsto >= 0,05): NAO
+(R5) tipos de B30 em que ucb_perm, pg_perm, alns_perm sao equivalentes ao original: [2, 2, 1] (previsto >= 5 em cada um): NAO
+(R6) tipos de B30 em que o iq_perm difere do iq alem da margem: 0 de 7 (previsto >= 3): NAO
+(R7) pares (variante, celula) em que a variante bate a validada alem da margem: 0 de 112 (previsto 0): SIM
+(R8) Spearman folga-ganho do qo_rt em B30: 0.765 (previsto >= 0,50): SIM
+(R9) Spearman folga-ganho do ql_rt em B30: 0.809 (previsto <= 0,30): NAO
+previsoes acertadas: 2 de 9

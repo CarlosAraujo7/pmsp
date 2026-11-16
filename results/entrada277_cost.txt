@@ -1,0 +1,37 @@
+==============================================================================================================
+O PRECO DO CONHECIMENTO OFFLINE: custo do ajuste, curva por numero de instancias de ajuste e CPU total igual (Entrada 277)
+==============================================================================================================
+verificacao (k = 10, todas as instancias de ajuste): G_tn 2.242, G_n 2.004, G_0 1.151 (Entrada 266: 2,24 / 2,00 / 1,15)
+
+--- curva de aprendizagem da acao estatica no numero k de instancias de ajuste por classe (B30; ganho sobre o aleatorio em pontos; media dos 28 classes e de 1.000 sorteios; p05-p95 dos sorteios) ---
+ k  runs_tuning_per_class   Gtn  Gtn_p05  Gtn_p95    Gn    G0  gap_tn  evals_per_run_M  tune_evals_per_class_M
+ 1                     60 1.811    1.497    2.068 1.968 1.104   5.369           28.835                 848.211
+ 2                    120 2.067    1.791    2.204 1.993 1.110   5.093           29.557                1696.422
+ 3                    180 2.150    2.049    2.228 1.999 1.120   5.004           30.041                2544.633
+ 5                    300 2.210    2.147    2.242 2.002 1.130   4.939           29.995                4241.055
+10                    600 2.242    2.242    2.242 2.004 1.151   4.904           29.867                8482.111
+
+custo do ajuste (k = 10) por classe: 8482 M avaliacoes = 11.4 vezes o custo de rodar a validada nas 25 instancias de teste da classe (747 M)
+avaliacoes por execucao: aleatorio T=1.000 14.7 M; validada T=1.000 29.9 M; aleatorio T=10.000 148.0 M
+lacuna aos melhores valores conhecidos (media das 700 instancias): aleatorio T=1.000 7.42%; validada T=1.000 4.89%; aleatorio T=10.000 4.31%; validada T=10.000 2.69%
+aprendizes a T=10.000 (lacuna %; avaliacoes por execucao em M): ql 4.23% (140); ucb 4.25% (150); pg 4.27% (150); alns 3.89% (124); qo 4.54% (155); iq 3.94% (240); fr 4.15% (130)
+
+--- CPU total igual (B30): acao estatica com o ajuste diluido contra a escolha aleatoria com o mesmo custo total ---
+N_10k = instancias por classe acima das quais o custo total da estatica (ajuste incluido) fica abaixo do da escolha aleatoria a T = 10.000 (cruzamento MEDIDO, lacuna do aleatorio a 10.000 = 4.31%);
+T_equal_total_N25 = iteracoes do aleatorio com o mesmo custo total da estatica quando a classe tem N = 25 instancias (o benchmark); gap_random_at_that_T e Nstar_interp usam a interpolacao log-linear da lacuna (hipotese), 'extrapolated' marca T > 10.000.
+ k  gap_static  tune_over_test_cost  N_10k  T_equal_total_N25  gap_random_at_that_T  static_better_at_N25  Tstar_interp  Nstar_interp  extrapolated_N25
+ 1        5.37                 1.18   7.12            4258.96                  5.46                  True       4565.96         22.06             False
+ 2        5.09                 2.30  14.33            6610.30                  4.87                 False       5600.63         32.02             False
+ 3        5.00                 3.39  21.58            8945.43                  4.46                 False       5984.37         43.76             False
+ 5        4.94                 5.66  35.95           13546.99                  3.90                 False       6276.13         67.86              True
+10        4.90                11.36  71.83           25049.86                  3.07                 False       6441.38        130.38              True
+
+--- previsoes ---
+(C1) custo do ajuste / custo de rodar a validada nas 25 instancias de teste: 11.4 (previsto >= 10): SIM
+(C2) N_10k (k = 10): 71.8 instancias por classe (previsto entre 40 e 200): SIM
+(C3) ganho de G_tn com k = 1 / com k = 10: 1.811 / 2.242 = 0.81 (previsto >= 0,50): SIM
+(C4) ganho de G_tn nao decresce com k (tolerancia 0,03): SIM
+(C5) a N = 25 nenhum k da uma estatica com lacuna menor que a do aleatorio com o mesmo custo total: NAO
+(C6) N* interpolado (k = 10): 130 instancias por classe (previsto >= 100): SIM
+(C7) k = 3: ganho de G_n 1.999 contra G_tn 2.150 (previsto G_n >= G_tn): NAO
+previsoes acertadas: 5 de 7

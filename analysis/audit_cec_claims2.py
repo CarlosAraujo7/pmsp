@@ -76,7 +76,7 @@ F = rd("entrada199_pretest_cells.csv")
 ev = {sp: evaluate(F[(F.space == sp)].vnr, F[(F.space == sp)].gq, tau["tau"]) for sp in ("S5", "S15")}
 chk("familia F: celulas por espaco (21)", ev["S5"]["n"], 21, 0, None)
 chk("familia F: 26 classes", F.cell.nunique(), 26, 0)
-chk("familia F S5 AUC (0,75)", ev["S5"]["auc"], 0.75, 0.005, "AUC $0.75$ and $0.73$ on the $26$ classes")
+chk("familia F S5 AUC (0,75)", ev["S5"]["auc"], 0.75, 0.005, "AUC $0.75$ and $0.73$")
 chk("familia F S15 AUC (0,73)", ev["S15"]["auc"], 0.73, 0.005)
 chk("familia F S5 acuracia (0,71)", ev["S5"]["acc"], 0.71, 0.005, None)
 chk("familia F S15 acuracia (0,67)", ev["S15"]["acc"], 0.67, 0.005)
@@ -167,7 +167,7 @@ chk("flowshop: validada vs Q-Learning a CPU igual F15 (0,064)", -Fq.loc["Beq-syn
 for sp, rho_exp, p_exp in (("F5", -0.93, 0.001), ("F15", -0.78, 0.013)):
     c = Cells[(Cells.set == "syn") & (Cells.space == sp)]
     r = sstats.spearmanr(c.folga, c.gq)
-    chk(f"flowshop {sp}: Spearman folga x ganho do Q-Learning", r.statistic, rho_exp, 0.006, "$-0.93$ and $-0.78$" if sp == "F5" else None)
+    chk(f"flowshop {sp}: Spearman folga x ganho do Q-Learning", r.statistic, rho_exp, 0.006, None)
     chk(f"flowshop {sp}: p do Spearman", r.pvalue, p_exp, 0.0006 if sp == "F15" else 0.001)
 big = Cells[(Cells.set == "syn") & Cells.cell.isin(["50x10", "50x20", "100x10", "100x20"])]
 Wf = {}
