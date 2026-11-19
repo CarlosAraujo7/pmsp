@@ -16,7 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 J = ROOT / "journal"
 SHORT = ["abstract.tex", "s_intro.tex", "s_related.tex", "s_method.tex", "s_results.tex", "s_external.tex", "s_discussion.tex", "main_short.tex"]
-SHORT_TABLES = ["tab_order_b.tex", "tab_granularity.tex", "tab_tsp.tex", "tab_tsplib.tex", "tab_tsp_warm.tex", "tab_cost.tex", "tab_ties.tex"]
+SHORT_TABLES = ["tab_order_b.tex", "tab_granularity.tex", "tab_tsp.tex", "tab_tsplib.tex", "tab_tsp_warm.tex", "tab_cost.tex", "tab_ties.tex", "tab_scarce.tex", "tab_cvrp.tex"]
 FULL_EXTRA = [ROOT / "cec" / "tab_further.tex", ROOT / "cec" / "tab_selector.tex"]
 NUM = re.compile(r"(?<![\w\\])\d+(?:,\d{3})*(?:\.\d+)?")
 

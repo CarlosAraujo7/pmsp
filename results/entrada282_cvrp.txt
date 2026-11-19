@@ -1,0 +1,65 @@
+==============================================================================================================
+O PROTOCOLO NUMA IMPLEMENTACAO DE TERCEIROS: ALNS PARA O CVRP COM A BIBLIOTECA `alns` (Entrada 282)
+==============================================================================================================
+escolhas do ajuste: validada por classe {'C16_n100': 11, 'C16_n200': 3, 'C6_n100': 3, 'C6_n200': 7, 'R16_n100': 11, 'R16_n200': 3, 'R6_n100': 7, 'R6_n200': 3}; global (G0) acao 3; por (n, clientes por rota) {'100|6': 3, '100|16': 11, '200|6': 7, '200|16': 3}
+
+--- ganho sobre o aleatorio por classe (pontos, % do custo; positivo = melhor) ---
+     cls  g_val   g_g0  g_gnr  g_hcf   g_rw  g_srw  g_aucb  g_mab_ucb1  g_mab_eps  g_rw_perm  g_srw_perm  g_aucb_perm  g_mab_ucb1_perm  g_mab_eps_perm
+C16_n100 -0.032 -0.056 -0.032 -0.132  0.042  0.066  -0.463      -2.757     -0.145      0.069      -0.112       -0.404           -2.845          -0.371
+C16_n200  0.850  0.850  0.850  0.850  0.253  0.480  -0.428      -3.005     -0.050      0.371       0.432       -0.198           -3.437           0.132
+ C6_n100  1.145  1.145  1.145  1.145  0.246  0.329   0.043      -1.588     -0.103      0.238       0.384       -0.130           -1.265           0.056
+ C6_n200  1.092  0.976  1.092  1.092  0.072  0.443   0.665      -0.462      0.607      0.147       0.448        0.761           -0.122           0.457
+R16_n100  0.615  0.035  0.615  0.615 -0.095 -0.014  -0.412      -1.755     -0.218      0.058      -0.201       -0.139           -2.975          -0.248
+R16_n200  0.969  0.969  0.969  0.969  0.157  0.515  -0.544      -3.894     -0.322      0.299       0.397       -0.333           -3.802          -0.002
+ R6_n100  0.781  0.767  0.767  0.740  0.048  0.156   0.182      -1.547     -0.065      0.000       0.221        0.172           -1.709           0.083
+ R6_n200  1.095  1.095  1.202  1.052  0.140  0.353   0.400      -0.558      0.343      0.110       0.381        0.379           -0.422           0.390
+
+classes em que o metodo ganha do aleatorio alem da margem (de 8): val 7; rw 0; srw 5; aucb 2; mab_ucb1 0; mab_eps 1; rw_perm 1; srw_perm 6; aucb_perm 1; mab_ucb1_perm 0; mab_eps_perm 2
+classes em que a validada bate o aprendiz alem da margem (B): rw 7; srw 7; aucb 7; mab_ucb1 8; mab_eps 7
+classes em que o aprendiz bate a validada alem da margem (B'): rw 0; srw 0; aucb 0; mab_ucb1 0; mab_eps 0
+classes em que a versao permutada DIFERE da original alem da margem (rejeita e nao equivalente): rw 0; srw 0; aucb 0; mab_ucb1 0; mab_eps 0
+
+--- segundos por execucao (razao ao aleatorio) e parcela das iteracoes nos operadores de destruicao e de reparo LISTADOS PRIMEIRO (aleatorio: 1/8 = 0,125 e 1/2) ---
+                secs  ratio_to_random  share_d0  share_r0
+method                                                   
+aucb           1.715            0.729     0.482     0.019
+aucb_perm      1.475            0.627     0.193     0.501
+mab_eps        3.240            1.377     0.287     0.094
+mab_eps_perm   2.780            1.181     0.093     0.499
+mab_ucb1       3.386            1.439     0.108     0.483
+mab_ucb1_perm  2.776            1.180     0.125     0.508
+random         2.353            1.000     0.125     0.499
+rw             2.739            1.164     0.166     0.396
+rw_perm        2.252            0.957     0.127     0.496
+srw            2.678            1.138     0.210     0.263
+srw_perm       2.169            0.922     0.128     0.495
+
+--- 22 instancias X (n <= 200): lacuna media (%) aos melhores conhecidos: aleatorio 2.51; Gnr 2.38; G0 1.89; rw 2.29; srw 2.00; aucb 2.29; mab_ucb1 5.00; mab_eps 2.21
+ganho sobre o aleatorio e teste (XA; Holm sobre 7 metodos):
+         id  mean_d_pct  ci90_lo  ci90_hi  p_holm  confirmada  equivalente_0.05
+     XA-gnr     -0.1181  -0.4519   0.2070  0.6739       False             False
+      XA-g0     -0.6083  -0.8337  -0.3736  0.0021        True             False
+      XA-rw     -0.2132  -0.3504  -0.0857  0.1385       False             False
+     XA-srw     -0.4938  -0.6130  -0.3733  0.0001        True             False
+    XA-aucb     -0.2121  -0.5509   0.1098  0.6739       False             False
+XA-mab_ucb1      2.4358   1.7107   3.2250  0.0001       False             False
+ XA-mab_eps     -0.2862  -0.4724  -0.0910  0.0688       False             False
+aprendiz contra a Gnr (XB; confirmada = o aprendiz e' melhor; Holm sobre 5):
+         id  mean_d_pct  ci90_lo  ci90_hi  p_holm  confirmada  equivalente_0.05
+      XB-rw     -0.0867  -0.4205   0.2542  1.0000       False             False
+     XB-srw     -0.3669  -0.7063  -0.0197  0.6634       False             False
+    XB-aucb     -0.0853  -0.5551   0.3682  1.0000       False             False
+XB-mab_ucb1      2.5623   1.8411   3.3747  0.0001       False             False
+ XB-mab_eps     -0.1602  -0.5027   0.1882  1.0000       False             False
+
+--- previsoes ---
+(U1) classes em que a validada ganha alem da margem: 7 de 8 (previsto >= 6): SIM
+(U2) classes com ganho alem da margem por aprendiz: {'rw': 0, 'srw': 5, 'aucb': 2, 'mab_ucb1': 0, 'mab_eps': 1} (previsto o maximo >= 6): NAO
+(U3) classes em que o melhor aprendiz recupera no maximo 50% da validada: 4 de 8 (previsto >= 6): NAO
+(U4) pares (aprendiz, classe) em que o aprendiz bate a validada alem da margem: 0 de 40 (previsto 0): SIM
+(U5) AlphaUCB permutado difere em 0 de 8 classes (previsto >= 2): NAO
+(U6) RouletteWheel permutado difere em 0 de 8 classes (previsto <= 1): SIM
+(U7) X: a Gnr ganha do aleatorio alem da margem: NAO
+(U8) X: aprendizes que batem a Gnr alem da margem: 0 de 5 (previsto 0): SIM
+(U9) razoes de tempo ao aleatorio: rw 1.16; srw 1.14; aucb 0.73; mab_ucb1 1.44; mab_eps 1.38 (previsto rw, srw, aucb em [0,75; 1,25] e os MAB >= 1,25): NAO
+previsoes acertadas: 4 de 9

@@ -395,7 +395,7 @@ chk("aquecido: lacuna de 0,28 ponto a validada (W6)", mw["Gtn"] - mw["qo_warm_fu
 chk("discussao: aquecido recupera 48% do ganho por classe", 100 * mw["qo_warm_loso"] / mw["Gtn"], 48, 0.6, "sec_discussion.tex", "it recovers $48\\%$ of the class-level gain there")
 chk("discussao: a estatica transferida recupera 17%", 100 * mw["LOSO_Gt"] / mw["Gtn"], 17, 0.6, "sec_discussion.tex", "against $17\\%$ for the transferred static action")
 chk("discussao: sem priori recupera 14%", 100 * mw["qo"] / mw["Gtn"], 14, 0.6, "sec_discussion.tex", "without a prior it recovers $14\\%$")
-chk("resumo: a aprendizagem acrescenta 0,67 e custa 0,28", round((mw["qo_warm_loso"] - mw["qo_frozen_loso"]) * 100) * 1000 + round((mw["qo_frozen_full"] - mw["qo_warm_full"]) * 100), 67 * 1000 + 28, 0, "abstract.tex", "corrects a transferred prior ($+0.67$ points) and costs a little when the prior is exact ($-0.28$)")
+chk("resumo: a aprendizagem acrescenta 0,67 e custa 0,28", round((mw["qo_warm_loso"] - mw["qo_frozen_loso"]) * 100) * 1000 + round((mw["qo_frozen_full"] - mw["qo_warm_full"]) * 100), 67 * 1000 + 28, 0, "abstract.tex", "corrects a transferred prior ($+0.67$ points)")
 
 # ---------------------------------------------------------------- segundo dominio: o ILS do TSP (Entrada 267)
 CT7 = pd.read_csv(R / "entrada267_tsp_cells.csv")
@@ -513,7 +513,7 @@ chk("TSPLIB: lacuna nas instancias grandes (2,17%)", BR70.loc["large", "gap_Gn_s
 chk("TSPLIB: ganho de Gn_syn nas instancias grandes (1,19)", BR70.loc["large", "g_Gn_syn"], 1.19, 0.006, "sec_tsp.tex", "($1.19$ points; none in the small ones")
 chk("TSPLIB: previsoes 9 de 9", int(re.search(r"previsoes acertadas: (\d+) de", H70).group(1)), 9, 0, "sec_tsp.tex", "all nine held")
 
-chk("resumo: dois dos 49 pares a CPU igual vao no sentido contrario", len(P8b), 2, 0, "abstract.tex", "in $2$ of $49$ pairs at equal CPU time")
+chk("resumo: dois dos 49 pares a CPU igual vao no sentido contrario", len(P8b), 2, 0, "abstract.tex", "$2$ of $49$ pairs at equal CPU time")
 
 chk("limitacoes: lacuna da validada a T=1000 (4,89%)", float(re.search(r"B30: validada ([\d.]+);", (R / "entrada256_fanjul.txt").read_text(encoding="utf-8")).group(1)), 4.89, 0.006, "sec_discussion.tex", "$4.89\\%$ above the best known solutions at $T=1000$")
 chk("limitacoes: lacuna da validada a T=10^4 (2,69%)", float(gm.group(1)), 2.69, 0.006, "sec_discussion.tex", "$2.69\\%$ at $T=10^4$")
@@ -605,6 +605,8 @@ chk("BY global: previsoes das Entradas 265, 269, 273 e 276 (3 de 3 cada)", int(r
 
 from analysis import audit_journal_277_280  # noqa: E402
 audit_journal_277_280.run(chk, present)
+from analysis import audit_journal_281_282  # noqa: E402
+audit_journal_281_282.run(chk, present)
 
 # ---------------------------------------------------------------- contadores do registro
 main = (J / "main.tex").read_text(encoding="utf-8")
@@ -621,7 +623,7 @@ for fn in ("entrada256_fanjul.txt", "entrada258_mechanism.txt", "entrada258_mech
            "entrada266_granularity.txt", "entrada267_tsp.txt", "entrada268_eqcpu_fanjul.txt", "entrada270_tsplib.txt", "entrada269_global.txt",
            "entrada271_warmqo.txt", "entrada272_frozenqo.txt", "entrada273_global.txt",
            "entrada274_warmtsp.txt", "entrada275_warmtsplib.txt", "entrada276_global.txt",
-           "entrada277_cost.txt", "entrada278_ceiling.txt", "entrada279_ties.txt", "entrada280_tiesall.txt"):
+           "entrada277_cost.txt", "entrada278_ceiling.txt", "entrada279_ties.txt", "entrada280_tiesall.txt", "entrada281_scarce.txt", "entrada282_cvrp.txt"):
     f_ = R / fn
     m = re.search(r"previsoes acertadas: (\d+) de (\d+)", f_.read_text(encoding="utf-8"))
     extra.append((int(m.group(1)), int(m.group(2))))

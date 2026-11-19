@@ -1,0 +1,17 @@
+\begin{table}[t]
+\caption{Where online learning could pay: scarce tuning data (standard benchmark, B30, $T=1000$). With $k$ of the $10$ tuning instances of each class ($4$ random subsets per $k$; $k=10$ is the full tuning), the static action, the optimistic Q-Learning warm-started with the prior of the same $k$ instances, the same prior without learning (learning rate zero) and the cold optimistic Q-Learning: mean gain over random choice in points (seven types), the differences, and the standard deviation across the four subsets of the mean gain of the static action and of the warm-started learner.}
+\label{tab:scarce}
+\centering
+{\scriptsize\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}rrrrrrrrr@{}}
+\toprule
+$k$ & Static & Warm & Frozen & Cold & Warm$-$static & Warm$-$frozen & SD static & SD warm \\
+\midrule
+$1$ & $1.92$ & $1.86$ & $1.98$ & $0.31$ & $-0.06$ & $-0.12$ & $0.044$ & $0.020$ \\
+$2$ & $2.09$ & $1.89$ & $2.10$ & $0.31$ & $-0.20$ & $-0.21$ & $0.095$ & $0.023$ \\
+$3$ & $2.12$ & $1.90$ & $2.12$ & $0.31$ & $-0.22$ & $-0.22$ & $0.032$ & $0.022$ \\
+$5$ & $2.20$ & $1.92$ & $2.20$ & $0.31$ & $-0.28$ & $-0.28$ & $0.038$ & $0.022$ \\
+$10$ & $2.26$ & $1.97$ & $2.25$ & $0.31$ & $-0.29$ & $-0.28$ & --- & --- \\
+\bottomrule
+\end{tabular}}
+\end{table}

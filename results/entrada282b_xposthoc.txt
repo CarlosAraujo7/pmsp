@@ -1,0 +1,21 @@
+====================================================================================================
+INSTANCIAS X: CADA APRENDIZ CONTRA A ACAO GLOBAL (Entrada 282b, pos hoc)
+====================================================================================================
+
+lacuna media (%) aos melhores conhecidos, 22 instancias, IC90 bootstrap:
+  method  gap_mean  ci90_lo  ci90_hi
+  random     2.508    2.126    2.888
+      g0     1.886    1.416    2.399
+      rw     2.288    1.918    2.683
+     srw     2.000    1.631    2.367
+    aucb     2.285    1.921    2.676
+mab_ucb1     4.996    4.290    5.775
+ mab_eps     2.211    1.869    2.544
+
+aprendiz contra a G0 (confirmada = o aprendiz e' melhor; Holm sobre 5):
+         id  mean_d_pct  ci90_lo  ci90_hi  p_holm  confirmada  equivalente_0.05
+      XG-rw      0.4010   0.1783   0.6140  0.0333       False             False
+     XG-srw      0.1205  -0.1721   0.4061  0.2562       False             False
+    XG-aucb      0.4061  -0.0962   0.8699  0.2562       False             False
+XG-mab_ucb1      3.0702   2.2507   3.9481  0.0001       False             False
+ XG-mab_eps      0.3300  -0.0304   0.6662  0.2562       False             False
