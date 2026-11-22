@@ -18,7 +18,7 @@ def first_commit(path):
 
 rows = []
 for f in sorted((ROOT / "analysis").glob("report_entrada*.py")):
-    m = re.match(r"report_entrada(\d+)_", f.name)
+    m = re.match(r"report_entrada(\d+[a-z]?)_", f.name)
     if not m:
         continue
     try:
@@ -32,7 +32,7 @@ for f in sorted((ROOT / "analysis").glob("report_entrada*.py")):
     block = doc[i:]
     j = block.find("\nUso:")
     block = (block[:j] if j > 0 else block).strip()
-    rows.append((int(m.group(1)), f, head, block))
+    rows.append((m.group(1), f, head, block))
 
 L = ["# Registry of pre-specified hypotheses and predictions", "",
      "Project: *Budget-fair attribution of the gains of learning-guided metaheuristics* (P||Cmax, R||Cmax, permutation flowshop, genetic algorithm).", "",

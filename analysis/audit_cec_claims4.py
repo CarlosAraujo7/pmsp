@@ -19,7 +19,14 @@ TEX = re.sub(r"\s+", " ", (ROOT / "cec" / "cec2027_paper.tex").read_text(encodin
 rows = []
 
 
+from analysis.audit_cec_overrides import resolve as _resolve  # noqa: E402
+
+
 def chk(label, value, expected, tol, snippet=None):
+    _r = _resolve(label, expected, tol, snippet)
+    if _r is None:
+        return
+    expected, tol, snippet = _r
     ok = abs(float(value) - float(expected)) <= tol and (snippet is None or snippet in TEX)
     rows.append((label, float(value), float(expected), tol, ok))
 

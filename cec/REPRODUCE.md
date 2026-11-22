@@ -20,7 +20,11 @@ python -m analysis.report_entrada188_new; python -m analysis.report_entrada189_p
 python -m analysis.report_entrada195_valeq; python -m analysis.report_entrada197_pfsp; python -m analysis.report_entrada199_pretest_outofsample
 python -m analysis.report_entrada200_selector; python -m analysis.report_entrada200_controls; python -m analysis.report_entrada203_qvariants; python -m analysis.report_entrada205_pfsp_selector
 python -m analysis.make_table_cec; python -m analysis.make_table_cec2; python analysis/make_table_cec5.py   # the tables (cec5: competitors beyond the main battery; run after every report)
-python -m analysis.make_fig_cec6       # Figure 1 -> cec/fig_cec6.pdf
+python -m analysis.make_fig_cec6       # Figure 1 of the 16/11/2026 version -> cec/fig_cec6.pdf (superseded)
+python -m analysis.report_entrada283_reanalysis; python -m analysis.report_entrada283b_cec69   # capture ratios, class-level bootstrap, margin sensitivity, order table, first-action equivalence, class table (no new runs)
+python -m analysis.report_entrada284_ablation   # ablation of the IG's components (after experiment/pipeline_cycle51_ablation_entrada284.sh; run `python -m experiment.run_cycle51_ablation_entrada284 --calibrate` first on a quiet machine)
+python -m analysis.report_entrada285_fulldescent; python -m analysis.report_entrada285b_fixedsize   # the same with a full descent (the classical ILS) and with the kick size tuned in its favour (after experiment/pipeline_cycle52_fulldescent_entrada285.sh and pipeline_cycle52b_fixedsize_entrada285b.sh; run each runner's `--calibrate` first)
+python -m analysis.make_fig_cec7; python -m analysis.make_table_cec_classes; python -m analysis.make_table_cec_ablation   # Figure 1 (cec/fig_cec7.pdf) and the class and ablation tables of the 20/11/2026 version
 python -m analysis.report_entrada211_warmq; python -m analysis.report_entrada212_warmq_tb; python -m analysis.report_entrada213_equalcpu; python -m analysis.report_entrada215_robustness; python -m analysis.report_entrada217_longc; python -m analysis.report_entrada219_ga; python -m analysis.report_entrada220_ga_mix
 python -m analysis.report_entrada222_threshold   # post hoc: base rate, balanced accuracy and leave-one-host-out of the threshold
 python -m analysis.report_entrada223_optq        # optimistic Q-Learning (after the pipeline below)
@@ -38,7 +42,7 @@ python -m analysis.report_entrada254_ur_external    # published R||Cmax instance
 python -m analysis.report_entrada255_ext_competitors  # irace and the two published designs on those families (after the commands below)
 python analysis/make_osf_registry.py            # entrega/OSF_REGISTRO_PREVISOES.md: every pre-registration block and hash file, for a public registry deposit
 python -m analysis.report_entrada247_global         # global Benjamini-Yekutieli control over every registered test (run last; replaces the global part of report_entrada215_robustness, which re-reads its own output)
-python -m analysis.audit_cec_claims; python -m analysis.audit_cec_claims2; python -m analysis.audit_cec_claims3    # every number of the prose recomputed and matched (exit 1 on any mismatch)
+python -m analysis.audit_cec_claims; python -m analysis.audit_cec_claims2; python -m analysis.audit_cec_claims3; python -m analysis.audit_cec_claims4; python -m analysis.audit_cec_claims5    # every number of the prose recomputed and matched (exit 1 on any mismatch; claims removed from the text are retired in analysis/audit_cec_overrides.py)
 bash cec/build.sh                      # draft with names and red notes
 bash cec/build.sh anon                 # double-anonymous version for submission (no names, e-mail, repository link)
 ```

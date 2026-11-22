@@ -1,0 +1,19 @@
+8b01f55c7850fda7509952176ace7f6d *analysis/report_entrada283_reanalysis.py
+# primeira versao do relatorio (hash e1146dca4ef983b33c563c2ca9741d72): rodou com um erro de sinal nas celulas publicadas da parte 6 (entrada192 guarda d, nao ganho) e com bootstrap lento; corrigidos depois da primeira execucao, previsoes inalteradas
+a51fe1ad6baf8641b2874228058c6aec *analysis/report_entrada180_agents.py
+4ddea34370933f672d7c402eb523acc9 *results/entrada280_tiesall_cells.csv
+4af4be85c06271a25f62dd5d7d4ecdf5 *results/entrada280_tiesall_tests.csv
+b354bec84d92e6623f1276817ddbe10f *results/entrada260_qperm_cells_fanjul.csv
+6f7a1a5bbcf26d8726a33cfb8fdbbb1f *results/entrada209_cforacle_cells.csv
+0c29a2b2a8e83fcfdafb49b3b73aaaf9 *results/entrada192_published_cells.csv
+83fa0c4fb4876e6af08567d1d8d56518 *results/exact_reference_synthetic_entrada101.csv
+a303872bce37565432741a0df7fc1439 *results/agents_S3_entrada180.csv
+5891eb9bc10193e59d2f9ce687a7be0b *results/agents_S5_entrada180.csv
+b04c736a87fbe32b7d6aef3c124ab7a5 *results/agents_S15_entrada180.csv
+6130e85bb70f6776f526153dc8de02f6 *results/agents_S30_entrada180.csv
+6c737b5b41b0d6896aa4fe05643ee607 *results/mech_B5_entrada258.csv
+d04d3f63dad018228a0d52699c5a1b26 *results/mech_B15_entrada258.csv
+77966c5a2cf750278b375112de29a5d1 *results/mech_B30_entrada258.csv
+473119bf6bb928631937efe3492157f8 *results/mech2_B5_entrada258.csv
+06dabcc8d7c11c24621f2aa9fd178c25 *results/mech2_B15_entrada258.csv
+e21765eba524ee0547a8983e4726c706 *results/mech2_B30_entrada258.csv

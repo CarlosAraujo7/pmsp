@@ -24,7 +24,14 @@ JOURNAL = "\n".join(re.sub(r"\s+", " ", Path(f).read_text(encoding="utf-8", erro
 rows = []
 
 
+from analysis.audit_cec_overrides import resolve as _resolve  # noqa: E402
+
+
 def chk(label, value, expected, tol, snippet=None):
+    _r = _resolve(label, expected, tol, snippet)
+    if _r is None:
+        return
+    expected, tol, snippet = _r
     """Valor recalculado ~ literal; `snippet` (opcional) deve aparecer no texto do CEC."""
     ok = abs(float(value) - float(expected)) <= tol
     if snippet is not None:
@@ -33,11 +40,19 @@ def chk(label, value, expected, tol, snippet=None):
 
 
 def present(label, snippet):
+    _r = _resolve(label, None, 0, snippet)
+    if _r is None:
+        return
+    snippet = _r[2]
     rows.append((label, float("nan"), float("nan"), 0, snippet in TEX))
 
 
 def journal(label, snippet):
     """Numero herdado do periodico: o literal tem de estar no texto do CEC e nas fontes do periodico."""
+    _r = _resolve(label, None, 0, snippet)
+    if _r is None:
+        return
+    snippet = _r[2]
     rows.append((label, float("nan"), float("nan"), 0, snippet in TEX and snippet in JOURNAL))
 
 

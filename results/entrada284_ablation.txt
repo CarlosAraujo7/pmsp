@@ -1,0 +1,45 @@
+==============================================================================================================
+ABLACAO DOS COMPONENTES DA ESTRUTURA DO IG (Entrada 284)
+==============================================================================================================
+execucoes: 54000; instancias: 1200; bracos: ['E1', 'E2', 'E3', 'E4', 'E5', 'G0', 'G1', 'R0', 'R1']
+
+--- iteracoes dos bracos de CPU igual (mediana sobre as classes): E1 1379; E2 677; E3 2093; E4 4087; E5 2962
+--- makespan medio relativo ao limite inferior (lacuna, %), media sobre as 12 classes: G0 0.271; R0 2.071; G1 0.196; R1 1.105
+
+--- contrastes: ganho medio sobre as 12 classes (pontos), classes em que A vence B alem da margem, perde alem da margem, paridade, sem confirmar ---
+        contraste ganho_medio ganho_min ganho_max vence_alem perde_alem paridade sem_confirmar
+C1   G0 contra R0       1.726     0.099     5.285         12          0        0             0
+C1c  G0 contra E1       1.702     0.099     5.278         12          0        0             0
+C2   G1 contra R1       0.880     0.001     4.117         10          0        2             0
+C2c  G1 contra E2       0.916    -0.000     4.262         10          0        1             0
+C3   G1 contra G0       0.075     0.008     0.163          8          0        3             1
+C3c  G1 contra E3       0.018    -0.133     0.096          4          2        5             1
+C4   R1 contra R0       0.927    -0.000     3.120          8          0        0             0
+C4c  R1 contra E4       0.811    -0.000     2.790          8          0        0             0
+C5   G0 contra R1       0.806    -0.017     3.960          9          0        0             1
+C5c  E5 contra R1       0.895    -0.003     4.135         10          0        0             1
+
+--- ganho por classe (pontos) ---
+                 C1   C1c    C2    C2c    C3    C3c     C4    C4c     C5    C5c
+rand_20j_4m   1.116 1.033 0.002 -0.000 0.017  0.006  1.131  0.724 -0.016 -0.003
+rand_250j_25m 0.235 0.235 0.278  0.278 0.042  0.004 -0.000 -0.000  0.235  0.283
+rand_300j_20m 0.099 0.099 0.129  0.129 0.030  0.013 -0.000 -0.000  0.099  0.122
+rand_20j_6m   3.118 3.037 0.110  0.143 0.112  0.071  3.120  2.546 -0.002  0.058
+rand_30j_8m   3.249 3.152 0.366  0.427 0.150  0.096  3.038  2.790  0.217  0.312
+rand_40j_5m   0.657 0.647 0.001  0.006 0.018  0.007  0.674  0.550 -0.017 -0.001
+rand_50j_10m  1.671 1.665 0.366  0.488 0.139  0.078  1.446  1.421  0.228  0.327
+rand_60j_20m  5.285 5.278 4.117  4.262 0.163  0.071  1.391  1.383  3.960  4.135
+rand_75j_15m  1.688 1.688 1.537  1.590 0.110  0.029  0.265  0.264  1.428  1.557
+rand_100j_20m 1.604 1.604 1.608  1.620 0.057 -0.053  0.054  0.054  1.551  1.710
+rand_150j_15m 0.320 0.320 0.372  0.372 0.052  0.021 -0.000 -0.000  0.320  0.363
+rand_150j_30m 1.665 1.665 1.673  1.673 0.008 -0.133 -0.000 -0.000  1.665  1.873
+
+--- previsoes ---
+(A1) C1: vence alem da margem em 12 de 12 (previsto >= 9); ganho medio 1.726 (previsto >= 0,15): SIM
+(A2) C1c: vence alem da margem em 12 de 12; ganho medio 1.702: SIM
+(A3) C2: vence alem da margem em 10 de 12 (previsto >= 8); ganho medio 0.880 (previsto > 0): SIM
+(A4) ganho medio de C4 0.927 contra C3 0.075 (previsto C4 > C3): SIM
+(A5) C5c: o IG simples vence o ILS forte alem da margem em 10 de 12 (previsto >= 6): SIM
+(A6) mesmo sinal a CPU igual e a iteracoes iguais em C1-C4: SIM
+(A7) ganho medio de C1 1.726 contra 4 x 0,039 = 0.156: SIM
+previsoes acertadas: 7 de 7

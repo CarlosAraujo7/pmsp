@@ -1,0 +1,29 @@
+==============================================================================================================
+AS 69 CELULAS DOS HOSPEDEIROS DO ARTIGO DO CEC (sem o TSP): captura, Spearman e margem (Entrada 283b, POS HOC)
+==============================================================================================================
+      grupo            aprendiz  celulas  classes  captura  cap_lo  cap_hi  spearman  sp_lo  sp_hi
+todas as 69              padrao       69       31   -0.071  -0.154   0.054    -0.055 -0.294  0.244
+todas as 69           permutada       69       31   -0.245  -0.335  -0.201    -0.642 -0.761 -0.494
+todas as 69 desempate aleatorio       69       31    0.157   0.137   0.187     0.781  0.568  0.892
+     padrao              padrao       21        7   -0.154  -0.205  -0.100    -0.457 -0.630 -0.169
+     padrao           permutada       21        7   -0.188  -0.252  -0.147    -0.712 -0.878 -0.537
+     padrao desempate aleatorio       21        7    0.155   0.134   0.197     0.855  0.542  0.919
+   familias              padrao        6        3    0.221   0.023   0.491     0.657  0.394  1.000
+   familias           permutada        6        3   -0.254  -0.275  -0.226    -0.943 -1.000 -0.818
+   familias desempate aleatorio        6        3    0.168   0.125   0.207     0.943  0.515  1.000
+  sintetico              padrao       24       12   -0.041  -0.789   0.497     0.248 -0.296  0.714
+  sintetico           permutada       24       12   -0.678  -0.915  -0.528    -0.674 -0.795 -0.370
+  sintetico desempate aleatorio       24       12    0.059   0.013   0.101     0.491  0.163  0.698
+  publicado              padrao       18        9    0.276  -1.074   0.639     0.868  0.595  0.977
+  publicado           permutada       18        9   -0.901  -1.711  -0.680    -0.325 -0.806  0.406
+  publicado desempate aleatorio       18        9    0.275   0.227   0.407     0.589  0.078  0.827
+
+--- margem (desempate aleatorio ganha do aleatorio alem da margem m) ---
+margem 0.02: 29 de 69
+margem 0.05: 25 de 69
+margem 0.10: 19 de 69
+celulas com a validada <= 0,05: 18; nelas o desempate aleatorio ganha alem da margem em 0
+validada bate o desempate aleatorio (Holm) em 59 de 69; o desempate aleatorio bate a validada em 2 (diferencas [0.012, 0.019]); cells: ['S5|B|0', 'S15|B|0']
+celulas em que o Q-Learning padrao ganha mais de 0,05 pontos (estimativa pontual): 21 de 69
+ganho medio sobre as 69 celulas: validada 0.649; padrao -0.046; permutada -0.159; desempate aleatorio 0.102
+maior razao rt/validada entre as celulas com validada > 0,05: 0.588

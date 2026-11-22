@@ -1,0 +1,45 @@
+==============================================================================================================
+ABLACAO DO IG COM A DESCIDA COMPLETA, O ILS CLASSICO (Entrada 285)
+==============================================================================================================
+execucoes novas: 30000; instancias: 1200; bracos novos: ['Ea', 'Eb', 'Ec', 'G2', 'R2']
+
+--- iteracoes dos bracos de CPU igual (mediana sobre as classes): Ea 340; Eb 6926; Ec 3430
+--- lacuna media ao limite inferior (%), media sobre as classes: G0 0.271; G1 0.196; R1 1.105; G2 0.193; R2 0.938; Ea 1.067; Eb 0.127; Ec 0.144
+--- descidas: 14077000 no total; truncadas pelo tampo: 0; movimentos por descida do R2: 5.65; do G2: 0.94
+--- K(R2/G0) por classe: 20x4 4.7; 20x6 5.0; 30x8 5.7; 40x5 6.5; 50x10 7.0; 60x20 6.4; 75x15 7.0; 100x20 7.3; 150x15 10.6; 150x30 6.9; 250x25 11.8; 300x20 13.0
+
+--- contrastes: ganho medio sobre as 12 classes (pontos), classes em que A vence B alem da margem, perde alem da margem, paridade, sem confirmar ---
+        contraste ganho_medio ganho_min ganho_max vence_alem perde_alem paridade sem_confirmar
+F1   R2 contra R1       0.161    -0.000     0.862          6          0        4             0
+F2   G2 contra G1       0.003    -0.020     0.023          0          0        0            11
+F3   G2 contra R2       0.725    -0.000     3.266          9          0        0             2
+F3c  G2 contra Ea       0.847    -0.000     4.011         10          0        0             0
+F4   G0 contra R2       0.648    -0.108     3.128          8          1        0             1
+F4c  Eb contra R2       0.789    -0.001     3.505          9          0        0             2
+F5c  Ec contra R2       0.773    -0.000     3.420         10          0        0             0
+
+--- ganho por classe (pontos) ---
+                  F1     F2     F3    F3c     F4    F4c    F5c
+rand_20j_4m    0.002 -0.000 -0.000 -0.000 -0.017 -0.001 -0.000
+rand_250j_25m -0.000  0.007  0.284  0.284  0.235  0.314  0.316
+rand_300j_20m -0.000 -0.002  0.128  0.128  0.099  0.131  0.141
+rand_20j_6m    0.106  0.023  0.028  0.109 -0.108  0.010  0.046
+rand_30j_8m    0.220  0.007  0.154  0.290 -0.003  0.150  0.195
+rand_40j_5m    0.001 -0.000 -0.000 -0.000 -0.018 -0.000 -0.000
+rand_50j_10m   0.181 -0.009  0.177  0.392  0.047  0.195  0.210
+rand_60j_20m   0.862 -0.020  3.266  4.011  3.128  3.505  3.420
+rand_75j_15m   0.392  0.001  1.152  1.350  1.041  1.233  1.216
+rand_100j_20m  0.162  0.019  1.467  1.545  1.392  1.610  1.542
+rand_150j_15m  0.002  0.002  0.372  0.373  0.318  0.389  0.393
+rand_150j_30m  0.002  0.007  1.679  1.680  1.664  1.938  1.798
+
+--- previsoes ---
+(B1) F1: ganho medio de R2 sobre R1 0.161 (previsto >= 0,15); R2 vence alem da margem em 6 de 12 (previsto >= 6): SIM
+(B2) F2: ganho medio de G2 sobre G1 0.003 (previsto entre -0,05 e +0,10): SIM
+(B3) F4: G0 vence R2 alem da margem em 8 de 12 a iteracoes iguais (previsto >= 5): SIM
+(B4) F4c: com a CPU do R2, o IG simples vence em 9 e perde em 0 (previsto >= 6 e <= 1): SIM
+(B5a) F3: G2 vence R2 em 9 de 12 (previsto >= 6): SIM; (B5b) F3c a CPU igual: 10 (previsto >= 6): SIM
+(B6) K(R2/G0) entre 4.7 e 13.0 (previsto entre 2 e 40 nas 12 classes): SIM
+(B7) descidas truncadas: 0 (previsto 0): SIM
+(B8) lacuna media: G0 0.271 < R2 0.938 < R1 1.105: SIM
+previsoes acertadas: 9 de 9

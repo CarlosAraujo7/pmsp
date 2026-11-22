@@ -198,7 +198,57 @@ EXTRA += r"""
   doi       = {10.3233/FAIA200122}
 }
 """
-extra_keys = {"LiFialhoEtal2014", "BiedenkappEtal2020", "Rice1976", "KerschkeEtal2019", "BischlEtal2016", "LiEtAl2010", "MnihEtAl2015", "Williams1992", "DrakeEtal2020", "Talbi2021", "LaTorreEtal2021", "EibenSmit2011", "Lakens2017", "Goldberg1990", "SonneratEtal2021", "BartzBeielsteinEtal2020", "Russo2018", "DaCostaEtal2008"}
+EXTRA += r"""
+@inproceedings{AlanaziLehre2014,
+  author    = {Fawaz Alanazi and Per Kristian Lehre},
+  title     = {Runtime analysis of selection hyper-heuristics with classical learning mechanisms},
+  booktitle = {2014 IEEE Congress on Evolutionary Computation (CEC)},
+  pages     = {2515--2523},
+  year      = {2014}
+}
+
+@inproceedings{OchoaEtal2012,
+  author    = {Gabriela Ochoa and Matthew Hyde and Tim Curtois and Jose A. V{\'a}zquez-Rodr{\'i}guez and James Walker and Michel Gendreau and Graham Kendall and Barry McCollum and Andrew J. Parkes and Sanja Petrovic and Edmund K. Burke},
+  title     = {{HyFlex}: a benchmark framework for cross-domain heuristic search},
+  booktitle = {Evolutionary Computation in Combinatorial Optimization (EvoCOP 2012)},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {7245},
+  pages     = {136--147},
+  year      = {2012},
+  publisher = {Springer}
+}
+
+@article{WoudaLan2023,
+  author    = {Niels A. Wouda and Leon Lan},
+  title     = {{ALNS}: a {Python} implementation of the adaptive large neighbourhood search metaheuristic},
+  journal   = {Journal of Open Source Software},
+  volume    = {8},
+  number    = {81},
+  pages     = {5028},
+  year      = {2023},
+  doi       = {10.21105/joss.05028}
+}
+
+@article{UchoaEtal2017,
+  author    = {Eduardo Uchoa and Diego Pecin and Artur Pessoa and Marcus Poggi and Thibaut Vidal and Anand Subramanian},
+  title     = {New benchmark instances for the capacitated vehicle routing problem},
+  journal   = {European Journal of Operational Research},
+  volume    = {257},
+  number    = {3},
+  pages     = {845--858},
+  year      = {2017}
+}
+
+@inproceedings{SharmaEtal2019,
+  author    = {Mudita Sharma and Alexandros Komninos and Manuel L{\'o}pez-Ib{\'a}{\~n}ez and Dimitar Kazakov},
+  title     = {Deep reinforcement learning based parameter control in differential evolution},
+  booktitle = {Proceedings of the Genetic and Evolutionary Computation Conference (GECCO 2019)},
+  pages     = {709--717},
+  year      = {2019},
+  doi       = {10.1145/3321707.3321813}
+}
+"""
+extra_keys = {"AlanaziLehre2014", "OchoaEtal2012", "WoudaLan2023", "UchoaEtal2017", "SharmaEtal2019", "LiFialhoEtal2014", "BiedenkappEtal2020", "Rice1976", "KerschkeEtal2019", "BischlEtal2016", "LiEtAl2010", "MnihEtAl2015", "Williams1992", "DrakeEtal2020", "Talbi2021", "LaTorreEtal2021", "EibenSmit2011", "Lakens2017", "Goldberg1990", "SonneratEtal2021", "BartzBeielsteinEtal2020", "Russo2018", "DaCostaEtal2008"}
 missing = sorted(k for k in cited if k not in entries and k not in extra_keys)
 assert not missing, f"chaves citadas sem entrada: {missing}"
 out = "\n\n".join(entries[k] for k in sorted(cited) if k in entries) + "\n" + EXTRA

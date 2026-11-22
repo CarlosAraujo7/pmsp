@@ -1,0 +1,120 @@
+==============================================================================================================
+REANALISE PARA O CEC: RAZAO DE CAPTURA, CONGLOMERADOS, MARGEM, ORDEM E CLASSES (Entrada 283)
+==============================================================================================================
+
+--------------------------------------------------------------------------------------------------------------
+1. RAZAO DE CAPTURA (soma dos ganhos do aprendiz / soma dos ganhos da validada) e correlacao com o ganho da validada; IC90 por bootstrap de conglomerados (classes)
+--------------------------------------------------------------------------------------------------------------
+      grupo            aprendiz  celulas  classes captura cap_lo cap_hi mediana_celulas_val_gt_005 spearman  sp_lo  sp_hi
+todas as 85              padrao       85       39  -0.175 -0.298 -0.075                     -0.258   -0.245 -0.440 -0.014
+todas as 85           permutada       85       39  -0.236 -0.305 -0.194                     -0.285   -0.549 -0.695 -0.363
+todas as 85 desempate aleatorio       85       39   0.163  0.144  0.191                      0.159    0.826  0.684  0.906
+     padrao              padrao       21        7  -0.154 -0.206 -0.101                     -0.155   -0.457 -0.633 -0.171
+     padrao           permutada       21        7  -0.188 -0.250 -0.147                     -0.151   -0.712 -0.877 -0.536
+     padrao desempate aleatorio       21        7   0.155  0.134  0.195                      0.165    0.855  0.559  0.918
+   familias              padrao        6        3   0.221  0.023  0.491                      0.207    0.657  0.394  1.000
+   familias           permutada        6        3  -0.254 -0.275 -0.226                     -0.245   -0.943 -1.000 -0.818
+   familias desempate aleatorio        6        3   0.168  0.125  0.207                      0.137    0.943  0.515  1.000
+  sintetico              padrao       24       12  -0.041 -0.807  0.498                      0.636    0.248 -0.312  0.707
+  sintetico           permutada       24       12  -0.678 -0.929 -0.528                     -0.397   -0.674 -0.794 -0.386
+  sintetico desempate aleatorio       24       12   0.059  0.014  0.101                      0.060    0.491  0.171  0.696
+  publicado              padrao       18        9   0.276 -1.086  0.647                      0.574    0.868  0.582  0.977
+  publicado           permutada       18        9  -0.901 -1.804 -0.677                     -0.482   -0.325 -0.814  0.434
+  publicado desempate aleatorio       18        9   0.275  0.228  0.420                      0.225    0.589  0.065  0.831
+        tsp              padrao       16        8  -0.840 -1.034 -0.714                     -0.922   -0.559 -0.791  0.015
+        tsp           permutada       16        8  -0.177 -0.294 -0.092                     -0.259    0.065 -0.418  0.494
+        tsp desempate aleatorio       16        8   0.198  0.159  0.232                      0.202    0.732  0.397  0.915
+(com menos de 5 classes o IC por conglomerados nao e' informativo: a colecao 'familias' tem 3)
+
+--------------------------------------------------------------------------------------------------------------
+2. CHAO E SENSIBILIDADE DA MARGEM (aprendiz de desempate aleatorio, 85 celulas)
+--------------------------------------------------------------------------------------------------------------
+celulas em que a validada ganha no maximo 0.05: 18; nelas o desempate aleatorio ganha alem da margem 0,05 em 0
+celulas em que a validada ganha no maximo 0.10: 32; nelas o desempate aleatorio ganha alem da margem 0,05 em 0
+  colecao  celulas  alem_0.02  alem_0.05  alem_0.10
+   padrao       21         15         15         14
+ familias        6          6          6          4
+sintetico       24          0          0          0
+publicado       18          8          4          1
+      tsp       16          7          7          7
+    total       85         36         32         26
+
+--------------------------------------------------------------------------------------------------------------
+3. A ORDEM DAS ACOES NA R||Cmax DE FANJUL-PEYRO (7 tipos x 3 espacos; ganho sobre o aleatorio a iteracoes iguais, em pontos)
+--------------------------------------------------------------------------------------------------------------
+espaco                variante  fracao_na_primeira_acao  ganho  ganho_validada  captura
+    B5 padrao (lista original)                    0.727 -0.358           0.896   -0.400
+    B5         lista invertida                    0.716 -0.243           0.896   -0.271
+    B5    validada em primeiro                    0.741  0.728           0.896    0.813
+    B5  permutada por execucao                      NaN -0.062           0.901   -0.069
+    B5     desempate aleatorio                      NaN  0.164           0.901    0.182
+   B15 padrao (lista original)                    0.706 -0.016           1.618   -0.010
+   B15         lista invertida                    0.693 -0.214           1.618   -0.132
+   B15    validada em primeiro                    0.703  1.303           1.618    0.805
+   B15  permutada por execucao                      NaN -0.236           1.638   -0.144
+   B15     desempate aleatorio                      NaN  0.303           1.638    0.185
+   B30 padrao (lista original)                    0.552 -0.539           2.353   -0.229
+   B30         lista invertida                    0.630 -0.388           2.353   -0.165
+   B30    validada em primeiro                    0.677  2.018           2.353    0.858
+   B30  permutada por execucao                      NaN -0.603           2.255   -0.267
+   B30     desempate aleatorio                      NaN  0.279           2.255    0.124
+
+--------------------------------------------------------------------------------------------------------------
+4. O Q-LEARNING PADRAO E A PRIMEIRA ACAO NAS CLASSES SINTETICAS (12 classes x 4 espacos; ganho sobre o aleatorio, a iteracoes iguais)
+--------------------------------------------------------------------------------------------------------------
+     spearman  pearson  med_abs_dif
+ql      0.936    0.885        0.043
+ucb     0.032    0.064        0.073
+pg      0.073    0.070        0.081
+celulas: 48; ganho medio da acao 0: -0.152; do Q-Learning: -0.002; do UCB1: 0.003; do gradiente de politica: -0.001; da validada: 0.046
+
+--------------------------------------------------------------------------------------------------------------
+5. TABELA DE CLASSES SINTETICAS DE P||Cmax (n, m, n/m, otimo provado, lacuna absoluta do aleatorio ao limite, ganho da validada em unidades de makespan, folga com validacao cruzada)
+--------------------------------------------------------------------------------------------------------------
+espaco           cls  makespan_medio  lacuna_unidades  lacuna_pct  no_limite  g_val  g_val_unidades   h_cf   n  m  proven  n_sobre_m
+   S15  rand_60j_20m         154.352            1.212       0.794      0.108  0.179           0.276  0.141  60 20   0.190      3.000
+   S15   rand_20j_6m         172.314            0.884       0.496      0.446  0.084           0.145 -0.035  20  6   0.920      3.333
+   S15   rand_30j_8m         193.154            0.474       0.245      0.538  0.039           0.076 -0.033  30  8   0.780      3.750
+   S15   rand_20j_4m         256.968            0.098       0.039      0.902  0.030           0.076 -0.025  20  4   1.000      5.000
+   S15  rand_50j_10m         255.160            0.580       0.229      0.430  0.103           0.263  0.054  50 10   0.580      5.000
+   S15  rand_75j_15m         255.928            0.718       0.284      0.346  0.134           0.342  0.099  75 15   0.460      5.000
+   S15 rand_100j_20m         256.182            0.892       0.350      0.234  0.128           0.327  0.112 100 20   0.580      5.000
+   S15 rand_150j_30m         255.938            1.238       0.487      0.088  0.250           0.640  0.223 150 30   0.740      5.000
+   S15   rand_40j_5m         409.690            0.080       0.019      0.920  0.007           0.029 -0.013  40  5   1.000      8.000
+   S15 rand_150j_15m         509.338            0.448       0.088      0.558  0.013           0.065  0.018 150 15   0.810     10.000
+   S15 rand_250j_25m         508.762            0.452       0.089      0.556 -0.010          -0.049 -0.008 250 25   0.990     10.000
+   S15 rand_300j_20m         761.358            0.358       0.047      0.642  0.003           0.021 -0.014 300 20   0.980     15.000
+    S5  rand_60j_20m         154.382            1.242       0.813      0.078  0.172           0.265  0.159  60 20   0.190      3.000
+    S5   rand_20j_6m         172.320            0.890       0.502      0.432  0.075           0.129 -0.016  20  6   0.920      3.333
+    S5   rand_30j_8m         193.174            0.494       0.255      0.520  0.068           0.131 -0.016  30  8   0.780      3.750
+    S5   rand_20j_4m         256.914            0.044       0.016      0.956  0.011           0.027 -0.026  20  4   1.000      5.000
+    S5  rand_50j_10m         255.148            0.568       0.222      0.452  0.094           0.239  0.048  50 10   0.580      5.000
+    S5  rand_75j_15m         255.962            0.752       0.296      0.304  0.144           0.367  0.102  75 15   0.460      5.000
+    S5 rand_100j_20m         256.218            0.928       0.363      0.206  0.150           0.384  0.153 100 20   0.580      5.000
+    S5 rand_150j_30m         255.938            1.238       0.485      0.068  0.241           0.617  0.239 150 30   0.740      5.000
+    S5   rand_40j_5m         409.692            0.082       0.019      0.918  0.003           0.014 -0.002  40  5   1.000      8.000
+    S5 rand_150j_15m         509.596            0.706       0.138      0.332  0.068           0.346  0.063 150 15   0.810     10.000
+    S5 rand_250j_25m         509.134            0.824       0.162      0.252  0.061           0.313  0.053 250 25   0.990     10.000
+    S5 rand_300j_20m         761.462            0.462       0.061      0.538  0.018           0.137 -0.006 300 20   0.980     15.000
+otimo provado: 75.2% das 1200 instancias; n/m de 3.0 a 15.0; ganho da validada em unidades de makespan: de -0.049 a 0.640
+
+--------------------------------------------------------------------------------------------------------------
+6. A FOLGA COM VALIDACAO CRUZADA NAO E' LIMITE: ganho da validada contra folga cruzada, nas 60 celulas de P||Cmax
+--------------------------------------------------------------------------------------------------------------
+celulas: 60; o ganho da validada supera a folga cruzada em 41; por conjunto: discovery 9 de 18; heldout 11 de 18; sintetico 21 de 24
+media da folga cruzada 0.072; media do ganho da validada 0.083; folga = max(cruzada, validada): media 0.091
+
+--------------------------------------------------------------------------------------------------------------
+PREVISOES
+--------------------------------------------------------------------------------------------------------------
+(W1) razao de captura agrupada do desempate aleatorio: 0.163 (previsto 0,08 a 0,30): SIM
+(W2) limite superior do IC90 por classes: 0.191 (previsto < 0,40; IC 0.144 a 0.191): SIM
+(W3) Spearman agrupado do desempate aleatorio com a validada: 0.826, IC90 0.684 a 0.906 (previsto >= 0,60 e limite inferior > 0,30): SIM
+(W4) celulas com validada <= 0,05 em que o desempate aleatorio ganha alem da margem: 0 de 18 (previsto <= 3): SIM
+(W5) razao de captura agrupada da lista permutada: -0.236 (previsto < 0): SIM
+(W6) Spearman agrupado: padrao -0.245, desempate aleatorio 0.826; diferenca 1.071 (previsto >= 0,15): SIM
+(W7) desempate aleatorio alem da margem: 36 com 0,02 (previsto >= 40), 32 com 0,05, 26 com 0,10 (previsto <= 25): NAO
+(W8) mediana de |ganho do Q-Learning - ganho da acao 0|: 0.043; do UCB1: 0.073; do gradiente: 0.081 (previsto Q < UCB1 e Q <= 0,05): SIM
+(W9) ganho da validada > folga cruzada em 41 de 60 celulas (previsto > metade): SIM
+(W10) fracao do padrao na primeira acao [0.727, 0.706, 0.552], da lista invertida [0.716, 0.693, 0.63], captura da validada em primeiro [0.813, 0.805, 0.858] (previsto 0,55-0,75; >= 0,50; >= 0,75): SIM
+previsoes acertadas: 9 de 10
