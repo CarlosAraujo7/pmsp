@@ -149,3 +149,7 @@ journal/*.pdf
 journal/refs.bib
 journal/elsarticle.cls
 journal/elsarticle-harv.bst
+
+# --- Per-decision logs of Cycles 54-55 (regenerable and deterministic; the manifest with md5 is tracked) ---
+results/logs287/
+results/logs289/

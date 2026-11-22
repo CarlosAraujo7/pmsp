@@ -1,0 +1,103 @@
+======================================================================================================================
+ESTIMANDOS, INFERENCIA E ACOPLAMENTO EM DADOS EXISTENTES (Entrada 286)
+======================================================================================================================
+celulas: 85 (69 do CEC + 16 do TSP); instancias por celula: min 50, mediana 100, max 540
+
+--- regras de decisao (rt contra o aleatorio; validada contra o rt) ---
+conjunto  margem  rt_alem_antiga  rt_alem_estrita  rt_paridade_TOST  rt_pior_que_aleatorio_alem  val_bate_rt_antiga  val_bate_rt_estrita  rt_bate_val_alem  celulas
+  69 CEC    0.02              29               25                19                           0                  58                   53                 1       69
+  69 CEC    0.05              25               20                36                           0                  51                   45                 0       69
+  69 CEC     0.1              19               14                47                           0                  40                   38                 0       69
+      85    0.02              36               32                19                           1                  73                   67                 1       85
+      85    0.05              32               26                36                           0                  66                   59                 0       85
+      85     0.1              26               15                50                           0                  54                   50                 0       85
+
+conferencia da regra antiga com a Entrada 283 (85 celulas; margens (0.02, 0.05, 0.1)): aqui {0.02: 36, 0.05: 32, 0.1: 26}; na Entrada 283 {0.02: 36, 0.05: 32, 0.1: 26}
+
+--- estimandos (ganho em pontos; IC90 por bootstrap de cluster, Fieller sobre os totais por cluster) ---
+conjunto                                         estimador  estimativa     lo     hi  n_celulas  n_clusters  n_cap
+  69 CEC                                    razao_de_somas       0.157 0.1369  0.189         69          31     51
+  69 CEC                  fieller_sobre_totais_por_cluster       0.157 0.1357 0.1924         69          31     51
+  69 CEC                            inclinacao_pela_origem      0.1414 0.1318 0.1741         69          31     51
+  69 CEC                           premio_offline_medio_pp      0.5467 0.2868 0.8321         69          31     51
+  69 CEC captura_por_celula_gval>=0,05 (mediana, q25, q75)      0.1408 0.0781 0.2268         69          31     51
+      85                                    razao_de_somas      0.1625 0.1437 0.1884         85          39     67
+      85                  fieller_sobre_totais_por_cluster      0.1625 0.1432 0.1946         85          39     67
+      85                            inclinacao_pela_origem      0.1434 0.1337 0.1759         85          39     67
+      85                           premio_offline_medio_pp      0.5102 0.2919 0.7454         85          39     67
+      85 captura_por_celula_gval>=0,05 (mediana, q25, q75)      0.1588   0.09 0.2304         85          39     67
+
+--- por colecao (69 celulas) ---
+     coll  celulas  g_val   g_rt  premio  razao_somas
+ familias        6  1.282 0.2155   1.067        0.168
+   padrao       21  1.598 0.2484   1.349       0.1555
+publicado       18   0.08  0.022   0.058        0.275
+sintetico       24 0.0859 0.0051  0.0809       0.0592
+
+--- acoplamento: Spearman entre celulas do ganho do rt e do ganho da validada (200 divisoes das instancias) ---
+conjunto    escopo  n  S_completo  S_acoplado_meio  S_desacoplado_meio  dH_p05  dH_p95
+  69 CEC     todas 69       0.781             0.78               0.768   0.736   0.786
+  69 CEC    padrao 21       0.855            0.811               0.797   0.736    0.85
+  69 CEC  familias  6       0.943            0.938               0.921     0.8   0.973
+  69 CEC sintetico 24       0.491            0.358               0.293   0.171   0.407
+  69 CEC publicado 18       0.589            0.618               0.617   0.574   0.663
+      85     todas 85       0.826            0.798               0.776   0.744   0.806
+      85    padrao 21       0.855            0.813                 0.8   0.741    0.85
+      85  familias  6       0.943            0.945               0.925   0.827       1
+      85 sintetico 24       0.491            0.359               0.293   0.165   0.391
+      85 publicado 18       0.589            0.618               0.619   0.571   0.664
+      85       tsp 16       0.732            0.677               0.572   0.447   0.688
+
+--- pools sem rotulo de classe (P||Cmax sintetico; ganho medio das 12 classes, pontos; IC90 estratificado) ---
+espaco      metodo  ganho_pp  ci90_lo  ci90_hi  acao_unica  n_classes
+    S5        pool   -0.0718  -0.0864  -0.0579           1         12
+    S5         val     0.092    0.087   0.0971           1         12
+    S5          rt    0.0095   0.0044   0.0146           1         12
+    S5         ucb    0.0008  -0.0046   0.0062           1         12
+    S5          ql   -0.0028  -0.0087   0.0035           1         12
+    S5  rt_vs_pool    0.0797   0.0654   0.0944           1         12
+    S5 val_vs_pool    0.1622   0.1482   0.1769           1         12
+   S15        pool   -0.0809  -0.0955  -0.0656           1         12
+   S15         val    0.0799   0.0746    0.085           1         12
+   S15          rt    0.0007   -0.004   0.0054           1         12
+   S15         ucb    0.0043  -0.0007   0.0094           1         12
+   S15          ql   -0.0043    -0.01   0.0017           1         12
+   S15  rt_vs_pool    0.0801   0.0651   0.0943           1         12
+   S15 val_vs_pool    0.1593   0.1439   0.1739           1         12
+acoes unicas escolhidas no ajuste: 1 (S5), 1 (S15); acoes validadas distintas entre as 12 classes: 5 (S5), 5 (S15)
+
+--- cota do vies do oraculo de uma semente (Entrada 257): vies_um <= sigma raiz(2 ln A) ---
+ A  tau  sigma  bias_um   cota  ok_cota  bias_cv  ok_um  ok_cv
+ 5    0    0.5   0.5789 0.8971     True  -0.0048   True   True
+ 5    0      1    1.156  1.794     True  -0.0081   True   True
+ 5    0      2     2.32  3.588     True  -0.0033   True   True
+ 5 0.25    0.5   0.3558 0.8971     True  -0.1265   True   True
+ 5 0.25      1   0.9072  1.794     True  -0.2004   True   True
+ 5 0.25      2    2.059  3.588     True  -0.2596   True   True
+ 5    1    0.5   0.1399 0.8971     True  -0.0714   True   True
+ 5    1      1    0.484  1.794     True  -0.2162   True   True
+ 5    1      2    1.438  3.588     True  -0.4879   True   True
+15    0    0.5   0.8683  1.164     True  -0.0037   True   True
+15    0      1    1.742  2.327     True  -0.0055   True   True
+15    0      2    3.464  4.654     True   0.0023   True   True
+15 0.25    0.5   0.5358  1.164     True  -0.1795   True   True
+15 0.25      1    1.358  2.327     True  -0.2887   True   True
+15 0.25      2    3.071  4.654     True  -0.3613   True   True
+15    1    0.5   0.2046  1.164     True  -0.1028   True   True
+15    1      1   0.7156  2.327     True  -0.3248   True   True
+15    1      2    2.152  4.654     True  -0.7191   True   True
+
+--- previsoes ---
+(P1) capture agregada (69 celulas): 0.157, IC90 por cluster [0.137; 0.189] (previsto inteiro em [0,10; 0,25]): SIM
+(P2) Fieller [0.136; 0.192] contra cluster [0.137; 0.189] (previsto |dif| < 0,03 nos dois extremos): SIM
+(P3) Spearman desacoplado a meio tamanho (69): 0.768 (previsto >= 0,60): SIM
+(P4) acoplamento = acoplado - desacoplado a meio tamanho: +0.012 (previsto |.| <= 0,10): SIM
+(P5) regra estrita, margem 0,05: rt alem da margem em 20 de 69 (antiga: 25) (previsto <= 20): SIM
+(P6) paridade TOST, margem 0,05: 36 de 69 (previsto >= 35): SIM
+(P7) premio offline medio (69): 0.547 pp, IC90 por cluster [0.287; 0.832] (previsto limite inferior > 0): SIM
+(P8) inclinacao pela origem (69): 0.141, IC90 [0.132; 0.174] (previsto inteiro em [0,08; 0,30]): SIM
+(P9) cota sigma raiz(2 ln A) vale em 18 de 18 configuracoes (previsto 18 de 18): SIM
+(P10) pool S5: a acao unica retem -0.780 do ganho medio da validada por classe (previsto >= 0,90): NAO
+(P11) rt contra a acao unica: S5 IC90 [0.065; 0.094], S15 [0.065; 0.094] (previsto limite inferior <= 0,05 nos dois): NAO
+(P12) pool S5: validada contra acao unica +0.162 pp, IC90 [+0.148; +0.177] (previsto limite inferior > 0): SIM
+previsoes acertadas: 10 de 12

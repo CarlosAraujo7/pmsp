@@ -1,0 +1,31 @@
+==============================================================================================================
+POS HOC: POR QUE O BANDIDO OBLIVIO FALHOU, E A CAPTURA CONTRA A INFORMACAO (Entrada 287b)
+==============================================================================================================
+(i) vantagem estatica cruzada do bandido (T Delta_cf) contra o ganho observado da validada (celulas com Delta_cf > 0: 69 de 69):
+    mediana de T Delta_cf / g_val (g_val >= 0,05): 5.750
+    mediana de tw_oracle / g_val (em amostra, sem validacao cruzada, g_val >= 0,05): 6.106
+    Spearman(T Delta_cf, g_val) nas 69: +0.528; mediana da razao por colecao:
+      familias: cruzada 6.349 (n = 6); em amostra 5.370
+      padrao: cruzada 4.454 (n = 21); em amostra 4.946
+      publicado: cruzada 8.029 (n = 9); em amostra 9.671
+      sintetico: cruzada 19.855 (n = 15); em amostra 20.194
+
+(ii) captura observada do rt (celulas com g_val >= 0,05; n = 51) contra a informacao disponivel:
+    Spearman(recompensas positivas por acao por execucao, captura do rt): +0.546
+    Spearman(numero de acoes K, captura do rt): -0.123
+    Spearman(taxa de recompensa positiva, captura do rt): +0.515
+    Spearman(recompensas positivas por execucao, captura do rt): +0.515
+
+    captura mediana por terco de pos_per_arm_run:
+                 celulas  mediana_do_fator  captura_mediana  g_val_mediano
+pos_per_arm_run                                                           
+terco baixo           17            0.2316           0.0362         0.1788
+terco medio           17            0.6804           0.1641         0.2412
+terco alto            17            1.6044           0.2084         0.8441
+
+    captura mediana por terco de K:
+             celulas  mediana_do_fator  captura_mediana  g_val_mediano
+K                                                                     
+terco baixo       17               5.0           0.1115         0.2412
+terco medio       17              15.0           0.1920         0.4408
+terco alto        17              15.0           0.1351         0.2692

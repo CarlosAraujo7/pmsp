@@ -1,0 +1,7 @@
+conjunto,margem,rt_alem_antiga,rt_alem_estrita,rt_paridade_TOST,rt_pior_que_aleatorio_alem,val_bate_rt_antiga,val_bate_rt_estrita,rt_bate_val_alem,celulas
+69 CEC,0.02,29,25,19,0,58,53,1,69
+69 CEC,0.05,25,20,36,0,51,45,0,69
+69 CEC,0.1,19,14,47,0,40,38,0,69
+85,0.02,36,32,19,1,73,67,1,85
+85,0.05,32,26,36,0,66,59,0,85
+85,0.1,26,15,50,0,54,50,0,85

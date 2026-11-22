@@ -1,0 +1,13 @@
+48a6a79ad9130393c06f478958e248e7 *pmsp/de_host.py
+b3e5f20ed0f92d4b2457d497efee5ba0 *experiment/run_cycle55_de_entrada289.py
+9a1b52ced1343977f0fc9c9ed7f867b8 *analysis/learnability_dense.py
+e59176422d00e237227e98b5d3865fd4 *tests/test_de_host_entrada289.py
+d83496195edcf9889f741c2bfa41d785 *tests/test_learnability_dense_entrada289.py
+# --- apos o estagio base (22/11/2026): previsoes do gemeo congeladas ANTES do estagio learn ---
+027f61d22f6115e44e8dd55f3a016048 *analysis/report_entrada289_de.py
+c61f7f2cf1e906e3c9c49191fff3e52a *analysis/predict_entrada289_twin.py
+9a46dee8b13bf51a97d198a759b3c166 *results/entrada289_twin_predictions.csv
+ce93db4e04225e79404bc70acd687641 *results/de_tune_entrada289.csv
+a0bbf1f7dafad546f603ec7bebc680d1 *results/de_test_base_entrada289.csv
+db8a8d09ac453987f1dc126358293290 *tests/test_report_entrada289_glue.py
+7c2f8a25f2f6152c996239a7ad1397f6 *analysis/report_entrada289c_posthoc.py

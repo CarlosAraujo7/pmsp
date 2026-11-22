@@ -1,0 +1,30 @@
+==============================================================================================================
+SENSIBILIDADE DO POOL SEM ROTULO AO CRITERIO DE ESCOLHA DA ACAO UNICA (Entrada 286b, POS HOC)
+==============================================================================================================
+--- S5: acoes unicas por criterio: c0 -> 1; c1 -> 4; c2 -> 4; c3 -> 2; acoes validadas distintas: 5 ---
+--- S15: acoes unicas por criterio: c0 -> 1; c1 -> 4; c2 -> 4; c3 -> 1; acoes validadas distintas: 5 ---
+
+espaco                                    criterio  acao    metrica  ganho_pp  ci90_lo  ci90_hi
+    S5      c0 menor lacuna media (pre-registrado)     1       pool   -0.0718  -0.0866  -0.0576
+    S5      c0 menor lacuna media (pre-registrado)     1 rt_vs_pool    0.0797   0.0657   0.0944
+    S5  c1 balanceado por classe (lacuna relativa)     4       pool   -0.1084  -0.1174  -0.0992
+    S5  c1 balanceado por classe (lacuna relativa)     4 rt_vs_pool    0.1171   0.1075   0.1263
+    S5                              c2 posto medio     4       pool   -0.1084  -0.1174  -0.0992
+    S5                              c2 posto medio     4 rt_vs_pool    0.1171   0.1075   0.1263
+    S5 c3 retrospectivo no teste (limite superior)     2       pool   -0.0633  -0.0724  -0.0546
+    S5 c3 retrospectivo no teste (limite superior)     2 rt_vs_pool    0.0722   0.0637    0.081
+   S15      c0 menor lacuna media (pre-registrado)     1       pool   -0.0809  -0.0959  -0.0669
+   S15      c0 menor lacuna media (pre-registrado)     1 rt_vs_pool    0.0801   0.0662   0.0947
+   S15  c1 balanceado por classe (lacuna relativa)     4       pool   -0.1214  -0.1307  -0.1123
+   S15  c1 balanceado por classe (lacuna relativa)     4 rt_vs_pool    0.1213   0.1119   0.1302
+   S15                              c2 posto medio     4       pool   -0.1214  -0.1307  -0.1123
+   S15                              c2 posto medio     4 rt_vs_pool    0.1213   0.1119   0.1302
+   S15 c3 retrospectivo no teste (limite superior)     1       pool   -0.0809  -0.0959  -0.0669
+   S15 c3 retrospectivo no teste (limite superior)     1 rt_vs_pool    0.0801   0.0662   0.0947
+
+leitura: 'pool' e' o ganho da acao unica sobre o aleatorio; 'rt_vs_pool' e' o ganho do rt sobre essa acao unica (positivo = o rt e' melhor); 'val' e 'rt' (ganho sobre o aleatorio) nao dependem do criterio:
+espaco                               criterio  acao metrica  ganho_pp  ci90_lo  ci90_hi
+    S5 c0 menor lacuna media (pre-registrado)     1     val     0.092   0.0869   0.0972
+    S5 c0 menor lacuna media (pre-registrado)     1      rt    0.0095   0.0045   0.0149
+   S15 c0 menor lacuna media (pre-registrado)     1     val    0.0799   0.0748   0.0849
+   S15 c0 menor lacuna media (pre-registrado)     1      rt    0.0007  -0.0039   0.0052
