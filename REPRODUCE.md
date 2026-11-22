@@ -7,11 +7,12 @@ the experiments themselves can be re-run with the pipelines below. Heavy runs ar
 
 ```bash
 pip install -r requirements.txt          # Python 3.12; numba 0.68, numpy, pandas, scipy
-python -m pytest tests -q                # 1,648 tests (about 1 minute on an idle machine with a warm numba cache; about 4 minutes cold)
+python -m pytest tests -q                # 1,656 tests (about 1 minute on an idle machine with a warm numba cache; about 4 minutes cold)
 python -m analysis.audit_journal_claims  # 448 checks: numbers, text snippets, registered-prediction counters
 python -m analysis.audit_journal_short   # every number of the condensed version occurs in the audited full text
 python -m analysis.audit_cec_claims4     # numbers of the CEC correction (random-tie Q-Learning)
-python -m analysis.audit_entradas286_290 # 153 checks: the numbers of the diary for Cycles 53-55 (estimands, learnability logs, order test, horizon, differential evolution)
+python -m analysis.audit_entradas286_290 # 180 checks: the numbers of the diary for Cycles 53-56 (estimands, learnability logs, order test, horizon, differential evolution, aligned credit)
+python -m analysis.audit_cec_v8          # 84 checks: the new numbers of the v8 draft of the CEC paper (cec/cec2027_v8.tex; build with bash cec/build_v8.sh [anon])
 python -m analysis.audit_cec_claims && python -m analysis.audit_cec_claims2 && python -m analysis.audit_cec_claims3   # 530 checks for the 8-page version
 python analysis/make_table_journal.py && python analysis/make_fig_journal_granularity.py   # tables and the figure of the manuscript
 bash journal/build.sh                    # journal/main.pdf, the full manuscript (MiKTeX or TeX Live; elsarticle)
@@ -46,7 +47,9 @@ the line-ending conversion of git can change the hash of a text file, so compare
 | 288 | order-invariance permutation test (`pmsp/order_test.py`) and the zero-row accounting of the standard Q-Learning, 19 cells, 12 orders of the action list | `experiment/run_cycle54b_order_entrada288.py` | `report_entrada288_order.py` | -- |
 | 289, 289b | the protocol on differential evolution with strategy selection (BBOB, D = 10, five strategies, success-rate reward, dense signal); 289b: the digital twin's numeric predictions, frozen before the learner stage | `experiment/run_cycle55_de_entrada289.py --stage tune`, `--stage base`, then `analysis/predict_entrada289_twin.py`, then `--stage learn` (needs `cma==4.6.0`; `pmsp/de_host.py`) | `report_entrada289_de.py` (twin in `analysis/learnability_dense.py`) | -- |
 | 290 | horizon dose-response on the standard R||Cmax benchmark (T = 1,000, 4,000, 16,000; the first run, with a flawed validated action, is kept in `results/horizon290_run1_flawed/` and not counted) | `experiment/run_cycle54c_horizon_entrada290.py` | `report_entrada290_horizon.py` | -- |
-| 286-290 | numeric audit of the entries above against the diary | `analysis/audit_entradas286_290.py`; all steps in order: `experiment/pipeline_cycle53_55_entradas286_290.sh` | -- | -- |
+| 291 | the information-alignment dilemma: the seven DE learners with two credits aligned with the objective (log-incumbent, an upper bound that uses the optimum value; relative incumbent, practical) | `experiment/run_cycle56_credit_entrada291.py --stage base`, then `--stage learn` (`pmsp/de_credit.py`) | `report_entrada291_credit.py` (table of the paper: `analysis/make_table_cec_de.py`) | -- |
+| v8 | draft of the CEC paper re-framed after the second blind review (the audited v7 is untouched) | `bash cec/build_v8.sh`, `bash cec/build_v8.sh anon` | `analysis/audit_cec_v8.py` | -- |
+| 286-291 | numeric audit of the entries above against the diary | `analysis/audit_entradas286_290.py`; all steps in order: `experiment/pipeline_cycle53_55_entradas286_290.sh` | -- | -- |
 | 279, 280, 280b | Q-Learning with ties broken at random and permuted lists; the same in the 85 cells of the order diagnostic; post hoc test against the validated action | `pipeline_cycle47_ties_entrada279.sh`, `pipeline_cycle48_tiesall_entrada280.sh` (hashes, then the runs) | `report_entrada279_ties.py`, `report_entrada280_tiesall.py`, `report_entrada280b_headline.py` | 4.5 |
 | 265, 269, 273, 276 | global Benjamini-Yekutieli control | none (reads all test files) | `report_entrada265_global.py`, `report_entrada269_global.py`, `report_entrada273_global.py`, `report_entrada276_global.py` | 6 |
 

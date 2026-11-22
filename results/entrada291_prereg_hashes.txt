@@ -1,0 +1,9 @@
+716f28127a6acb14731630b0de109b42 *pmsp/de_credit.py
+a049278c3565e6b93a47448805c457b5 *experiment/run_cycle56_credit_entrada291.py
+98ffec455489b504bfa5892de6f27d94 *analysis/report_entrada291_credit.py
+dbe676d82c6916d364626cd27929b0f6 *tests/test_de_credit_entrada291.py
+35011936ab27d7ac9023504cdedcd8a9 *tests/test_report_entrada291_glue.py
+48a6a79ad9130393c06f478958e248e7 *pmsp/de_host.py
+ce93db4e04225e79404bc70acd687641 *results/de_tune_entrada289.csv
+a0bbf1f7dafad546f603ec7bebc680d1 *results/de_test_base_entrada289.csv
+715ad7f0a8a6cb7e35f4051b311eea89 *results/de_test_learn_entrada289.csv

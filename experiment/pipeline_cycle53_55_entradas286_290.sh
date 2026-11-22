@@ -29,5 +29,13 @@ python -m analysis.predict_entrada289_twin                          # previsoes 
 python -m experiment.run_cycle55_de_entrada289 --stage learn --workers 10
 python -m analysis.report_entrada289_de
 
-# ---- auditoria numerica dos numeros do diario
+# ---- Ciclo 56 (Entrada 291): o credito alinhado com o objetivo no hospedeiro de DE (as mesmas sementes da Entrada 289)
+python -m experiment.run_cycle56_credit_entrada291 --stage base --workers 11
+python -m experiment.run_cycle56_credit_entrada291 --stage learn --workers 11
+python -m analysis.report_entrada291_credit
+python -m analysis.make_table_cec_de                                # cec/tab_de.tex
+
+# ---- rascunho v8 do artigo do CEC e a auditoria numerica
+bash cec/build_v8.sh && bash cec/build_v8.sh anon
 python -m analysis.audit_entradas286_290
+python -m analysis.audit_cec_v8

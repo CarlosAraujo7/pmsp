@@ -1,0 +1,204 @@
+%% IEEE CEC 2027 submission draft (8 pages including references, IEEE conference format, double-anonymous review). Version 8 DRAFT (22/11/2026): re-framing after the second blind review (content and novelty only) and the execution of Cycles 53-55.
+%% It keeps the measured results of version 7 (cec2027_paper.tex, audited, untouched) and adds: the estimands and the strict rule (Entry 286), the order-invariance test and the zero-row bound (288), depletion (287, 290), differential evolution on BBOB (289, 291).
+%% Build: bash cec/build_v8.sh   (draft)   |   bash cec/build_v8.sh anon   (anonymous version). Red text marks what is still to be decided or verified.
+\documentclass[conference,a4paper]{IEEEtran}
+\usepackage{cite}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{url}
+\newif\ifdraftmarks \draftmarkstrue
+\newif\ifanon \anonfalse % CEC 2027 is double-anonymous: build with `bash cec/build_v8.sh anon`
+\newcommand{\todonote}[1]{\ifdraftmarks\textcolor{red}{\textbf{[#1]}}\fi}
+\newcommand{\Cmax}{C_{\max}}
+\hyphenation{learn-heu-ris-tics}
+
+\begin{document}
+
+\title{Where Does Online Operator Selection Pay? A Budget-Fair Audit with Three Measured Mechanisms}
+
+\ifanon
+\author{\IEEEauthorblockN{Anonymous Authors}}
+\else
+\author{\IEEEauthorblockN{Carlos Vinicio Dantas Ara\'ujo\IEEEauthorrefmark{1}\todonote{add advisor/coauthor}}
+\IEEEauthorblockA{Graduate Program in Computer Science, State University of Cear\'a (UECE), Fortaleza, Brazil\\
+\IEEEauthorrefmark{1}carlos.vinicio@aluno.uece.br}}
+\fi
+
+\maketitle
+
+\begin{abstract}
+Learning-guided metaheuristics are usually reported to beat non-learning counterparts, but studies seldom separate what the policy adds from what the search structure, the CPU budget and offline tuning already give.
+We propose a budget-fair audit (random control, equal CPU time, a static configuration chosen on separate instances, a power check, a positive control and a strict decision rule) and apply it to Iterated Greedy (IG) for parallel machine scheduling, a flowshop, a genetic algorithm, unrelated machines, a third-party ALNS and, as a standard evolutionary host with a dense learning signal, differential evolution with strategy selection on the 24 BBOB functions.
+Online selection does not pay. A classical ILS stays $0.6$--$0.8$ points of makespan behind the IG at equal CPU time while learning adds at most $0.04$; a Q-Learning that does not lock in captures $14$--$16\%$ of the static action's gain under four estimators; and in differential evolution the strategy tuned per function gains up to $8.4$ decades of error over random choice while all seven online learners are worse than random choice.
+Three mechanisms, each measured, explain it: lock-in of the zero-initialised Q-Learning on the first listed action (a permutation test finds it in $17$ of $19$ cells; a bound explains $84\%$ of it), depletion of the reward (a bandit model overstates the gain of a fixed action $5.75$ times) and misalignment of the proxy reward (the action with the highest success rate is the best one in $5$ of $24$ functions; a credit aligned with the objective brings the learners to parity with random choice but not above it).
+Gains come from knowledge acquired offline, not from learning during the run.
+\end{abstract}
+
+\begin{IEEEkeywords}
+adaptive operator selection, learnheuristics, iterated greedy, differential evolution, experimental methodology
+\end{IEEEkeywords}
+
+\section{Introduction}
+Metaheuristics that learn while they search are a prominent line of work in evolutionary computation and operations research: adaptive operator selection (AOS)~\cite{FialhoEtal2010,AletiMoser2016}, selection hyper-heuristics~\cite{BurkeEtal2013} and \emph{learnheuristics}~\cite{CalvetEtal2017}.
+A typical design embeds a reinforcement-learning agent, most often tabular Q-Learning~\cite{WatkinsDayan1992,SuttonBarto2018}, as a selector of operators or strategies inside a host such as Iterated Greedy (IG)~\cite{RuizStutzle2007} or differential evolution (DE)~\cite{StornPrice1997}, and reports that it beats the host without the agent~\cite{KarimiMamaghanEtal2023,MissaouiOSullivan2026,QinEtal2009}.
+Such results are read as evidence that the \emph{learned policy} is what helps.
+
+Three confounds make that reading fragile. The \emph{search structure} that hosts the agent may produce most of the gain under any selection rule.
+The \emph{budget}: an agent changes the CPU time per iteration, so equal iteration counts are not equal budgets.
+The \emph{tuning}: a configuration validated offline on separate instances is a competitor that most studies omit.
+Parameter-control surveys point out such shortcomings~\cite{KarafotiasEtal2015}, and a meta-analysis of the adaptive layer of ALNS finds that it adds little~\cite{TurkesEtal2021}; we turn the controls into a measurable audit across hosts and reward regimes, and ask \emph{why} the learner does not pay.
+
+\textbf{RQ1:} what explains the advantage of a learning-guided IG over iterated local search (ILS), and how much of a local search's gain is only budget?
+\textbf{RQ2:} do online learners beat random choice over the same actions and a static configuration validated offline, where the learning signal is sparse (scheduling) and where it is dense (DE)?
+\textbf{RQ3:} which mechanisms keep online selection from paying, and can they be measured?
+Our contributions are (i) a budget-fair audit protocol with explicit estimands (the \emph{capture} and the \emph{offline premium}), a strict decision rule and a reusable order-invariance test, released as a small library; (ii) evidence over six hosts, including a standard evolutionary host with a dense signal, that online selection does not pay and the offline-validated choice does; and (iii) three measured mechanisms: lock-in, depletion and misalignment.
+
+\section{Related Work}
+The question is close to parameter control~\cite{KarafotiasEtal2015,AletiMoser2016} and to selection hyper-heuristics~\cite{BurkeEtal2013}, which choose among low-level heuristics online (HyFlex~\cite{OchoaEtal2012} is a standard testbed, and simple learning rules can provably pay in some settings~\cite{AlanaziLehre2014}); offline configurators such as irace~\cite{LopezIbanezEtal2016} fix the parameters before the run.
+AOS uses probability matching~\cite{Goldberg1990}, adaptive pursuit~\cite{Thierens2005}, bandits~\cite{AuerEtal2002,DaCostaEtal2008} or reinforcement learning with a state~\cite{SharmaEtal2019}; in DE the best known adaptive design selects among strategies with success-based credit~\cite{QinEtal2009}.
+Guidelines standardise comparisons between algorithms~\cite{BartzBeielsteinEtal2020} and algorithm-selection libraries score a selector by the share of the gap to the per-instance oracle that it closes~\cite{Rice1976,BischlEtal2016}; neither attributes a gain to its source.
+Q-Learning has been used to select operators in an IG for the flowshop~\cite{KarimiMamaghanEtal2023} and the destruction size in an IG for parallel machines~\cite{MissaouiOSullivan2026}; both report that the learning-guided method wins.
+\todonote{positioning to verify and add: \"Ozcan et al. 2008 and runtime analyses of selection hyper-heuristics (Lissovoi, Oliveto, Warwicker; Doerr et al.), Fawcett and Hoos 2016 (ablation), Campelo and Takahashi 2019 (power)}
+
+\section{Method}
+\subsection{Hosts, instances and actions}
+\label{sec:hosts}
+In P$||\Cmax$, $n$ jobs with times $p_j\sim U[1,100]$ go to $m$ identical machines to minimise the makespan $\Cmax$; the bound is $\mathrm{LB}=\max(\max_jp_j,\lceil\sum_jp_j/m\rceil)$~\cite{Graham1969}, and a certified bound from an arc-flow relaxation~\cite{MradSouayah2018} proves optimality for $75.3\%$ of the synthetic instances.
+The twelve synthetic classes $(n,m)$ have $n/m$ from $3$ to $15$ ($100$ test and $30$ tuning instances each; Table~\ref{tab:classes}) and sit close to the ceiling: random choice is at the bound in $7$--$96\%$ of the runs.
+The published families B, C and E of the benchmark of~\cite{OstojicEtAl2025} give disjoint sets of $525$ tuning, $2{,}550$ discovery and $3{,}950$ held-out instances.
+The \textbf{IG} alternates destruction (removing $d$ jobs) and greedy reconstruction (non-increasing time onto the least-loaded machine) and accepts a candidate that does not worsen $\Cmax$; the \emph{actions} are the destruction strategy and size ($5$, $15$ or $30$ actions).
+The \textbf{ILS} starts from LPT, applies one of four neighbourhood operators under best improvement and, after $50$ iterations without improvement, returns to the best solution and applies three random moves.
+At each iteration a selector $\pi$ chooses an action from the state of the current solution (gap to the bound, load imbalance, fraction of the budget used, stagnation; $81$ discrete states); its reward is the improvement of the makespan truncated at zero.
+Four further hosts reuse the same selectors and protocol: a permutation flowshop IG~\cite{RuizStutzle2007}, a steady-state genetic algorithm for P$||\Cmax$, the IG for \textbf{unrelated machines} (R$||\Cmax$; also on the published families of Fanjul-Peyro and Ruiz), and, as a third-party host, the ALNS of the \texttt{alns} library~\cite{WoudaLan2023} for the CVRP with its own selectors, on eight synthetic classes and the $22$ X instances with $n\le200$~\cite{UchoaEtal2017}.
+
+\textbf{Differential evolution (dense signal).} A generational DE (population $100$, $1000$ generations, $10^5$ evaluations) minimises the $24$ noiseless BBOB functions~\cite{HansenEtal2009} in $D=10$ (reference implementations of the \texttt{cma} package, version 4.6.0). One decision per generation chooses one of five strategies (rand/1/bin, best/1/bin, current-to-best/1/bin, rand/2/bin, current-to-rand/1; $F=0.5$, $CR=0.9$); the reward is the \emph{success rate} of the generation, the credit of SaDE-style methods~\cite{QinEtal2009}, which is dense ($177$ to $12{,}910$ successes per action per run).
+Each function is a class: instances $1$--$5$ tune the validated strategy and instances $6$--$15$ test it ($3$ seeds); the performance is $\log_{10}$ of the final error $f_{\rm best}-f_{\rm opt}$ (floor $10^{-8}$), and a gain over random choice is in decades.
+The budget is the same for every method, so no CPU-time correction applies. The strategies are far from redundant: they differ by $0.09$ to $9.2$ decades.
+
+\subsection{Learners}
+\label{sec:learners}
+The \emph{learners} are tabular Q-Learning ($\alpha=0.1$, $\gamma=0.9$, $\varepsilon$-greedy from $1.0$ to $0.05$ by $\times0.995$, zero-initialised table, ties broken by the lowest action index, or at random at every decision)~\cite{WatkinsDayan1992}; UCB1~\cite{AuerEtal2002} and a policy-gradient learner~\cite{Williams1992,SuttonBarto2018}, both with the reward divided by the largest seen so far; probability matching, adaptive pursuit, an ALNS-style roulette, Thompson sampling, DMAB~\cite{DaCostaEtal2008}, an online racing learner, LinUCB~\cite{LiEtAl2010} and a DQN~\cite{MnihEtAl2015} on the scheduling hosts; and explore-then-commit in DE.
+With $81$ states and $1000$ decisions a cell of the Q table of a five-action space is visited $2.5$ times on average.
+The \emph{static competitor} is the best fixed action per class, chosen on the tuning instances.
+
+\subsection{The budget-fair audit}
+\label{sec:protocol}
+A \emph{class} is an $(n,m)$ pair, a published family by size tercile, a type of the R$||\Cmax$ benchmark or a BBOB function; a \emph{cell} is a class in one action space, the unit of the cell analysis: $24$ synthetic and $18$ held-out published P$||\Cmax$ cells, $21$ benchmark and $6$ published-family R$||\Cmax$ cells, $69$ in all.
+The \emph{gain} of a method is the percentage reduction of the makespan (a decade of error in DE) over random choice of the same actions at equal iterations, positive when the method is better.
+(1)~\emph{Random control at a matched budget} over the same actions, iterations and instances.
+(2)~\emph{Equal CPU time:} the cost ratio $K$ of $1000$ iterations of two arms is measured on separate instances and the second arm receives $\mathrm{round}(1000K)$ iterations; a learner's gain at equal CPU time is a \emph{decision effect} plus a \emph{cost effect}.
+(3)~\emph{A static competitor validated offline,} whose tuning is priced.
+(4)~\emph{Cross-fitted headroom:} the gain of the best fixed action per instance, chosen on two seeds and evaluated on two fresh ones (a lower bound; the best of one seed is an upper bound, and the gap is at most $\sigma\sqrt{2\ln A}$ for $A$ actions).
+(5)~\emph{Power and a positive control:} the minimum detectable gain by planting gains, and a planted reward bonus the learners must find.
+(6)~\emph{Statistics specified beforehand:} per instance $d=100(A-B)/B$ is tested in pairs (Wilcoxon, Holm correction) with a bootstrap $90\%$ interval of the mean and an equivalence margin~\cite{Lakens2017} of $\pm0.05$.
+A difference is \emph{beyond the margin} when it is Holm-significant and its interval lies wholly beyond the margin (a laxer rule, an interval merely not inside it, counts $25$ cells instead of $20$ below); parity is an interval inside the margin (two one-sided tests).
+\emph{Estimands.} The \emph{capture} of a learner is its gain divided by the validated action's, pooled as a ratio of sums over cells with a class-level cluster bootstrap and a Fieller interval; the \emph{offline premium} is the difference between the two gains, which stays defined where the validated gain is near zero.
+Hypotheses, decision rules and predictions were recorded, with md5 hashes of the code, in a dated internal log before each battery (\emph{registered}); the analyses that follow a result are marked \emph{post hoc}.
+All runs used one laptop (Intel Core i5-12450H, $16$~GB); the code is compiled (numba) and covered by $1{,}656$ unit tests.
+
+\input{tab_classes.tex}
+
+\section{Results}
+Table~\ref{tab:answers} summarizes the answers; the subsections give the evidence.
+
+\begin{table*}[t]
+\caption{Answers to the research questions (gains in percentage points of the makespan, or decades of the error in differential evolution).}
+\label{tab:answers}
+\centering
+{\scriptsize\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lp{10.3cm}p{3.1cm}l@{}}
+\toprule
+ & Answer & Status & Evidence \\
+\midrule
+RQ1 & The IG's greedy reconstruction, not the policy: a classical ILS is $0.6$--$0.8$ points behind at equal CPU time, online learning adds at most $0.04$; $93\%$, $30\%$ or $28\%$ of a local search's gain is budget, by implementation & registered & \ref{sec:rq1}, Table~\ref{tab:ablation} \\
+RQ2, sparse signal & On scheduling and routing hosts the validated action is beaten in $2$ of $69$ cells (by less than $0.02$); with ties broken at random Q-Learning captures $0.157$ ($0.137$--$0.189$) of its gain and is beyond the margin in $20$ of $69$ cells; in a pool without class labels no single action beats random choice & registered; capture exploratory & \ref{sec:rq2}, Fig.~\ref{fig:class} \\
+RQ2, dense signal & In DE the strategy validated per function gains up to $8.4$ decades and all seven learners are worse than random choice ($15$--$20$ of $24$ functions); aligned credit: parity, not gain & $3$ of $12$ and $4$ of $8$ predictions; the function-level tests post hoc & \ref{sec:de}, Table~\ref{tab:de} \\
+RQ3 & Three mechanisms: lock-in ($17$ of $19$ cells; a bound explains $84\%$), depletion (a bandit overstates a fixed action $5.75$ times; $3.1$ times the successes for $16$ times the horizon) and misalignment ($5$ of $24$) & order test registered; the model failed its gate & \ref{sec:mech} \\
+\bottomrule
+\end{tabular}}
+\end{table*}
+
+\subsection{RQ1: the search structure and the budget, not the policy}
+\label{sec:rq1}
+With learning removed from both sides the IG beats the ILS in $10$ of $12$ classes by $0.49\%$, against $0.53\%$ for the learned versions: Q-Learning helps the IG by $0.011$ and hurts the ILS by about $0.03$ points.
+Table~\ref{tab:ablation} crosses the two components of the compiled IG with the action drawn at random: greedy reconstruction or random reinsertion of the removed jobs, with no descent, the IG's short descent or a descent to a local optimum; random reinsertion with the full descent is the classical ILS for P$||\Cmax$ (R2).
+Replacing the greedy reconstruction by random reinsertion costs $1.7$ points without a descent (in all twelve classes), $0.9$ with the short one and $0.7$ with the full one, more than forty times the largest gain of a learner over random choice in the same space ($0.039$).
+The plain IG beats the classical ILS by $0.65$ points at equal iterations and $0.79$ at equal CPU time (the ILS costs $5$--$13$ times as much per run), and still by $0.45$ and $0.57$ when the ILS uses the best fixed kick size of each class, chosen on the test instances in its favour.
+A full descent adds nothing to the greedy reconstruction ($+0.003$).
+\emph{Budget.} A short descent after each reconstruction improves the IG by $0.150\%$ at equal iterations, but the verdict at equal CPU depends on $K$, and $K$ depends on the implementation: with a loop-based descent ($K=9.6$) $93\%$ of the gain would have been budget, vectorized ($K=1.8$) $30\%$, compiled ($K=2.0$) $28\%$.
+
+\input{tab_ablation.tex}
+
+\subsection{RQ2 on scheduling and routing hosts: sparse signal}
+\label{sec:rq2}
+\emph{P$||\Cmax$.} At equal iterations none of the three original learners gains more than $0.016$ points in any of the $12$ comparisons, within the margin; at equal CPU time Q-Learning wins in the two larger spaces ($0.059$ and $0.049$) only through the cost effect ($0.062$ and $0.053$; decision effect $-0.003$ and $-0.004$): it repeats the action listed first, the cheapest.
+The power is adequate: the minimum detectable gain is $0.006$--$0.014$ points and planted gains of $0.02$ are found with $58$--$99.8\%$ power, while a planted reward bonus is chosen $1.5$--$13.7$ times as often as chance.
+\emph{Capture.} With ties broken at random Q-Learning gains beyond the margin in $20$ of the $69$ cells, yet it captures $0.157$ of the validated gain (ratio of sums, cluster bootstrap $0.137$--$0.189$; Fieller $0.136$--$0.192$; through the origin $0.141$; median per cell $0.141$): $0.06$, $0.16$, $0.17$ and $0.28$ in the synthetic, benchmark, family and published P$||\Cmax$ cells.
+The offline premium is $0.55$ points ($0.29$--$0.83$). Its gain follows the validated action's (rank correlation $0.78$, $0.77$ when numerator and denominator come from disjoint halves of the instances, so the shared random arm does not inflate it), and the validated action beats it in $59$ of the $69$ cells ($45$ beyond the margin) and is beaten in $2$, by less than $0.02$ points.
+\emph{Other hosts.} On a flowshop no learner beats random choice and the validated action beats the five learners in all ten pairs ($0.020$--$0.104$); on a genetic algorithm only Thompson sampling gains ($0.05$) and a validated mixture of the three best actions beats the single action by $0.11$ and $0.07$; on unrelated machines, with real headroom ($0.43$ and $1.60$ cross-fitted), the validated action gains $0.95$ and $2.08$ and beats every learner in all ten pairs ($0.77$--$2.52$), while Q-Learning loses at equal iterations.
+\emph{Third-party ALNS.} With the selectors of the \texttt{alns} library the validated operator gains beyond the margin in $7$ of $8$ classes ($0.6$--$1.1$); the best selector of each class captures $23$--$61\%$ (mean $43\%$) where any gains and none of the five beats the validated operator ($0$ of $40$); on the X instances the gaps to the best known solutions are $2.51\%$ (random), $1.89\%$ (the single best operator) and $2.00\%$ (segmented roulette).
+\emph{Without a class label.} Where the classes are pooled and the label is unknown, one static action for all twelve classes is worse than random choice ($-0.07$ points) and so is the best single action in hindsight ($-0.06$): uniform mixing is a strong hedge, and the knowledge that pays is the class label ($+0.16$ over the best single action).
+\emph{Competitors.} irace~\cite{LopezIbanezEtal2016}, given the tuning cost of the validated action, is at parity with it on P$||\Cmax$ (within $0.012$) and $0.15$--$0.19$ behind on R$||\Cmax$, never ahead beyond the margin even with ten times the budget; two published AOS designs, re-implemented and tuned per space (an episodic Q-Learning with a binary state in the style of~\cite{KarimiMamaghanEtal2023} and an FRRMAB-style bandit~\cite{LiFialhoEtal2014}), gain nothing beyond the margin on P$||\Cmax$ and at most $14\%$ of the validated gain on R$||\Cmax$.
+\emph{Published instances, a reading and its qualification.} On $2{,}550$ published instances the standard Q-Learning seemed to beat random choice ($+0.058$ points with fifteen actions; $+0.16$ and $+0.24$ in family C, middle and upper terciles; $-0.06$ in family E). We fixed this reading as hypotheses before running $3{,}950$ held-out instances, retuning nothing, and all five confirmatory tests held; it is the lock-in of Section~\ref{sec:mech}, not learning: with the list permuted once per run the same learner gains beyond the margin in none of the $69$ cells.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_cec7.pdf}
+\caption{Gain of Q-Learning over random choice at equal iterations against the gain of the validated action, per cell ($69$ cells; axes are linear within $\pm0.1$ and logarithmic beyond; the grey band is the margin $\pm0.05$, the dashed line equal gain). (a) The standard Q-Learning. (b) Ties broken at random at every decision; dotted: its pooled capture. (c) Share of the validated gain captured by each variant of the order of the actions on the R$||\Cmax$ benchmark ($7$ types, three action spaces).}
+\label{fig:class}
+\end{figure*}
+
+\subsection{RQ2 in differential evolution: dense signal}
+\label{sec:de}
+In DE the information is not scarce and the strategies differ by up to $9.2$ decades, so online selection has every chance (Table~\ref{tab:de}).
+The strategy validated per function gains $8.4$, $7.1$, $3.4$, $3.1$, $2.1$, $1.8$, $1.3$ and $1.2$ decades over random choice in eight functions (in $10$ of the $24$ the gain is at least $0.1$ decade; median $1.95$).
+\emph{No online learner pays: all seven are worse than random choice.} Their median gain is negative ($-0.11$ to $-0.60$ decades), the gain is negative in $15$ to $20$ functions, a signed-rank test over the $24$ functions rejects a zero gain for all seven ($p<0.03$), and UCB1 and adaptive pursuit lose more than one decade in $9$ and $10$ functions.
+The validated strategy beats Q-Learning with random ties in $5$ functions beyond the margin and is never beaten. (With $10$ instances per function a Holm family of $24\times7$ tests has no power; the test above takes the function as the unit.)
+\emph{Is the credit to blame?} We replaced the success rate by two credits aligned with the objective (Table~\ref{tab:de}): the reduction of $\log_{10}$ of the incumbent's error, aligned with the metric by construction (it uses $f_{\rm opt}$, so it is an upper bound, not a method), and the incumbent's improvement relative to the spread of the population, which is practical.
+The first removes most of the damage: the median gain rises for all seven learners, and Q-Learning with random ties, the policy gradient and Q-Learning with the first-index rule end at $0.00$, $0.00$ and $-0.03$ decades, at parity with random choice; but none gains over it (capture at most $0.007$) and UCB1, probability matching and adaptive pursuit stay worse ($p\le0.018$).
+The practical credit leaves them worse than random choice.
+Even the aligned credit does not find the validated strategy: the action of highest mean credit under random control is the validated one in $4$ of $24$ functions, and UCB1 spends $0.205$ of its decisions on it ($0.200$ for random choice).
+
+\input{tab_de.tex}
+
+\subsection{RQ3: three measured mechanisms}
+\label{sec:mech}
+\emph{Lock-in.} The standard Q-Learning (zero-initialised table, non-negative reward, ties broken by the first index) repeats the action listed first: on the R$||\Cmax$ benchmark it puts $55$--$73\%$ of its choices on it, reversing the list moves the lock-in, and listing the validated action first recovers $81$--$86\%$ of its gain (Fig.~\ref{fig:class}c). Across $48$ synthetic cells the rank correlation between its gain and that of its first action is $0.94$.
+With a sparse reward most rows of the table stay at zero ($72\%$ of the decisions are taken in a zero row), and in a zero row the greedy step picks the first index, so the probability of choosing index $0$ at step $t$ is at least $\varepsilon_t/K+(1-\varepsilon_t)z_t$, $z_t$ being the indicator of a zero row.
+In $27{,}360$ runs ($12$ synthetic classes and $7$ benchmark types, $12$ random orders of the action list, $20$ instances, three seeds) this bound averages $0.631$ against an observed share of $0.751$, so it explains $84\%$ of the lock-in; with ties broken at random the share is $0.2003=1/K$.
+An \emph{order-invariance test} (a permutation test that shuffles the order labels within instances; part of the library) finds an order effect in $17$ of the $19$ cells for the standard learner and in none with random ties.
+A dense reward does not remove the lock-in: in DE the standard learner puts $0.63$ of its decisions on the first action ($0.44$--$0.79$ by function).
+\emph{Depletion.} The IG accepts only candidates that do not worsen the makespan, so the total gain of a run is the sum of the rewards and is finite: improvements deplete, and the median is only $0.58$ positive rewards per action per run ($5.3$ per run; per-decision logs of $34{,}500$ random-control runs in the $69$ cells).
+A bandit model whose arm rewards ignore the trajectory, fitted to those logs and with the best action chosen on half of the instances and evaluated on the other half, overstates the gain of a fixed action $5.75$ times ($4.5$ to $20$ by collection): the standard abstraction of operator selection does not describe the IG.
+A learnability index and a win-stay capture derived from it do not predict the capture of the cells (rank correlations $-0.24$ and $-0.17$; the registered gate failed).
+Nor does time buy information: raising the horizon from $10^3$ to $1.6\times10^4$ iterations on the R$||\Cmax$ benchmark multiplies the successes per action per run by only $3.1$ and the capture does not rise (medians $0.33$, $0.36$, $0.18$).
+\emph{Misalignment and non-additivity.} In DE the action with the highest success rate is the validated one (the best for the final error) in only $5$ of the $24$ functions; UCB1 puts $37.7\%$ of its decisions on the action of highest success and $17.9\%$ on the validated one (random choice: $20\%$), and the median capture of Q-Learning is $+0.19$ in the reward but $-0.18$ in the error: the learner optimises the proxy it is given.
+A credit aligned with the objective removes the damage but not the absence of gain: the value of an action depends on \emph{when} it is used, so the credit it receives in a mixed trajectory is not the gain it would give alone, and the action of highest credit is the validated one in only $4$ of $24$ functions.
+A dense credit is a proxy; an aligned credit is sparse and depleting (IG) or does not decompose by action (DE): an \emph{information--alignment dilemma}.
+
+\section{Discussion, Limitations and Conclusion}
+\label{sec:limits}
+In every host the gain that learning-guided search reports is structure, budget or tuning: the learner's own contribution is nil to modest on scheduling (at most $0.04$ points; $14$--$16\%$ of the validated gain for a learner that does not lock in; $23$--$61\%$ for a third-party ALNS selector) and negative in a standard evolutionary host with a dense signal.
+What pays is knowledge acquired before the run, and mostly class-level knowledge: the label of the class is worth more than any learner's gain over random choice ($0.16$ points against $0.01$).
+\emph{What exploits it, and its price.} An ExtraTrees selector trained offline on $5{,}720$ disjoint instances, with scale-free features of the instance and no family label, gains $0.024$--$0.044$ points over the validated action (parity) and $0.08$--$0.095$ over Q-Learning, and captures $0.79$--$0.84$ of the one-seed headroom against $0.58$--$0.66$ for the validated action; a per-class lookup table learned on the same instances is level with it ($0.004$ and $0.006$ points) where every class was seen in training: most of the gain is class-level knowledge.
+Four repairs of the online learner (tuning per family, rewarding plateau moves, a pre-trained Q table, optimistic initialisation) do not change the order.
+Tuning is not free: on the R$||\Cmax$ benchmark the validated action costs $600$ tuning runs per class, $11.4$ times the test run of the class; charged to it, random choice run longer would be ahead unless the tuning uses one instance per class (which still yields $81\%$ of the gain), and it pays for itself beyond about $70$ to $130$ test instances per class; a Q-Learning warm-started from that one instance does not beat the static action ($1.86$ against $1.92$ points).
+\emph{A rule of use.} Before crediting a learner, compare it with random choice and with a validated static action or mixture at equal CPU time, pricing the tuning; report the capture and the offline premium with their intervals; run the order-invariance test (break ties at random; permuting once per run is not enough); check that the credit is aligned with the objective; and check that the pipeline detects a planted effect.
+
+\emph{Limitations.} (i) The equal-CPU comparison depends on $K$, measured on a laptop. (ii) Gains are in points of the makespan or decades of error and the margin is a choice; the synthetic scheduling classes are near the ceiling, so the strongest evidence is on unrelated machines, the ALNS and DE; the ILS of the ablation uses one perturbation.
+(iii) Hypotheses were recorded in a dated, hash-stamped internal log, not in a public registry; the batteries were sequential, so earlier results shaped later hypotheses, and $27$ of $56$ predictions of the last six batteries held; the capture and the correlations are exploratory.
+(iv) The DE evidence uses one credit family (the success rate; two aligned credits as a check), one decision per generation, fixed $F$ and $CR$, $D=10$ and $10$ test instances per function; adapting $F$ and $CR$, deep policies and portfolios of hundreds of operators are outside it, and the offline selector's training cost is not charged to it.
+(v) Conclusions about ``Q-Learning'' are conclusions about an implementation (initial values, tie rule).
+Not yet externally reviewed. \todonote{decide: advisor as coauthor; Zenodo DOI; AI-use disclosure wording (author's decision)}
+
+\vspace{1mm}
+\noindent\textbf{Availability.} Code, instances, results, the research diary with hypotheses and md5 hashes, the protocol library (including the order-invariance test) and the scripts that recompute every number:
+\ifanon an anonymized repository (link in the submission system).\else\url{https://github.com/CarlosAraujo7/pmsp}. \todonote{funding statement: CAPES/FUNCAP/CNPq to confirm}\fi
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs_cec}
+
+\end{document}

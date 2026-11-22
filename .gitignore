@@ -153,3 +153,14 @@ journal/elsarticle-harv.bst
 # --- Per-decision logs of Cycles 54-55 (regenerable and deterministic; the manifest with md5 is tracked) ---
 results/logs287/
 results/logs289/
+
+# --- v8 draft of the CEC paper: build products (the sources cec2027_v8.tex and tab_de.tex are tracked)
+cec/cec2027_v8*.aux
+cec/cec2027_v8*.bbl
+cec/cec2027_v8*.blg
+cec/cec2027_v8*.log
+cec/cec2027_v8*.out
+cec/cec2027_v8*.pdf
+cec/cec2027_v8_anon.tex
+cec/cec_v8.build.log
+results/logs291/

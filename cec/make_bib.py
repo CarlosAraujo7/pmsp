@@ -8,6 +8,8 @@ entries = {}
 for m in re.finditer(r"^@\w+\{([^,\s]+),.*?^\}\s*$", src, flags=re.S | re.M):
     entries[m.group(1)] = m.group(0)
 tex = (HERE / "cec2027_paper.tex").read_text(encoding="utf-8")
+if (HERE / "cec2027_v8.tex").exists():                                  # rascunho v8 (re-enquadramento): une as chaves citadas
+    tex += "\n" + (HERE / "cec2027_v8.tex").read_text(encoding="utf-8")
 cited = set()
 for m in re.finditer(r"\\cite\{([^}]*)\}", tex):
     cited |= {k.strip() for k in m.group(1).split(",")}
@@ -248,7 +250,49 @@ EXTRA += r"""
   doi       = {10.1145/3321707.3321813}
 }
 """
-extra_keys = {"AlanaziLehre2014", "OchoaEtal2012", "WoudaLan2023", "UchoaEtal2017", "SharmaEtal2019", "LiFialhoEtal2014", "BiedenkappEtal2020", "Rice1976", "KerschkeEtal2019", "BischlEtal2016", "LiEtAl2010", "MnihEtAl2015", "Williams1992", "DrakeEtal2020", "Talbi2021", "LaTorreEtal2021", "EibenSmit2011", "Lakens2017", "Goldberg1990", "SonneratEtal2021", "BartzBeielsteinEtal2020", "Russo2018", "DaCostaEtal2008"}
+EXTRA += r"""
+@article{TurkesEtal2021,
+  author    = {Renata Turke{\v{s}} and Kenneth S{\"o}rensen and Lars Magnus Hvattum},
+  title     = {Meta-analysis of metaheuristics: quantifying the effect of adaptiveness in adaptive large neighborhood search},
+  journal   = {European Journal of Operational Research},
+  volume    = {292},
+  number    = {2},
+  pages     = {423--442},
+  year      = {2021},
+  doi       = {10.1016/j.ejor.2020.10.045}
+}
+
+@article{StornPrice1997,
+  author    = {Rainer Storn and Kenneth Price},
+  title     = {Differential evolution -- a simple and efficient heuristic for global optimization over continuous spaces},
+  journal   = {Journal of Global Optimization},
+  volume    = {11},
+  number    = {4},
+  pages     = {341--359},
+  year      = {1997},
+  doi       = {10.1023/A:1008202821328}
+}
+
+@article{QinEtal2009,
+  author    = {A. K. Qin and V. L. Huang and P. N. Suganthan},
+  title     = {Differential evolution algorithm with strategy adaptation for global numerical optimization},
+  journal   = {IEEE Transactions on Evolutionary Computation},
+  volume    = {13},
+  number    = {2},
+  pages     = {398--417},
+  year      = {2009},
+  doi       = {10.1109/TEVC.2008.927706}
+}
+
+@techreport{HansenEtal2009,
+  author      = {Nikolaus Hansen and Steffen Finck and Raymond Ros and Anne Auger},
+  title       = {Real-parameter black-box optimization benchmarking 2009: noiseless functions definitions},
+  institution = {INRIA},
+  number      = {RR-6829},
+  year        = {2009}
+}
+"""
+extra_keys = {"TurkesEtal2021", "StornPrice1997", "QinEtal2009", "HansenEtal2009", "AlanaziLehre2014", "OchoaEtal2012", "WoudaLan2023", "UchoaEtal2017", "SharmaEtal2019", "LiFialhoEtal2014", "BiedenkappEtal2020", "Rice1976", "KerschkeEtal2019", "BischlEtal2016", "LiEtAl2010", "MnihEtAl2015", "Williams1992", "DrakeEtal2020", "Talbi2021", "LaTorreEtal2021", "EibenSmit2011", "Lakens2017", "Goldberg1990", "SonneratEtal2021", "BartzBeielsteinEtal2020", "Russo2018", "DaCostaEtal2008"}
 missing = sorted(k for k in cited if k not in entries and k not in extra_keys)
 assert not missing, f"chaves citadas sem entrada: {missing}"
 out = "\n\n".join(entries[k] for k in sorted(cited) if k in entries) + "\n" + EXTRA

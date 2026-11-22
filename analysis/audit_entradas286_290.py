@@ -147,8 +147,29 @@ def audit_289_290():
         chk("290 Spearman log sucessos x captura", sp(np.log(C.pos_per_arm_run[ok]), C.cap_rt[ok]), 0.296, 0.0006)
 
 
+def audit_291():
+    f = R / "entrada291_summary.csv"
+    if not f.exists():
+        return
+    S = pd.read_csv(f).set_index(["credito", "aprendiz"])
+    for m, v in (("ql_std", -0.035), ("ql_rt", -0.005), ("ucb", -0.109), ("pg", 0.000), ("pm", -0.119), ("ap", -0.150), ("etc", -0.078)):
+        chk(f"291 log_incumbent mediana do ganho {m}", S.loc[("log_incumbent", m), "mediana_ganho"], v, 0.0006)
+    for m, v in (("ql_std", -0.097), ("ql_rt", -0.050), ("ucb", -0.108), ("pg", -0.006), ("pm", -0.213), ("ap", -0.257), ("etc", -0.089)):
+        chk(f"291 rel_incumbent mediana do ganho {m}", S.loc[("rel_incumbent", m), "mediana_ganho"], v, 0.0006)
+    chk("291 maior captura (log_incumbent)", S.loc["log_incumbent"].mediana_captura.max(), 0.007, 0.0006)
+    for m, p in (("ql_rt", 0.31), ("pg", 0.95), ("ql_std", 0.12), ("ucb", 0.002), ("pm", 0.003), ("ap", 0.018)):
+        chk(f"291 postos sinalizados {m} (log_incumbent)", S.loc[("log_incumbent", m), "p_postos"], p, 0.006 if p > 0.05 else 0.0006)
+    chk("291 rel_incumbent ql_rt p", S.loc[("rel_incumbent", "ql_rt"), "p_postos"], 0.042, 0.0006)
+    chk("291 participacao do UCB1 na validada (log)", S.loc[("log_incumbent", "ucb"), "na_validada"], 0.205, 0.0006)
+    import re
+    txt = (R / "entrada291_credit.txt").read_text(encoding="utf-8")
+    m = re.search(r"sucesso ([\d.]+); log_incumbent ([\d.]+); rel_incumbent ([\d.]+)", txt)
+    chk("291 fracao com credito = validada (sucesso)", float(m.group(1)), 0.208, 0.0006); chk("291 fracao (log_incumbent)", float(m.group(2)), 0.167, 0.0006); chk("291 fracao (rel_incumbent)", float(m.group(3)), 0.167, 0.0006)
+    chk("291 execucoes novas", len(pd.read_csv(R / "de_credit_learn_entrada291.csv")), 10080, 0)
+
+
 def main():
-    audit_286(); audit_287(); audit_288(); audit_289_290()
+    audit_286(); audit_287(); audit_288(); audit_289_290(); audit_291()
     bad = 0
     for label, got, exp, tol in CHECKS:
         ok = abs(got - exp) <= tol + 1e-12

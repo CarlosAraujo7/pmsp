@@ -1,0 +1,40 @@
+================================================================================================================
+O DILEMA INFORMACAO-ALINHAMENTO: CREDITO ALINHADO NO HOSPEDEIRO DE DE (Entrada 291)
+================================================================================================================
+funcoes: 24; funcoes com ganho da validada >= 0,1: 10; execucoes novas: 10080
+
+      credito aprendiz  mediana_ganho  neg  pos  p_postos  mediana_captura  na_validada
+      success   ql_std        -0.1079   20    3    0.0043          -0.2330       0.3077
+      success    ql_rt        -0.1794   15    8    0.0277          -0.1787       0.2138
+      success      ucb        -0.6012   20    3    0.0000          -1.0418       0.1794
+      success       pg        -0.1079   17    5    0.0172          -0.0810       0.1974
+      success       pm        -0.2665   16    6    0.0006          -0.3274       0.2098
+      success       ap        -0.4372   20    4    0.0001          -1.0055       0.2117
+      success      etc        -0.2842   16    7    0.0060          -0.2359       0.1725
+log_incumbent   ql_std        -0.0349   14    9    0.1186          -0.2593       0.3135
+log_incumbent    ql_rt        -0.0049   12   10    0.3053          -0.2228       0.2181
+log_incumbent      ucb        -0.1085   16    6    0.0022          -0.3051       0.2049
+log_incumbent       pg         0.0000   11   11    0.9493           0.0068       0.2011
+log_incumbent       pm        -0.1193   17    5    0.0029          -0.4570       0.2085
+log_incumbent       ap        -0.1501   16    7    0.0179          -0.5352       0.2108
+log_incumbent      etc        -0.0781   14    9    0.0858          -0.1369       0.1812
+rel_incumbent   ql_std        -0.0972   18    5    0.0054          -0.4311       0.3121
+rel_incumbent    ql_rt        -0.0503   17    6    0.0415          -0.2947       0.2100
+rel_incumbent      ucb        -0.1082   18    4    0.0066          -0.3537       0.1904
+rel_incumbent       pg        -0.0056   12   10    0.7262           0.0783       0.1988
+rel_incumbent       pm        -0.2131   16    6    0.0037          -0.3578       0.2074
+rel_incumbent       ap        -0.2572   15    7    0.0156          -0.7956       0.2000
+rel_incumbent      etc        -0.0886   16    7    0.0254          -0.2359       0.1838
+
+fracao das funcoes em que a acao de maior credito medio no controle aleatorio e' a validada: sucesso 0.208; log_incumbent 0.167; rel_incumbent 0.167
+
+--- previsoes ---
+(G1) log_incumbent: mediana do ganho do ql_rt -0.005 (previsto >= -0,05): SIM
+(G2) log_incumbent: aprendizes com mediana >= -0,05: 3 de 7 (previsto >= 3): SIM
+(G3) log_incumbent: aprendizes com mediana maior que a do credito por sucesso: 7 de 7 (previsto >= 5): SIM
+(G4) log_incumbent: maior mediana de captura entre os aprendizes: 0.007 (previsto < 0,5): SIM
+(G5) rel_incumbent: mediana do ganho do ql_rt -0.050 (previsto >= -0,05): NAO
+(G6a) log_incumbent: fracao das funcoes com a acao de maior credito = validada: 0.167 (previsto >= 0,5): NAO
+(G6b) rel_incumbent: a mesma fracao: 0.167 (previsto >= 0,5): NAO
+(G7) log_incumbent: participacao media do UCB1 na validada 0.205 (previsto > 0,25; com sucesso 0,179): NAO
+previsoes acertadas: 4 de 8
